@@ -4657,3 +4657,11 @@
         max-width:220px;
       }
     }
+
+    p{
+      text-transform:none;
+    }
+
+    p::first-letter{
+      text-transform:uppercase;
+    }
