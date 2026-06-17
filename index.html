@@ -3,11 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Inkkstudios_|Creatividad+Actitud=Impacto</title>
+  <title>Inkkstudio</title>
   <meta
     name="description"
     content="Inkkstudios_ es un estudio de diseño gráfico con estilo street, moderno y animado."
   />
+  <link rel="icon" type="image/png" href="assets/favicon-gato.png">
+  <link rel="apple-touch-icon" href="assets/favicon-gato.png">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -41,6 +43,7 @@
         <a href="#inicio">inicio</a>
         <a href="#servicios">servicios</a>
         <a href="#disenos">diseños</a>
+        <a href="tarisfario.html">tarifario</a>
         <a href="#sobre-mi">sobre mí</a>
         <a href="assets/CVFernándezMariadelRosario.pdf" download="CVFernándezMariadelRosario.pdf">cv</a>
         <a href="https://wa.me/5491132598397" target="_blank" class="btn-nav">contacto</a>
@@ -932,6 +935,77 @@
 
         videoObserver.observe(video);
       });
+
+      const videoTiles = document.querySelectorAll(".video-tile:not([aria-hidden='true'])");
+      if (videoTiles.length) {
+        const lightbox = document.createElement("div");
+        lightbox.className = "index-video-lightbox";
+        lightbox.setAttribute("aria-hidden", "true");
+        lightbox.innerHTML = `
+          <div class="index-video-dialog" role="dialog" aria-modal="true" aria-label="Video del proyecto">
+            <button class="index-video-close" type="button" aria-label="Cerrar video">X</button>
+            <video controls loop playsinline preload="metadata" webkit-playsinline="true"></video>
+            <p class="index-video-title"></p>
+          </div>
+        `;
+        document.body.appendChild(lightbox);
+
+        const modalVideo = lightbox.querySelector("video");
+        const modalTitle = lightbox.querySelector(".index-video-title");
+        const closeButton = lightbox.querySelector(".index-video-close");
+
+        const closeLightbox = () => {
+          lightbox.classList.remove("is-open");
+          lightbox.setAttribute("aria-hidden", "true");
+          document.body.style.overflow = "";
+          modalVideo.pause();
+          modalVideo.removeAttribute("src");
+          modalVideo.load();
+          portfolioVideos.forEach((video) => syncVideo(video));
+        };
+
+        const openLightbox = (tile) => {
+          if (tile.classList.contains("video-has-error")) return;
+          const source = tile.querySelector("video source");
+          if (!source || !source.src) return;
+
+          portfolioVideos.forEach((video) => pauseVideo(video));
+          modalVideo.src = source.src;
+          modalVideo.muted = false;
+          modalVideo.volume = 0.8;
+          modalTitle.textContent = tile.querySelector("span")?.textContent || "video";
+          lightbox.classList.add("is-open");
+          lightbox.setAttribute("aria-hidden", "false");
+          document.body.style.overflow = "hidden";
+          modalVideo.load();
+          const playPromise = modalVideo.play();
+          if (playPromise && typeof playPromise.catch === "function") {
+            playPromise.catch(() => {});
+          }
+          closeButton.focus();
+        };
+
+        videoTiles.forEach((tile) => {
+          const label = tile.querySelector("span")?.textContent || "video";
+          tile.tabIndex = 0;
+          tile.setAttribute("role", "button");
+          tile.setAttribute("aria-label", `Ver ${label}`);
+          tile.addEventListener("click", () => openLightbox(tile));
+          tile.addEventListener("keydown", (event) => {
+            if (event.key !== "Enter" && event.key !== " ") return;
+            event.preventDefault();
+            openLightbox(tile);
+          });
+        });
+
+        closeButton.addEventListener("click", closeLightbox);
+        lightbox.addEventListener("click", (event) => {
+          if (event.target === lightbox) closeLightbox();
+        });
+        document.addEventListener("keydown", (event) => {
+          if (event.key === "Escape" && lightbox.classList.contains("is-open")) closeLightbox();
+        });
+      }
 
       document.addEventListener("visibilitychange", () => {
         portfolioVideos.forEach((video) => syncVideo(video));
