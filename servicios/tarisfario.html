@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inkkstudio</title>
+  <meta
+    name="description"
+    content="Tarifario visual de Inkkstudios_ para diseño, redes, video, web y piezas gráficas."
+  />
+  <link rel="icon" type="image/png" href="assets/favicon-gato.png">
+  <link rel="apple-touch-icon" href="assets/favicon-gato.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="tarifario-page">
+  <div class="tarifario-progress" aria-hidden="true"><span></span></div>
+  <div class="bg-grid"></div>
+  <div class="blob one"></div>
+  <div class="blob two"></div>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html#inicio" class="brand">
+        <div class="brand-logo">
+          <img src="assets/gato.png" alt="Logo Inkkstudios_">
+        </div>
+        <div class="brand-name">
+          <img src="assets/LogoBlanco.png" alt="Inkkstudios_" class="brand-wordmark">
+        </div>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-label="Abrir menu" aria-controls="site-menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="nav-links" id="site-menu" aria-label="Menu principal">
+        <a href="index.html#inicio">inicio</a>
+        <a href="index.html#servicios">servicios</a>
+        <a href="index.html#disenos">diseños</a>
+        <a href="tarisfario.html" class="current-page-link">tarifario</a>
+        <a href="index.html#sobre-mi">sobre mí</a>
+        <a href="assets/CVFernándezMariadelRosario.pdf" download="CVFernándezMariadelRosario.pdf">cv</a>
+        <a href="https://wa.me/5491132598397" target="_blank" rel="noopener noreferrer" class="btn-nav">contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="tarifario-hero" id="inicio">
+      <div class="container tarifario-hero-grid">
+        <div class="reveal-left">
+          <span class="tarifario-kicker">tarifario visual</span>
+          <h1 class="tarifario-title">elegí tu <span>kit visual</span></h1>
+          <p class="tarifario-lead">
+            Una guía rápida para elegir piezas, redes, video o web y abrir el PDF completo cuando necesites revisar cada detalle.
+          </p>
+          <div class="tarifario-actions">
+            <a href="#ver-pdf" class="btn btn-primary">ver pdf</a>
+            <a href="assets/Tarisfario.pdf" download="Tarisfario.pdf" class="btn btn-secondary">descargar tarifario</a>
+          </div>
+        </div>
+
+        <aside class="tarifario-cat-card reveal-right">
+          <img src="assets/Gatoposando3.png" alt="Gatito guía del tarifario">
+          <p>Compará formatos, mirá el PDF y guardalo para tenerlo a mano.</p>
+        </aside>
+      </div>
+
+    <section class="tarifario-flow" aria-label="Recorrido del tarifario">
+      <div class="container tarifario-flow-grid">
+        <aside class="tarifario-sticky reveal">
+          <span>cómo leerlo</span>
+          <h2>elegí por necesidad</h2>
+          <p>
+            El tarifario está armado para que puedas ubicar rápido el tipo de proyecto, entender qué incluye y después pasar al PDF para ver la info completa.
+          </p>
+        </aside>
+
+        <div class="tarifario-steps">
+          <div class="tarifario-runner" aria-hidden="true">
+            <img src="assets/Gatoposando2.png" alt="">
+          </div>
+
+          <article class="tarifario-step reveal">
+            <span>01 / idea</span>
+            <h3>definimos el objetivo</h3>
+            <p>Antes de cotizar, ubicamos si necesitás visibilidad, constancia en redes, venta, presentación de marca o piezas puntuales.</p>
+          </article>
+
+          <article class="tarifario-step reveal">
+            <span>02 / formato</span>
+            <h3>miramos la pieza</h3>
+            <p>Feed, historias, videos, banners, web, papelería o aplicaciones. Cada formato tiene tiempos y niveles de producción distintos.</p>
+          </article>
+
+          <article class="tarifario-step reveal">
+            <span>03 / paquete</span>
+            <h3>armamos el ritmo</h3>
+            <p>Podés ir por algo puntual o por un sistema mensual más completo, con entregas pensadas para sostener la identidad de tu marca.</p>
+          </article>
+
+          <article class="tarifario-step reveal">
+            <span>04 / siguiente paso</span>
+            <h3>lo cerramos por mensaje</h3>
+            <p>Cuando tengas una opción vista, me escribís y ajustamos alcance, fechas y prioridad para que todo quede claro antes de empezar.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="tarifario-pdf-section" id="ver-pdf">
+      <div class="container">
+        <div class="tarifario-pdf-card reveal">
+          <div class="tarifario-pdf-viewer" aria-label="Vista previa del tarifario en PDF">
+            <iframe src="assets/Tarisfario.pdf#toolbar=1&navpanes=0" title="Tarifario Inkkstudios_ en PDF"></iframe>
+          </div>
+
+          <div class="tarifario-pdf-copy">
+            <div>
+              <span class="pdf-note">pdf completo</span>
+              <h2>tarifario listo para revisar</h2>
+              <p>
+                Si el navegador no muestra la vista previa, abrilo en una pestaña nueva o descargalo. El archivo queda enlazado directo desde la carpeta de assets.
+              </p>
+            </div>
+
+            <div class="tarifario-actions">
+              <a href="assets/Tarisfario.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-primary">abrir pdf</a>
+              <a href="assets/Tarisfario.pdf" download="Tarisfario.pdf" class="btn btn-secondary">descargar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <a href="index.html#inicio" class="footer-brand" aria-label="Volver al inicio">
+        <img src="assets/gato.png" alt="Icono Inkkstudios_">
+      </a>
+      <div class="footer-claim">Inkkstudios.art</div>
+    </div>
+  </footer>
+
+  <script>
+    const revealElements = document.querySelectorAll(
+      ".reveal, .reveal-left, .reveal-right, .reveal-scale"
+    );
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      },
+      {
+        threshold: 0.12
+      }
+    );
+
+    revealElements.forEach((el) => observer.observe(el));
+
+    const navToggle = document.querySelector(".nav-toggle");
+    const navLinks = document.querySelector(".nav-links");
+
+    if (navToggle && navLinks) {
+      const setMenuOpen = (isOpen) => {
+        document.body.classList.toggle("nav-open", isOpen);
+        navToggle.setAttribute("aria-expanded", String(isOpen));
+        navToggle.setAttribute("aria-label", isOpen ? "Cerrar menu" : "Abrir menu");
+      };
+
+      navToggle.addEventListener("click", () => {
+        setMenuOpen(!document.body.classList.contains("nav-open"));
+      });
+
+      navLinks.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => setMenuOpen(false));
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") setMenuOpen(false);
+      });
+    }
+
+    const progressBar = document.querySelector(".tarifario-progress span");
+    const stepsWrap = document.querySelector(".tarifario-steps");
+    const runner = document.querySelector(".tarifario-runner");
+    const steps = document.querySelectorAll(".tarifario-step");
+
+    const updateTarifarioMotion = () => {
+      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      const progress = Math.min(1, Math.max(0, window.scrollY / maxScroll));
+      if (progressBar) progressBar.style.width = `${progress * 100}%`;
+
+      if (stepsWrap && runner) {
+        const rect = stepsWrap.getBoundingClientRect();
+        const travel = Math.max(0, stepsWrap.offsetHeight - runner.offsetHeight - 68);
+        const localProgress = Math.min(
+          1,
+          Math.max(0, (window.innerHeight * 0.54 - rect.top) / Math.max(1, rect.height - window.innerHeight * 0.18))
+        );
+        const sway = window.innerWidth > 900
+          ? Math.sin(localProgress * Math.PI * 5) * Math.min(120, stepsWrap.offsetWidth * 0.18)
+          : 0;
+        const tilt = Math.sin(localProgress * Math.PI * 6) * 8;
+        runner.style.setProperty("--runner-y", `${localProgress * travel}px`);
+        runner.style.setProperty("--runner-x", `${sway}px`);
+        runner.style.setProperty("--runner-tilt", `${tilt}deg`);
+        stepsWrap.style.setProperty("--flow-progress", localProgress);
+      }
+
+      steps.forEach((step) => {
+        const rect = step.getBoundingClientRect();
+        const active = rect.top < window.innerHeight * 0.66 && rect.bottom > window.innerHeight * 0.24;
+        step.classList.toggle("is-active", active);
+      });
+    };
+
+    updateTarifarioMotion();
+    window.addEventListener("scroll", updateTarifarioMotion, { passive: true });
+    window.addEventListener("resize", updateTarifarioMotion);
+  </script>
+</body>
+</html>
