@@ -1131,7 +1131,7 @@
         drop-shadow(8px 18px 24px rgba(0,0,0,0.22));
     }
 
-    /* Servicios */
+    /* Proyectos */
     .services{
       padding:105px 0;
       background:var(--primary);
@@ -1144,7 +1144,7 @@
     }
 
     .services::before{
-      content:"SERVICIOS";
+      content:"PROYECTOS";
       position:absolute;
       top:38px;
       left:50%;
