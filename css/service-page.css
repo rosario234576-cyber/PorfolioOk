@@ -1710,6 +1710,93 @@ body.service-detail{
   .video-showreel-link{font-size:.68rem}
 }
 
+/* Capa responsive final para páginas de proyecto */
+@media (min-width:1600px){
+  .service-hero-inner{gap:90px}
+  .video-intro-grid{gap:28px}
+  .video-intro-card{max-height:620px}
+  .video-process-shell{padding:72px}
+  .video-process-steps article{min-height:320px}
+}
+
+@media (max-width:1440px){
+  .service-hero h1{font-size:clamp(4.8rem,8vw,7.8rem)}
+  .video-showreel{min-height:410px}
+  .video-process-shell{padding:clamp(30px,4vw,54px)}
+  .video-process-steps article{padding:28px 22px}
+}
+
+@media (max-width:1280px){
+  .service-hero-inner{grid-template-columns:minmax(0,1fr) minmax(330px,.72fr);gap:42px}
+  .video-intro-grid{gap:16px}
+  .video-process-head h2{font-size:clamp(3.4rem,6vw,5.8rem)}
+  .video-process-steps h3{font-size:clamp(1.5rem,2.2vw,2.25rem)}
+  .video-process-footer{grid-template-columns:minmax(0,1fr) minmax(280px,330px);gap:44px}
+}
+
+@media (max-width:1024px){
+  .service-hero-inner{grid-template-columns:minmax(0,1fr) minmax(290px,.62fr);gap:30px}
+  .service-hero h1{font-size:clamp(4rem,8vw,6.2rem)}
+  .video-showreel{min-height:380px;padding:24px}
+  .video-intro-card{border-radius:20px}
+  .client-work{display:block}
+  .client-head{position:relative;top:auto;margin-bottom:20px}
+  .client-block{grid-column:auto}
+  .video-process-head{grid-template-columns:1fr}
+  .video-process-steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .video-process-steps article:nth-child(3){border-left:0;border-top:1px solid rgba(245,242,238,.14)}
+  .video-process-steps article:nth-child(4){border-top:1px solid rgba(245,242,238,.14)}
+}
+
+@media (max-width:768px){
+  .service-hero{padding:58px 0 48px}
+  .service-hero-inner{grid-template-columns:1fr;gap:34px}
+  .service-hero h1{font-size:clamp(3.6rem,13vw,5.6rem)}
+  .video-showreel{width:100%;min-height:390px}
+  .video-intro-grid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:min(72vw,260px);overflow-x:auto;overflow-y:hidden;padding:14px 3px 28px;scroll-snap-type:x mandatory}
+  .video-intro-card{transform:none!important;scroll-snap-align:start}
+  .video-process-footer{grid-template-columns:1fr;gap:28px}
+  .video-process-footer a{min-height:150px}
+  .work-grid,.story-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+@media (max-width:480px){
+  .service-hero{padding:46px 0 38px}
+  .service-hero h1{font-size:clamp(3rem,15vw,4.5rem)}
+  .service-hero-actions{gap:7px}
+  .video-software-feature{grid-template-columns:46px minmax(0,1fr);padding:12px}
+  .video-software-icon{width:46px;height:46px}
+  .video-software-status{display:none}
+  .video-showreel{min-height:350px;padding:22px;border-radius:24px}
+  .video-showreel-title{font-size:clamp(2.5rem,13vw,3.8rem)}
+  .video-intro{padding:44px 0}
+  .video-intro-grid{grid-auto-columns:min(78vw,245px)}
+  .service-note-track span{padding:12px 18px;font-size:.78rem}
+  .video-process-shell{padding:22px;border-radius:26px}
+  .video-process-head h2{font-size:clamp(3rem,14vw,4.4rem)}
+  .video-process-steps{grid-template-columns:1fr}
+  .video-process-steps article{min-height:200px;padding:24px 18px}
+  .video-process-steps article+article{border-left:0;border-top:1px solid rgba(245,242,238,.14)}
+  .video-process-footer{padding:22px;border-radius:24px}
+  .video-portfolio-pitch>strong{font-size:clamp(2rem,11vw,3rem)}
+  .work-grid,.story-grid{grid-template-columns:1fr}
+  .carousel-strip img{flex-basis:min(72vw,180px);width:min(72vw,180px)}
+  .service-cat-guide{display:none}
+}
+
+@media (max-width:320px){
+  .service-hero h1{font-size:2.75rem}
+  .service-pill{font-size:.64rem;padding:8px 9px}
+  .video-showreel{min-height:330px;padding:18px}
+  .video-showreel-play{width:58px;height:58px}
+  .video-showreel-play::after{left:24px;top:19px;border-left-width:18px;border-top-width:10px;border-bottom-width:10px}
+  .video-intro-grid{grid-auto-columns:82vw}
+  .video-process-shell{padding:16px}
+  .video-process-footer{padding:18px}
+  .video-process-footer a{padding:18px;min-height:140px}
+  .client-work{padding:14px;border-radius:20px}
+}
+
 p,
 .service-cat-text,
 .client-head::after,

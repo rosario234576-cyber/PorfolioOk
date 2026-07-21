@@ -6085,6 +6085,123 @@
       .about-chapter-head h2{font-size:clamp(3rem,15vw,5rem)}
     }
 
+    /* Capa responsive final: 1600 / 1440 / 1280 / 1024 / 768 / 480 / 320 */
+    @media (min-width:1600px){
+      :root{--max-width:1480px}
+      .hero-wrap{gap:72px}
+      .graffiti-title .title-line{font-size:clamp(7rem,7.4vw,9rem)}
+      .graffiti-title .graffiti-year{font-size:clamp(7.4rem,8.2vw,10rem)}
+      .video-feature{min-height:610px;grid-template-columns:minmax(0,1.08fr) minmax(220px,.52fr) minmax(380px,.9fr)}
+      .video-feature-character img{width:min(100%,310px)}
+      .about .about-wrap{grid-template-columns:minmax(360px,.78fr) minmax(0,1.55fr)}
+    }
+
+    @media (max-width:1440px){
+      :root{--max-width:1240px}
+      .hero-wrap{gap:36px}
+      .graffiti-title .title-line{font-size:clamp(5.2rem,8vw,7.2rem)}
+      .graffiti-title .graffiti-year{font-size:clamp(5.8rem,9vw,8rem)}
+      .video-feature{grid-template-columns:minmax(0,1fr) minmax(160px,.46fr) minmax(320px,.9fr)}
+      .video-feature-character img{width:min(100%,235px)}
+      .video-feature-link>strong{font-size:clamp(2.2rem,3.4vw,3.7rem)}
+    }
+
+    @media (max-width:1280px){
+      :root{--max-width:1120px}
+      .hero-wrap{grid-template-columns:minmax(0,1fr) minmax(300px,.62fr);gap:30px}
+      .graffiti-title .title-line{font-size:clamp(4.5rem,7.5vw,6.2rem)}
+      .graffiti-title .graffiti-year{font-size:clamp(5rem,8.5vw,6.8rem)}
+      .hero-card{min-height:360px}
+      .video-feature{min-height:520px;padding-inline:38px;grid-template-columns:minmax(0,1fr) minmax(145px,.38fr) minmax(300px,.85fr)}
+      .video-feature-copy h2{font-size:clamp(3.8rem,6.5vw,6.2rem)}
+      .video-feature-character img{width:min(100%,210px)}
+      .about .about-wrap{grid-template-columns:minmax(290px,.72fr) minmax(0,1.45fr);gap:42px}
+    }
+
+    @media (max-width:1024px){
+      :root{--max-width:940px}
+      .hero-wrap{grid-template-columns:minmax(0,1fr) minmax(280px,.52fr)}
+      .graffiti-title .title-line{font-size:clamp(4rem,7.5vw,5.3rem)}
+      .graffiti-title .graffiti-year{font-size:clamp(4.5rem,8.2vw,5.8rem)}
+      .hero-card{min-height:330px}
+      .hero-logo img{max-width:230px}
+      .video-feature{grid-template-columns:minmax(0,1fr) minmax(300px,.9fr);gap:30px}
+      .video-feature-character{position:absolute;left:45%;bottom:54px;width:175px;transform:translateX(-50%)}
+      .video-feature-character>span{right:-32px}
+      .about .about-wrap{grid-template-columns:1fr}
+      .about-portrait{display:grid;grid-template-columns:minmax(230px,.42fr) minmax(0,1fr);align-items:end}
+      .services-grid{gap:16px}
+    }
+
+    @media (max-width:768px){
+      .container{width:min(100% - 28px,var(--max-width))}
+      .hero{padding:34px 0 62px}
+      .hero-wrap{grid-template-columns:1fr;justify-items:center}
+      .hero-copy{width:100%;align-items:center;text-align:center}
+      .hero .hero-slogan{margin-inline:auto}
+      .graffiti-title{width:100%;align-items:center;transform:rotate(-1deg)}
+      .graffiti-title .title-line{font-size:clamp(3.5rem,15vw,5.6rem)}
+      .graffiti-title .graffiti-year{align-self:center;font-size:clamp(4rem,18vw,6.2rem)}
+      .hero-copy p{margin-inline:auto}
+      .hero-actions{justify-content:center}
+      .hero-visual{width:100%;max-width:520px}
+      .services-grid{grid-template-columns:1fr}
+      .service-item{min-height:300px}
+      .about-portrait{display:flex;align-items:center}
+      .about .about-portrait h2{max-width:560px;text-align:center}
+      .video-feature{grid-template-columns:1fr;padding:30px 24px 84px;gap:26px}
+      .video-feature-character{position:relative;left:auto;bottom:auto;width:auto;min-height:220px;transform:none}
+      .video-feature-character img{width:200px}
+      .video-feature-character>span{top:2px;right:calc(50% - 132px)}
+      .video-feature-link{min-height:300px}
+    }
+
+    @media (max-width:480px){
+      :root{--header-h:70px}
+      .container{width:min(100% - 22px,var(--max-width))}
+      .hero-kicker{font-size:.7rem;padding:8px 10px}
+      .hero .hero-slogan{max-width:165px;font-size:.92rem}
+      .graffiti-title{padding:4px 4px 18px}
+      .graffiti-title .title-line{font-size:clamp(2.8rem,14vw,4rem);text-shadow:4px 5px 0 rgba(3,16,16,.72),7px 8px 0 rgba(235,91,48,.24)}
+      .graffiti-title .graffiti-year{font-size:clamp(3.4rem,20vw,5rem)}
+      .hero-actions{width:100%;max-width:360px}
+      .hero-actions .btn{width:100%;min-height:50px}
+      .hero-card{min-height:290px;padding:14px;border-radius:26px}
+      .hero-portfolio-meta span{font-size:.56rem}
+      .hero-tags{gap:7px}
+      .hero-tags span{padding:8px 10px;font-size:.7rem}
+      .about{padding-block:72px;border-top-width:5px}
+      .about-chapter-head{margin-bottom:34px;padding-bottom:28px}
+      .about-chapter-head h2{font-size:clamp(2.7rem,14vw,4.2rem)}
+      .about-copy{padding:20px}
+      .about .about-portrait h2{font-size:clamp(2rem,10vw,2.8rem)}
+      .service-item{padding:20px;border-radius:24px}
+      .service-number{top:20px;right:20px;font-size:3.2rem}
+      .service-content{max-width:86%}
+      .video-feature{padding:26px 18px 78px;border-radius:28px}
+      .video-feature-copy h2{font-size:clamp(3.1rem,17vw,4.5rem)}
+      .video-feature-link{min-height:280px;padding:24px}
+      .video-feature-link>strong{font-size:clamp(2rem,11vw,3rem)}
+    }
+
+    @media (max-width:320px){
+      .container{width:calc(100% - 16px)}
+      .motion-triangles i:nth-child(even){display:none}
+      .graffiti-title .title-line{font-size:2.5rem}
+      .graffiti-title .graffiti-year{font-size:3.25rem}
+      .hero-copy p{font-size:.9rem;line-height:1.55}
+      .hero-card{min-height:270px}
+      .hero-portfolio-meta{gap:4px}
+      .hero-portfolio-meta b{font-size:1.25rem}
+      .about-photo-card{width:min(100%,200px)}
+      .about-copy{padding:16px;border-radius:20px}
+      .service-item{padding:17px}
+      .service-content{max-width:92%}
+      .video-feature{padding-inline:14px}
+      .video-feature-character img{width:170px}
+      .video-feature-link{padding:20px}
+    }
+
     p{
       text-transform:none;
     }
