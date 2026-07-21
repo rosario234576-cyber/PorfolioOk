@@ -6372,3 +6372,67 @@
     @media (min-width:1025px){
       .astronaut-rig{width:clamp(96px,10.5vw,165px)}
     }
+
+    /* Centrado final del hero: prevalece sobre todas las capas responsive anteriores */
+    .hero-wrap.hero-centered{
+      width:min(calc(100% - 32px),1200px)!important;
+      max-width:1200px!important;
+      margin-inline:auto!important;
+      grid-template-columns:minmax(0,1fr)!important;
+      justify-content:center!important;
+      justify-items:center!important;
+    }
+
+    .hero-wrap.hero-centered .hero-copy{
+      width:100%!important;
+      max-width:1100px!important;
+      margin-inline:auto!important;
+      align-items:center!important;
+      text-align:center!important;
+    }
+
+    .hero-wrap.hero-centered .hero-kicker,
+    .hero-wrap.hero-centered .hero-slogan,
+    .hero-wrap.hero-centered .graffiti-title{
+      align-self:center!important;
+      margin-left:auto!important;
+      margin-right:auto!important;
+    }
+
+    .hero-wrap.hero-centered .graffiti-title .title-line{
+      width:100%;
+      text-align:center;
+      transform-origin:center!important;
+    }
+
+    .hero-wrap.hero-centered .hero-copy>p{
+      width:min(100%,900px)!important;
+      margin-left:auto!important;
+      margin-right:auto!important;
+      text-align:center!important;
+    }
+
+    .hero-wrap.hero-centered .hero-actions{
+      width:auto!important;
+      max-width:none!important;
+      margin-left:auto!important;
+      margin-right:auto!important;
+      justify-content:center!important;
+    }
+
+    .hero-wrap.hero-centered .hero-stats{
+      width:min(100%,760px)!important;
+      margin-left:auto!important;
+      margin-right:auto!important;
+    }
+
+    @media (min-width:761px) and (max-width:1200px){
+      .hero-wrap.hero-centered{width:min(calc(100% - 48px),980px)!important}
+      .hero-wrap.hero-centered .hero-copy{max-width:920px!important}
+      .hero-wrap.hero-centered .graffiti-title{max-width:100%}
+    }
+
+    @media (max-width:760px){
+      .hero-wrap.hero-centered{width:calc(100% - 24px)!important}
+      .hero-wrap.hero-centered .hero-actions{width:min(100%,380px)!important}
+    }
