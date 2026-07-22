@@ -59,10 +59,18 @@
           <span class="hero-kicker">portfolio seleccionado · 2022—2026</span>
           <div class="hero-slogan">Buenos Aires · Argentina</div>
 
-          <h1 class="hero-title graffiti-title" aria-label="Portfolio 2026">
-            <span class="title-line title-bold graffiti-main">PORTFOLIO</span>
-            <span class="title-line graffiti-year">2026</span>
-          </h1>
+          <div class="hero-title-scene">
+            <figure class="hero-seal" aria-hidden="true">
+              <img src="assets/Sello.png" alt="">
+            </figure>
+            <h1 class="hero-title graffiti-title" aria-label="Portfolio 2026">
+              <span class="title-line title-bold graffiti-main">PORTFOLIO</span>
+              <span class="title-line graffiti-year">2026</span>
+            </h1>
+            <figure class="hero-fachero" aria-hidden="true">
+              <img src="assets/GatoFachero.png" alt="">
+            </figure>
+          </div>
 
           <p>
             Una selección de proyectos desarrollados para marcas de Argentina y Latinoamérica:
@@ -72,7 +80,7 @@
           <div class="hero-actions">
             <a href="#servicios" class="btn btn-primary">proyectos</a>
             <a href="#sobre-mi" class="btn btn-secondary">conocé mi perfil</a>
-            <a href="assets/CVFernándezMariadelRosario.pdf" download="CVFernándezMariadelRosario.pdf" class="btn btn-secondary">descargar cv</a>
+            <a href="assets/cv-maria-fernandez.pdf" download="CV-Maria-Fernandez.pdf" class="btn btn-secondary">descargar cv</a>
           </div>
 
           <div class="hero-portfolio-meta hero-stats" aria-label="Resumen del portfolio">
@@ -103,7 +111,7 @@
     <section class="about reveal" id="sobre-mi">
       <div class="container about-chapter-head reveal">
         <span>02 / perfil</span>
-        <h2>la persona detrás<br>del portfolio</h2>
+        <h2 class="attitude-title"><span class="attitude-light">la persona detrás</span><span class="attitude-bold">del portfolio</span></h2>
         <p>Experiencia, criterio visual y herramientas que sostienen cada proyecto del archivo.</p>
       </div>
       <div class="container about-wrap">
@@ -111,7 +119,7 @@
           <div class="about-photo-card">
             <img src="assets/Foto.jpg" alt="Foto de Inkkstudios_">
           </div>
-          <h2>Una mirada visual, distintos lenguajes.</h2>
+          <h2 class="attitude-title attitude-title-compact"><span class="attitude-light">Una mirada visual,</span><span class="attitude-bold">distintos lenguajes.</span></h2>
         </div>
 
         <div class="about-copy reveal-right">
@@ -299,7 +307,7 @@
           </div>
           <div class="video-feature-copy">
             <span class="video-feature-kicker">edición de video · motion</span>
-            <h2>del brief<br>al play</h2>
+            <h2 class="attitude-title"><span class="attitude-light">del brief</span><span class="attitude-bold">al play</span></h2>
             <p>Ideas que se transforman en ritmo, mensaje y piezas pensadas para mantener la atención.</p>
             <div class="video-feature-timeline" aria-hidden="true">
               <span>00:00</span><i></i><span>00:15</span>
@@ -499,7 +507,7 @@
         <div class="cv-wrap reveal">
           <div class="cv-copy">
             <span class="mini-kicker">cv</span>
-            <h2>experiencia laboral</h2>
+            <h2 class="attitude-title"><span class="attitude-light">experiencia</span><span class="attitude-bold">laboral</span></h2>
             <p>un resumen visual de experiencia en diseño gráfico, redes, campañas digitales, edición de video, material impreso y comunicación visual para marcas de Argentina, Chile, México y Ecuador.</p>
             <div class="cv-contact-actions" aria-label="Links de contacto">
               <a href="mailto:rosario234576@gmail.com" class="cv-contact-btn">rosario234576@gmail.com</a>
@@ -536,7 +544,7 @@
               </article>
             </div>
             <div class="cv-download-row">
-              <a href="assets/CVFernándezMariadelRosario.pdf" download="CVFernándezMariadelRosario.pdf" class="btn btn-primary">descargar cv</a>
+              <a href="assets/cv-maria-fernandez.pdf" download="CV-Maria-Fernandez.pdf" class="btn btn-primary">descargar cv</a>
             </div>
           </div>
         </div>
@@ -547,7 +555,7 @@
       <div class="container">
         <div class="contact-box reveal">
           <div>
-            <h2>hablemos de tu proyecto</h2>
+            <h2 class="attitude-title"><span class="attitude-light">hablemos de</span><span class="attitude-bold">tu proyecto</span></h2>
             <p>
               si quieres una marca con más personalidad, piezas con impacto
               o una web que represente mejor tu estilo, escríbeme y lo trabajamos.
@@ -856,5 +864,6 @@
       window.addEventListener("resize", moveScrollAstronaut);
     }
   </script>
+  <script src="js/site-motion.js"></script>
 </body>
 </html>
