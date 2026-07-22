@@ -61,7 +61,7 @@ document.querySelectorAll(".client-work").forEach((client, index) => {
   }
 });
 
-const heroPreviewVideos = document.querySelectorAll(".service-hero-preview video");
+const heroPreviewVideos = document.querySelectorAll(".service-hero-preview video, .ads-loop-video");
 const galleryVideos = document.querySelectorAll(".video-grid video");
 
 const prepareVideo = (video) => {
