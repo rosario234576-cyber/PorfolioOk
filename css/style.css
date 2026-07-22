@@ -1,3 +1,26 @@
+    @font-face{
+      font-family:"Roc Grotesk Condensed ExtraBold";
+      src:url("../Fuente/RocGroteskCondensedExtraBold.woff2") format("woff2");
+      font-style:normal;
+      font-weight:800;
+      font-display:swap;
+    }
+
+    @font-face{
+      font-family:"Roc Grotesk Condensed Light";
+      src:url("../Fuente/RocGroteskCondensedLight.woff2") format("woff2");
+      font-style:normal;
+      font-weight:300;
+      font-display:swap;
+    }
+
+    @font-face{
+      font-family:"Roc Grotesk Condensed Medium";
+      src:url("../Fuente/RocGroteskCondensedMedium.woff2") format("woff2");
+      font-style:normal;
+      font-weight:600;
+      font-display:swap;
+    }
 
     :root{
       --primary:#eb5b30;
@@ -13,13 +36,13 @@
       --max-width:1320px;
       --header-h:88px;
 
-      --font-title:"Roc Grotesk Condensed Heavy","Impact","Haettenschweiler","Arial Narrow",sans-serif;
+      --font-title:"Roc Grotesk Condensed ExtraBold","Impact","Haettenschweiler","Arial Narrow",sans-serif;
       --font-subtitle:"Roc Grotesk Condensed Medium","Arial Narrow","Segoe UI Condensed","Roboto Condensed",sans-serif;
       --font-body:"Roc Grotesk Condensed Light","Segoe UI",Arial,sans-serif;
 
-      --weight-title:900;
+      --weight-title:800;
       --weight-subtitle:600;
-      --weight-body:400;
+      --weight-body:300;
     }
 
     *{
@@ -77,6 +100,12 @@
 
     p::first-letter{
       text-transform:uppercase;
+    }
+
+    p strong,
+    p b{
+      font-family:var(--font-subtitle);
+      font-weight:var(--weight-subtitle);
     }
 
     /* Portada centrada, sin tarjeta visual lateral */
@@ -191,18 +220,19 @@
     }
 
     .hero-copy.visible .hero-stats span{
-      animation:heroStickerStick .72s cubic-bezier(.18,1.35,.35,1) both;
+      animation:heroStampHit .64s cubic-bezier(.2,1.4,.32,1) both;
     }
 
-    .hero-copy.visible .hero-stats span:nth-child(1){animation-delay:.6s}
-    .hero-copy.visible .hero-stats span:nth-child(2){animation-delay:.92s}
-    .hero-copy.visible .hero-stats span:nth-child(3){animation-delay:1.24s}
+    .hero-copy.visible .hero-stats span:nth-child(1){animation-delay:.48s}
+    .hero-copy.visible .hero-stats span:nth-child(2){animation-delay:.76s}
+    .hero-copy.visible .hero-stats span:nth-child(3){animation-delay:1.04s}
 
-    @keyframes heroStickerStick{
-      0%{opacity:0;filter:blur(5px);transform:translate3d(-18px,-70px,0) rotate(-13deg) scale(1.48)}
-      58%{opacity:1;filter:blur(0);transform:translate3d(0,7px,0) rotate(var(--sticker-angle)) scale(.9)}
-      78%{transform:translate3d(0,-4px,0) rotate(var(--sticker-angle)) scale(1.055)}
-      100%{opacity:1;transform:translate3d(0,0,0) rotate(var(--sticker-angle)) scale(1)}
+    @keyframes heroStampHit{
+      0%{opacity:0;filter:blur(3px);transform:translate3d(0,-18px,0) rotate(calc(var(--sticker-angle) - 5deg)) scale(1.9);box-shadow:0 0 0 rgba(235,91,48,0)}
+      52%{opacity:1;filter:blur(0);transform:translate3d(0,5px,0) rotate(var(--sticker-angle)) scale(.82);box-shadow:10px 12px 0 rgba(235,91,48,.42),0 24px 42px rgba(0,0,0,.28)}
+      72%{transform:translate3d(0,-3px,0) rotate(calc(var(--sticker-angle) + 1deg)) scale(1.07)}
+      88%{transform:translate3d(0,1px,0) rotate(var(--sticker-angle)) scale(.97)}
+      100%{opacity:1;filter:none;transform:translate3d(0,0,0) rotate(var(--sticker-angle)) scale(1);box-shadow:7px 8px 0 rgba(235,91,48,.3),0 18px 34px rgba(0,0,0,.22)}
     }
 
     @media (max-width:760px){
@@ -211,7 +241,7 @@
     }
 
     @media (prefers-reduced-motion:reduce){
-      .hero-centered .hero-stats span{animation:none!important;opacity:1;filter:none;transform:rotate(var(--sticker-angle))}
+      .hero-centered .hero-stats span{animation-duration:1.05s!important}
     }
 
     .container{
@@ -1635,10 +1665,12 @@
 
     .service-item p{
       font-family:var(--font-body);
-      line-height:1.58;
-      max-width:100%;
+      font-size:clamp(1.05rem,1.25vw,1.22rem);
+      line-height:1.38;
+      max-width:34rem;
       text-transform:lowercase;
       color:rgba(245,242,238,0.78);
+      text-wrap:balance;
     }
 
     .service-cta{
@@ -1659,6 +1691,14 @@
       align-items:center;
       gap:10px;
       transition:transform .25s ease, background .25s ease, color .25s ease;
+    }
+
+    @media (max-width:760px){
+      .service-item p{
+        max-width:100%;
+        font-size:1rem;
+        line-height:1.45;
+      }
     }
 
     .service-cta::after{
@@ -1912,7 +1952,7 @@
     }
 
     @media (prefers-reduced-motion:reduce){
-      .video-feature-character img,.video-feature-timeline i::after,.video-feature-marquee>div,.video-feature::after,.motion-triangles i,.btn::before,.btn-nav::before,.service-cta::before{animation:none}
+      .video-feature-character img,.video-feature-timeline i::after,.video-feature-marquee>div,.video-feature::after,.btn::before,.btn-nav::before,.service-cta::before{animation:none}
     }
 
     .video-tags{
@@ -6131,20 +6171,25 @@
     }
 
     .graffiti-title .graffiti-main{
-      letter-spacing:-.045em;
+      font-family:"Roc Grotesk Condensed ExtraBold",var(--font-title);
+      font-weight:800;
+      font-size:clamp(7rem,16vw,14.5rem);
+      letter-spacing:-.02em;
       color:var(--light);
-      -webkit-text-stroke:1px rgba(245,242,238,.82);
-      text-shadow:6px 7px 0 rgba(3,16,16,.72),10px 12px 0 rgba(235,91,48,.24);
+      -webkit-text-stroke:.5px rgba(245,242,238,.7);
+      text-shadow:none!important;
     }
 
     .graffiti-title .graffiti-year{
       align-self:flex-end;
       margin-top:-.08em;
+      font-family:"Roc Grotesk Condensed ExtraBold",var(--font-title);
+      font-weight:800;
       color:var(--primary);
-      font-size:clamp(4.6rem,11vw,9.4rem);
-      letter-spacing:.02em;
-      -webkit-text-stroke:2px rgba(3,16,16,.65);
-      text-shadow:5px 6px 0 rgba(245,242,238,.16),9px 10px 0 rgba(3,16,16,.66);
+      font-size:clamp(7rem,16vw,14rem);
+      letter-spacing:.01em;
+      -webkit-text-stroke:1px rgba(3,16,16,.65);
+      text-shadow:none!important;
     }
 
     @media (max-width:760px){
@@ -6435,4 +6480,331 @@
     @media (max-width:760px){
       .hero-wrap.hero-centered{width:calc(100% - 24px)!important}
       .hero-wrap.hero-centered .hero-actions{width:min(100%,380px)!important}
+    }
+
+    /* Logo limpio: gato sin contenedor circular junto al wordmark. */
+    .brand-logo{
+      padding:0!important;
+      border:0!important;
+      border-radius:0!important;
+      overflow:visible!important;
+      background:transparent!important;
+      box-shadow:none!important;
+    }
+
+    .brand-logo img{
+      width:100%!important;
+      height:100%!important;
+      object-fit:contain!important;
+      object-position:center!important;
+      transform:scale(1.35);
+      transform-origin:center;
+    }
+
+    .brand{
+      gap:0!important;
+    }
+
+    .brand-name{
+      margin-left:-7px;
+    }
+
+    .brand-wordmark{
+      width:min(90px, 20vw)!important;
+    }
+
+    @media (max-width:760px){
+      .brand-name{
+        margin-left:-6px;
+      }
+
+      .brand-wordmark{
+        width:min(80px, 29vw)!important;
+      }
+    }
+
+    /* Campo global de triángulos animados. */
+    .site-triangle-field{
+      position:fixed;
+      inset:0;
+      z-index:8;
+      overflow:hidden;
+      pointer-events:none;
+      contain:strict;
+    }
+
+    .site-triangle-field i{
+      --triangle-size:14px;
+      --triangle-x:24px;
+      --triangle-y:-30px;
+      --triangle-turn:18deg;
+      position:absolute;
+      width:var(--triangle-size);
+      aspect-ratio:1;
+      background:rgba(235,91,48,.28);
+      clip-path:polygon(0 0,100% 50%,0 100%);
+      filter:drop-shadow(0 0 8px rgba(235,91,48,.22));
+      opacity:.5;
+      will-change:transform,opacity;
+      animation:siteTriangleDrift var(--triangle-time,5.2s) ease-in-out infinite alternate;
+    }
+
+    .site-triangle-field i:nth-child(1){left:3%;top:12%;--triangle-size:18px;--triangle-time:4.6s}
+    .site-triangle-field i:nth-child(2){left:12%;top:43%;--triangle-size:9px;--triangle-x:-18px;--triangle-time:6.2s;animation-delay:-3s}
+    .site-triangle-field i:nth-child(3){left:5%;top:79%;--triangle-size:13px;--triangle-y:34px;animation-delay:-5s}
+    .site-triangle-field i:nth-child(4){left:27%;top:18%;--triangle-size:8px;--triangle-x:-28px;--triangle-time:5s;animation-delay:-2s}
+    .site-triangle-field i:nth-child(5){left:35%;top:68%;--triangle-size:16px;--triangle-y:26px;--triangle-time:6.6s;animation-delay:-6s}
+    .site-triangle-field i:nth-child(6){left:47%;top:34%;--triangle-size:10px;--triangle-x:-20px;animation-delay:-4s}
+    .site-triangle-field i:nth-child(7){left:55%;top:88%;--triangle-size:7px;--triangle-time:6.4s;animation-delay:-1s}
+    .site-triangle-field i:nth-child(8){right:35%;top:8%;--triangle-size:12px;--triangle-y:25px;animation-delay:-5.5s}
+    .site-triangle-field i:nth-child(9){right:24%;top:52%;--triangle-size:18px;--triangle-x:-25px;--triangle-time:6s;animation-delay:-2.5s}
+    .site-triangle-field i:nth-child(10){right:13%;top:24%;--triangle-size:9px;--triangle-y:32px;animation-delay:-4.5s}
+    .site-triangle-field i:nth-child(11){right:4%;top:67%;--triangle-size:15px;--triangle-x:-30px;--triangle-time:5.7s;animation-delay:-6s}
+    .site-triangle-field i:nth-child(12){right:7%;top:91%;--triangle-size:8px;animation-delay:-3.5s}
+    .site-triangle-field i:nth-child(13){left:70%;top:76%;--triangle-size:11px;--triangle-y:28px;--triangle-time:6.5s;animation-delay:-1.8s}
+    .site-triangle-field i:nth-child(14){left:20%;top:94%;--triangle-size:7px;--triangle-x:-16px;animation-delay:-5.2s}
+
+    @keyframes siteTriangleDrift{
+      0%{transform:translate3d(0,0,0) rotate(0) scale(.78);opacity:.22}
+      55%{opacity:.62}
+      100%{transform:translate3d(var(--triangle-x),var(--triangle-y),0) rotate(var(--triangle-turn)) scale(1.16);opacity:.42}
+    }
+
+    @media (max-width:600px){
+      .site-triangle-field i{opacity:.38}
+      .site-triangle-field i:nth-child(3n){display:none}
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      .motion-triangles i,
+      .site-triangle-field i{
+        animation-duration:8s!important;
+        opacity:.3;
+      }
+    }
+
+    /* Jerarquía editorial: contraste Light + ExtraBold dentro de títulos. */
+    .attitude-title{
+      display:flex!important;
+      flex-direction:column;
+      align-items:flex-start;
+      gap:.035em;
+      width:fit-content;
+      max-width:100%;
+      text-transform:uppercase;
+      line-height:1!important;
+    }
+
+    .attitude-title .attitude-light{
+      display:block;
+      font-family:"Roc Grotesk Condensed Light",var(--font-body);
+      font-size:.68em;
+      font-weight:300;
+      line-height:1.03;
+      letter-spacing:.012em;
+      transform:translateX(.08em);
+    }
+
+    .attitude-title .attitude-bold{
+      display:block;
+      font-family:"Roc Grotesk Condensed ExtraBold",var(--font-title);
+      font-size:1em;
+      font-weight:800;
+      line-height:.91;
+      letter-spacing:-.025em;
+    }
+
+    .about-chapter-head .attitude-bold,
+    .about-portrait .attitude-bold{
+      color:var(--primary);
+    }
+
+    .video-feature-copy .attitude-light{
+      color:rgba(3,16,16,.72);
+    }
+
+    .video-feature-copy .attitude-bold{
+      color:var(--dark);
+    }
+
+    .cv-copy .attitude-light,
+    .contact-box .attitude-light{
+      color:rgba(245,242,238,.68);
+    }
+
+    .cv-copy .attitude-bold,
+    .contact-box .attitude-bold{
+      color:var(--primary);
+    }
+
+    .attitude-title-compact .attitude-light{font-size:.62em}
+
+    @media (max-width:760px){
+      .attitude-title{gap:.05em;line-height:1!important}
+      .attitude-title .attitude-light{font-size:.62em;line-height:1.06;transform:none}
+      .attitude-title .attitude-bold{font-size:.92em;line-height:.94}
+    }
+
+    /* Hero: entrada giratoria y texto editorial en dos líneas. */
+    .hero-wrap.hero-centered .hero-copy>p{
+      width:min(100%,720px)!important;
+      max-width:720px!important;
+      font-size:clamp(1.1rem,1.4vw,1.3rem);
+      line-height:1.55;
+      text-wrap:balance;
+    }
+
+    .graffiti-title{
+      perspective:1100px;
+    }
+
+    .hero-copy.visible .graffiti-title .title-line{
+      backface-visibility:hidden;
+      transform-origin:center bottom;
+      animation:heroTitleSpinIn .95s cubic-bezier(.18,.9,.28,1.18) both;
+    }
+
+    .hero-copy.visible .graffiti-title .title-line:nth-child(1){animation-delay:.08s}
+    .hero-copy.visible .graffiti-title .title-line:nth-child(2){animation-delay:.3s}
+
+    @keyframes heroTitleSpinIn{
+      0%{opacity:0;filter:blur(5px);transform:translate3d(0,70px,0) rotateX(-88deg) rotateZ(-9deg) scale(.72)}
+      58%{opacity:1;filter:blur(0);transform:translate3d(0,-8px,0) rotateX(12deg) rotateZ(2deg) scale(1.045)}
+      78%{transform:translate3d(0,3px,0) rotateX(-5deg) rotateZ(-.7deg) scale(.985)}
+      100%{opacity:1;filter:none;transform:translate3d(0,0,0) rotateX(0) rotateZ(0) scale(1)}
+    }
+
+    @media (max-width:760px){
+      .hero-wrap.hero-centered .hero-copy>p{
+        width:min(100%,34rem)!important;
+        font-size:1rem;
+        line-height:1.6;
+      }
+    }
+
+    /* Gato fachero: personaje animado que acompaña el título principal. */
+    .hero-title-scene{
+      position:relative;
+      width:fit-content;
+      max-width:100%;
+      margin-inline:auto;
+      isolation:isolate;
+    }
+
+    .hero-title-scene .graffiti-title{
+      position:relative;
+      z-index:2;
+      margin-inline:auto;
+    }
+
+    .hero-fachero{
+      position:absolute;
+      right:clamp(-150px,-10vw,-96px);
+      bottom:clamp(-12px,0vw,4px);
+      z-index:3;
+      width:clamp(190px,18vw,292px);
+      margin:0;
+      pointer-events:none;
+      opacity:0;
+    }
+
+    .hero-copy.visible .hero-fachero{
+      animation:heroFacheroEntrance 1.05s cubic-bezier(.16,1.2,.3,1) .72s both;
+    }
+
+    .hero-fachero img{
+      width:100%;
+      height:auto;
+      display:block;
+      filter:drop-shadow(0 18px 24px rgba(0,0,0,.34));
+      transform-origin:55% 82%;
+      animation:heroFacheroPose 3.4s ease-in-out 1.8s infinite;
+    }
+
+    @keyframes heroFacheroEntrance{
+      0%{opacity:0;transform:translate3d(180px,44px,0) rotate(18deg) scale(.52)}
+      62%{opacity:1;transform:translate3d(-12px,-8px,0) rotate(-5deg) scale(1.07)}
+      82%{transform:translate3d(5px,3px,0) rotate(2deg) scale(.97)}
+      100%{opacity:1;transform:translate3d(0,0,0) rotate(-1deg) scale(1)}
+    }
+
+    @keyframes heroFacheroPose{
+      0%,100%{transform:translate3d(0,0,0) rotate(-1deg)}
+      50%{transform:translate3d(0,-9px,0) rotate(1.5deg)}
+    }
+
+    @media (max-width:1100px){
+      .hero-fachero{
+        right:-112px;
+        bottom:-4px;
+        width:clamp(170px,20vw,230px);
+      }
+    }
+
+    @media (max-width:760px){
+      .hero-title-scene{padding-bottom:64px}
+      .hero-fachero{
+        right:0;
+        bottom:0;
+        width:clamp(112px,34vw,155px);
+      }
+    }
+
+    @media (max-width:380px){
+      .hero-title-scene{padding-bottom:58px}
+      .hero-fachero{right:2px;width:112px}
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      .hero-copy.visible .hero-fachero{animation-duration:1.6s}
+      .hero-fachero img{animation-duration:6s}
+    }
+
+    /* Sello giratorio de marca en la esquina del hero. */
+    .hero-seal{
+      position:absolute;
+      top:clamp(-92px,-6vw,-62px);
+      left:clamp(-94px,-6vw,-68px);
+      z-index:3;
+      width:clamp(112px,10vw,158px);
+      aspect-ratio:1;
+      margin:0;
+      pointer-events:none;
+      opacity:0;
+      animation:heroSealStamp .72s cubic-bezier(.18,1.35,.32,1) .28s both;
+    }
+
+    .hero-seal img{
+      width:100%;
+      height:100%;
+      display:block;
+      object-fit:contain;
+      filter:drop-shadow(0 12px 18px rgba(0,0,0,.28));
+      animation:heroSealRotate 14s linear 1s infinite;
+    }
+
+    @keyframes heroSealStamp{
+      0%{opacity:0;transform:scale(1.7) rotate(-18deg)}
+      58%{opacity:1;transform:scale(.88) rotate(5deg)}
+      78%{transform:scale(1.06) rotate(-2deg)}
+      100%{opacity:1;transform:scale(1) rotate(0)}
+    }
+
+    @keyframes heroSealRotate{
+      from{transform:rotate(0)}
+      to{transform:rotate(360deg)}
+    }
+
+    @media (max-width:760px){
+      .hero-seal{
+        top:-52px;
+        left:4px;
+        width:78px;
+        opacity:.82;
+      }
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      .hero-seal{animation-duration:1.2s}
+      .hero-seal img{animation-duration:24s}
     }
