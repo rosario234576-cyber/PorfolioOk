@@ -6742,17 +6742,14 @@
     }
 
     @media (max-width:760px){
-      .hero-title-scene{padding-bottom:64px}
+      .hero-title-scene{padding-bottom:0}
       .hero-fachero{
-        right:0;
-        bottom:0;
-        width:clamp(112px,34vw,155px);
+        display:none;
       }
     }
 
     @media (max-width:380px){
-      .hero-title-scene{padding-bottom:58px}
-      .hero-fachero{right:2px;width:112px}
+      .hero-title-scene{padding-bottom:0}
     }
 
     @media (prefers-reduced-motion:reduce){
@@ -6797,10 +6794,7 @@
 
     @media (max-width:760px){
       .hero-seal{
-        top:-52px;
-        left:4px;
-        width:78px;
-        opacity:.82;
+        display:none;
       }
     }
 
