@@ -345,6 +345,7 @@
           </div>
 
           <div class="reviews-editorial">
+            <div class="reviews-carousel" aria-label="Carrusel infinito de referencias">
             <div class="reviews-grid reviews-grid-fancy">
               <article class="review-card reveal-scale delay-1">
                 <div class="review-stars" aria-label="5 estrellas">
@@ -415,29 +416,8 @@
                 </div>
               </article>
             </div>
+            </div>
 
-            <aside class="reviews-side reveal-right">
-              <div class="ig-phone-wrap">
-                <img src="assets/Sello.png" alt="Sello" class="reviews-stamp">
-                <div class="ig-phone">
-                  <div class="ig-phone-top">
-                    <span class="ig-dot"></span>
-                    <img src="assets/Programas/Iconos1-30.png" alt="Instagram">
-                    <strong>@inkkstudios_</strong>
-                  </div>
-                  <video src="assets/Video.mp4" autoplay muted loop playsinline preload="metadata" webkit-playsinline="true" disablepictureinpicture></video>
-                  <div class="ig-phone-bottom">
-                    <span>reels · identidad · diseno</span>
-                  </div>
-                </div>
-                <div class="ig-badge">5.0 visual vibes</div>
-                <a href="https://www.instagram.com/inkkstudios_/" target="_blank" rel="noopener noreferrer" class="ig-direct-btn">
-                  <span class="ig-direct-label">@inkkstudios_</span>
-                  <span class="ig-direct-cue" aria-hidden="true"></span>
-                </a>
-                <p class="ig-follow-note">seguime en instagram para ver mis proyectos y lo nuevo que voy creando</p>
-              </div>
-            </aside>
           </div>
         </div>
     </section>
@@ -553,16 +533,6 @@
 
     <section class="contact" id="contacto">
       <div class="container">
-        <div class="contact-box reveal">
-          <div>
-            <h2 class="attitude-title"><span class="attitude-light">hablemos de</span><span class="attitude-bold">tu proyecto</span></h2>
-            <p>
-              si quieres una marca con más personalidad, piezas con impacto
-              o una web que represente mejor tu estilo, escríbeme y lo trabajamos.
-            </p>
-          </div>
-          </div>
-
           <aside class="reviews-side reveal-right">
             <div class="ig-phone-wrap">
               <div class="ig-phone">
@@ -588,6 +558,18 @@
   </main>
 
   <footer class="footer">
+    <div class="footer-location">
+      <span class="footer-year" aria-hidden="true">2026</span>
+      <img class="footer-congress footer-congress-back" src="assets/congreso-recorte.png" alt="" aria-hidden="true">
+      <div class="footer-place" aria-label="Balvanera, CABA">
+        <span class="footer-place-line" aria-hidden="true">
+          <span class="footer-letter">B</span><span class="footer-letter">A</span><span class="footer-letter">L</span><span class="footer-letter">V</span><span class="footer-letter">A</span><span class="footer-letter">N</span><span class="footer-letter">E</span><span class="footer-letter">R</span><span class="footer-letter">A</span><span class="footer-letter footer-comma">,</span>
+        </span>
+        <span class="footer-place-line footer-place-caba" aria-hidden="true">
+          <span class="footer-letter">C</span><span class="footer-letter">A</span><span class="footer-letter">B</span><span class="footer-letter">A</span>
+        </span>
+      </div>
+    </div>
     <div class="container footer-inner">
       <a href="#inicio" class="footer-brand" aria-label="Volver al inicio">
         <img src="assets/gato.png" alt="Icono Inkkstudios_">
@@ -598,6 +580,18 @@
   </footer>
 
   <script>
+    const reviewsTrack = document.querySelector(".reviews-grid-fancy");
+
+    if (reviewsTrack && !reviewsTrack.dataset.loopReady) {
+      reviewsTrack.dataset.loopReady = "true";
+      Array.from(reviewsTrack.children).forEach((card) => {
+        const clone = card.cloneNode(true);
+        clone.setAttribute("aria-hidden", "true");
+        clone.querySelectorAll("a").forEach((link) => link.setAttribute("tabindex", "-1"));
+        reviewsTrack.appendChild(clone);
+      });
+    }
+
     const revealElements = document.querySelectorAll(
       ".reveal, .reveal-left, .reveal-right, .reveal-scale"
     );
