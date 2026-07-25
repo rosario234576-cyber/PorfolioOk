@@ -7008,6 +7008,39 @@
       .footer-letter:hover{transform:none}
     }
 
+    /* El header es fijo: el hero debe comenzar debajo de él en cada viewport. */
+    html{
+      scroll-padding-top:calc(var(--header-h) + 16px);
+    }
+
+    .hero{
+      min-height:100svh;
+      padding-top:calc(var(--header-h) + 50px);
+    }
+
+    .hero-kicker{
+      position:relative;
+      z-index:4;
+    }
+
+    @media (max-width:900px){
+      .hero{
+        padding-top:calc(var(--header-h) + 38px);
+      }
+    }
+
+    @media (max-width:760px){
+      .hero{
+        padding-top:calc(var(--header-h) + 30px);
+      }
+    }
+
+    @media (max-width:480px){
+      .hero{
+        padding-top:calc(var(--header-h) + 24px);
+      }
+    }
+
     /* Hero y header en clave editorial ambar. */
     .site-header{
       background:linear-gradient(
