@@ -649,7 +649,7 @@
     .hero-marquee{
       grid-column:1 / -1;
       width:100vw;
-      margin:10px calc(50% - 50vw) 0;
+      margin:36px calc(50% - 50vw) 0;
       overflow:hidden;
       background:var(--primary);
       color:var(--white);
@@ -6852,8 +6852,8 @@
     /* Sello giratorio de marca en la esquina del hero. */
     .hero-seal{
       position:absolute;
-      top:clamp(-92px,-6vw,-62px);
-      left:clamp(-94px,-6vw,-68px);
+      top:clamp(-128px,-9vw,-96px);
+      left:clamp(-128px,-9vw,-100px);
       z-index:3;
       width:clamp(112px,10vw,158px);
       aspect-ratio:1;
