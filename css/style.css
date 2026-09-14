@@ -3868,6 +3868,34 @@
       margin:0 auto;
     }
 
+    .contact .container{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) minmax(300px,380px);
+      gap:32px;
+      align-items:start;
+    }
+
+    .contact-instagram{
+      position:relative;
+      display:grid;
+      gap:16px;
+      justify-items:center;
+    }
+
+    .contact-instagram .ig-phone-wrap{
+      position:sticky;
+      top:110px;
+    }
+
+    @media (max-width:900px){
+      .contact .container{
+        grid-template-columns:1fr;
+      }
+      .contact-instagram .ig-phone-wrap{
+        position:static;
+      }
+    }
+
     /* Tarifario */
     .tarifario-page{
       min-height:100vh;
