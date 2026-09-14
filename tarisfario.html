@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inkkstudio</title>
+  <meta
+    name="description"
+    content="Contacto directo con Inkkstudios_ para consultar por proyectos de diseño, redes, video, web y piezas gráficas."
+  />
+  <link rel="icon" type="image/png" href="assets/favicon-gato.png">
+  <link rel="apple-touch-icon" href="assets/favicon-gato.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="tarifario-page">
+  <div class="tarifario-progress" aria-hidden="true"><span></span></div>
+  <div class="bg-grid"></div>
+  <div class="blob one"></div>
+  <div class="blob two"></div>
+
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html#inicio" class="brand">
+        <div class="brand-logo">
+          <img src="assets/gato.png" alt="Logo Inkkstudios_">
+        </div>
+        <div class="brand-name">
+          <img src="assets/LogoBlanco.png" alt="Inkkstudios_" class="brand-wordmark">
+        </div>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-label="Abrir menu" aria-controls="site-menu" aria-expanded="false">
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="nav-links" id="site-menu" aria-label="Menu principal">
+        <a href="index.html#inicio">inicio</a>
+        <a href="index.html#servicios">proyectos</a>
+        <a href="index.html#disenos">diseños</a>
+        <a href="index.html#sobre-mi">sobre mí</a>
+        <a href="https://wa.me/5491132598397" target="_blank" rel="noopener noreferrer" class="btn-nav">contacto</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="tarifario-hero contacto-tarifario-hero" id="inicio">
+      <div class="container tarifario-hero-grid">
+        <div class="reveal-left">
+          <span class="tarifario-kicker">contacto directo</span>
+          <h1 class="tarifario-title">hablemos de tu <span>proyecto</span></h1>
+          <p class="tarifario-lead">
+            Escribime por WhatsApp y vemos juntas qué necesitás, el alcance del trabajo y los próximos pasos.
+          </p>
+          <div class="tarifario-actions">
+            <a href="https://wa.me/5491132598397" target="_blank" rel="noopener noreferrer" class="btn btn-primary">contactar por WhatsApp</a>
+          </div>
+        </div>
+
+        <aside class="tarifario-cat-card reveal-right">
+          <img src="assets/Gatoposando3.png" alt="Mascota de Inkkstudios_">
+          <p>Contame tu idea y armamos una propuesta acorde a lo que estás buscando.</p>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <a href="index.html#inicio" class="footer-brand" aria-label="Volver al inicio">
+        <img src="assets/gato.png" alt="Icono Inkkstudios_">
+      </a>
+      <div class="footer-claim">Inkkstudios.art</div>
+    </div>
+  </footer>
+
+  <script>
+    const revealElements = document.querySelectorAll(
+      ".reveal, .reveal-left, .reveal-right, .reveal-scale"
+    );
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      },
+      {
+        threshold: 0.12
+      }
+    );
+
+    revealElements.forEach((el) => observer.observe(el));
+
+    const navToggle = document.querySelector(".nav-toggle");
+    const navLinks = document.querySelector(".nav-links");
+
+    if (navToggle && navLinks) {
+      const setMenuOpen = (isOpen) => {
+        document.body.classList.toggle("nav-open", isOpen);
+        navToggle.setAttribute("aria-expanded", String(isOpen));
+        navToggle.setAttribute("aria-label", isOpen ? "Cerrar menu" : "Abrir menu");
+      };
+
+      navToggle.addEventListener("click", () => {
+        setMenuOpen(!document.body.classList.contains("nav-open"));
+      });
+
+      navLinks.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => setMenuOpen(false));
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") setMenuOpen(false);
+      });
+    }
+
+    const progressBar = document.querySelector(".tarifario-progress span");
+    const stepsWrap = document.querySelector(".tarifario-steps");
+    const runner = document.querySelector(".tarifario-runner");
+    const steps = document.querySelectorAll(".tarifario-step");
+
+    const updateTarifarioMotion = () => {
+      const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      const progress = Math.min(1, Math.max(0, window.scrollY / maxScroll));
+      if (progressBar) progressBar.style.width = `${progress * 100}%`;
+
+      if (stepsWrap && runner) {
+        const rect = stepsWrap.getBoundingClientRect();
+        const travel = Math.max(0, stepsWrap.offsetHeight - runner.offsetHeight - 68);
+        const localProgress = Math.min(
+          1,
+          Math.max(0, (window.innerHeight * 0.54 - rect.top) / Math.max(1, rect.height - window.innerHeight * 0.18))
+        );
+        const sway = window.innerWidth > 900
+          ? Math.sin(localProgress * Math.PI * 5) * Math.min(120, stepsWrap.offsetWidth * 0.18)
+          : 0;
+        const tilt = Math.sin(localProgress * Math.PI * 6) * 8;
+        runner.style.setProperty("--runner-y", `${localProgress * travel}px`);
+        runner.style.setProperty("--runner-x", `${sway}px`);
+        runner.style.setProperty("--runner-tilt", `${tilt}deg`);
+        stepsWrap.style.setProperty("--flow-progress", localProgress);
+      }
+
+      steps.forEach((step) => {
+        const rect = step.getBoundingClientRect();
+        const active = rect.top < window.innerHeight * 0.66 && rect.bottom > window.innerHeight * 0.24;
+        step.classList.toggle("is-active", active);
+      });
+    };
+
+    updateTarifarioMotion();
+    window.addEventListener("scroll", updateTarifarioMotion, { passive: true });
+    window.addEventListener("resize", updateTarifarioMotion);
+  </script>
+  <script src="js/site-motion.js"></script>
+</body>
+</html>
