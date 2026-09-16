@@ -1,0 +1,89 @@
+/* Scroll scene 01: transition from the cover into the profile. */
+html.scroll-motion-ready{--cover-exit:0;--about-enter:0;--bridge-progress:0;--bridge-opacity:0}
+
+.scroll-motion-ready #inicio.cover-home{
+  transform-origin:50% 100%;
+  transform:scale(calc(1 - (var(--cover-exit) * .055))) translateY(calc(var(--cover-exit) * 28px));
+  filter:saturate(calc(1 - (var(--cover-exit) * .18))) brightness(calc(1 - (var(--cover-exit) * .12)));
+  border-radius:0 0 calc(var(--cover-exit) * 42px) calc(var(--cover-exit) * 42px);
+  will-change:transform,filter,border-radius;
+}
+
+.scroll-motion-ready .cover-home .cover-copy{
+  transform:translate3d(0,calc(var(--cover-exit) * -54px),0);
+  opacity:calc(1 - (var(--cover-exit) * .72));
+  will-change:transform,opacity;
+}
+
+.scroll-motion-ready .cover-home .cover-showcase{
+  transform:none;
+  translate:0 calc(var(--cover-exit) * 74px);
+  rotate:calc(1.25deg + (var(--cover-exit) * 2deg));
+  will-change:translate,rotate;
+}
+
+.scroll-motion-ready .cover-home .cover-tape>div{
+  translate:calc(var(--cover-exit) * -8vw) 0;
+}
+
+.scroll-motion-ready #sobre-mi.about{
+  position:relative;
+  z-index:7;
+  opacity:1;
+  transform-origin:50% 0;
+  transform:translate3d(0,calc((1 - var(--about-enter)) * 110px),0) scale(calc(.955 + (var(--about-enter) * .045)));
+  border-radius:clamp(26px,4vw,58px) clamp(26px,4vw,58px) 0 0;
+  box-shadow:0 -28px 75px rgba(0,0,0,.42),0 -2px 0 rgba(242,106,59,.72);
+  overflow:hidden;
+  will-change:transform;
+}
+
+.scroll-motion-ready #sobre-mi .about-chapter-head{
+  transform:translate3d(calc((1 - var(--about-enter)) * -7vw),0,0);
+  opacity:calc(.3 + (var(--about-enter) * .7));
+  will-change:transform,opacity;
+}
+
+.scroll-motion-ready #sobre-mi .about-portrait{
+  transform:translate3d(0,calc((1 - var(--about-enter)) * 95px),0) rotate(calc((1 - var(--about-enter)) * -3deg));
+  will-change:transform;
+}
+
+.scroll-motion-ready #sobre-mi .about-copy{
+  transform:translate3d(0,calc((1 - var(--about-enter)) * 155px),0);
+  will-change:transform;
+}
+
+.scroll-transition-cat{
+  position:fixed;
+  z-index:18;
+  left:50%;
+  top:54%;
+  width:clamp(150px,19vw,300px);
+  height:auto;
+  opacity:var(--bridge-opacity);
+  transform:translate3d(-50%,calc(-50% + (var(--bridge-progress) * 70px)),0) scale(calc(.72 + (var(--bridge-progress) * .32))) rotate(calc(-8deg + (var(--bridge-progress) * 13deg)));
+  filter:drop-shadow(0 24px 25px rgba(0,0,0,.5));
+  pointer-events:none;
+  visibility:hidden;
+  will-change:transform,opacity;
+}
+
+.scroll-transition-cat.is-active{visibility:visible}
+
+@media(max-width:760px){
+  .scroll-motion-ready #inicio.cover-home{transform:scale(calc(1 - (var(--cover-exit) * .025)))}
+  .scroll-motion-ready #sobre-mi.about{transform:translate3d(0,calc((1 - var(--about-enter)) * 70px),0) scale(calc(.975 + (var(--about-enter) * .025)))}
+  .scroll-motion-ready #sobre-mi .about-copy{transform:translate3d(0,calc((1 - var(--about-enter)) * 80px),0)}
+  .scroll-transition-cat{top:50%;width:clamp(130px,42vw,210px)}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .scroll-motion-ready #inicio.cover-home,
+  .scroll-motion-ready .cover-home .cover-copy,
+  .scroll-motion-ready #sobre-mi.about,
+  .scroll-motion-ready #sobre-mi .about-chapter-head,
+  .scroll-motion-ready #sobre-mi .about-portrait,
+  .scroll-motion-ready #sobre-mi .about-copy{transform:none!important;filter:none!important;opacity:1!important}
+  .scroll-transition-cat{display:none}
+}

@@ -1,0 +1,99 @@
+/* Reskin de las paginas de servicio para alinearlas al lenguaje visual
+   de aurelia-rebuild.css: bordes rectos, sombras duras, tipografia Roc
+   en mayusculas y botones outline. Se carga despues de style.css,
+   service-page.css y aurelia-rebuild.css: gana por orden de cascada. */
+
+.service-detail .site-header{background:transparent}
+.service-detail .site-header.is-scrolled{background:rgba(16,21,19,.94)}
+
+/* --- Hero de servicio -------------------------------------------------- */
+.service-hero{
+  padding:calc(var(--header,88px) + 46px) 0 60px;
+  background:
+    radial-gradient(circle at 20% 15%,rgba(235,91,48,.24),transparent 30%),
+    linear-gradient(rgba(245,242,238,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(245,242,238,.035) 1px,transparent 1px),
+    var(--dark);
+  background-size:auto,44px 44px,44px 44px,auto;
+}
+.service-hero::before{-webkit-text-stroke:1px rgba(235,91,48,.35)}
+.service-eyebrow{
+  border-radius:0;background:transparent;padding:0;color:var(--primary);
+  font-family:Arial,sans-serif;font-weight:700;font-size:11px;letter-spacing:.08em;
+}
+.service-eyebrow::before{content:"\2726";margin-right:9px}
+.service-hero h1{letter-spacing:-.02em}
+.service-pill{
+  border-radius:0;border:1px solid var(--primary);background:transparent;
+  color:var(--light);font-family:var(--font-title);font-weight:var(--weight-title);
+  font-size:.72rem;padding:10px 14px;transition:.25s ease;
+}
+a.service-pill:hover{background:var(--primary);color:var(--dark);transform:translateY(-3px)}
+.service-hero-preview img,.service-hero-preview video{
+  border-radius:0;border:5px solid var(--light);box-shadow:10px 11px 0 var(--primary);
+}
+
+/* --- Cinta / ticker ------------------------------------------------------ */
+.service-note{background:var(--dark);padding:0}
+.service-note-strip{
+  border-radius:0;border-block:2px solid var(--dark);background:var(--primary);color:var(--dark);
+  box-shadow:none;transform:rotate(1deg);
+}
+.service-note-track span{font-family:var(--font-title);font-weight:var(--weight-title);font-size:clamp(18px,2.1vw,30px);letter-spacing:0}
+
+/* --- Seccion de clientes / galeria -------------------------------------- */
+.service-clients{
+  background:var(--dark);
+  background-image:linear-gradient(rgba(245,242,238,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(245,242,238,.03) 1px,transparent 1px);
+  background-size:42px 42px;
+}
+.service-gallery-head{color:var(--light)}
+.service-gallery-head p{color:rgba(245,242,238,.62)}
+
+.client-work{
+  border-radius:0;border:1px solid rgba(245,242,238,.14);
+  background:#181c1a;box-shadow:none;transition:transform .35s ease,border-color .35s ease;
+}
+.client-work:hover{transform:translateY(-6px);border-color:var(--primary)}
+.client-work::before{-webkit-text-stroke:1px rgba(245,242,238,.05)}
+.client-head{border-radius:0;background:transparent;border:0;border-bottom:1px solid rgba(245,242,238,.14);backdrop-filter:none}
+.client-head::after{color:rgba(245,242,238,.55)}
+.client-logo-slot{border-radius:0;border:1px solid rgba(245,242,238,.4)}
+.client-kicker{color:var(--primary)}
+.client-tags span{border-radius:0;border-color:rgba(245,242,238,.2)}
+.client-block{border-radius:0;background:rgba(245,242,238,.03);border:1px solid rgba(245,242,238,.08)}
+.client-block-title::after{border-radius:0;background:transparent;border:1px solid var(--primary);color:var(--primary)}
+
+.work-card{border-radius:0;border:1px solid rgba(245,242,238,.1);box-shadow:none;cursor:zoom-in}
+.work-card:hover{border-color:var(--primary);box-shadow:8px 8px 0 rgba(235,91,48,.35)}
+.work-card figcaption{border-radius:0;background:var(--primary);color:var(--dark);font-family:var(--font-title);font-weight:var(--weight-title);letter-spacing:.04em}
+.project-info span,.project-info strong{border-radius:0}
+.project-info strong{background:var(--primary);color:var(--dark)}
+.carousel-strip img{border-radius:0;box-shadow:none}
+.service-lightbox-media,.service-lightbox-copy{border-radius:0}
+.service-lightbox-copy span{border-radius:0}
+.service-lightbox-close{border-radius:0}
+
+/* --- Botones genericos --------------------------------------------------- */
+.btn{border-radius:0!important}
+.btn-outline{border:1px solid var(--primary);background:transparent;color:var(--light)}
+.btn-outline:hover{background:var(--primary);color:var(--dark)}
+.btn-primary{background:var(--primary);color:var(--dark);border:1px solid var(--primary)}
+.btn-primary:hover{background:transparent;color:var(--light)}
+
+/* --- Cierre de servicio ("hagamos algo") --------------------------------- */
+.service-end{background:var(--dark)}
+.service-end-box{
+  border-radius:0;background:#181c1a;border:1px solid rgba(245,242,238,.14);
+  align-items:center;
+}
+.service-end-box h2{color:var(--light)}
+.service-end-actions{display:flex;flex-wrap:wrap;gap:12px}
+
+/* --- Elementos decorativos existentes (gato guia) ------------------------ */
+.service-cat-bubble{border-radius:0 0 0 0;border-color:rgba(235,91,48,.4)}
+.service-cat-bubble::after{display:none}
+
+@media(max-width:760px){
+  .service-hero{padding-top:calc(var(--header,70px) + 30px)}
+}
