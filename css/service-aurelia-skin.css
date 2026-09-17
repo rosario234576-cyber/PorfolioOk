@@ -100,12 +100,15 @@ a.service-pill:hover{background:var(--primary);color:var(--dark);transform:trans
 
 /* --- Cuentas gestionadas: tarjetas propias, sin heredar .client-* --------- */
 .accounts-grid{display:grid;gap:18px;margin-top:28px}
-.account-card{display:grid;grid-template-columns:1fr;border:1px solid rgba(245,242,238,.14);background:#181c1a;overflow:hidden;transition:border-color .3s}
+.account-card{display:grid;grid-template-columns:minmax(0,1fr);border:1px solid rgba(245,242,238,.14);background:#181c1a;overflow:hidden;transition:border-color .3s}
 .account-card:hover{border-color:var(--primary)}
 .account-media{width:100%;aspect-ratio:9/14;max-height:360px;overflow:hidden;background:#000}
 .account-media img{width:100%;height:100%;object-fit:cover;display:block}
-.account-body{padding:22px}
-.account-top{display:flex;gap:14px;align-items:flex-start}
+.account-body{padding:22px;min-width:0}
+.account-top{display:flex;gap:14px;align-items:flex-start;min-width:0}
+.account-top>div{min-width:0}
+.account-top h3,.account-role{overflow-wrap:break-word}
+.account-tasks li{overflow-wrap:break-word}
 .account-logo{flex:0 0 auto;width:58px;height:58px;display:grid;place-items:center;background:var(--light);color:var(--dark);border:1px solid rgba(245,242,238,.4);font-family:var(--font-title);font-weight:var(--weight-title);font-size:1.1rem}
 .account-kicker{display:block;margin-bottom:5px;font-family:Arial,sans-serif;font-weight:700;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--primary)}
 .account-top h3{margin:0 0 6px;font-family:var(--font-title);font-weight:var(--weight-title);font-size:1.45rem;line-height:1.2;text-transform:uppercase;color:var(--light)}
@@ -119,7 +122,7 @@ a.service-pill:hover{background:var(--primary);color:var(--dark);transform:trans
 .account-tasks li::first-letter{text-transform:uppercase}
 .account-tasks li::before{content:"✓";position:absolute;left:0;top:0;color:var(--primary);font-weight:800}
 @media(min-width:761px){
-  .account-card{grid-template-columns:230px 1fr;align-items:stretch}
-  .account-media{aspect-ratio:auto;max-height:none;height:100%}
+  .account-card{grid-template-columns:230px minmax(0,1fr);align-items:stretch}
+  .account-media{aspect-ratio:auto;max-height:none;height:100%;min-width:0}
   .account-body{padding:26px 30px}
 }
