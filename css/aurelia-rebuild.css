@@ -246,3 +246,10 @@ button{font:inherit}
 }
 @keyframes pt-slide-cycle{0%{opacity:0;transform:translateX(26px)}4%{opacity:1;transform:translateX(0)}21%{opacity:1;transform:translateX(0)}25%{opacity:0;transform:translateX(-26px)}100%{opacity:0}}
 @keyframes pt-line-progress{0%{width:0}96%{width:min(220px,70%)}100%{width:min(220px,70%)}}
+
+/* --- Footer mobile: todo apilado en una sola columna, prolijo ----------- */
+@media(max-width:760px){
+  .footer-grid{grid-template-columns:1fr;gap:34px}
+  .footer-grid>div:not(.footer-brand):not(.footer-contact){display:block}
+  .footer-word{margin-top:60px}
+}

@@ -3,8 +3,9 @@
    en mayusculas y botones outline. Se carga despues de style.css,
    service-page.css y aurelia-rebuild.css: gana por orden de cascada. */
 
-.service-detail .site-header{background:transparent}
-.service-detail .site-header.is-scrolled{background:rgba(16,21,19,.94)}
+.service-detail .site-header{background:transparent;backdrop-filter:none;-webkit-backdrop-filter:none}
+.service-detail .site-header.is-scrolled{background:rgba(16,21,19,.94);backdrop-filter:blur(15px);-webkit-backdrop-filter:blur(15px)}
+.service-detail .site-nav{z-index:1001}
 
 /* --- Hero de servicio -------------------------------------------------- */
 .service-hero{
@@ -111,6 +112,10 @@ a.service-pill:hover{background:var(--primary);color:var(--dark);transform:trans
 .account-media{width:100%;aspect-ratio:9/14;max-height:360px;overflow:hidden;background:#000}
 .account-media picture{display:block;width:100%;height:100%}
 .account-media img{width:100%;height:100%;object-fit:cover;display:block}
+@media(max-width:760px){
+  .account-media{aspect-ratio:auto;max-height:none;height:auto}
+  .account-media img{height:auto;object-fit:contain}
+}
 .account-body{padding:22px;min-width:0}
 .account-top{min-width:0;text-align:left}
 .account-top h3,.account-role{overflow-wrap:break-word}
