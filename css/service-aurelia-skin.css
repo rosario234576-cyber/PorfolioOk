@@ -111,7 +111,7 @@ a.service-pill:hover{background:var(--primary);color:var(--dark);transform:trans
 .account-media{width:100%;aspect-ratio:9/14;max-height:360px;overflow:hidden;background:#000}
 .account-media img{width:100%;height:100%;object-fit:cover;display:block}
 .account-body{padding:22px;min-width:0}
-.account-top{min-width:0;text-align:right}
+.account-top{min-width:0;text-align:left}
 .account-top h3,.account-role{overflow-wrap:break-word}
 .account-tasks li{overflow-wrap:break-word}
 .account-kicker{display:block;margin-bottom:5px;font-family:Arial,sans-serif;font-weight:700;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--primary)}
