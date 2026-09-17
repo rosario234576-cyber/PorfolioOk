@@ -109,6 +109,7 @@ a.service-pill:hover{background:var(--primary);color:var(--dark);transform:trans
 .account-card{display:grid;grid-template-columns:minmax(0,1fr);border:1px solid rgba(245,242,238,.14);background:#181c1a;overflow:hidden;transition:border-color .3s}
 .account-card:hover{border-color:var(--primary)}
 .account-media{width:100%;aspect-ratio:9/14;max-height:360px;overflow:hidden;background:#000}
+.account-media picture{display:block;width:100%;height:100%}
 .account-media img{width:100%;height:100%;object-fit:cover;display:block}
 .account-body{padding:22px;min-width:0}
 .account-top{min-width:0;text-align:left}
