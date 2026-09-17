@@ -111,11 +111,9 @@ a.service-pill:hover{background:var(--primary);color:var(--dark);transform:trans
 .account-media{width:100%;aspect-ratio:9/14;max-height:360px;overflow:hidden;background:#000}
 .account-media img{width:100%;height:100%;object-fit:cover;display:block}
 .account-body{padding:22px;min-width:0}
-.account-top{display:flex;gap:14px;align-items:flex-start;min-width:0}
-.account-top>div{min-width:0}
+.account-top{min-width:0;text-align:right}
 .account-top h3,.account-role{overflow-wrap:break-word}
 .account-tasks li{overflow-wrap:break-word}
-.account-logo{flex:0 0 auto;width:58px;height:58px;display:grid;place-items:center;background:var(--light);color:var(--dark);border:1px solid rgba(245,242,238,.4);font-family:var(--font-title);font-weight:var(--weight-title);font-size:1.1rem}
 .account-kicker{display:block;margin-bottom:5px;font-family:Arial,sans-serif;font-weight:700;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--primary)}
 .account-top h3{margin:0 0 6px;font-family:var(--font-title);font-weight:var(--weight-title);font-size:1.45rem;line-height:1.2;text-transform:uppercase;color:var(--light)}
 .account-role{margin:0;font-family:var(--font-body);font-size:.98rem;line-height:1.5;color:rgba(245,242,238,.68)}
