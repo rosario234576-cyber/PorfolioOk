@@ -106,16 +106,16 @@ a.service-pill:hover{background:var(--primary);color:var(--dark);transform:trans
 .account-media img{width:100%;height:100%;object-fit:cover;display:block}
 .account-body{padding:22px}
 .account-top{display:flex;gap:14px;align-items:flex-start}
-.account-logo{flex:0 0 auto;width:50px;height:50px;display:grid;place-items:center;background:var(--light);color:var(--dark);border:1px solid rgba(245,242,238,.4);font-family:var(--font-title);font-weight:var(--weight-title);font-size:.95rem}
-.account-kicker{display:block;margin-bottom:4px;font-family:Arial,sans-serif;font-weight:700;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;color:var(--primary)}
-.account-top h3{margin:0 0 5px;font-family:var(--font-title);font-weight:var(--weight-title);font-size:1.2rem;line-height:1.2;text-transform:uppercase;color:var(--light)}
-.account-role{margin:0;font-family:var(--font-body);font-size:.85rem;line-height:1.5;color:rgba(245,242,238,.65)}
-.account-tags{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 0}
-.account-tags span{padding:7px 11px;border:1px solid rgba(245,242,238,.2);background:rgba(245,242,238,.05);font-family:Arial,sans-serif;font-weight:700;font-size:.68rem;letter-spacing:.03em;text-transform:uppercase;color:rgba(245,242,238,.8)}
-.account-tasks{margin-top:16px;padding-top:16px;border-top:1px dashed rgba(245,242,238,.14)}
-.account-tasks h4{margin:0 0 10px;font-family:var(--font-title);font-weight:var(--weight-title);font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;color:var(--primary)}
-.account-tasks ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}
-.account-tasks li{position:relative;padding-left:22px;font-family:var(--font-body);font-size:15px;line-height:1.5;color:rgba(245,242,238,.88)}
+.account-logo{flex:0 0 auto;width:58px;height:58px;display:grid;place-items:center;background:var(--light);color:var(--dark);border:1px solid rgba(245,242,238,.4);font-family:var(--font-title);font-weight:var(--weight-title);font-size:1.1rem}
+.account-kicker{display:block;margin-bottom:5px;font-family:Arial,sans-serif;font-weight:700;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--primary)}
+.account-top h3{margin:0 0 6px;font-family:var(--font-title);font-weight:var(--weight-title);font-size:1.45rem;line-height:1.2;text-transform:uppercase;color:var(--light)}
+.account-role{margin:0;font-family:var(--font-body);font-size:.98rem;line-height:1.5;color:rgba(245,242,238,.68)}
+.account-tags{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0}
+.account-tags span{padding:8px 13px;border:1px solid rgba(245,242,238,.2);background:rgba(245,242,238,.05);font-family:Arial,sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.03em;text-transform:uppercase;color:rgba(245,242,238,.85)}
+.account-tasks{margin-top:18px;padding-top:18px;border-top:1px dashed rgba(245,242,238,.14)}
+.account-tasks h4{margin:0 0 12px;font-family:var(--font-title);font-weight:var(--weight-title);font-size:.95rem;letter-spacing:.06em;text-transform:uppercase;color:var(--primary)}
+.account-tasks ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+.account-tasks li{position:relative;padding-left:24px;font-family:var(--font-body);font-size:17px;line-height:1.5;color:rgba(245,242,238,.9)}
 .account-tasks li::before{content:"✓";position:absolute;left:0;top:0;color:var(--primary);font-weight:800}
 @media(min-width:761px){
   .account-card{grid-template-columns:230px 1fr;align-items:stretch}
