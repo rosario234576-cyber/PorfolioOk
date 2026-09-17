@@ -64,6 +64,13 @@ a.service-pill:hover{background:var(--primary);color:var(--dark);transform:trans
 .client-block{border-radius:0;background:rgba(245,242,238,.03);border:1px solid rgba(245,242,238,.08)}
 .client-block-title::after{border-radius:0;background:transparent;border:1px solid var(--primary);color:var(--primary)}
 
+.client-checklist{display:grid;gap:9px;margin:0;padding:0;list-style:none}
+.client-checklist li{position:relative;padding-left:22px;font-family:var(--font-body);font-size:13px;line-height:1.55;color:rgba(245,242,238,.78);text-transform:lowercase}
+.client-checklist li::before{content:"✓";position:absolute;left:0;top:0;color:var(--primary);font-weight:800}
+.client-shot{margin:0;border:1px solid rgba(245,242,238,.14);overflow:hidden}
+.client-shot img{width:100%;display:block;object-fit:cover}
+@media(min-width:761px){.client-shot{max-width:320px}}
+
 .work-card{border-radius:0;border:1px solid rgba(245,242,238,.1);box-shadow:none;cursor:zoom-in}
 .work-card:hover{border-color:var(--primary);box-shadow:8px 8px 0 rgba(235,91,48,.35)}
 .work-card figcaption{border-radius:0;background:var(--primary);color:var(--dark);font-family:var(--font-title);font-weight:var(--weight-title);letter-spacing:.04em}
