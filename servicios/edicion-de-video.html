@@ -8,7 +8,7 @@
   <link rel="apple-touch-icon" href="../assets/favicon-gato.png">
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/service-page.css">
-  <link rel="stylesheet" href="../css/aurelia-rebuild.css">
+  <link rel="stylesheet" href="../css/aurelia-rebuild.css?v=32">
   <link rel="stylesheet" href="../css/service-aurelia-skin.css">
 </head>
 <body class="service-detail">
@@ -19,12 +19,14 @@
       <img class="brand-cat" src="../assets/gato.png" alt="">
       <img class="brand-word" src="../assets/LogoBlanco.png" alt="Inkkstudios">
     </a>
-    <button class="menu-toggle" type="button" aria-controls="site-menu" aria-expanded="false"><span></span><span></span><b>MENÚ</b></button>
+    <button class="menu-toggle" type="button" aria-controls="site-menu" aria-expanded="false" aria-label="Menú"><span></span><span></span><span></span></button>
     <nav class="site-nav" id="site-menu" aria-label="Navegación principal">
-      <a href="../index.html#inicio">Inicio</a>
-      <a href="../index.html#servicios">Servicios</a>
-      <a href="../index.html#proyectos">Portfolio</a>
-      <a href="../index.html#sobre-mi">Sobre mí</a>
+      <div class="nav-links">
+        <a href="../index.html#inicio">Inicio</a>
+        <a href="../index.html#servicios">Servicios</a>
+        <a href="../index.html#proyectos">Portfolio</a>
+        <a href="../index.html#sobre-mi">Sobre mí</a>
+      </div>
       <a class="nav-contact" href="../index.html#contacto">Contacto <span>↗</span></a>
     </nav>
   </header>

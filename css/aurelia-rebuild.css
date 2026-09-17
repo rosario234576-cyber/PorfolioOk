@@ -194,3 +194,41 @@ button{font:inherit}
 @media(max-width:430px){.hero-title{font-size:17vw}.hero-stats{gap:12px}.process-timeline-track{grid-template-columns:1fr;row-gap:34px}.process-timeline-track::before,.process-timeline-track::after{display:none}.testimonial-track article{flex-basis:94%;padding:27px}.footer-grid{grid-template-columns:1fr}.footer-grid>div:not(.footer-brand):not(.footer-contact){display:none}}
 .nav-links>a.is-active::after{transform:scaleX(1)!important;transform-origin:left!important}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}[data-reveal]{opacity:1;transform:none;clip-path:none}.split-word>span{transform:none}}
+
+/* --- Menu mobile: mas dinamismo, sin que la linea tape el texto --------- */
+@media(max-width:760px){
+  .site-nav{justify-content:flex-start;padding-top:calc(var(--header,70px) + 34px)}
+  .nav-links{display:flex;flex-direction:column;width:100%;counter-reset:navitem}
+  .nav-links>a{counter-increment:navitem;display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;padding:16px 0;border-bottom:1px solid rgba(241,238,231,.14)}
+  .nav-links>a::before{content:counter(navitem,decimal-leading-zero);order:2;flex:0 0 auto;font:800 12px/1 Roc;letter-spacing:.08em;color:var(--orange)}
+  .nav-links>a::after{left:0;right:auto;bottom:-1px;width:100%}
+  .nav-links>a.is-active{color:var(--orange)}
+  .nav-links>a.is-active::before{color:var(--paper)}
+  .site-nav a:active{background:rgba(235,91,48,.1)}
+  .nav-contact{margin-top:30px}
+  .menu-open .nav-links>a{animation:mfNavIn .5s var(--ease) backwards}
+  .menu-open .nav-links>a:nth-child(1){animation-delay:.08s}
+  .menu-open .nav-links>a:nth-child(2){animation-delay:.15s}
+  .menu-open .nav-links>a:nth-child(3){animation-delay:.22s}
+  .menu-open .nav-links>a:nth-child(4){animation-delay:.29s}
+  .menu-open .nav-contact{animation:mfNavIn .5s var(--ease) .36s backwards}
+}
+@keyframes mfNavIn{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}
+
+/* --- Hero mobile: mas aire respecto del header -------------------------- */
+@media(max-width:760px){
+  .hero{padding-top:calc(var(--header) + 74px)}
+}
+
+/* --- Timeline de proceso en mobile: vertical, con linea animada -------- */
+@media(max-width:760px){
+  .process-timeline-track{grid-template-columns:1fr;row-gap:40px;padding-left:30px}
+  .process-timeline-track::before{display:block;left:7px;right:auto;top:4px;bottom:4px;width:2px;height:auto;background:var(--line)}
+  .process-timeline-track::after{display:block;left:7px;right:auto;top:4px;width:2px;height:0;background:var(--orange);box-shadow:0 0 8px rgba(235,91,48,.55);animation:pt-line-fill-v 8s ease-in-out infinite}
+  .pt-step{padding-top:0}
+  .pt-dot{top:4px;left:-30px}
+  .pt-step b{top:-22px;left:-32px}
+  .pt-step h3{margin:6px 0 8px;font-size:clamp(24px,7vw,30px)}
+  .pt-step p{max-width:none}
+}
+@keyframes pt-line-fill-v{0%,100%{height:0}45%,55%{height:100%}}
