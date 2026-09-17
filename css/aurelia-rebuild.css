@@ -83,18 +83,13 @@ button{font:inherit}
 .wc-tags a{padding:8px 14px;border:1px solid var(--white-line);border-radius:999px;font:700 11px/1 Arial,sans-serif;text-transform:uppercase;letter-spacing:.03em;color:var(--paper);transition:background .2s,border-color .2s,transform .15s;-webkit-tap-highlight-color:transparent}
 .wc-tags a:hover,.wc-tags a:active{background:var(--orange);border-color:var(--orange);color:var(--dark);transform:scale(.97)}
 .wc-sublist{display:grid;gap:10px}
-.wc-sub{border-radius:14px;background:rgba(255,255,255,.04);overflow:hidden;transition:background .2s}
-.wc-sub[open]{background:rgba(255,255,255,.07)}
-.wc-sub summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 22px;font:800 17px/1.2 Roc;text-transform:uppercase;letter-spacing:.02em;color:var(--paper);-webkit-tap-highlight-color:transparent}
-.wc-sub summary::-webkit-details-marker{display:none}
+.wc-sub{border-radius:14px;background:rgba(255,255,255,.04);overflow:hidden;transition:background .2s;list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 22px;font:800 17px/1.2 Roc;text-transform:uppercase;letter-spacing:.02em;color:var(--paper);-webkit-tap-highlight-color:transparent}
+.wc-sub:hover,.wc-sub:active{background:rgba(255,255,255,.07)}
 .wc-sub i{font-style:normal;color:var(--orange);font-size:16px;transition:transform .3s var(--ease)}
-.wc-sub[open] i{transform:rotate(180deg)}
-.wc-sub-body{padding:0 18px 20px}
-.wc-sub-body p{margin:0 0 14px;font-size:12px;line-height:1.6;color:rgba(241,238,231,.6)}
-.wc-sub .wc-img-grid{margin-bottom:14px}
+.wc-sub:hover i{transform:translate(3px,-3px)}
 .wc-more{display:inline-flex;align-items:center;gap:8px;font:800 11px/1 Roc;color:var(--orange);text-transform:uppercase;letter-spacing:.05em;-webkit-tap-highlight-color:transparent}
 .wc-more:active{opacity:.7}
-@media(min-width:761px){.wc-sublist{grid-template-columns:repeat(2,1fr)}.wc-sub-body .wc-img-grid{grid-template-columns:repeat(2,1fr)}.wc-sub-body .wc-img-grid img{height:130px}}
+@media(min-width:761px){.wc-sublist{grid-template-columns:repeat(2,1fr)}}
 .wc-video-grid{display:grid;gap:12px}
 .wc-video{border-radius:12px;overflow:hidden;background:#000}
 .wc-video video{width:100%;display:block;max-height:320px;object-fit:cover}
