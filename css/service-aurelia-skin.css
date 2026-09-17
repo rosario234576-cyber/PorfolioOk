@@ -113,8 +113,8 @@ a.service-pill:hover{background:var(--primary);color:var(--dark);transform:trans
 .account-kicker{display:block;margin-bottom:5px;font-family:Arial,sans-serif;font-weight:700;font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--primary)}
 .account-top h3{margin:0 0 6px;font-family:var(--font-title);font-weight:var(--weight-title);font-size:1.45rem;line-height:1.2;text-transform:uppercase;color:var(--light)}
 .account-role{margin:0;font-family:var(--font-body);font-size:.98rem;line-height:1.5;color:rgba(245,242,238,.68)}
-.account-tags{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0}
-.account-tags span{padding:8px 13px;border:1px solid rgba(245,242,238,.2);background:rgba(245,242,238,.05);font-family:Arial,sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.03em;text-transform:uppercase;color:rgba(245,242,238,.85)}
+.account-tags{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0;max-width:100%}
+.account-tags span{box-sizing:border-box;max-width:100%;overflow-wrap:break-word;padding:8px 13px;border:1px solid rgba(245,242,238,.2);background:rgba(245,242,238,.05);font-family:Arial,sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.03em;text-transform:uppercase;color:rgba(245,242,238,.85)}
 .account-tasks{margin-top:18px;padding-top:18px;border-top:1px dashed rgba(245,242,238,.14)}
 .account-tasks h4{margin:0 0 12px;font-family:var(--font-title);font-weight:var(--weight-title);font-size:.95rem;letter-spacing:.06em;text-transform:uppercase;color:var(--primary)}
 .account-tasks ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
