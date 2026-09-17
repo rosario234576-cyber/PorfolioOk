@@ -215,9 +215,9 @@ button{font:inherit}
 }
 @keyframes mfNavIn{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:translateX(0)}}
 
-/* --- Hero mobile: mas aire respecto del header -------------------------- */
+/* --- Hero mobile: ocupa toda la pantalla al entrar ---------------------- */
 @media(max-width:760px){
-  .hero{padding-top:calc(var(--header) + 74px)}
+  .hero{min-height:100svh;justify-content:center;padding-top:calc(var(--header) + 30px);padding-bottom:30px}
 }
 
 /* --- Titulos del home mas juntos con su texto y centrados en mobile ----- */
