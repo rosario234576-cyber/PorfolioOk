@@ -98,6 +98,12 @@ a.service-pill:hover{background:var(--primary);color:var(--dark);transform:trans
   .service-hero{padding-top:calc(var(--header,70px) + 30px)}
 }
 
+/* --- Hero de "cuentas gestionadas": sin fotos rotadas/superpuestas ------- */
+.service-hero[data-label="community"] .service-hero-preview>*{transform:none}
+@media(max-width:760px){
+  .service-hero[data-label="community"] .service-hero-preview{display:none}
+}
+
 /* --- Cuentas gestionadas: tarjetas propias, sin heredar .client-* --------- */
 .accounts-grid{display:grid;gap:18px;margin-top:28px}
 .account-card{display:grid;grid-template-columns:minmax(0,1fr);border:1px solid rgba(245,242,238,.14);background:#181c1a;overflow:hidden;transition:border-color .3s}
