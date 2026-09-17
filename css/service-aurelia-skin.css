@@ -64,17 +64,25 @@ a.service-pill:hover{background:var(--primary);color:var(--dark);transform:trans
 .client-block{border-radius:0;background:rgba(245,242,238,.03);border:1px solid rgba(245,242,238,.08)}
 .client-block-title::after{border-radius:0;background:transparent;border:1px solid var(--primary);color:var(--primary)}
 
-.client-account{display:grid;grid-template-columns:1fr;gap:22px;margin-top:24px}
-.client-account .client-block{margin-top:0}
-.client-checklist{display:grid;gap:14px;margin:0;padding:0;list-style:none}
-.client-checklist li{position:relative;padding-left:30px;font-family:var(--font-body);font-size:17px;line-height:1.5;color:rgba(245,242,238,.9);text-transform:lowercase}
-.client-checklist li::before{content:"✓";position:absolute;left:0;top:0;color:var(--primary);font-weight:800;font-size:18px}
+.client-work{padding:16px}
+.client-layout{display:grid;grid-template-columns:1fr;gap:16px}
+.client-info{display:grid;gap:14px}
 .client-shot{margin:0;border:1px solid rgba(245,242,238,.14);overflow:hidden}
 .client-shot img{width:100%;display:block;object-fit:cover}
+.client-head{grid-template-columns:56px 1fr;gap:12px;padding-bottom:14px}
+.client-logo-slot{width:56px}
+.client-logo-slot span{font-size:1.05rem}
+.client-copy h2{font-size:clamp(1.05rem,2vw,1.4rem);line-height:1.15}
+.client-copy p{font-size:.76rem;margin-top:5px}
+.client-tags{margin-top:10px;gap:6px}
+.client-tags span{font-size:.62rem;padding:6px 9px}
+.client-account,.client-info>.client-block{margin-top:0}
+.client-checklist{display:grid;gap:7px;margin:0;padding:0;list-style:none}
+.client-checklist li{position:relative;padding-left:20px;font-family:var(--font-body);font-size:13px;line-height:1.5;color:rgba(245,242,238,.85);text-transform:lowercase}
+.client-checklist li::before{content:"✓";position:absolute;left:0;top:0;color:var(--primary);font-weight:800;font-size:13px}
+.client-block-title{margin-bottom:8px}
 @media(min-width:761px){
-  .client-account{grid-template-columns:300px 1fr;gap:36px;align-items:start}
-  .client-media{position:sticky;top:110px}
-  .client-checklist li{font-size:18px}
+  .client-layout{grid-template-columns:220px 1fr;gap:24px;align-items:start}
 }
 
 .work-card{border-radius:0;border:1px solid rgba(245,242,238,.1);box-shadow:none;cursor:zoom-in}
