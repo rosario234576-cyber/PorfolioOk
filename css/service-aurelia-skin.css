@@ -136,3 +136,41 @@ a.service-pill:hover{background:var(--primary);color:var(--dark);transform:trans
   .account-media{aspect-ratio:9/14;max-height:none;height:auto;min-width:0}
   .account-body{padding:26px 30px}
 }
+
+/* --- Galeria sin recortes (diseno de piezas graficas): masonry, imagen completa --- */
+.gallery-uncropped .work-grid:not(:has(.carousel-card)),
+.gallery-uncropped .story-grid{
+  display:block;
+  columns:1;
+  column-gap:14px;
+}
+.gallery-uncropped .work-grid:not(:has(.carousel-card)) .work-card,
+.gallery-uncropped .story-grid .work-card{
+  display:block;
+  break-inside:avoid;
+  margin-bottom:14px;
+  min-height:0;
+  aspect-ratio:auto;
+}
+.gallery-uncropped .work-grid:not(:has(.carousel-card)) .work-card img,
+.gallery-uncropped .story-grid .work-card img,
+.gallery-uncropped .work-grid:not(:has(.carousel-card)) .work-card video,
+.gallery-uncropped .story-grid .work-card video{
+  height:auto;
+  min-height:0;
+  object-fit:contain;
+}
+.gallery-uncropped .carousel-strip img{
+  height:100%;
+  aspect-ratio:auto;
+  object-fit:contain;
+  background:rgba(245,242,238,.04);
+}
+@media(min-width:600px){
+  .gallery-uncropped .work-grid:not(:has(.carousel-card)),
+  .gallery-uncropped .story-grid{columns:2}
+}
+@media(min-width:960px){
+  .gallery-uncropped .work-grid:not(:has(.carousel-card)),
+  .gallery-uncropped .story-grid{columns:3}
+}
