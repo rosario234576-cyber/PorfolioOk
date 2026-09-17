@@ -226,13 +226,16 @@ button{font:inherit}
   .process-head>div,.insights-head>div{margin:0}
   .process-head h2,.insights-head h2{max-width:300px;margin-left:auto;margin-right:auto}
   .process-head p,.insights-head p{margin-top:0;max-width:300px;margin-left:auto;margin-right:auto}
+  .work-head{gap:10px;margin-bottom:34px}
+  .work-head>div:last-child{padding-bottom:0}
+  .work-head p{margin-top:0}
 }
 
 /* --- Timeline de proceso en mobile: un paso a la vez, avanza solo ------- */
 @media(max-width:760px){
   .process-timeline{padding:10px 0 30px}
   .process-timeline-track{display:block;position:relative;min-height:196px;padding-bottom:26px}
-  .process-timeline-track::before{display:block;left:50%;right:auto;top:auto;bottom:0;transform:translateX(-50%);width:min(220px,70%);height:2px;background:var(--line)}
+  .process-timeline-track::before{display:block;left:50%;right:auto;top:auto;bottom:0;transform:translateX(-50%);width:min(220px,70%);height:2px;background-color:var(--line);background-repeat:no-repeat;background-image:radial-gradient(circle 3px,var(--muted) 100%,transparent 101%),radial-gradient(circle 3px,var(--muted) 100%,transparent 101%),radial-gradient(circle 3px,var(--muted) 100%,transparent 101%),radial-gradient(circle 3px,var(--muted) 100%,transparent 101%);background-position:0% 50%,33.333% 50%,66.666% 50%,100% 50%}
   .process-timeline-track::after{display:block;left:50%;right:auto;top:auto;bottom:0;transform:translateX(-50%);width:0;max-width:min(220px,70%);height:2px;background:var(--orange);box-shadow:0 0 8px rgba(235,91,48,.55);animation:pt-line-progress 16s linear infinite}
   .pt-step{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0;opacity:0;transform:translateX(26px);animation:pt-slide-cycle 16s ease-in-out infinite}
   .pt-step:nth-child(1){animation-delay:0s}

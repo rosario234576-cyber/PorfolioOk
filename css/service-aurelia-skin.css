@@ -132,7 +132,7 @@ a.service-pill:hover{background:var(--primary);color:var(--dark);transform:trans
 .account-tasks li::first-letter{text-transform:uppercase}
 .account-tasks li::before{content:"✓";position:absolute;left:0;top:0;color:var(--primary);font-weight:800}
 @media(min-width:761px){
-  .account-card{grid-template-columns:230px minmax(0,1fr);align-items:stretch}
-  .account-media{aspect-ratio:auto;max-height:none;height:100%;min-width:0}
+  .account-card{grid-template-columns:230px minmax(0,1fr);align-items:start}
+  .account-media{aspect-ratio:9/14;max-height:none;height:auto;min-width:0}
   .account-body{padding:26px 30px}
 }
