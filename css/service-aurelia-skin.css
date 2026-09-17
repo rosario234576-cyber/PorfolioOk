@@ -116,6 +116,7 @@ a.service-pill:hover{background:var(--primary);color:var(--dark);transform:trans
 .account-tasks h4{margin:0 0 12px;font-family:var(--font-title);font-weight:var(--weight-title);font-size:.95rem;letter-spacing:.06em;text-transform:uppercase;color:var(--primary)}
 .account-tasks ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
 .account-tasks li{position:relative;padding-left:24px;font-family:var(--font-body);font-size:17px;line-height:1.5;color:rgba(245,242,238,.9)}
+.account-tasks li::first-letter{text-transform:uppercase}
 .account-tasks li::before{content:"✓";position:absolute;left:0;top:0;color:var(--primary);font-weight:800}
 @media(min-width:761px){
   .account-card{grid-template-columns:230px 1fr;align-items:stretch}
