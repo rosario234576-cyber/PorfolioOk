@@ -109,13 +109,9 @@ a.service-pill:hover{background:var(--primary);color:var(--dark);transform:trans
 .accounts-grid{display:grid;gap:18px;margin-top:28px}
 .account-card{display:grid;grid-template-columns:minmax(0,1fr);border:1px solid rgba(245,242,238,.14);background:#181c1a;overflow:hidden;transition:border-color .3s}
 .account-card:hover{border-color:var(--primary)}
-.account-media{width:100%;aspect-ratio:9/14;max-height:360px;overflow:hidden;background:#000}
-.account-media picture{display:block;width:100%;height:100%}
-.account-media img{width:100%;height:100%;object-fit:cover;display:block}
-@media(max-width:760px){
-  .account-media{aspect-ratio:auto;max-height:none;height:auto}
-  .account-media img{height:auto;object-fit:contain}
-}
+.account-media{width:100%;aspect-ratio:auto;max-height:none;overflow:hidden;background:#000}
+.account-media picture{display:block;width:100%;height:auto}
+.account-media img{width:100%;height:auto;object-fit:contain;display:block}
 .account-body{padding:22px;min-width:0}
 .account-top{min-width:0;text-align:left}
 .account-top h3,.account-role{overflow-wrap:break-word}
@@ -133,7 +129,7 @@ a.service-pill:hover{background:var(--primary);color:var(--dark);transform:trans
 .account-tasks li::before{content:"✓";position:absolute;left:0;top:0;color:var(--primary);font-weight:800}
 @media(min-width:761px){
   .account-card{grid-template-columns:230px minmax(0,1fr);align-items:start}
-  .account-media{aspect-ratio:9/14;max-height:none;height:auto;min-width:0}
+  .account-media{min-width:0}
   .account-body{padding:26px 30px}
 }
 
