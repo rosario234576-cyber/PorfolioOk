@@ -28,7 +28,7 @@
 
     nodes.forEach((node) => {
       const fragment = document.createDocumentFragment();
-      node.nodeValue.split(/(\\s+)/).forEach((part) => {
+      node.nodeValue.split(/(\s+)/).forEach((part) => {
         if (!part.trim()) {
           fragment.appendChild(document.createTextNode(part));
           return;

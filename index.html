@@ -23,12 +23,14 @@
       <img class="brand-cat" src="assets/gato.png" alt="">
       <img class="brand-word" src="assets/LogoBlanco.png" alt="Inkkstudios">
     </a>
-    <button class="menu-toggle" type="button" aria-controls="site-menu" aria-expanded="false"><span></span><span></span><b>MENÚ</b></button>
+    <button class="menu-toggle" type="button" aria-controls="site-menu" aria-expanded="false" aria-label="Menú"><span></span><span></span><span></span></button>
     <nav class="site-nav" id="site-menu" aria-label="Navegación principal">
-      <a href="#inicio">Inicio</a>
-      <a href="#servicios">Servicios</a>
-      <a href="#proyectos">Portfolio</a>
-      <a href="#sobre-mi">Sobre mí</a>
+      <div class="nav-links">
+        <a href="#inicio">Inicio</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#proyectos">Portfolio</a>
+        <a href="#sobre-mi">Sobre mí</a>
+      </div>
       <a class="nav-contact" href="#contacto">Contacto <span>↗</span></a>
     </nav>
   </header>
@@ -36,10 +38,6 @@
   <main>
     <section class="hero" id="inicio" data-theme="dark">
       <div class="hero-noise" aria-hidden="true"></div>
-      <div class="hero-meta" data-reveal="fade">
-        <div class="mini-faces" aria-hidden="true"><img src="assets/gato.png" alt=""><img src="assets/gato.png" alt=""><img src="assets/gato.png" alt=""></div>
-        <p>Diseño con identidad<br><strong>desde Buenos Aires.</strong></p>
-      </div>
       <div class="hero-kicker" data-reveal="fade">
         <span class="hero-kicker-tag">2026</span>
         <span>Diseño gráfico · dirección de arte · contenido digital</span>
@@ -48,15 +46,14 @@
         <span class="title-row" data-title-row><b>PORTFOLIO</b></span>
         <span class="title-row title-row-accent" data-title-row><b>CREATIVO</b></span>
       </h1>
-      <div class="hero-side" data-reveal="right">
+      <div class="hero-info" data-reveal="up">
         <p>Ideas claras, piezas con carácter y sistemas visuales listos para vivir en cualquier formato.</p>
+        <div class="hero-stats">
+          <div><strong data-count="125">0</strong><span>piezas diseñadas</span></div>
+          <div><strong data-count="450">0</strong><span>formatos entregados</span></div>
+          <div><strong data-count="7">0</strong><span>marcas regionales</span></div>
+        </div>
         <a class="text-link" href="#proyectos">Ver proyectos <span>↗</span></a>
-      </div>
-
-      <div class="hero-stats" data-reveal="up">
-        <div><strong data-count="125">0</strong><span>piezas diseñadas</span></div>
-        <div><strong data-count="450">0</strong><span>formatos entregados</span></div>
-        <div><strong data-count="7">0</strong><span>marcas regionales</span></div>
       </div>
       <a class="hero-scroll" href="#servicios"><span>Scroll</span><i>↓</i></a>
     </section>
@@ -138,26 +135,153 @@
           <div><div class="eyebrow"><i>✦</i> Trabajo seleccionado</div><h2 data-split>IDEAS QUE SE VUELVEN MARCAS MEMORABLES.</h2></div>
           <div><p>Una selección de diseño, campañas, fotografía y contenido creados para marcas reales.</p><a class="outline-button outline-dark" href="servicios/diseno-de-piezas.html">Portfolio completo <span>↗</span></a></div>
         </div>
-        <div class="work-grid">
-          <a class="work-card work-wide" href="servicios/fotografia.html" data-reveal="clip"><img src="assets/proyectos/Maximus gaming (Argentina)/fotos/1.jpg" alt="Fotografía de producto para Maximus Gaming"><span>01 / FOTOGRAFÍA</span><h3>MAXIMUS GAMING</h3></a>
-          <a class="work-card" href="servicios/campanas-ads.html" data-reveal="clip"><img src="assets/proyectos/CampanasAds/CampañaPuertoMontt/Post/101.jpg" alt="Campaña Puerto Montt"><span>02 / CAMPAÑA</span><h3>PUERTO MONTT</h3></a>
-          <a class="work-card" href="servicios/diseno-de-piezas.html" data-reveal="clip"><img src="assets/proyectos/Gastronomia ( Ecuador)/1.jpg" alt="Diseño gastronómico Ecuador"><span>03 / DISEÑO</span><h3>GASTRONOMÍA ECUADOR</h3></a>
-          <a class="work-card work-wide" href="servicios/gigantografia-brandeo.html" data-reveal="clip"><img src="assets/proyectos/Tienda Cosmética ( Argentina )/Banner web/6.jpg" alt="Diseño para tienda de cosmética"><span>04 / BRANDING</span><h3>COSMÉTICA DIGITAL</h3></a>
-          <div class="work-cta"><h3>EL TRABAJO<br>HABLA SOLO.</h3><p>De una publicación a un sistema visual completo.</p><a href="#contacto">Crear algo juntos <span>↗</span></a></div>
-          <a class="work-card" href="servicios/papeleria.html" data-reveal="clip"><img src="assets/editorial-urbano/editorial-06.jpg" alt="Diseño editorial urbano"><span>05 / EDITORIAL</span><h3>EDITORIAL URBANO</h3></a>
+        <div class="work-categories">
+          <details class="wc-item" open>
+            <summary><span class="wc-num">01</span><h3>DISEÑO</h3><i class="wc-chevron">⌄</i></summary>
+            <div class="wc-body">
+              <p class="wc-intro">Diseño de piezas gráficas, identidad y contenido visual para marcas: redes, web, cartelería, packaging y campañas.</p>
+              <div class="wc-sublist">
+                <details class="wc-sub">
+                  <summary><span>Gráficas de redes</span><i>⌄</i></summary>
+                  <div class="wc-sub-body">
+                    <p>Piezas gráficas para publicaciones de redes: posts, carruseles y contenido visual de marca.</p>
+                    <div class="wc-img-grid">
+                      <img src="assets/proyectos/Distribuidora ( Ecuador )/Post/1.jpg" alt="Gráfica de redes Distribuidora Ecuador">
+                      <img src="assets/proyectos/Distribuidora ( Ecuador )/Post/2.jpg" alt="Gráfica de redes Distribuidora Ecuador">
+                    </div>
+                    <a class="wc-more" href="servicios/diseno-de-piezas.html">Ver más <span>↗</span></a>
+                  </div>
+                </details>
+                <details class="wc-sub">
+                  <summary><span>Community manager</span><i>⌄</i></summary>
+                  <div class="wc-sub-body">
+                    <p>Gestión y creación de contenido para cuentas de redes sociales, de la estrategia a la publicación.</p>
+                    <div class="wc-img-grid">
+                      <img src="assets/proyectos/Asesoras Inmobiliaria ( Chile)/Contenido de redes/Tu plan futuro/Post - Tu plan futuro.jpg" alt="Cuenta Tu Plan Futuro">
+                      <img src="assets/proyectos/Asesoras Inmobiliaria ( Chile)/Contenido de redes/Karla. ferval/Post/198.jpg" alt="Cuenta Karla Ferval">
+                    </div>
+                    <a class="wc-more" href="servicios/gestion-de-redes.html">Ver más <span>↗</span></a>
+                  </div>
+                </details>
+                <details class="wc-sub">
+                  <summary><span>Diseño web</span><i>⌄</i></summary>
+                  <div class="wc-sub-body">
+                    <p>Ver el detalle completo, con las webs reales, en la categoría "Diseño web" de esta misma lista.</p>
+                    <a class="wc-more" href="servicios/diseno-web.html">Ver más <span>↗</span></a>
+                  </div>
+                </details>
+                <details class="wc-sub">
+                  <summary><span>Cartelería</span><i>⌄</i></summary>
+                  <div class="wc-sub-body">
+                    <p>Diseño de carteles y gigantografías para puntos de venta y espacios físicos.</p>
+                    <div class="wc-img-grid">
+                      <img src="assets/proyectos/Videojuegos (Ecuador)/Carteles ( Gigantografía)/1.jpg" alt="Cartel gigantografía videojuegos Ecuador">
+                      <img src="assets/proyectos/Videojuegos (Ecuador)/Carteles ( Gigantografía)/2.jpg" alt="Cartel gigantografía videojuegos Ecuador">
+                    </div>
+                    <a class="wc-more" href="servicios/gigantografia-brandeo.html">Ver más <span>↗</span></a>
+                  </div>
+                </details>
+                <details class="wc-sub">
+                  <summary><span>Packaging</span><i>⌄</i></summary>
+                  <div class="wc-sub-body">
+                    <p>Diseño de etiquetas y packaging para productos físicos.</p>
+                    <div class="wc-img-grid">
+                      <img src="assets/proyectos/Tienda Cosmética ( Argentina )/Etiquetas/Etiquetas nuevas_Blush .jpg" alt="Etiqueta packaging cosmética">
+                      <img src="assets/proyectos/Tienda Cosmética ( Argentina )/Etiquetas/Etiquetas nuevas_Contour.jpg" alt="Etiqueta packaging cosmética">
+                    </div>
+                    <a class="wc-more" href="servicios/papeleria.html">Ver más <span>↗</span></a>
+                  </div>
+                </details>
+                <details class="wc-sub">
+                  <summary><span>Campañas publicitarias</span><i>⌄</i></summary>
+                  <div class="wc-sub-body">
+                    <p>Ver el detalle completo, con posts y resultados reales, en la categoría "Campañas publicitarias" de esta misma lista.</p>
+                    <a class="wc-more" href="servicios/campanas-ads.html">Ver más <span>↗</span></a>
+                  </div>
+                </details>
+              </div>
+            </div>
+          </details>
+          <details class="wc-item">
+            <summary><span class="wc-num">02</span><h3>VIDEOS</h3><i class="wc-chevron">⌄</i></summary>
+            <div class="wc-body">
+              <p class="wc-intro">Edición y producción de video para redes y campañas: contenido corto, testimonios y piezas de marca en movimiento.</p>
+              <div class="wc-video-grid">
+                <div class="wc-video"><video src="assets/proyectos/Armado de pc (Arg)/Video/1080x1920.mp4" muted loop playsinline controls preload="metadata"></video><span>Gaming · Armado de PC</span></div>
+                <div class="wc-video"><video src="assets/proyectos/Asesoras Inmobiliaria ( Chile)/Contenido de redes/Tu plan futuro/Videos/Tuplanfuturo-Video1.mp4" muted loop playsinline controls preload="metadata"></video><span>Inmobiliaria · Tu Plan Futuro</span></div>
+                <div class="wc-video"><video src="assets/proyectos/Distribuidora ( Ecuador )/Video/08bc8b58-af64-49f3-afca-33a96a949324.mp4" muted loop playsinline controls preload="metadata"></video><span>Distribución · Ecuador</span></div>
+              </div>
+            </div>
+          </details>
+          <details class="wc-item">
+            <summary><span class="wc-num">03</span><h3>DISEÑO WEB</h3><i class="wc-chevron">⌄</i></summary>
+            <div class="wc-body">
+              <p class="wc-intro">Sitios web diseñados y desarrollados a medida, con asistencia de IA para acelerar el armado y el mantenimiento.</p>
+              <div class="wc-web-group">
+                <h4>Web Shopify</h4>
+                <a class="wc-link" href="https://nutritionglobal.online" target="_blank" rel="noopener">
+                  <span class="wc-link-title">nutritionglobal.online <i>↗</i></span>
+                  <span class="wc-link-desc">Tienda de suplementos deportivos: proteínas, creatina, vitaminas y accesorios de fitness.</span>
+                  <small>Con asistencia de Claude Code y ChatGPT</small>
+                </a>
+                <a class="wc-link" href="https://tuplanfuturo.cl" target="_blank" rel="noopener">
+                  <span class="wc-link-title">tuplanfuturo.cl <i>↗</i></span>
+                  <span class="wc-link-desc">Asesoría en inversión inmobiliaria: propiedades donde el arriendo paga el crédito hipotecario.</span>
+                  <small>Con asistencia de Claude Code y ChatGPT</small>
+                </a>
+              </div>
+              <div class="wc-web-group">
+                <h4>Web / Visual Studio Code</h4>
+                <a class="wc-link" href="https://www.inkkstudio.art" target="_blank" rel="noopener">
+                  <span class="wc-link-title">inkkstudio.art — este portfolio <i>↗</i></span>
+                  <span class="wc-link-desc">El sitio de Inkkstudios que estás viendo ahora mismo.</span>
+                  <small>Con asistencia de Claude Code</small>
+                </a>
+                <a class="wc-link wc-link-soon" href="https://www.irazztech.com" target="_blank" rel="noopener">
+                  <span class="wc-link-title">irazztech.com <i>↗</i> <b class="wc-badge">Próximamente</b></span>
+                  <span class="wc-link-desc">Servicios de armado, mantenimiento y diagnóstico de PC. Todavía no publicada.</span>
+                  <small>Con asistencia de Claude Code</small>
+                </a>
+              </div>
+            </div>
+          </details>
+          <details class="wc-item">
+            <summary><span class="wc-num">04</span><h3>CAMPAÑAS PUBLICITARIAS</h3><i class="wc-chevron">⌄</i></summary>
+            <div class="wc-body">
+              <p class="wc-intro">Campañas de pauta digital en Meta Ads: creatividades, segmentación y resultados medibles.</p>
+              <p class="wc-sub-label">Meta Ads · Puerto Montt</p>
+              <div class="wc-img-grid">
+                <img src="assets/proyectos/CampanasAds/CampañaPuertoMontt/Post/101.jpg" alt="Post campaña Puerto Montt">
+                <img src="assets/proyectos/CampanasAds/CampañaPuertoMontt/Carrusel/108.jpg" alt="Carrusel campaña Puerto Montt">
+                <img src="assets/proyectos/CampanasAds/CampañaPuertoMontt/Post/Advert1.jpg" alt="Anuncio campaña Puerto Montt">
+                <img src="assets/proyectos/CampanasAds/Resultados/resultados-puerto-montt.png" alt="Resultados campaña Puerto Montt">
+              </div>
+            </div>
+          </details>
+          <details class="wc-item">
+            <summary><span class="wc-num">05</span><h3>COMMUNITY MANAGER</h3><i class="wc-chevron">⌄</i></summary>
+            <div class="wc-body">
+              <p class="wc-intro">Gestión integral de cuentas de redes sociales: calendario de contenido, publicación y crecimiento de comunidad.</p>
+              <a class="wc-more" href="servicios/gestion-de-redes.html">Ver cuentas gestionadas <span>↗</span></a>
+            </div>
+          </details>
         </div>
+        <div class="work-cta wc-cta"><h3>EL TRABAJO<br>HABLA SOLO.</h3><p>De una publicación a un sistema visual completo.</p><a href="#contacto">Crear algo juntos <span>↗</span></a></div>
       </div>
     </section>
 
     <section class="experience section-dark" data-theme="dark">
       <div class="section-shell experience-grid">
-        <div class="eyebrow"><i>✦</i> Experiencia</div>
-        <div class="experience-main"><h2 data-split>CRITERIO VISUAL EN CADA FORMATO.</h2><p>Proyectos remotos para equipos de Argentina, Chile, México y Ecuador.</p>
+        <div class="eyebrow"><i>✦</i> Redes</div>
+        <div class="experience-main"><h2 data-split>SEGUINOS Y CONECTEMOS.</h2><p>Contenido en movimiento y contacto directo, todo a un toque de distancia.</p>
           <div class="experience-list">
-            <div data-reveal="up"><span>01</span><h3>MAXIMUS GAMING</h3><small>Contenido · foto · video</small><b>ARG</b></div>
-            <div data-reveal="up"><span>02</span><h3>REAL GROUP / TPF</h3><small>Redes · branding · campañas</small><b>CHL</b></div>
-            <div data-reveal="up"><span>03</span><h3>NEWSLINE REPORT</h3><small>Editorial · digital · firmas</small><b>MEX</b></div>
-            <div data-reveal="up"><span>04</span><h3>ELECTRONIC GAMES</h3><small>Catálogos · flyers · video</small><b>ECU</b></div>
+            <a href="https://www.instagram.com/inkkstudios_/" target="_blank" rel="noopener" data-reveal="up"><span>01</span><h3>INSTAGRAM</h3><small>Inkkstudios · agencia</small><b>Ir ↗</b></a>
+            <a href="https://www.linkedin.com/in/rosariofernandezarg/" target="_blank" rel="noopener" data-reveal="up"><span>02</span><h3>LINKEDIN</h3><small>Rosario Fernández · personal</small><b>Ir ↗</b></a>
+          </div>
+        </div>
+        <div class="experience-phone" data-reveal="right">
+          <div class="experience-phone-frame">
+            <img src="assets/proyectos/Tienda Cosmética ( Argentina )/Historias/01.jpg" alt="Mockup de contenido para Instagram">
           </div>
         </div>
       </div>
@@ -165,8 +289,8 @@
 
     <section class="expert section-light" data-theme="light">
       <div class="section-shell expert-grid">
-        <div class="expert-copy" data-reveal="left"><div class="eyebrow"><i>✦</i> Perfil creativo</div><h2>UNA MIRADA.<br>MUCHOS LENGUAJES.</h2><p>Trabajo entre concepto y ejecución: pienso el sistema, diseño la pieza y adapto cada entrega sin perder identidad.</p><div class="expert-numbers"><div><strong>7+</strong><span>marcas</span></div><div><strong>4</strong><span>países</span></div></div></div>
-        <div class="expert-gallery" data-reveal="right"><figure><img src="assets/Gatoposando1.png" alt="Mascota Inkkstudios"><figcaption>Dirección visual</figcaption></figure><figure><img src="assets/GatoFachero-transparente.png" alt="Mascota creativa Inkkstudios"><figcaption>Diseño</figcaption></figure><figure><img src="assets/Gatoposando3.png" alt="Mascota Inkkstudios"><figcaption>Movimiento</figcaption></figure></div>
+        <div class="expert-copy" data-reveal="left"><div class="eyebrow"><i>✦</i> Perfil creativo</div><h2>UNA MIRADA.<br>MUCHOS LENGUAJES.</h2><p>Trabajo entre concepto y ejecución: pienso el sistema, diseño la pieza y adapto cada entrega sin perder identidad.</p></div>
+        <div class="expert-gallery expert-gallery-single" data-reveal="right"><figure><img class="expert-cat-idle" src="assets/Gatoposando3.png" alt="Mascota Inkkstudios trabajando"><span class="expert-wait-dots"><i></i><i></i><i></i></span><figcaption>Movimiento</figcaption></figure></div>
       </div>
     </section>
 
@@ -177,7 +301,14 @@
 
     <section class="process section-light" data-theme="light">
       <div class="section-shell"><div class="process-head"><div><div class="eyebrow"><i>✦</i> Proceso</div><h2 data-split>DE LA IDEA A LA ENTREGA.</h2></div><p>Un flujo simple para que cada proyecto avance con claridad, criterio y buen ritmo.</p></div>
-        <div class="process-grid"><article data-reveal="up"><span>01</span><h3>DESCUBRIR</h3><p>Objetivos, audiencia, referencias y necesidades.</p></article><article data-reveal="up"><span>02</span><h3>DISEÑAR</h3><p>Concepto, dirección visual y primeras decisiones.</p></article><article data-reveal="up"><span>03</span><h3>DESARROLLAR</h3><p>Sistema, piezas, variantes y adaptaciones.</p></article><article data-reveal="up"><span>04</span><h3>ENTREGAR</h3><p>Archivos organizados y listos para usar.</p></article></div>
+        <div class="process-timeline">
+          <div class="process-timeline-track">
+            <div class="pt-step"><span class="pt-dot"></span><b>01</b><h3>DESCUBRIR</h3><p>Objetivos, audiencia, referencias y necesidades.</p></div>
+            <div class="pt-step"><span class="pt-dot"></span><b>02</b><h3>DISEÑAR</h3><p>Concepto, dirección visual y primeras decisiones.</p></div>
+            <div class="pt-step"><span class="pt-dot"></span><b>03</b><h3>DESARROLLAR</h3><p>Sistema, piezas, variantes y adaptaciones.</p></div>
+            <div class="pt-step"><span class="pt-dot"></span><b>04</b><h3>ENTREGAR</h3><p>Archivos organizados y listos para usar.</p></div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -191,12 +322,6 @@
       </div>
     </section>
 
-    <section class="insights section-light" data-theme="light">
-      <div class="section-shell"><div class="insights-head"><div><div class="eyebrow"><i>✦</i> Áreas destacadas</div><h2 data-split>TODO LO QUE UNA MARCA NECESITA VER.</h2></div><p>Diseño que se adapta sin perder el concepto.</p></div>
-        <div class="insight-grid"><a href="servicios/diseno-de-piezas.html" data-reveal="up"><img src="assets/editorial-urbano/editorial-01.jpg" alt="Diseño editorial"><small>DISEÑO</small><h3>IDENTIDAD Y PIEZAS QUE HABLAN EL MISMO IDIOMA.</h3></a><a href="servicios/fotografia.html" data-reveal="up"><img src="assets/proyectos/Indumentaria (arg)/Fotos/Web/JOY_20250731_171527_209_photo.jpg" alt="Fotografía de producto"><small>FOTOGRAFÍA</small><h3>IMÁGENES PENSADAS PARA VENDER Y CONECTAR.</h3></a><a href="servicios/edicion-de-video.html" data-reveal="up"><img src="assets/proyectos/Noticias (Méx y Arg)/Post/Web.jpg" alt="Contenido digital"><small>CONTENIDO</small><h3>FORMATOS ÁGILES PARA MARCAS EN MOVIMIENTO.</h3></a></div>
-      </div>
-    </section>
-
     <section class="contact section-light" id="contacto" data-theme="light">
       <div class="section-shell contact-panel" data-reveal="up"><img class="contact-cat" src="assets/Gatoastro.png" alt=""><div><div class="eyebrow"><i>✦</i> Contacto</div><h2>IDEAS, PROYECTOS<br>Y NUEVAS HISTORIAS.</h2><p>Contame qué necesitás y armamos una propuesta.</p></div><div class="contact-links"><a href="mailto:rosario234576@gmail.com">rosario234576@gmail.com <span>↗</span></a><a href="https://wa.me/5491132598397" target="_blank" rel="noopener">WhatsApp <span>↗</span></a><a href="https://www.instagram.com/inkkstudios_/" target="_blank" rel="noopener">Instagram <span>↗</span></a></div></div>
     </section>
@@ -204,7 +329,7 @@
 
   <footer class="footer section-dark">
     <div class="section-shell footer-grid"><div class="footer-brand"><img src="assets/gato.png" alt=""><img src="assets/LogoBlanco.png" alt="Inkkstudios"></div><div><h3>PÁGINAS</h3><a href="#inicio">Inicio</a><a href="#servicios">Servicios</a><a href="#proyectos">Portfolio</a><a href="#sobre-mi">Sobre mí</a></div><div><h3>CONECTEMOS</h3><a href="https://www.instagram.com/inkkstudios_/" target="_blank" rel="noopener">Instagram</a><a href="https://www.linkedin.com/in/rosariofernandezarg/" target="_blank" rel="noopener">LinkedIn</a><a href="mailto:rosario234576@gmail.com">Email</a></div><div class="footer-contact"><strong>+54 9 11 3259 8397</strong><strong>rosario234576@gmail.com</strong><p>Buenos Aires, Argentina<br>Diseño para Latinoamérica.</p></div></div>
-    <div class="footer-word" aria-hidden="true">INKKSTUDIOS</div>
+    <div class="footer-word" aria-hidden="true"><div class="footer-word-track"><span>INKKSTUDIOS</span><span>INKKSTUDIOS</span></div></div>
     <div class="footer-bottom"><span>© 2026 INKKSTUDIOS</span><a href="#inicio">VOLVER ARRIBA ↑</a></div>
   </footer>
 
