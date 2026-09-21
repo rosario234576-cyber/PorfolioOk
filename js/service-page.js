@@ -109,16 +109,75 @@ const lazyLoadVideos = () => {
   videos.forEach((video) => observer.observe(video));
 };
 
+const videoCatalog = [
+  ["../assets/Video.mp4", "showreel"],
+  ["../assets/proyectos/Distribuidora ( Ecuador )/Video/8620a042-ee78-423b-a843-beeae3a2118f.mp4", "distribuidora"],
+  ["../assets/proyectos/Distribuidora ( Ecuador )/Video/08bc8b58-af64-49f3-afca-33a96a949324.mp4", "distribuidora"],
+  ["../assets/proyectos/Armado de pc (Arg)/Video/1080x1920.mp4", "armado de pc"],
+  ["../assets/proyectos/CampanasAds/Resultados/2026-07-2119-39-56.mp4", "campanas ads"],
+  ["../assets/proyectos/Invesmar- (Chile)/Videos/8.mp4", "invesmar"],
+  ["../assets/proyectos/Invesmar- (Chile)/Videos/7.mp4", "invesmar"],
+  ["../assets/proyectos/Invesmar- (Chile)/Videos/5.mp4", "invesmar"],
+  ["../assets/proyectos/Invesmar- (Chile)/Videos/4.mp4", "invesmar"],
+  ["../assets/proyectos/Invesmar- (Chile)/Videos/3.mp4", "invesmar"],
+  ["../assets/proyectos/Invesmar- (Chile)/Videos/2.mp4", "invesmar"],
+  ["../assets/proyectos/Invesmar- (Chile)/Videos/1.mp4", "invesmar"],
+  ["../assets/proyectos/Tienda Cosmética ( Argentina )/Historias/Cierre vitae (3).mp4", "tienda cosmetica"],
+  ["../assets/proyectos/Invesmar- (Chile)/Historias/4.mp4", "invesmar historias"],
+  ["../assets/proyectos/Invesmar- (Chile)/Historias/3.mp4", "invesmar historias"],
+  ["../assets/proyectos/CampanasAds/CampañaPuertoMontt/Video/Videopuertomontt.mp4", "campana puerto montt"],
+  ["../assets/proyectos/Noticias (Méx y Arg)/Video/Newsline report 2.mp4", "newsline report"],
+  ["../assets/proyectos/Asesoras Inmobiliaria ( Chile)/04 - Video Julio/Video julio.mp4", "asesoras inmobiliaria"],
+  ["../assets/proyectos/Asesoras Inmobiliaria ( Chile)/Contenido de redes/Tu plan futuro/Videos/Video1-OCTUBRE.mp4", "tu plan futuro"],
+  ["../assets/proyectos/Asesoras Inmobiliaria ( Chile)/Contenido de redes/Tu plan futuro/Videos/Tuplanfuturo-Video1.mp4", "tu plan futuro"],
+  ["../assets/proyectos/Indumentaria (arg)/Historias/c (1).mp4", "indumentaria"],
+  ["../assets/proyectos/Indumentaria (arg)/Historias/2.mp4", "indumentaria"],
+  ["../assets/proyectos/Asesoras Inmobiliaria ( Chile)/Contenido de redes/Karla. ferval/Video/Parquequinta.mp4", "parquequinta"],
+  ["../assets/proyectos/Asesoras Inmobiliaria ( Chile)/Contenido de redes/Karla. ferval/Post/Atelier Prat(1).mp4", "atelier prat"],
+  ["../assets/proyectos/Videojuegos (Ecuador)/Videos/2.mp4", "hardcore gaming"],
+  ["../assets/proyectos/Videojuegos (Ecuador)/Videos/1.mp4", "gaming"],
+  ["../assets/proyectos/Videojuegos (Ecuador)/Videos/3.mp4", "reels promocionales"],
+  ["../assets/proyectos/Maximus gaming (Argentina)/Videos/ddc00307-f1ed-4d4d-93fa-5367d3b4a0ee.mp4", "esports"],
+  ["../assets/proyectos/Maximus gaming (Argentina)/Videos/505a44c8-109b-477a-810c-bd90c9a0b3ab.mp4", "maximus gaming"],
+  ["../assets/proyectos/Maximus gaming (Argentina)/Videos/4a93e1d7-e318-4be5-b207-7b308ef87ed4.mp4", "maximus gaming"],
+  ["../assets/proyectos/Maximus gaming (Argentina)/Videos/46655fc4-857f-402a-99e1-6c0dd319a0ad.mp4", "tournament"],
+  ["../assets/proyectos/Maximus gaming (Argentina)/Videos/35093dec-b60d-4371-b8dd-e84911aa3f82.mp4", "maximus gaming"]
+];
+
+const buildVideoGallery = () => {
+  const gallery = document.querySelector(".video-gallery-grid");
+  if (!gallery) return;
+
+  gallery.replaceChildren(...videoCatalog.map(([source, label], index) => {
+    const card = document.createElement("figure");
+    card.className = "video-gallery-card reveal visible";
+    card.innerHTML = `
+      <video muted loop playsinline autoplay preload="metadata">
+        <source src="${source}" type="video/mp4">
+      </video>
+      <button class="video-card-overlay" type="button" aria-label="Ver video completo">
+        <span class="video-card-play" aria-hidden="true"></span>
+        <span class="video-card-text">ver video</span>
+      </button>
+      <figcaption><b>${String(index + 1).padStart(2, "0")}</b><span>${label}</span></figcaption>
+    `;
+    return card;
+  }));
+};
+
 const setupVideoPreviewCards = () => {
   document.querySelectorAll(".video-gallery-card, .video-intro-card").forEach((card) => {
     const video = card.querySelector("video");
     if (!video) return;
 
-    const overlay = document.createElement("button");
-    overlay.type = "button";
-    overlay.className = "video-card-overlay";
-    overlay.setAttribute("aria-label", "Ver video completo");
-    overlay.innerHTML = '<span class="video-card-play" aria-hidden="true"></span><span class="video-card-text">ver video</span>';
+    const overlay = card.querySelector(".video-card-overlay") || document.createElement("button");
+    if (!overlay.parentElement) {
+      overlay.type = "button";
+      overlay.className = "video-card-overlay";
+      overlay.setAttribute("aria-label", "Ver video completo");
+      overlay.innerHTML = '<span class="video-card-play" aria-hidden="true"></span><span class="video-card-text">ver video</span>';
+      card.appendChild(overlay);
+    }
 
     overlay.addEventListener("click", (event) => {
       event.preventDefault();
@@ -137,8 +196,6 @@ const setupVideoPreviewCards = () => {
       openLightbox(clonedVideo);
     });
 
-    card.appendChild(overlay);
-
     video.muted = true;
     video.defaultMuted = true;
     video.playsInline = true;
@@ -147,6 +204,10 @@ const setupVideoPreviewCards = () => {
     video.setAttribute("muted", "");
     video.setAttribute("playsinline", "");
     video.load();
+    const playPromise = video.play();
+    if (playPromise && typeof playPromise.catch === "function") {
+      playPromise.catch(() => {});
+    }
 
     card.addEventListener("click", () => {
       const clonedVideo = video.cloneNode(true);
@@ -218,6 +279,7 @@ galleryVideos.forEach((video) => {
   video.load();
 });
 
+buildVideoGallery();
 setupVideoPreviewCards();
 lazyLoadVideos();
 
@@ -274,12 +336,16 @@ const openLightbox = (source) => {
   lightboxText.textContent = buildDescription(source);
 
   if (tagName === "video") {
-    const shouldPlayWithAudio = true;
     media.controls = true;
     media.muted = false;
+    media.defaultMuted = false;
     media.loop = false;
+    media.autoplay = true;
+    media.preload = "auto";
     media.volume = 1;
     media.currentTime = 0;
+    media.removeAttribute("muted");
+    media.setAttribute("controls", "controls");
     const playPromise = media.play();
     if (playPromise && typeof playPromise.catch === "function") {
       playPromise.catch(() => {});
