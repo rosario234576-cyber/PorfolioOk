@@ -1,3 +1,5 @@
+.logo-rail{width:fit-content;max-width:calc(100% - 32px);margin:75px auto 90px;padding:30px clamp(24px,4vw,50px);overflow:hidden;border-radius:20px;background:var(--dark);box-shadow:0 30px 60px -20px rgba(0,0,0,.4)}.logo-rail-track{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:clamp(24px,4vw,54px);width:auto}.logo-rail-track img{flex:0 0 auto;width:clamp(46px,4.6vw,68px);height:clamp(46px,4.6vw,68px);object-fit:contain;border-radius:16px}
+.logo-rail{width:fit-content;max-width:calc(100% - 32px);margin:75px auto 90px;padding:30px clamp(24px,4vw,50px);overflow:hidden;border-radius:20px;background:var(--dark);box-shadow:0 30px 60px -20px rgba(0,0,0,.4)}.logo-rail-track{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:clamp(24px,4vw,54px);width:auto}.logo-rail-track img{flex:0 0 auto;width:clamp(46px,4.6vw,68px);height:clamp(46px,4.6vw,68px);object-fit:contain;border-radius:16px}
 @font-face{font-family:Roc;src:url('../Fuente/RocGroteskCondensedExtraBold.woff2') format('woff2');font-weight:800;font-display:swap}
 @font-face{font-family:Roc;src:url('../Fuente/RocGroteskCondensedMedium.woff2') format('woff2');font-weight:600;font-display:swap}
 @font-face{font-family:Roc;src:url('../Fuente/RocGroteskCondensedLight.woff2') format('woff2');font-weight:300;font-display:swap}
@@ -194,6 +196,9 @@ button{font:inherit}
 @media(max-width:430px){.hero-title{font-size:17vw}.hero-stats{gap:12px}.process-timeline-track{grid-template-columns:1fr;row-gap:34px}.process-timeline-track::before,.process-timeline-track::after{display:none}.testimonial-track article{flex-basis:94%;padding:27px}.footer-grid{grid-template-columns:1fr}.footer-grid>div:not(.footer-brand):not(.footer-contact){display:none}}
 .nav-links>a.is-active::after{transform:scaleX(1)!important;transform-origin:left!important}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}[data-reveal]{opacity:1;transform:none;clip-path:none}.split-word>span{transform:none}}
+
+.logo-rail{width:fit-content;max-width:calc(100% - 32px);padding-inline:clamp(24px,4vw,50px)}
+.logo-rail-track{display:flex;justify-content:center;flex-wrap:wrap;width:auto;gap:clamp(24px,4vw,54px);padding:0;animation:none}
 
 /* --- Menu mobile: mas dinamismo, sin que la linea tape el texto --------- */
 @media(max-width:760px){
