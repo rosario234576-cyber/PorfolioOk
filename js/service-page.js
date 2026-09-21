@@ -63,8 +63,9 @@ document.querySelectorAll(".client-work").forEach((client, index) => {
 
 const lazyLoadVideos = () => {
   const videos = document.querySelectorAll("video[data-lazy='true']");
+  if (!videos.length) return;
 
-  if (!videos.length || !("IntersectionObserver" in window)) {
+  if (!("IntersectionObserver" in window)) {
     videos.forEach((video) => {
       if (video.dataset.src) {
         const source = video.querySelector("source[data-src]");
@@ -106,6 +107,61 @@ const lazyLoadVideos = () => {
   );
 
   videos.forEach((video) => observer.observe(video));
+};
+
+const setupVideoPreviewCards = () => {
+  document.querySelectorAll(".video-gallery-card, .video-intro-card").forEach((card) => {
+    const video = card.querySelector("video");
+    if (!video) return;
+
+    const overlay = document.createElement("button");
+    overlay.type = "button";
+    overlay.className = "video-card-overlay";
+    overlay.setAttribute("aria-label", "Ver video completo");
+    overlay.innerHTML = '<span class="video-card-play" aria-hidden="true"></span><span class="video-card-text">ver video</span>';
+
+    overlay.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      const clonedVideo = video.cloneNode(true);
+      clonedVideo.muted = false;
+      clonedVideo.defaultMuted = false;
+      clonedVideo.controls = true;
+      clonedVideo.loop = false;
+      clonedVideo.autoplay = true;
+      clonedVideo.volume = 1;
+      clonedVideo.currentTime = 0;
+      clonedVideo.removeAttribute("muted");
+      clonedVideo.setAttribute("controls", "controls");
+      openLightbox(clonedVideo);
+    });
+
+    card.appendChild(overlay);
+
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+    video.loop = true;
+    video.preload = "auto";
+    video.setAttribute("muted", "");
+    video.setAttribute("playsinline", "");
+    video.load();
+
+    card.addEventListener("click", () => {
+      const clonedVideo = video.cloneNode(true);
+      clonedVideo.muted = false;
+      clonedVideo.defaultMuted = false;
+      clonedVideo.controls = true;
+      clonedVideo.loop = false;
+      clonedVideo.autoplay = true;
+      clonedVideo.volume = 1;
+      clonedVideo.currentTime = 0;
+      clonedVideo.removeAttribute("muted");
+      clonedVideo.setAttribute("controls", "controls");
+      openLightbox(clonedVideo);
+    });
+  });
 };
 
 const heroPreviewVideos = document.querySelectorAll(".service-hero-preview video, .ads-loop-video");
@@ -162,6 +218,7 @@ galleryVideos.forEach((video) => {
   video.load();
 });
 
+setupVideoPreviewCards();
 lazyLoadVideos();
 
 const lightbox = document.createElement("div");
@@ -175,6 +232,7 @@ lightbox.innerHTML = `
       <span>proyecto</span>
       <h3></h3>
       <p></p>
+      <button class="service-lightbox-cta" type="button">ver video completo</button>
     </div>
   </div>
 `;
@@ -184,6 +242,7 @@ const lightboxMedia = lightbox.querySelector(".service-lightbox-media");
 const lightboxKicker = lightbox.querySelector(".service-lightbox-copy span");
 const lightboxTitle = lightbox.querySelector(".service-lightbox-copy h3");
 const lightboxText = lightbox.querySelector(".service-lightbox-copy p");
+const lightboxCta = lightbox.querySelector(".service-lightbox-cta");
 const lightboxClose = lightbox.querySelector(".service-lightbox-close");
 
 const getClientName = (element) => {
@@ -215,9 +274,12 @@ const openLightbox = (source) => {
   lightboxText.textContent = buildDescription(source);
 
   if (tagName === "video") {
+    const shouldPlayWithAudio = true;
     media.controls = true;
-    media.muted = true;
-    media.loop = true;
+    media.muted = false;
+    media.loop = false;
+    media.volume = 1;
+    media.currentTime = 0;
     const playPromise = media.play();
     if (playPromise && typeof playPromise.catch === "function") {
       playPromise.catch(() => {});
@@ -238,6 +300,14 @@ const closeLightbox = () => {
 };
 
 lightboxClose.addEventListener("click", closeLightbox);
+lightboxCta.addEventListener("click", () => {
+  const video = lightboxMedia.querySelector("video");
+  if (video) {
+    video.muted = false;
+    video.volume = 1;
+    video.play();
+  }
+});
 lightbox.addEventListener("click", (event) => {
   if (event.target === lightbox) closeLightbox();
 });

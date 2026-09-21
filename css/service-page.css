@@ -86,6 +86,26 @@ body.service-detail{
 .video-intro-card:nth-child(odd):hover,.video-intro-card:nth-child(even):hover{transform:translateY(-4px) scale(1.01)}
 .video-intro-card:hover video{filter:saturate(1.02) brightness(1);transform:scale(1.02)}
 
+.video-card-overlay{
+  position:absolute;
+  inset:0;
+  z-index:3;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+  border:0;
+  background:linear-gradient(180deg,rgba(3,16,16,0.08),rgba(3,16,16,0.5));
+  color:#fff;
+  cursor:pointer;
+  backdrop-filter:blur(1px);
+  transition:background .25s ease;
+}
+.video-card-overlay:hover{background:linear-gradient(180deg,rgba(3,16,16,0.12),rgba(3,16,16,0.6));}
+.video-card-play{display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:rgba(235,91,48,0.88);box-shadow:0 10px 24px rgba(235,91,48,0.25);position:relative;}
+.video-card-play::after{content:"";position:absolute;left:22px;top:17px;border-left:16px solid #fff;border-top:11px solid transparent;border-bottom:11px solid transparent;}
+.video-card-text{font-family:var(--font-subtitle);font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+
 .video-gallery-showcase{padding:0 0 clamp(52px,7vw,90px);background:linear-gradient(180deg,#071817 0%,#091a1a 100%)}
 .video-gallery-head{margin-bottom:24px;display:flex;align-items:end;justify-content:space-between;gap:20px}
 .video-gallery-head span{color:var(--primary);font-family:var(--font-subtitle);font-size:.74rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
@@ -841,6 +861,26 @@ body.service-detail{
   line-height:1.55;
   text-transform:lowercase;
 }
+
+.service-lightbox-cta{
+  margin-top:18px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  min-height:52px;
+  border:1px solid rgba(235,91,48,0.8);
+  background:var(--primary);
+  color:var(--dark);
+  font-family:var(--font-subtitle);
+  font-size:.78rem;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  cursor:pointer;
+  transition:transform .2s ease,filter .2s ease;
+}
+.service-lightbox-cta:hover{transform:translateY(-2px);filter:brightness(1.05)}
 
 .service-lightbox-close{
   position:absolute;
