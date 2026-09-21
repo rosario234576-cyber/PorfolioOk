@@ -61,6 +61,53 @@ document.querySelectorAll(".client-work").forEach((client, index) => {
   }
 });
 
+const lazyLoadVideos = () => {
+  const videos = document.querySelectorAll("video[data-lazy='true']");
+
+  if (!videos.length || !("IntersectionObserver" in window)) {
+    videos.forEach((video) => {
+      if (video.dataset.src) {
+        const source = video.querySelector("source[data-src]");
+        if (source) {
+          source.src = source.dataset.src;
+        } else {
+          video.src = video.dataset.src;
+        }
+        video.load();
+      }
+    });
+    return;
+  }
+
+  const observer = new IntersectionObserver(
+    (entries, currentObserver) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+
+        const video = entry.target;
+        const source = video.querySelector("source[data-src]");
+
+        if (source) {
+          source.src = source.dataset.src;
+        } else if (video.dataset.src) {
+          video.src = video.dataset.src;
+        }
+
+        video.load();
+        const playPromise = video.play();
+        if (playPromise && typeof playPromise.catch === "function") {
+          playPromise.catch(() => {});
+        }
+
+        currentObserver.unobserve(video);
+      });
+    },
+    { rootMargin: "180px 0px" }
+  );
+
+  videos.forEach((video) => observer.observe(video));
+};
+
 const heroPreviewVideos = document.querySelectorAll(".service-hero-preview video, .ads-loop-video");
 const galleryVideos = document.querySelectorAll(".video-grid video");
 
@@ -114,6 +161,8 @@ galleryVideos.forEach((video) => {
   video.setAttribute("preload", "metadata");
   video.load();
 });
+
+lazyLoadVideos();
 
 const lightbox = document.createElement("div");
 lightbox.className = "service-lightbox";
