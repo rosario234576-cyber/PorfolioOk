@@ -114,7 +114,6 @@ const videoCatalog = [
   ["../assets/proyectos/Distribuidora ( Ecuador )/Video/8620a042-ee78-423b-a843-beeae3a2118f.mp4", "distribuidora"],
   ["../assets/proyectos/Distribuidora ( Ecuador )/Video/08bc8b58-af64-49f3-afca-33a96a949324.mp4", "distribuidora"],
   ["../assets/proyectos/Armado de pc (Arg)/Video/1080x1920.mp4", "armado de pc"],
-  ["../assets/proyectos/CampanasAds/Resultados/2026-07-2119-39-56.mp4", "campanas ads"],
   ["../assets/proyectos/Invesmar- (Chile)/Videos/8.mp4", "invesmar"],
   ["../assets/proyectos/Invesmar- (Chile)/Videos/7.mp4", "invesmar"],
   ["../assets/proyectos/Invesmar- (Chile)/Videos/5.mp4", "invesmar"],
@@ -359,6 +358,14 @@ const openLightbox = (source) => {
 };
 
 const closeLightbox = () => {
+  const activeVideo = lightboxMedia.querySelector("video");
+  if (activeVideo) {
+    activeVideo.pause();
+    activeVideo.currentTime = 0;
+    activeVideo.removeAttribute("src");
+    activeVideo.querySelectorAll("source").forEach((source) => source.removeAttribute("src"));
+    activeVideo.load();
+  }
   lightbox.classList.remove("is-open");
   lightbox.setAttribute("aria-hidden", "true");
   document.body.style.overflow = "";
