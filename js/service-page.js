@@ -199,14 +199,10 @@ const setupVideoPreviewCards = () => {
     video.defaultMuted = true;
     video.playsInline = true;
     video.loop = true;
-    video.preload = "auto";
+    video.preload = "metadata";
     video.setAttribute("muted", "");
     video.setAttribute("playsinline", "");
     video.load();
-    const playPromise = video.play();
-    if (playPromise && typeof playPromise.catch === "function") {
-      playPromise.catch(() => {});
-    }
 
     card.addEventListener("click", () => {
       const clonedVideo = video.cloneNode(true);
@@ -221,6 +217,31 @@ const setupVideoPreviewCards = () => {
       clonedVideo.setAttribute("controls", "controls");
       openLightbox(clonedVideo);
     });
+  });
+
+  const playVisibleVideos = (entries) => {
+    entries.forEach((entry) => {
+      const video = entry.target.querySelector("video");
+      if (!video) return;
+
+      if (entry.isIntersecting) {
+        const playPromise = video.play();
+        if (playPromise && typeof playPromise.catch === "function") {
+          playPromise.catch(() => {});
+        }
+      } else {
+        video.pause();
+      }
+    });
+  };
+
+  const videoObserver = new IntersectionObserver(playVisibleVideos, {
+    rootMargin: "120px 0px",
+    threshold: 0.12
+  });
+
+  document.querySelectorAll(".video-gallery-card, .video-intro-card").forEach((card) => {
+    videoObserver.observe(card);
   });
 };
 
@@ -356,6 +377,8 @@ const openLightbox = (source) => {
   document.body.style.overflow = "hidden";
   lightboxClose.focus();
 };
+
+window.openServiceLightbox = openLightbox;
 
 const closeLightbox = () => {
   const activeVideo = lightboxMedia.querySelector("video");

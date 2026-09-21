@@ -10,11 +10,27 @@
   const setMenu = (open) => {
     body.classList.toggle('menu-open', open);
     menuToggle?.setAttribute('aria-expanded', String(open));
+    menuToggle?.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+    nav?.setAttribute('aria-hidden', String(!open));
   };
 
-  menuToggle?.addEventListener('click', () => setMenu(!body.classList.contains('menu-open')));
+  setMenu(false);
+  menuToggle?.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setMenu(!body.classList.contains('menu-open'));
+  });
   nav?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenu(false)));
   document.addEventListener('keydown', (event) => { if (event.key === 'Escape') setMenu(false); });
+  document.addEventListener('click', (event) => {
+    if (!body.classList.contains('menu-open')) return;
+    if (nav?.contains(event.target) || menuToggle?.contains(event.target)) return;
+    setMenu(false);
+  });
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 760) setMenu(false);
+  });
+  window.addEventListener('pageshow', () => setMenu(false));
 
   const splitElement = (element) => {
     const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT, {

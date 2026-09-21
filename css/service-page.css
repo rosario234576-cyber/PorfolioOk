@@ -111,7 +111,7 @@ body.service-detail{
 .video-gallery-head span{color:var(--primary);font-family:var(--font-subtitle);font-size:.74rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
 .video-gallery-head p{color:rgba(245,242,238,.58);font-family:var(--font-subtitle);font-size:.78rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase}
 .video-gallery-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
-.video-gallery-card{position:relative;overflow:hidden;border:1px solid rgba(245,242,238,.14);border-radius:24px;background:#020b0b;box-shadow:0 18px 36px rgba(0,0,0,.22);transition:transform .35s cubic-bezier(.2,.75,.2,1),border-color .35s ease,box-shadow .35s ease;will-change:transform}
+.video-gallery-card{position:relative;overflow:hidden;border:1px solid rgba(245,242,238,.14);border-radius:24px;background:#020b0b;box-shadow:0 18px 36px rgba(0,0,0,.22);transition:transform .35s cubic-bezier(.2,.75,.2,1),border-color .35s ease,box-shadow .35s ease;will-change:transform;contain:layout paint;content-visibility:auto;contain-intrinsic-size:360px}
 .video-gallery-card video{width:100%;height:clamp(240px,24vw,360px);display:block;object-fit:cover;object-position:center;background:#000;transition:transform .5s ease}
 .video-gallery-card figcaption{position:absolute;left:16px;right:16px;bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:12px;border-top:1px solid rgba(245,242,238,.25);color:#fff;font-family:var(--font-subtitle);font-size:.74rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase}
 .video-gallery-card figcaption b{color:var(--primary);font-size:.68rem}
@@ -121,6 +121,25 @@ body.service-detail{
 @media (max-width:1080px){
   .video-gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
 }
+
+@media (max-width:760px){
+  .trabajos-gallery-section{padding-block:64px 78px}
+  .trabajos-gallery-section .service-gallery-head h2{font-size:clamp(3rem,15vw,5.4rem)}
+  .trabajos-client{padding:16px;border-radius:18px}
+  .trabajos-client-head{grid-template-columns:auto minmax(0,1fr);gap:10px}
+  .trabajos-client-head>b{grid-column:2}
+  .trabajos-carousel-wrap{gap:7px}
+  .trabajos-carousel{gap:10px;padding-bottom:12px}
+  .trabajos-card{flex-basis:min(67vw,250px);border-radius:13px}
+  .trabajos-carousel-button{flex-basis:32px;width:32px;height:32px;font-size:.85rem}
+}
+@media (prefers-reduced-motion:reduce){
+  .trabajos-client,.trabajos-card{animation:none;opacity:1;transform:none}
+}
+.trabajos-carousel:focus-visible{outline:2px solid var(--primary);outline-offset:4px}
+.trabajos-carousel::-webkit-scrollbar{height:7px}
+.trabajos-carousel::-webkit-scrollbar-track{background:rgba(245,242,238,.1);border-radius:999px}
+.trabajos-carousel::-webkit-scrollbar-thumb{background:var(--primary);border-radius:999px}
 
 @media (max-width:760px){
   .video-intro-head,.video-gallery-head{align-items:flex-start;flex-direction:column;gap:7px}
@@ -509,6 +528,30 @@ body.service-detail{
   grid-template-columns:repeat(3, minmax(0,1fr));
   gap:14px;
 }
+
+.trabajos-gallery-section{padding:clamp(72px,9vw,132px) 0;background:linear-gradient(180deg,#071817 0%,#0a1d1c 100%);overflow:hidden}
+.trabajos-gallery-section .service-gallery-head{display:grid;gap:10px;margin-bottom:34px}
+.trabajos-gallery-section .service-gallery-head h2{max-width:900px;margin:0;font-family:var(--font-title);font-size:clamp(3rem,8vw,8rem);line-height:.86;text-transform:uppercase;color:var(--light)}
+.trabajos-gallery-section .service-gallery-head p{max-width:560px;margin:0;color:rgba(245,242,238,.66);font-size:1rem;line-height:1.55}
+.trabajos-kicker{color:var(--primary);font-family:var(--font-subtitle);font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.trabajos-gallery-grid{display:grid;gap:18px}
+.trabajos-client{padding:clamp(18px,3vw,30px);border:1px solid rgba(245,242,238,.14);border-radius:24px;background:rgba(245,242,238,.045);opacity:0;transform:translateY(18px);animation:trabajosReveal .65s var(--trabajos-delay) var(--ease) forwards}
+.trabajos-client-head{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px;margin-bottom:18px;color:var(--light)}
+.trabajos-client-head>span{color:var(--primary);font-family:var(--font-title);font-size:1.3rem}
+.trabajos-client-head small{display:block;color:rgba(245,242,238,.52);font-family:var(--font-subtitle);font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+.trabajos-client-head h3{margin:4px 0 0;font-family:var(--font-title);font-size:clamp(1.5rem,3vw,2.8rem);line-height:.9;text-transform:uppercase}
+.trabajos-client-head>b{color:var(--primary);font-family:var(--font-subtitle);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase}
+.trabajos-carousel-wrap{position:relative;display:flex;align-items:center;gap:10px}
+.trabajos-carousel{display:flex;gap:14px;min-width:0;overflow-x:auto;padding:4px 2px 16px;scroll-snap-type:x mandatory;scrollbar-color:var(--primary) rgba(245,242,238,.12);overscroll-behavior-inline:contain;touch-action:pan-x}
+.trabajos-card{position:relative;flex:0 0 clamp(180px,20vw,280px);margin:0;overflow:hidden;border:1px solid rgba(245,242,238,.14);border-radius:16px;background:#020b0b;scroll-snap-align:start;cursor:zoom-in;transition:transform .35s ease,border-color .35s ease;animation:trabajosCardIn .6s both}
+.trabajos-card img{display:block;width:100%;height:auto;max-height:420px;object-fit:contain;transition:transform .45s ease,filter .35s ease}
+.trabajos-card figcaption{position:absolute;left:10px;right:10px;bottom:10px;padding:7px 9px;border-radius:999px;background:rgba(3,16,16,.78);color:#fff;font-family:var(--font-subtitle);font-size:.62rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;backdrop-filter:blur(8px)}
+.trabajos-card:hover{transform:translateY(-4px);border-color:rgba(235,91,48,.72)}
+.trabajos-card:hover img{transform:scale(1.025);filter:saturate(1.08)}
+.trabajos-carousel-button{display:grid;place-items:center;flex:0 0 38px;width:38px;height:38px;border:1px solid rgba(235,91,48,.55);border-radius:50%;background:rgba(235,91,48,.12);color:var(--primary);cursor:pointer;transition:background .2s ease,color .2s ease,transform .2s ease}
+.trabajos-carousel-button:hover{background:var(--primary);color:#071817;transform:translateY(-2px)}
+@keyframes trabajosReveal{to{opacity:1;transform:none}}
+@keyframes trabajosCardIn{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
 
 .work-grid:not(.video-grid){
   grid-auto-rows:1fr;

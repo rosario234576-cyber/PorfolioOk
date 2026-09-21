@@ -200,6 +200,11 @@ button{font:inherit}
 .logo-rail{width:fit-content;max-width:calc(100% - 32px);padding-inline:clamp(24px,4vw,50px)}
 .logo-rail-track{display:flex;justify-content:center;flex-wrap:wrap;width:auto;gap:clamp(24px,4vw,54px);padding:0;animation:none}
 
+@media(max-width:760px){
+  .site-nav{z-index:1001;visibility:hidden;pointer-events:none;transition:transform .45s var(--ease),visibility 0s linear .45s}
+  .menu-open .site-nav{visibility:visible;pointer-events:auto;transition-delay:0s}
+}
+
 /* --- Menu mobile: mas dinamismo, sin que la linea tape el texto --------- */
 @media(max-width:760px){
   .site-nav{justify-content:flex-start;padding-top:calc(var(--header,70px) + 34px)}
