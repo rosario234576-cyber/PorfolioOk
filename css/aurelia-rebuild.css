@@ -87,8 +87,11 @@ button{font:inherit}
 .wc-sub:hover,.wc-sub:active{background:rgba(255,255,255,.07)}
 .wc-sub i{font-style:normal;color:var(--orange);font-size:16px;transition:transform .3s var(--ease)}
 .wc-sub:hover i{transform:translate(3px,-3px)}
-.wc-more{display:inline-flex;align-items:center;gap:8px;font:800 11px/1 Roc;color:var(--orange);text-transform:uppercase;letter-spacing:.05em;-webkit-tap-highlight-color:transparent}
-.wc-more:active{opacity:.7}
+.wc-more{display:inline-flex;align-items:center;justify-content:space-between;gap:18px;min-width:196px;margin-top:4px;padding:13px 15px;border:1px solid rgba(235,91,48,.52);border-radius:8px;background:rgba(235,91,48,.1);font:800 11px/1 Roc;color:var(--paper);text-transform:uppercase;letter-spacing:.05em;transition:background .2s,border-color .2s,color .2s,transform .2s; -webkit-tap-highlight-color:transparent}
+.wc-more span{color:var(--orange);font-size:16px;line-height:0;transition:transform .2s ease}
+.wc-more:hover,.wc-more:focus-visible{background:var(--orange);border-color:var(--orange);color:var(--dark);transform:translateY(-2px);outline:none}
+.wc-more:hover span,.wc-more:focus-visible span{color:var(--dark);transform:translate(2px,-2px)}
+.wc-more:active{transform:translateY(0);opacity:.85}
 @media(min-width:761px){.wc-sublist{grid-template-columns:repeat(2,1fr)}}
 .wc-video-grid{display:grid;gap:12px}
 .wc-video{border-radius:12px;overflow:hidden;background:#000}
