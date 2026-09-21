@@ -37,8 +37,8 @@ a.service-pill:hover{background:var(--primary);color:var(--dark);transform:trans
 /* --- Cinta / ticker ------------------------------------------------------ */
 .service-note{background:var(--dark);padding:0}
 .service-note-strip{
-  border-radius:0;border-block:2px solid var(--dark);background:var(--primary);color:var(--dark);
-  box-shadow:none;transform:rotate(1deg);
+  width:100%;max-width:100vw;border-radius:0;border-block:2px solid var(--dark);background:var(--primary);color:var(--dark);
+  box-shadow:none;transform:none;
 }
 .service-note-track span{font-family:var(--font-title);font-weight:var(--weight-title);font-size:clamp(18px,2.1vw,30px);letter-spacing:0}
 
