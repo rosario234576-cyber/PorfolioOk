@@ -553,9 +553,10 @@ body.service-detail{
 .trabajos-client-head small{display:block;color:rgba(245,242,238,.52);font-family:var(--font-subtitle);font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
 .trabajos-client-head h3{margin:4px 0 0;font-family:var(--font-title);font-size:clamp(1.5rem,3vw,2.8rem);line-height:.9;text-transform:uppercase}
 .trabajos-client-head>b{color:var(--primary);font-family:var(--font-subtitle);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase}
+.trabajos-story{max-width:620px;margin:-4px 0 20px;padding-left:calc(1.3rem + 16px);color:rgba(245,242,238,.64);font-size:.9rem;line-height:1.55}
 .trabajos-carousel-wrap{position:relative;display:flex;align-items:center;gap:10px}
 .trabajos-carousel{display:flex;gap:14px;min-width:0;overflow-x:auto;padding:4px 2px 16px;scroll-snap-type:x mandatory;scrollbar-color:var(--primary) rgba(245,242,238,.12);overscroll-behavior-inline:contain;touch-action:pan-x}
-.trabajos-card{position:relative;flex:0 0 clamp(180px,20vw,280px);margin:0;overflow:hidden;border:1px solid rgba(245,242,238,.14);border-radius:16px;background:#020b0b;scroll-snap-align:start;cursor:zoom-in;transition:transform .35s ease,border-color .35s ease;animation:trabajosCardIn .6s both}
+.trabajos-card{position:relative;flex:0 0 clamp(180px,20vw,280px);margin:0;overflow:hidden;border:1px solid rgba(245,242,238,.14);border-radius:16px;background:#020b0b;scroll-snap-align:start;cursor:zoom-in;transition:transform .35s ease,border-color .35s ease;animation:trabajosCardIn .6s var(--card-delay) both}
 .trabajos-card img{display:block;width:100%;height:auto;max-height:420px;object-fit:contain;transition:transform .45s ease,filter .35s ease}
 .trabajos-card figcaption{position:absolute;left:10px;right:10px;bottom:10px;padding:7px 9px;border-radius:999px;background:rgba(3,16,16,.78);color:#fff;font-family:var(--font-subtitle);font-size:.62rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;backdrop-filter:blur(8px)}
 .trabajos-card:hover{transform:translateY(-4px);border-color:rgba(235,91,48,.72)}
@@ -580,6 +581,7 @@ body.service-detail{
   .trabajos-gallery-section .service-gallery-head{display:block}
   .trabajos-gallery-section .service-gallery-head h2{font-size:clamp(3rem,14vw,5.4rem);max-width:100%;margin:10px 0 14px}
   .trabajos-gallery-section .service-gallery-head p{max-width:34ch}
+  .trabajos-story{padding-left:0;margin-top:0;font-size:.82rem}
   .trabajos-carousel{width:calc(100% - 78px)}
   .trabajos-card{width:min(67vw,250px);height:min(82vw,390px);flex-basis:min(67vw,250px)}
 }

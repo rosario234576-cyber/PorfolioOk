@@ -13,13 +13,13 @@ const trabajosGalleryData = {
     ["Irazztech", "gráficas tech", ["Irazztech/1.jpg", "Irazztech/2.jpg", "Irazztech/3.jpg", "Irazztech/4.jpg"]]
   ],
   packaging: [
-    ["Packaging", "mockups de packaging", ["Packaging/Packaging/Mock_Up_Elegido/1.jpg", "Packaging/Packaging/Mock_Up_Elegido/2.jpg", "Packaging/Packaging/Mock_Up_Elegido/3.jpg", "Packaging/Packaging/Mock_Up_Elegido/4.jpg", "Packaging/Packaging/Mock_Up_Elegido/5.jpg"]],
-    ["Packaging", "alternativas y troquel", ["Packaging/Packaging/Mock_Up_Opcion/1.jpg", "Packaging/Packaging/Mock_Up_Opcion/2.jpg", "Packaging/Packaging/Mock_Up_Opcion/3.jpg", "Packaging/Packaging/Mock_Up_Opcion/4.jpg", "Packaging/Packaging/Mock_Up_Opcion/5.jpg", "Packaging/Packaging/Plantilla_Troquel_Opcion_elegida.jpg", "Packaging/Packaging/Plantilla_Troquel_Opcion 1.png"]],
-    ["Electronic Games", "cartelería", ["Carteleria electronicgames/1.jpg", "Carteleria electronicgames/2.jpg", "Carteleria electronicgames/3.jpg"]],
-    ["Tu Plan Futuro", "roll up", ["Tu plan Futuro/Roll Up/Impreso.jpg", "Tu plan Futuro/Roll Up/Mock up.jpg", "Tu plan Futuro/Roll Up/Pendón 80 x 200 cm.jpg"]],
-    ["Tu Plan Futuro", "banners publicitarios", ["Tu plan Futuro/Banner Publicitario/Banner Publicitario.jpg", "Tu plan Futuro/Banner Publicitario/Impreso.jpg", "Tu plan Futuro/Banner Publicitario/Mock up.jpg"]],
-    ["Tu Plan Futuro", "credenciales", ["Tu plan Futuro/Credenciales/Impreso.jpg"]],
-    ["Tu Plan Futuro", "llavero", ["Tu plan Futuro/Llavero/Llavero.jpg"]]
+    ["Packaging", "mockups de packaging", ["Packaging/Mock_Up_Elegido/1.jpg", "Packaging/Mock_Up_Elegido/2.jpg", "Packaging/Mock_Up_Elegido/3.jpg", "Packaging/Mock_Up_Elegido/4.jpg", "Packaging/Mock_Up_Elegido/5.jpg"], "La propuesta final toma forma: material, volumen y presencia para imaginar el producto antes de producirlo."],
+    ["Packaging", "alternativas y troquel", ["Packaging/Mock_Up_Opcion/1.jpg", "Packaging/Mock_Up_Opcion/2.jpg", "Packaging/Mock_Up_Opcion/3.jpg", "Packaging/Mock_Up_Opcion/4.jpg", "Packaging/Mock_Up_Opcion/5.jpg", "Packaging/Plantilla_Troquel_Opcion_elegida.jpg", "Packaging/Plantilla_Troquel_Opcion 1.png"], "Del boceto a la estructura: exploración de variantes, troquel y decisiones que hacen posible la pieza."],
+    ["Electronic Games", "cartelería", ["Carteleria electronicgames/1.jpg", "Carteleria electronicgames/2.jpg", "Carteleria electronicgames/3.jpg"], "Una identidad pensada para verse a distancia y convertir el espacio físico en parte de la experiencia."],
+    ["Tu Plan Futuro", "roll up", ["Tu plan Futuro/Roll Up/Impreso.jpg", "Tu plan Futuro/Roll Up/Mock up.jpg", "Tu plan Futuro/Roll Up/Pendón 80 x 200 cm.jpg"], "La marca sale de la pantalla y se adapta a una pieza clara, visible y lista para eventos."],
+    ["Tu Plan Futuro", "banners publicitarios", ["Tu plan Futuro/Banner Publicitario/Banner Publicitario.jpg", "Tu plan Futuro/Banner Publicitario/Impreso.jpg", "Tu plan Futuro/Banner Publicitario/Mock up.jpg"], "Una misma dirección visual llevada a distintos soportes para sostener el mensaje en cada punto de contacto."],
+    ["Tu Plan Futuro", "credenciales", ["Tu plan Futuro/Credenciales/Impreso.jpg"], "El sistema se completa con piezas pequeñas que ordenan y acompañan la experiencia de marca."],
+    ["Tu Plan Futuro", "llavero", ["Tu plan Futuro/Llavero/Llavero.jpg"], "Un objeto simple para llevar la identidad más allá de la comunicación digital."]
   ],
   fotografia: [
     ["Maximus Gaming", "fotografía de producto", ["MaximusGaming/1.jpg", "MaximusGaming/2.jpg", "MaximusGaming/3.jpg", "MaximusGaming/4.jpg", "MaximusGaming/5.jpg", "MaximusGaming/6.jpg", "MaximusGaming/7.jpg", "MaximusGaming/8.jpg", "MaximusGaming/9.jpg", "MaximusGaming/10.jpg", "MaximusGaming/11.jpg", "MaximusGaming/12.jpg"]],
@@ -29,7 +29,7 @@ const trabajosGalleryData = {
 
 const getTrabajosType = () => {
   if (document.body.classList.contains("photography-page")) return "fotografia";
-  if (location.pathname.endsWith("papeleria.html")) return "packaging";
+  if (location.pathname.endsWith("papeleria.html") || location.pathname.endsWith("packaging.html")) return "packaging";
   if (location.pathname.endsWith("diseno-de-piezas.html")) return "redes";
   return null;
 };
@@ -38,26 +38,32 @@ const createTrabajosGallery = () => {
   const type = getTrabajosType();
   const legacySection = document.querySelector(".service-clients");
   const groups = trabajosGalleryData[type];
-  if (!type || !legacySection || !groups) return;
+  const mountPoint = document.querySelector("#trabajos");
+  if (!type || (!legacySection && !mountPoint) || !groups) return;
 
-  legacySection.hidden = true;
+  if (legacySection) legacySection.hidden = true;
   const section = document.createElement("section");
   section.className = "service-clients trabajos-gallery-section";
   section.setAttribute("aria-label", "Trabajos seleccionados");
   section.innerHTML = `<div class="container"><div class="service-gallery-head"><span class="trabajos-kicker">selección de trabajos</span><h2>${type === "redes" ? "gráficas que se mueven" : type === "packaging" ? "objetos que se recuerdan" : "imágenes con intención"}</h2><p>Explorá cada serie sin perder el formato original de las piezas.</p></div><div class="trabajos-gallery-grid"></div></div>`;
-  legacySection.parentNode.insertBefore(section, legacySection);
+  if (legacySection) {
+    legacySection.parentNode.insertBefore(section, legacySection);
+  } else {
+    mountPoint.replaceWith(section);
+  }
 
   const grid = section.querySelector(".trabajos-gallery-grid");
-  groups.forEach(([client, category, files], groupIndex) => {
+  groups.forEach(([client, category, files, story], groupIndex) => {
     const article = document.createElement("article");
     article.className = "trabajos-client";
     article.style.setProperty("--trabajos-delay", `${groupIndex * 70}ms`);
-    article.innerHTML = `<header class="trabajos-client-head"><span>${String(groupIndex + 1).padStart(2, "0")}</span><div><small>${category}</small><h3>${client}</h3></div><b>${files.length} piezas</b></header><div class="trabajos-carousel-wrap"><button class="trabajos-carousel-button trabajos-carousel-prev" type="button" aria-label="Anterior">←</button><div class="trabajos-carousel" tabindex="0" aria-label="Serie de ${client}"></div><button class="trabajos-carousel-button trabajos-carousel-next" type="button" aria-label="Siguiente">→</button></div>`;
+    article.innerHTML = `<header class="trabajos-client-head"><span>${String(groupIndex + 1).padStart(2, "0")}</span><div><small>${category}</small><h3>${client}</h3></div><b>${files.length} piezas</b></header>${story ? `<p class="trabajos-story">${story}</p>` : ""}<div class="trabajos-carousel-wrap"><button class="trabajos-carousel-button trabajos-carousel-prev" type="button" aria-label="Anterior">←</button><div class="trabajos-carousel" tabindex="0" aria-label="Serie de ${client}"></div><button class="trabajos-carousel-button trabajos-carousel-next" type="button" aria-label="Siguiente">→</button></div>`;
     const carousel = article.querySelector(".trabajos-carousel");
 
     files.forEach((file, index) => {
       const figure = document.createElement("figure");
       figure.className = "trabajos-card";
+      figure.style.setProperty("--card-delay", `${index * 45}ms`);
       const image = document.createElement("img");
       image.src = `../assets/Trabajos/${type === "redes" ? "Graficas de redes" : type === "packaging" ? "Packaging, Cartelería" : "Fotografia"}/${file}`;
       image.alt = `${client}, ${category}, pieza ${index + 1}`;
