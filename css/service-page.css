@@ -576,14 +576,37 @@ body.service-detail{
 .trabajos-card{width:clamp(190px,20vw,280px);height:min(34vw,460px);flex:0 0 clamp(190px,20vw,280px)}
 .trabajos-card img{width:100%!important;height:100%!important;max-height:none;object-fit:contain!important;background:#020b0b}
 
+.trabajos-project-layout{display:grid;gap:14px;align-items:start}
+.trabajos-card{width:auto;height:auto;min-height:0;flex:none}
+.trabajos-card img{height:auto!important;max-height:none;object-fit:contain!important}
+.trabajos-layout-feature .trabajos-project-layout{grid-template-columns:minmax(0,860px);align-items:start}
+.trabajos-layout-feature .trabajos-card{background:#f4f2ed}
+.trabajos-layout-feature .trabajos-card img{max-height:620px!important}
+.trabajos-layout-project .trabajos-project-layout{grid-template-columns:repeat(3,minmax(0,1fr));align-items:start}
+.trabajos-layout-project .trabajos-card{aspect-ratio:4 / 5}
+.trabajos-layout-project .trabajos-card img{height:100%!important;object-fit:contain!important}
+.trabajos-layout-editorial .trabajos-project-layout{grid-template-columns:minmax(0,1.18fr) repeat(2,minmax(0,.7fr))}
+.trabajos-layout-editorial .trabajos-card:first-child{grid-row:span 2}
+.trabajos-layout-editorial .trabajos-card:first-child img{height:100%!important;object-fit:contain!important}
+.trabajos-layout-sequence .trabajos-project-layout{grid-template-columns:repeat(4,minmax(0,1fr))}
+.trabajos-layout-sequence .trabajos-card:nth-child(1){grid-column:span 2}
+.trabajos-layout-sequence .trabajos-card:nth-child(1) img{height:100%!important;object-fit:contain!important}
+.trabajos-layout-contact-sheet .trabajos-project-layout{grid-template-columns:repeat(4,minmax(0,1fr));align-items:start}
+.trabajos-layout-contact-sheet .trabajos-card:nth-child(3n+1){transform:translateY(16px)}
+.trabajos-layout-contact-sheet .trabajos-card:nth-child(3n+1):hover{transform:translateY(10px)}
+
 @media (max-width:760px){
   .trabajos-gallery-section>.container{width:calc(100% - 34px)}
   .trabajos-gallery-section .service-gallery-head{display:block}
   .trabajos-gallery-section .service-gallery-head h2{font-size:clamp(3rem,14vw,5.4rem);max-width:100%;margin:10px 0 14px}
   .trabajos-gallery-section .service-gallery-head p{max-width:34ch}
   .trabajos-story{padding-left:0;margin-top:0;font-size:.82rem}
-  .trabajos-carousel{width:calc(100% - 78px)}
-  .trabajos-card{width:min(67vw,250px);height:min(82vw,390px);flex-basis:min(67vw,250px)}
+  .trabajos-project-layout{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:10px}
+  .trabajos-card,.trabajos-layout-feature .trabajos-card:first-child,.trabajos-layout-editorial .trabajos-card:first-child{grid-row:auto;grid-column:auto;min-height:0}
+  .trabajos-layout-project .trabajos-card{aspect-ratio:4 / 5}
+  .trabajos-layout-feature .trabajos-card:first-child,.trabajos-layout-editorial .trabajos-card:first-child,.trabajos-layout-sequence .trabajos-card:nth-child(1){grid-column:span 2}
+  .trabajos-layout-feature .trabajos-card:first-child img,.trabajos-layout-editorial .trabajos-card:first-child img,.trabajos-layout-sequence .trabajos-card:nth-child(1) img{height:auto!important}
+  .trabajos-layout-contact-sheet .trabajos-card:nth-child(3n+1){transform:none}
 }
 
 .work-grid:not(.video-grid){
