@@ -745,3 +745,5 @@ button{font:inherit}
   .hero-title{max-width:96vw;font-size:clamp(86px,11vw,180px);line-height:.79}
   .hero-title-seal{right:-.66em;width:clamp(66px,6vw,100px)}
 }
+/* Hero desktop: bloque informativo ligeramente más abajo. */
+@media(min-width:761px){.hero .hero-info{top:62%}}
