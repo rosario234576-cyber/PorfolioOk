@@ -437,3 +437,15 @@
   .service-detail .service-hero h1{max-width:100%;font-size:clamp(2.8rem,12.5vw,4.6rem);line-height:.86;overflow-wrap:normal}
   .service-detail .service-hero h1 .service-title-line{white-space:normal}
 }
+/* Limoncello / mockups: misma fila panorámica que el proyecto anterior. */
+@media(min-width:761px){
+  .service-detail.project-packaging .packaging-chapter-real{grid-template-columns:1fr;gap:clamp(42px,6vw,86px);min-height:0}
+  .service-detail.project-packaging .packaging-chapter-real .packaging-chapter-copy{position:static;display:grid;grid-template-columns:minmax(280px,.8fr) minmax(320px,1fr);column-gap:clamp(40px,8vw,130px);align-items:end}
+  .service-detail.project-packaging .packaging-chapter-real .packaging-chapter-copy>span{grid-column:1/-1}
+  .service-detail.project-packaging .packaging-chapter-real .packaging-chapter-copy h3{max-width:640px;margin-bottom:0}
+  .service-detail.project-packaging .packaging-chapter-real .packaging-chapter-copy p{max-width:580px}
+  .service-detail.project-packaging .packaging-real-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(10px,1.35vw,22px);width:100%}
+  .service-detail.project-packaging .packaging-real-grid .work-card{display:block;width:100%;min-width:0;height:auto;aspect-ratio:auto;margin:0;padding:0;border-radius:2px;background:#ece9e3}
+  .service-detail.project-packaging .packaging-real-grid .work-card img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:contain;background:#ece9e3}
+  .service-detail.project-packaging .packaging-real-grid .work-card figcaption{margin:0;padding:3px 2px 2px;background:#ece9e3;color:#101513}
+}
