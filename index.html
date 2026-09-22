@@ -6,7 +6,7 @@
   <meta name="description" content="Inkkstudios: diseño gráfico, branding, campañas, fotografía y video para marcas de Argentina y Latinoamérica.">
   <title>Inkkstudios — Portfolio creativo</title>
   <link rel="icon" type="image/png" href="assets/favicon-gato.png">
-  <link rel="stylesheet" href="css/aurelia-rebuild.css?v=40">
+  <link rel="stylesheet" href="css/aurelia-rebuild.css?v=51">
 </head>
 <body>
   <div class="scroll-progress" aria-hidden="true"><span></span></div>
@@ -45,6 +45,7 @@
       <h1 class="hero-title" aria-label="Portfolio creativo">
         <span class="title-row" data-title-row><b>PORTFOLIO</b></span>
         <span class="title-row title-row-accent" data-title-row><b>CREATIVO</b></span>
+        <img class="hero-title-seal" src="assets/Sello.png" alt="" aria-hidden="true">
       </h1>
       <div class="hero-info" data-reveal="up">
         <p>Ideas claras, piezas con carácter y sistemas visuales listos para vivir en cualquier formato.</p>
@@ -111,20 +112,22 @@
       </div>
     </section>
 
-    <section class="manifesto section-dark" data-theme="dark">
-      <div class="manifesto-text">
-        <span class="ed-frag" data-ed="up"><span class="ed-line">SOMOS</span></span>
-        <mark class="ed-cap" data-ed="cap">DISEÑADORES</mark>,
-        <span class="ed-frag" data-ed="up"><span class="ed-line">ESTRATEGAS Y</span></span>
-        <span class="ed-frag" data-ed="outline"><span class="ed-line ed-outline">CREADORES VISUALES.</span></span>
-        <img class="ed-img ed-img-logo" data-ed="img" src="assets/gato.png" alt="">
-        <span class="ed-frag" data-ed="up"><span class="ed-line">TRANSFORMAMOS IDEAS EN</span></span>
-        <mark class="ed-cap" data-ed="cap">IDENTIDADES</mark>,
-        <span class="ed-frag" data-ed="up"><span class="ed-line">CAMPAÑAS Y CONTENIDOS</span></span>
-        <span class="ed-frag" data-ed="up"><span class="ed-line">QUE HACEN QUE TU MARCA</span></span>
-        <span class="ed-frag" data-ed="up"><span class="ed-line">SE VEA,</span></span>
-        <span class="ed-frag" data-ed="up"><span class="ed-line">SE ENTIENDA Y</span></span>
-        <mark class="ed-cap" data-ed="cap">SE RECUERDE</mark>.
+    <section class="manifesto section-dark" id="manifiesto" data-theme="dark">
+      <div class="manifesto-shell">
+        <aside class="manifesto-note" data-reveal="left">
+          <span>01 / manifiesto</span>
+          <p>Diseño con intención, jerarquía y una idea clara detrás de cada decisión.</p>
+          <div class="manifesto-sign"><img src="assets/gato.png" alt=""><b>INKKSTUDIO<br>BUENOS AIRES</b></div>
+        </aside>
+        <div class="manifesto-text">
+          <span class="manifesto-line manifesto-line-small ed-frag" data-ed="up"><span class="ed-line">CONVERTIMOS IDEAS EN</span></span>
+          <span class="manifesto-line manifesto-line-outline ed-frag" data-ed="outline"><span class="ed-line">SISTEMAS VISUALES</span></span>
+          <div class="manifesto-duo">
+            <span class="manifesto-line ed-frag" data-ed="up"><span class="ed-line">QUE SE VEN.</span></span>
+            <span class="manifesto-line ed-frag" data-ed="up"><span class="ed-line">SE ENTIENDEN.</span></span>
+          </div>
+          <mark class="manifesto-punch ed-cap" data-ed="cap">Y SE RECUERDAN.</mark>
+        </div>
       </div>
     </section>
 
@@ -290,7 +293,7 @@
     <div class="footer-bottom"><span>© 2026 INKKSTUDIOS</span><a href="#inicio">VOLVER ARRIBA ↑</a></div>
   </footer>
 
-  <script src="js/aurelia-rebuild.js?v=5"></script>
+  <script src="js/aurelia-rebuild.js?v=7"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="js/editorial-manifesto.js?v=1"></script>

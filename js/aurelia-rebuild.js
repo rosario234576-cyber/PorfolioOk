@@ -9,17 +9,22 @@
 
   const setMenu = (open) => {
     body.classList.toggle('menu-open', open);
+    nav?.classList.toggle('is-open', open);
     menuToggle?.setAttribute('aria-expanded', String(open));
     menuToggle?.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
     nav?.setAttribute('aria-hidden', String(!open));
+    if (nav && 'inert' in nav) nav.inert = !open && window.innerWidth <= 900;
   };
 
   setMenu(false);
-  menuToggle?.addEventListener('click', (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    setMenu(!body.classList.contains('menu-open'));
-  });
+  if (menuToggle && !menuToggle.dataset.menuReady) {
+    menuToggle.dataset.menuReady = 'true';
+    menuToggle.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      setMenu(menuToggle.getAttribute('aria-expanded') !== 'true');
+    });
+  }
   nav?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setMenu(false)));
   document.addEventListener('keydown', (event) => { if (event.key === 'Escape') setMenu(false); });
   document.addEventListener('click', (event) => {
@@ -28,7 +33,8 @@
     setMenu(false);
   });
   window.addEventListener('resize', () => {
-    if (window.innerWidth > 760) setMenu(false);
+    if (window.innerWidth > 900) setMenu(false);
+    else if (nav && 'inert' in nav && !body.classList.contains('menu-open')) nav.inert = true;
   });
   window.addEventListener('pageshow', () => setMenu(false));
 
@@ -170,6 +176,66 @@
   prev?.addEventListener('click', () => { testimonialIndex -= 1; updateTestimonials(); });
   next?.addEventListener('click', () => { testimonialIndex += 1; updateTestimonials(); });
   window.addEventListener('resize', updateTestimonials);
+
+  const testimonialViewport = track?.parentElement;
+  if (testimonialViewport) {
+    let swipeStartX = 0;
+    let swipeStartY = 0;
+    testimonialViewport.addEventListener('touchstart', (event) => {
+      swipeStartX = event.touches[0].clientX;
+      swipeStartY = event.touches[0].clientY;
+    }, { passive: true });
+    testimonialViewport.addEventListener('touchend', (event) => {
+      const point = event.changedTouches[0];
+      const deltaX = point.clientX - swipeStartX;
+      const deltaY = point.clientY - swipeStartY;
+      if (Math.abs(deltaX) < 42 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+      testimonialIndex += deltaX < 0 ? 1 : -1;
+      updateTestimonials();
+    }, { passive: true });
+  }
+
+  const horizontalSurfaces = document.querySelectorAll(
+    '.service-grid,.case-story-steps,.carousel-strip,.ads-carousel-strip,.trabajos-carousel,.trabajos-project-layout,.video-intro-grid,.fashion-collage'
+  );
+  horizontalSurfaces.forEach((surface) => {
+    if (surface.dataset.dragReady) return;
+    surface.dataset.dragReady = 'true';
+    surface.tabIndex = surface.tabIndex >= 0 ? surface.tabIndex : 0;
+    let pointerId = null;
+    let startX = 0;
+    let startScroll = 0;
+    let moved = false;
+    surface.addEventListener('pointerdown', (event) => {
+      if (event.pointerType === 'touch' || event.button !== 0) return;
+      pointerId = event.pointerId;
+      startX = event.clientX;
+      startScroll = surface.scrollLeft;
+      moved = false;
+      surface.classList.add('is-dragging');
+      surface.setPointerCapture(pointerId);
+    });
+    surface.addEventListener('pointermove', (event) => {
+      if (event.pointerId !== pointerId) return;
+      const delta = event.clientX - startX;
+      moved ||= Math.abs(delta) > 5;
+      surface.scrollLeft = startScroll - delta;
+      if (moved) event.preventDefault();
+    });
+    const release = (event) => {
+      if (event.pointerId !== pointerId) return;
+      surface.classList.remove('is-dragging');
+      pointerId = null;
+    };
+    surface.addEventListener('pointerup', release);
+    surface.addEventListener('pointercancel', release);
+    surface.addEventListener('click', (event) => {
+      if (!moved) return;
+      event.preventDefault();
+      event.stopPropagation();
+      moved = false;
+    }, true);
+  });
 
   const videoObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {

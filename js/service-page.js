@@ -460,31 +460,169 @@ document.querySelectorAll(".work-card").forEach((card) => {
   });
 });
 
-document.querySelectorAll(".carousel-strip, .fashion-collage").forEach((strip) => {
-  let isDown = false;
-  let startX = 0;
-  let scrollLeft = 0;
+const serviceStoryData = {
+  "diseno-de-piezas": {
+    label: "sistema visual",
+    title: "Piezas que no viven aisladas.",
+    intro: "Cada formato forma parte de una misma conversación: captar atención, ordenar el mensaje y hacer reconocible a la marca.",
+    challenge: "Transformar contenidos distintos en una presencia consistente, sin perder claridad ni velocidad de lectura.",
+    approach: "Definimos jerarquías, ritmo, tipografía y recursos gráficos que se adaptan a feed, historias y campañas.",
+    impact: "El usuario reconoce la marca antes de leerla y encuentra rápido qué mirar, entender o hacer."
+  },
+  "edicion-de-video": {
+    label: "narrativa audiovisual",
+    title: "El ritmo también diseña.",
+    intro: "La edición conecta imagen, sonido y mensaje para sostener la atención desde el primer segundo hasta el cierre.",
+    challenge: "Concentrar una idea en pocos segundos sin que el contenido pierda identidad ni intención.",
+    approach: "Trabajamos apertura, cortes, tipografía en movimiento y cadencia según la plataforma y la audiencia.",
+    impact: "Una pieza más fácil de seguir, recordar y compartir, pensada para el comportamiento real del usuario."
+  },
+  "campanas-ads": {
+    label: "campañas digitales",
+    title: "Creatividad con una dirección clara.",
+    intro: "Una campaña no es una suma de anuncios: es un recorrido visual que acompaña al usuario desde el impacto hasta la acción.",
+    challenge: "Detener el scroll y comunicar una propuesta de valor en un entorno saturado de estímulos.",
+    approach: "Construimos conceptos, variaciones y formatos con mensajes jerarquizados para cada etapa de campaña.",
+    impact: "El sistema mantiene coherencia mientras cada anuncio cumple una función concreta dentro del recorrido."
+  },
+  "fotografia": {
+    label: "dirección de imagen",
+    title: "La imagen como primer contacto.",
+    intro: "Antes de explicar un producto, la fotografía ya transmite textura, escala, actitud y una promesa de marca.",
+    challenge: "Mostrar el producto con intención y diferenciarlo sin alejarlo de cómo lo verá la persona.",
+    approach: "Definimos luz, encuadre, fondos y secuencia para crear una serie útil en distintos puntos de contacto.",
+    impact: "Las imágenes construyen confianza, despiertan interés y facilitan una decisión más informada."
+  },
+  "gigantografia-brandeo": {
+    label: "marca en el espacio",
+    title: "Del diseño al lugar que se habita.",
+    intro: "Cuando la identidad sale de la pantalla, escala, distancia y recorrido pasan a ser parte del mensaje.",
+    challenge: "Llevar la marca a gran formato sin perder legibilidad, personalidad ni relación con el entorno.",
+    approach: "Diseñamos por capas de lectura: impacto a distancia, información cercana y detalles de reconocimiento.",
+    impact: "El espacio orienta, comunica y se convierte en una experiencia coherente con la marca."
+  },
+  "papeleria": {
+    label: "identidad tangible",
+    title: "Una marca que también se puede tocar.",
+    intro: "La papelería convierte el sistema visual en objetos cotidianos y hace que cada intercambio se sienta cuidado.",
+    challenge: "Mantener consistencia entre piezas, tamaños, materiales y necesidades de uso muy diferentes.",
+    approach: "Ordenamos grillas, jerarquías y terminaciones para que cada soporte funcione solo y como parte del conjunto.",
+    impact: "La experiencia se vuelve reconocible y profesional desde el primer contacto físico."
+  },
+  "packaging": {
+    label: "diseño de empaque",
+    title: "Del plano al objeto.",
+    intro: "El packaging protege, informa y presenta. Su diseño empieza en la estructura y termina en la experiencia de abrirlo.",
+    challenge: "Hacer convivir información, identidad y requisitos técnicos en una superficie limitada.",
+    approach: "Diseñamos sobre el troquel, probamos jerarquías y anticipamos cómo se descubre cada cara del objeto.",
+    impact: "Un empaque claro, memorable y preparado para funcionar tanto en exhibición como en las manos del usuario."
+  },
+  "indumentaria": {
+    label: "identidad aplicada",
+    title: "La marca toma cuerpo.",
+    intro: "En indumentaria, el diseño se mueve, cambia de escala y convive con quien lo usa.",
+    challenge: "Traducir la identidad a prendas reales sin perder presencia, comodidad ni posibilidades de producción.",
+    approach: "Ajustamos composición, ubicación, contraste y técnica para cada prenda y contexto de uso.",
+    impact: "La persona no solo ve la marca: la incorpora, la reconoce y la lleva consigo."
+  },
+  "gestion-de-redes": {
+    label: "ecosistema de contenidos",
+    title: "Una voz que se reconoce en movimiento.",
+    intro: "Gestionar redes es sostener una conversación: cada publicación tiene un rol y todas construyen percepción.",
+    challenge: "Mantener frecuencia y variedad sin que la identidad ni el objetivo se diluyan.",
+    approach: "Organizamos pilares, formatos y ritmos editoriales para conectar estrategia, diseño y comunidad.",
+    impact: "El usuario encuentra continuidad, entiende qué ofrece la marca y sabe cómo vincularse con ella."
+  },
+  "cuentas-gestionadas": {
+    label: "dirección continua",
+    title: "Consistencia que se construye en el tiempo.",
+    intro: "Una cuenta gestionada conecta decisiones diarias con una dirección de marca que se sostiene mes a mes.",
+    challenge: "Responder a oportunidades nuevas sin perder tono, orden ni objetivos de comunicación.",
+    approach: "Combinamos planificación, sistemas flexibles y lectura de resultados para ajustar el contenido.",
+    impact: "La experiencia se siente estable para el usuario y ágil para la marca."
+  },
+  "diseno-web": {
+    label: "experiencia digital",
+    title: "Recorridos que conectan intención y acción.",
+    intro: "Una web no se limita a mostrar: orienta, responde preguntas y acompaña a la persona hasta el siguiente paso.",
+    challenge: "Ordenar mucha información sin perder personalidad, velocidad ni una ruta de navegación clara.",
+    approach: "Diseñamos jerarquías, estados, llamados a la acción y momentos visuales según el recorrido del usuario.",
+    impact: "La interacción se vuelve intuitiva, la propuesta se entiende y cada sección invita a continuar."
+  }
+};
 
-  strip.addEventListener("pointerdown", (event) => {
-    isDown = true;
-    startX = event.clientX;
-    scrollLeft = strip.scrollLeft;
-    strip.setPointerCapture(event.pointerId);
-  });
+const serviceSlug = location.pathname.split("/").pop().replace(/\\.html$/i, "");
+const normalizedServiceSlug = serviceSlug.split(".html")[0];
+const serviceStory = serviceStoryData[normalizedServiceSlug];
+document.body.classList.add("project-page", `project-${normalizedServiceSlug}`);
 
-  strip.addEventListener("pointermove", (event) => {
-    if (!isDown) return;
-    strip.scrollLeft = scrollLeft - (event.clientX - startX);
-  });
+if (serviceStory && !document.querySelector("[data-case-story]")) {
+  const caseStory = document.createElement("section");
+  caseStory.className = "case-story";
+  caseStory.dataset.caseStory = "";
+  caseStory.innerHTML = `
+    <div class="case-story-progress" aria-hidden="true"><span></span></div>
+    <div class="case-story-shell">
+      <header class="case-story-intro" data-reveal>
+        <span class="case-story-kicker">proyecto / proceso / experiencia</span>
+        <p class="case-story-label">${serviceStory.label}</p>
+        <h2 data-split>${serviceStory.title}</h2>
+        <p class="case-story-lead">${serviceStory.intro}</p>
+      </header>
+      <div class="case-story-steps">
+        <article data-reveal><span>01</span><small>desafío</small><p>${serviceStory.challenge}</p></article>
+        <article data-reveal><span>02</span><small>decisión</small><p>${serviceStory.approach}</p></article>
+        <article data-reveal><span>03</span><small>experiencia</small><p>${serviceStory.impact}</p></article>
+      </div>
+      <div class="case-story-bridge" data-reveal>
+        <span>de la idea al uso real</span>
+        <p>La pieza es el resultado visible. Debajo hay una decisión pensada para que la marca y la persona se entiendan mejor.</p>
+      </div>
+    </div>
+  `;
+  const heroSection = document.querySelector(".service-hero");
+  const immediateNote = heroSection?.nextElementSibling?.matches(".service-note")
+    ? heroSection.nextElementSibling
+    : null;
+  const anchor = immediateNote || heroSection;
+  anchor?.insertAdjacentElement("afterend", caseStory);
 
-  strip.addEventListener("pointerup", () => {
-    isDown = false;
+  document.querySelectorAll(".client-work").forEach((project, index) => {
+    const head = project.querySelector(".client-head");
+    if (!head || project.querySelector(".project-reading-key")) return;
+    const tags = [...project.querySelectorAll(".client-tags span")].slice(0, 2).map((tag) => tag.textContent.trim()).join(" + ");
+    const reading = document.createElement("div");
+    reading.className = "project-reading-key";
+    reading.innerHTML = `
+      <span>proyecto ${String(index + 1).padStart(2, "0")}</span>
+      <p><b>necesidad</b>${tags || serviceStory.label}</p>
+      <p><b>decisión</b>un sistema visual flexible y reconocible</p>
+      <p><b>uso</b>claridad para la marca y para quien la mira</p>
+    `;
+    head.insertAdjacentElement("afterend", reading);
   });
+}
 
-  strip.addEventListener("pointercancel", () => {
-    isDown = false;
+const enhanceProjectChapters = () => {
+  const chapters = [...document.querySelectorAll("main > section")].filter((section) =>
+    !section.matches(".service-hero,.service-note,.case-story,.service-end,[hidden]")
+  );
+
+  chapters.forEach((section, index) => {
+    section.classList.add("project-chapter");
+    section.style.setProperty("--project-chapter", index + 1);
+    if (!section.id) section.id = `capitulo-${index + 1}`;
+    if (section.querySelector(":scope > .project-chapter-index")) return;
+    const marker = document.createElement("span");
+    marker.className = "project-chapter-index";
+    marker.setAttribute("aria-hidden", "true");
+    marker.innerHTML = `<b>${String(index + 1).padStart(2, "0")}</b><i>capítulo</i>`;
+    section.prepend(marker);
   });
-});
+};
+
+enhanceProjectChapters();
+window.addEventListener("DOMContentLoaded", enhanceProjectChapters, { once: true });
 
 const catGuide = document.createElement("aside");
 catGuide.className = "service-cat-guide";
@@ -518,6 +656,14 @@ const updateServiceScroll = () => {
   const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
   const progress = Math.min(100, Math.max(0, (window.scrollY / maxScroll) * 100));
   document.documentElement.style.setProperty("--service-scroll", `${progress}%`);
+  const caseStorySection = document.querySelector("[data-case-story]");
+  if (caseStorySection) {
+    const storyRect = caseStorySection.getBoundingClientRect();
+    const storyRange = Math.max(1, storyRect.height + window.innerHeight);
+    const storyProgress = Math.min(1, Math.max(0, (window.innerHeight - storyRect.top) / storyRange));
+    caseStorySection.style.setProperty("--case-progress", storyProgress.toFixed(3));
+    caseStorySection.style.setProperty("--case-progress-pct", `${storyProgress * 100}%`);
+  }
   catGuide.classList.toggle("is-visible", window.scrollY > 180);
 
   const clients = [...document.querySelectorAll(".client-work")];

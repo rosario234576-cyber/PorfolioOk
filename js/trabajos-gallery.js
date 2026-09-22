@@ -57,7 +57,8 @@ const createTrabajosGallery = () => {
     const layout = type === "packaging" ? (groupIndex === 0 ? "feature" : "project") : type === "fotografia" ? "contact-sheet" : groupIndex % 2 === 0 ? "editorial" : "sequence";
     article.className = `trabajos-client trabajos-layout-${layout}`;
     article.style.setProperty("--trabajos-delay", `${groupIndex * 70}ms`);
-    article.innerHTML = `<header class="trabajos-client-head"><span>${String(groupIndex + 1).padStart(2, "0")}</span><div><small>${category}</small><h3>${client}</h3></div><b>${files.length} piezas</b></header>${story ? `<p class="trabajos-story">${story}</p>` : ""}<div class="trabajos-project-layout"></div>`;
+    const projectStory = story || `Una serie para ${client} donde cada ${category} mantiene el mismo criterio visual y ayuda a leer la marca como un sistema, no como piezas aisladas.`;
+    article.innerHTML = `<header class="trabajos-client-head"><span>${String(groupIndex + 1).padStart(2, "0")}</span><div><small>${category}</small><h3>${client}</h3></div><b>${files.length} piezas</b></header><p class="trabajos-story">${projectStory}</p><div class="trabajos-project-layout"></div>`;
     const gallery = article.querySelector(".trabajos-project-layout");
 
     files.forEach((file, index) => {
