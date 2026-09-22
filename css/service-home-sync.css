@@ -424,3 +424,16 @@
   .service-detail.project-packaging .packaging-static-grid::-webkit-scrollbar,.service-detail.project-packaging .packaging-real-grid::-webkit-scrollbar{display:none}
   .service-detail.project-packaging .packaging-static-grid .work-card,.service-detail.project-packaging .packaging-real-grid .work-card{flex:0 0 min(76vw,310px);width:min(76vw,310px);scroll-snap-align:start}
 }
+/* Heroes internos: títulos compactos, centrados y con cortes controlados. */
+.service-detail .service-hero-inner{grid-template-columns:minmax(0,1fr);justify-items:center;text-align:center}
+.service-detail .service-hero .reveal-left{display:flex;flex-direction:column;align-items:center;width:min(100%,960px);margin-inline:auto}
+.service-detail .service-hero h1{width:100%;max-width:820px;margin:0 auto 28px;font-size:clamp(3.6rem,6.4vw,7rem);line-height:.84;text-align:center;text-wrap:initial}
+.service-detail .service-hero h1 .service-title-line{display:block;white-space:nowrap}
+.service-detail .service-hero .service-eyebrow{margin-inline:auto}
+.service-detail .service-hero .reveal-left>p{margin-inline:auto;text-align:center}
+.service-detail .service-hero-actions{justify-content:center}
+.service-detail .service-hero .design-tools{width:min(100%,900px);margin-inline:auto;text-align:left}
+@media(max-width:760px){
+  .service-detail .service-hero h1{max-width:100%;font-size:clamp(2.8rem,12.5vw,4.6rem);line-height:.86;overflow-wrap:normal}
+  .service-detail .service-hero h1 .service-title-line{white-space:normal}
+}
