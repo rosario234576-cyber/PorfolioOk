@@ -360,3 +360,42 @@
   .service-detail .project-reading-key{grid-template-columns:1fr 1fr;gap:16px 12px;margin-bottom:38px}
   .service-detail .project-reading-key>span{grid-column:1/-1}
 }
+
+/* Diseño de piezas: grilla uniforme, sin destacados ni cortes de tamaño. */
+.service-detail.project-diseno-de-piezas .trabajos-project-layout{
+  display:grid!important;
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  align-items:stretch!important;
+  gap:14px!important;
+}
+.service-detail.project-diseno-de-piezas .trabajos-project-layout>.trabajos-card,
+.service-detail.project-diseno-de-piezas .trabajos-project-layout>.trabajos-card:first-child,
+.service-detail.project-diseno-de-piezas .trabajos-project-layout>.trabajos-card:nth-child(3n+1){
+  grid-column:auto!important;
+  grid-row:auto!important;
+  width:100%!important;
+  height:auto!important;
+  aspect-ratio:1/1!important;
+  margin:0!important;
+  transform:none!important;
+}
+.service-detail.project-diseno-de-piezas .trabajos-project-layout>.trabajos-card img,
+.service-detail.project-diseno-de-piezas .trabajos-project-layout>.trabajos-card:first-child img{
+  display:block;
+  width:100%!important;
+  height:100%!important;
+  max-height:none!important;
+  object-fit:contain!important;
+}
+@media(max-width:760px){
+  .service-detail.project-diseno-de-piezas .trabajos-project-layout{
+    display:flex!important;
+    grid-template-columns:none!important;
+    align-items:stretch!important;
+  }
+  .service-detail.project-diseno-de-piezas .trabajos-project-layout>.trabajos-card{
+    flex:0 0 min(78vw,330px)!important;
+    width:min(78vw,330px)!important;
+    aspect-ratio:1/1!important;
+  }
+}

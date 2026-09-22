@@ -86,6 +86,7 @@ button{font:inherit}
 .wc-tags a:hover,.wc-tags a:active{background:var(--orange);border-color:var(--orange);color:var(--dark);transform:scale(.97)}
 .wc-sublist{display:grid;gap:10px}
 .wc-sub{border-radius:14px;background:rgba(255,255,255,.04);overflow:hidden;transition:background .2s;list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:20px 22px;font:800 17px/1.2 Roc;text-transform:uppercase;letter-spacing:.02em;color:var(--paper);-webkit-tap-highlight-color:transparent}
+.wc-sub:only-child{grid-column:1/-1}
 .wc-sub:hover,.wc-sub:active{background:rgba(255,255,255,.07)}
 .wc-sub i{font-style:normal;color:var(--orange);font-size:16px;transition:transform .3s var(--ease)}
 .wc-sub:hover i{transform:translate(3px,-3px)}
