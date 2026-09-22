@@ -399,3 +399,28 @@
     aspect-ratio:1/1!important;
   }
 }
+/* Packaging / Limoncello: sistema plano y mockups en capítulos separados. */
+.service-detail.project-packaging .packaging-project-heading{display:grid;grid-template-columns:minmax(0,1fr) minmax(260px,420px);align-items:end;gap:22px 50px;padding:clamp(90px,12vw,170px) 0 clamp(50px,7vw,90px);border-top:1px solid rgba(241,238,231,.16)}
+.service-detail.project-packaging .packaging-project-heading .packaging-kicker{grid-column:1/-1}
+.service-detail.project-packaging .packaging-project-heading h2{margin:0;color:var(--light);font-family:var(--font-title);font-size:clamp(4rem,9vw,9rem);line-height:.8;text-transform:uppercase}
+.service-detail.project-packaging .packaging-project-heading h2 em{color:var(--primary);font-style:normal}
+.service-detail.project-packaging .packaging-project-heading p{max-width:400px;margin:0 0 5px;color:rgba(241,238,231,.66);font-size:1rem;line-height:1.6}
+.service-detail.project-packaging .packaging-static-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.service-detail.project-packaging .packaging-real-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.service-detail.project-packaging .packaging-static-grid .work-card,.service-detail.project-packaging .packaging-real-grid .work-card{display:flex;flex-direction:column;margin:0;padding:12px;border-radius:12px;background:#f1eee7;box-shadow:none;overflow:hidden}
+.service-detail.project-packaging .packaging-static-grid .work-card{aspect-ratio:3/4}
+.service-detail.project-packaging .packaging-real-grid .work-card{aspect-ratio:4/5}
+.service-detail.project-packaging .packaging-static-grid img,.service-detail.project-packaging .packaging-real-grid img{display:block;width:100%;min-height:0;flex:1 1 auto;object-fit:contain;background:#fff}
+.service-detail.project-packaging .packaging-static-grid figcaption,.service-detail.project-packaging .packaging-real-grid figcaption{position:static;margin:10px 0 0;padding:0;background:none;color:#101513;font:800 .65rem/1.2 var(--font-subtitle);letter-spacing:.07em;text-transform:uppercase}
+@media(max-width:900px){
+  .service-detail.project-packaging .packaging-static-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .service-detail.project-packaging .packaging-real-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+}
+@media(max-width:760px){
+  .service-detail.project-packaging .packaging-project-heading{display:block;padding:84px 0 44px}
+  .service-detail.project-packaging .packaging-project-heading h2{margin:14px 0 20px;font-size:clamp(3.6rem,16vw,6rem)}
+  .service-detail.project-packaging .packaging-project-heading p{max-width:34ch}
+  .service-detail.project-packaging .packaging-static-grid,.service-detail.project-packaging .packaging-real-grid{display:flex;gap:12px;width:calc(100% + 17px);margin-right:-17px;padding:2px 17px 18px 0;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+  .service-detail.project-packaging .packaging-static-grid::-webkit-scrollbar,.service-detail.project-packaging .packaging-real-grid::-webkit-scrollbar{display:none}
+  .service-detail.project-packaging .packaging-static-grid .work-card,.service-detail.project-packaging .packaging-real-grid .work-card{flex:0 0 min(76vw,310px);width:min(76vw,310px);scroll-snap-align:start}
+}

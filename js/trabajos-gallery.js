@@ -13,8 +13,8 @@ const trabajosGalleryData = {
     ["Irazztech", "gráficas tech", ["Irazztech/1.jpg", "Irazztech/2.jpg", "Irazztech/3.jpg", "Irazztech/4.jpg"]]
   ],
   packaging: [
-    ["Packaging", "diseño plano + troquel", ["Packaging/Plantilla_Troquel_Opcion_elegida.jpg"], "Primero aparece la pieza plana: estructura, medidas, pliegues y una gráfica lista para pasar a producción."],
-    ["Packaging", "mockup impreso", ["Packaging/Mock_Up_Elegido/1.jpg", "Packaging/Mock_Up_Elegido/2.jpg", "Packaging/Mock_Up_Elegido/3.jpg", "Packaging/Mock_Up_Elegido/4.jpg", "Packaging/Mock_Up_Elegido/5.jpg"], "Después, el diseño se vuelve objeto: distintos ángulos para entender cómo funciona el packaging en volumen."],
+    ["Packaging", "diseño plano + troquel", ["Packaging/Packaging1/Plantilla_Troquel_Opcion_elegida.jpg"], "Primero aparece la pieza plana: estructura, medidas, pliegues y una gráfica lista para pasar a producción."],
+    ["Packaging", "mockup impreso", ["Packaging/Packaging1/Mock_Up_Elegido/1.jpg", "Packaging/Packaging1/Mock_Up_Elegido/2.jpg", "Packaging/Packaging1/Mock_Up_Elegido/3.jpg", "Packaging/Packaging1/Mock_Up_Elegido/4.jpg", "Packaging/Packaging1/Mock_Up_Elegido/5.jpg"], "Después, el diseño se vuelve objeto: distintos ángulos para entender cómo funciona el packaging en volumen."],
     ["Electronic Games", "cartelería", ["Carteleria electronicgames/1.jpg", "Carteleria electronicgames/2.jpg", "Carteleria electronicgames/3.jpg"], "Una identidad pensada para verse a distancia y convertir el espacio físico en parte de la experiencia."],
     ["Tu Plan Futuro", "roll up", ["Tu plan Futuro/Roll Up/Impreso.jpg", "Tu plan Futuro/Roll Up/Mock up.jpg", "Tu plan Futuro/Roll Up/Pendón 80 x 200 cm.jpg"], "La marca sale de la pantalla y se adapta a una pieza clara, visible y lista para eventos."],
     ["Tu Plan Futuro", "banners publicitarios", ["Tu plan Futuro/Banner Publicitario/Banner Publicitario.jpg", "Tu plan Futuro/Banner Publicitario/Impreso.jpg", "Tu plan Futuro/Banner Publicitario/Mock up.jpg"], "Una misma dirección visual llevada a distintos soportes para sostener el mensaje en cada punto de contacto."],
