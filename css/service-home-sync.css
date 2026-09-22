@@ -449,3 +449,63 @@
   .service-detail.project-packaging .packaging-real-grid .work-card img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:contain;background:#ece9e3}
   .service-detail.project-packaging .packaging-real-grid .work-card figcaption{margin:0;padding:3px 2px 2px;background:#ece9e3;color:#101513}
 }
+/* Video mobile: previews visibles en carruseles horizontales. */
+@media(max-width:760px){
+  .service-detail.project-edicion-de-video .video-intro,
+  .service-detail.project-edicion-de-video .video-gallery-showcase{overflow:hidden}
+  .service-detail.project-edicion-de-video .video-intro .container,
+  .service-detail.project-edicion-de-video .video-gallery-showcase .container{width:calc(100% - 34px);overflow:visible}
+  .service-detail.project-edicion-de-video .video-intro-grid,
+  .service-detail.project-edicion-de-video .video-gallery-grid{
+    box-sizing:border-box;
+    display:flex!important;
+    grid-template-columns:none!important;
+    grid-auto-flow:initial!important;
+    gap:12px!important;
+    width:calc(100% + 17px)!important;
+    max-width:none!important;
+    margin:0 -17px 0 0!important;
+    padding:8px 17px 20px 0!important;
+    overflow-x:auto!important;
+    overflow-y:hidden!important;
+    scroll-snap-type:x mandatory;
+    scroll-padding-inline:0 17px;
+    overscroll-behavior-inline:contain;
+    touch-action:pan-x!important;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .service-detail.project-edicion-de-video .video-intro-grid::-webkit-scrollbar,
+  .service-detail.project-edicion-de-video .video-gallery-grid::-webkit-scrollbar{display:none}
+  .service-detail.project-edicion-de-video .video-intro-card,
+  .service-detail.project-edicion-de-video .video-gallery-card{
+    position:relative!important;
+    display:block!important;
+    flex:0 0 min(76vw,290px)!important;
+    width:min(76vw,290px)!important;
+    min-width:min(76vw,290px)!important;
+    height:auto!important;
+    aspect-ratio:9/16!important;
+    margin:0!important;
+    opacity:1!important;
+    visibility:visible!important;
+    transform:none!important;
+    content-visibility:visible!important;
+    contain:none!important;
+    scroll-snap-align:start;
+    scroll-snap-stop:always;
+  }
+  .service-detail.project-edicion-de-video .video-intro-card video,
+  .service-detail.project-edicion-de-video .video-gallery-card video{
+    display:block!important;
+    width:100%!important;
+    height:100%!important;
+    min-height:0!important;
+    aspect-ratio:9/16!important;
+    opacity:1!important;
+    visibility:visible!important;
+    object-fit:cover!important;
+    background:#020b0b!important;
+  }
+  .service-detail.project-edicion-de-video .video-card-overlay{display:flex!important;visibility:visible!important;opacity:1!important}
+}

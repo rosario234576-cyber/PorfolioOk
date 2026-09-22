@@ -244,7 +244,10 @@
       else video.pause();
     });
   }, { threshold: [0, .3, .7] });
-  document.querySelectorAll('video').forEach((video) => videoObserver.observe(video));
+  document.querySelectorAll('video').forEach((video) => {
+    const isMutedPreview = video.muted || video.defaultMuted || video.hasAttribute('muted');
+    if (isMutedPreview) videoObserver.observe(video);
+  });
 
   document.querySelectorAll('[data-reveal="stick"],[data-reveal="pop"]').forEach((el) => {
     el.addEventListener('animationend', () => el.classList.add('mf-settled'), { once: true });

@@ -19,7 +19,8 @@ if (navToggle && navLinks) {
     link.addEventListener("click", () => setMenuOpen(false));
   });
 
-  document.addEventListener("keydown", (event) => {
+
+document.addEventListener("keydown", (event) => {
     if (event.key === "Escape") setMenuOpen(false);
   });
 
@@ -345,7 +346,38 @@ const buildDescription = (element) => {
   return `${client} / ${block}. pieza seleccionada para ver el diseno con mas aire, detalle y contexto visual. formato: ${caption}.`;
 };
 
+const stopVideoPlayback = (video, { reset = true, release = false } = {}) => {
+  if (!video) return;
+  try { video.pause(); } catch (_) {}
+  video.muted = true;
+  video.defaultMuted = true;
+  video.volume = 0;
+  if (reset) {
+    try { video.currentTime = 0; } catch (_) {}
+  }
+  if (video.srcObject) {
+    video.srcObject.getTracks?.().forEach((track) => track.stop());
+    video.srcObject = null;
+  }
+  if (document.pictureInPictureElement === video) {
+    document.exitPictureInPicture?.().catch(() => {});
+  }
+  if (release) {
+    video.removeAttribute("autoplay");
+    video.removeAttribute("src");
+    video.querySelectorAll("source").forEach((source) => source.removeAttribute("src"));
+    try { video.load(); } catch (_) {}
+  }
+};
+
+const stopAllVideoAudio = (except = null) => {
+  document.querySelectorAll("video").forEach((video) => {
+    if (video !== except) stopVideoPlayback(video, { reset: false });
+  });
+};
 const openLightbox = (source) => {
+  stopAllVideoAudio();
+  lightboxMedia.querySelectorAll("video").forEach((video) => stopVideoPlayback(video, { release: true }));
   const tagName = source.tagName.toLowerCase();
   const media = source.cloneNode(true);
   const title = getCaption(source);
@@ -381,14 +413,10 @@ const openLightbox = (source) => {
 window.openServiceLightbox = openLightbox;
 
 const closeLightbox = () => {
-  const activeVideo = lightboxMedia.querySelector("video");
-  if (activeVideo) {
-    activeVideo.pause();
-    activeVideo.currentTime = 0;
-    activeVideo.removeAttribute("src");
-    activeVideo.querySelectorAll("source").forEach((source) => source.removeAttribute("src"));
-    activeVideo.load();
-  }
+  lightboxMedia.querySelectorAll("video").forEach((video) => {
+    stopVideoPlayback(video, { release: true });
+  });
+  stopAllVideoAudio();
   lightbox.classList.remove("is-open");
   lightbox.setAttribute("aria-hidden", "true");
   document.body.style.overflow = "";
@@ -408,6 +436,16 @@ lightbox.addEventListener("click", (event) => {
   if (event.target === lightbox) closeLightbox();
 });
 
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    if (lightbox.classList.contains("is-open")) closeLightbox();
+    else stopAllVideoAudio();
+  }
+});
+window.addEventListener("pagehide", () => {
+  lightboxMedia.querySelectorAll("video").forEach((video) => stopVideoPlayback(video, { release: true }));
+  stopAllVideoAudio();
+});
 document.addEventListener("keydown", (event) => {
   if (event.key === "Escape" && lightbox.classList.contains("is-open")) {
     closeLightbox();
@@ -700,8 +738,13 @@ document.querySelectorAll("[data-video-shell]").forEach((shell) => {
   video.pause();
 
   playButton.addEventListener("click", () => {
+    stopAllVideoAudio(video);
     shell.classList.add("is-playing");
     video.controls = true;
+    video.muted = false;
+    video.defaultMuted = false;
+    video.volume = 1;
+    video.removeAttribute("muted");
     const playPromise = video.play();
     if (playPromise && typeof playPromise.catch === "function") {
       playPromise.catch(() => shell.classList.remove("is-playing"));
