@@ -747,3 +747,22 @@ button{font:inherit}
 }
 /* Hero desktop: bloque informativo ligeramente más abajo. */
 @media(min-width:761px){.hero .hero-info{top:62%}}
+/* Navegacion mobile: proyectos se despliega solamente al tocarlo. */
+@media(max-width:900px){
+  .site-header .site-nav .nav-projects-menu,
+  .site-header .site-nav .nav-projects:hover .nav-projects-menu,
+  .site-header .site-nav .nav-projects:focus-within .nav-projects-menu{display:grid;max-height:0;gap:0;padding:0;overflow:hidden;opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-8px)!important;transition:max-height .38s var(--ease),gap .3s ease,padding .3s ease,opacity .22s ease,transform .3s var(--ease),visibility 0s linear .38s}
+  .site-header .site-nav .nav-projects.is-expanded .nav-projects-menu,
+  .site-header .site-nav .nav-projects.is-expanded:hover .nav-projects-menu,
+  .site-header .site-nav .nav-projects.is-expanded:focus-within .nav-projects-menu{max-height:320px;gap:7px;padding:0 0 15px;opacity:1;visibility:visible;pointer-events:auto;transform:none!important;transition-delay:0s}
+  .site-header .site-nav .nav-projects:hover .nav-projects-trigger>span,
+  .site-header .site-nav .nav-projects:focus-within .nav-projects-trigger>span{transform:none}
+  .site-header .site-nav .nav-projects.is-expanded .nav-projects-trigger>span{transform:rotate(180deg)}
+}
+
+/* Hero mobile: composicion mas alta y compacta. */
+@media(max-width:760px){
+  .hero{justify-content:flex-start;padding-top:calc(var(--header) + 24px)}
+  .hero .hero-kicker{margin-bottom:13px}
+  .hero .hero-info{margin-top:22px}
+}
