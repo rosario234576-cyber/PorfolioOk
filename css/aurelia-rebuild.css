@@ -762,7 +762,7 @@ button{font:inherit}
 
 /* Hero mobile: composicion mas alta y compacta. */
 @media(max-width:760px){
-  .hero{justify-content:flex-start;padding-top:calc(var(--header) + 38px)}
+  .hero{justify-content:center;padding-top:calc(var(--header) + 20px);padding-bottom:20px;transform:translateY(-2vh)}
   .hero .hero-kicker{margin-bottom:13px}
   .hero .hero-info{margin-top:22px}
 }
