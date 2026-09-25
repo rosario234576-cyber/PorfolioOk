@@ -2436,3 +2436,8 @@ p::first-letter,
 }
 /* Control de audio visible y consistente con el estado real del video. */
 .service-lightbox-cta.is-muted{background:transparent;color:var(--primary)}
+/* Vistas rápidas interactivas: controles nativos accesibles en cada tarjeta. */
+.video-intro-card video{pointer-events:auto}
+.video-intro-card .video-card-overlay{display:none!important}
+.video-intro-card figcaption{top:14px;bottom:auto;padding:0 0 10px;border-top:0;border-bottom:1px solid rgba(245,242,238,.25);pointer-events:none}
+.video-intro-card::before{pointer-events:none;background:linear-gradient(180deg,rgba(3,16,16,.48),transparent 28%,rgba(3,16,16,.2) 72%,rgba(3,16,16,.52))}

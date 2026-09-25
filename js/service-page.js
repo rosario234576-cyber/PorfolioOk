@@ -192,8 +192,13 @@ const setupVideoPreviewCards = () => {
     const video = card.querySelector("video");
     if (!video) return;
 
-    const overlay = card.querySelector(".video-card-overlay") || document.createElement("button");
-    if (!overlay.parentElement) {
+    const isInlinePlayer = card.classList.contains("video-intro-card");
+    let overlay = card.querySelector(".video-card-overlay");
+    if (isInlinePlayer) {
+      overlay?.remove();
+      overlay = null;
+    } else if (!overlay) {
+      overlay = document.createElement("button");
       overlay.type = "button";
       overlay.className = "video-card-overlay";
       overlay.setAttribute("aria-label", "Ver video completo");
@@ -201,7 +206,7 @@ const setupVideoPreviewCards = () => {
       card.appendChild(overlay);
     }
 
-    video.controls = false;
+    video.controls = isInlinePlayer;
     video.removeAttribute("autoplay");
     video.muted = true;
     video.defaultMuted = true;
@@ -226,11 +231,21 @@ const setupVideoPreviewCards = () => {
       event?.stopPropagation();
       openLightbox(video);
     };
-    overlay.addEventListener("click", openCardVideo);
-    card.addEventListener("click", (event) => {
-      if (event.target.closest("button")) return;
-      openCardVideo(event);
-    });
+    if (overlay) {
+      overlay.addEventListener("click", openCardVideo);
+      card.addEventListener("click", (event) => {
+        if (event.target.closest("button")) return;
+        openCardVideo(event);
+      });
+    }
+    if (isInlinePlayer) {
+      video.addEventListener("play", () => {
+        if (!video.muted && video.volume > 0) stopAllVideoAudio(video);
+      });
+      video.addEventListener("volumechange", () => {
+        if (!video.muted && video.volume > 0) stopAllVideoAudio(video);
+      });
+    }
   });
 
   previewVideoObserver = new IntersectionObserver((entries) => {
