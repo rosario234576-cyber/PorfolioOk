@@ -829,3 +829,11 @@ button{font:inherit}
   .svc-tile:hover,.svc-tile:focus-visible{transform:none}
 }
 @media(prefers-reduced-motion:reduce){.svc-flip,.svc-shadow{animation:none}.svc-flip,.svc-tile,.svc-top i{transition:none}}
+
+/* Trabajos: fotografía como fila fija (sin desplegable) */
+.wc-static-row{display:flex;align-items:center;gap:16px;padding:22px 24px}
+.wc-static-copy{flex:1;min-width:0}
+.wc-static-copy p{margin:8px 0 0;max-width:560px;font-size:13px;line-height:1.6;color:rgba(241,238,231,.72)}
+.wc-static-row .wc-more{flex:0 0 auto;margin:0}
+@media(min-width:761px){.wc-static-row{padding:32px 42px;gap:24px}}
+@media(max-width:760px){.wc-static-row{flex-wrap:wrap}.wc-static-copy{flex-basis:calc(100% - 120px)}.wc-static-row .wc-more{width:100%}}
