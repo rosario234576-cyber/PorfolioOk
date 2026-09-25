@@ -318,6 +318,17 @@
     window.addEventListener('resize', moveScrollAstronaut);
   }
 
+  document.querySelectorAll('.svc-mockup').forEach((mockup) => {
+    let paused = false;
+    mockup.addEventListener('click', () => mockup.classList.toggle('is-flipped'));
+    mockup.addEventListener('pointerenter', () => { paused = true; });
+    mockup.addEventListener('pointerleave', () => { paused = false; });
+    if (reducedMotion.matches) return;
+    setInterval(() => {
+      if (!paused && !document.hidden) mockup.classList.toggle('is-flipped');
+    }, 4500);
+  });
+
   document.querySelectorAll('.outline-button,.nav-contact,.text-link').forEach((button) => {
     button.addEventListener('pointermove', (event) => {
       if (reducedMotion.matches || event.pointerType === 'touch') return;
