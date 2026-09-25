@@ -800,7 +800,7 @@ button{font:inherit}
 .svc-mockup-hint{position:absolute;right:0;bottom:0;z-index:3;font:600 12px/1 Roc,Impact,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:rgba(241,238,231,.45)}
 @keyframes svcFloat{0%,100%{translate:0 0}50%{translate:0 -10px}}
 @keyframes svcShadow{0%,100%{opacity:1;scale:1}50%{opacity:.7;scale:.9}}
-.svc-tile{display:flex;flex-direction:column;gap:12px;padding:26px;background:#282b29;color:var(--paper);text-decoration:none;transition:transform .35s var(--ease),background .3s,color .3s}
+.svc-tile{cursor:default;display:flex;flex-direction:column;gap:12px;padding:26px;background:#282b29;color:var(--paper);text-decoration:none;transition:transform .35s var(--ease),background .3s,color .3s}
 .svc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:auto}
 .svc-top b{font:800 13px/1 Roc,Impact,sans-serif;color:var(--orange);transition:color .3s}
 .svc-top i{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--orange);color:var(--dark);font-style:normal;font-size:19px;transition:background .3s,color .3s,transform .35s var(--ease)}
