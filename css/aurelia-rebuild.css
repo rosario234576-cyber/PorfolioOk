@@ -837,3 +837,27 @@ button{font:inherit}
 .wc-static-row .wc-more{flex:0 0 auto;margin:0}
 @media(min-width:761px){.wc-static-row{padding:32px 42px;gap:24px}}
 @media(max-width:760px){.wc-static-row{flex-wrap:wrap}.wc-static-copy{flex-basis:calc(100% - 120px)}.wc-static-row .wc-more{width:100%}}
+
+/* Servicios: carrusel en mobile */
+.svc-tiles{display:contents}
+@media(max-width:760px){
+  .svc-tiles{grid-column:1/-1;min-width:0;display:flex;gap:10px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-inline:contain;margin:0 -17px;padding:2px 17px 6px;scroll-padding-inline:17px}
+  .svc-tiles::-webkit-scrollbar{display:none}
+  .svc-tiles .svc-tile{flex:0 0 72%;min-height:190px;scroll-snap-align:start}
+  .svc-tiles [data-reveal]{opacity:1;transform:none}
+}
+
+/* Sobre mí en mobile: título → foto → info, texto justificado */
+@media(max-width:760px){
+  .about-grid{row-gap:0}
+  .about-copy{display:contents}
+  .about-copy>.eyebrow{order:1}
+  .about-copy>h2{order:2;margin:18px 0 26px;text-align:center}
+  .about-portrait{order:3;grid-row:auto}
+  .about-copy>.about-lead{order:4;margin:30px 0 0;max-width:none;text-align:justify;text-align-last:left;hyphens:auto;-webkit-hyphens:auto}
+  .about-copy>.about-personal{order:5;margin:16px 0 0;max-width:none;text-align:justify;text-align-last:left;hyphens:auto;-webkit-hyphens:auto}
+  .about-copy>ul{order:6;max-width:none;margin:24px 0 0;text-align:left}
+  .about-copy li{justify-content:flex-start}
+  .about-copy>.outline-button{order:7;justify-self:center;margin-top:28px}
+  .about-data{order:8;margin-top:40px}
+}
