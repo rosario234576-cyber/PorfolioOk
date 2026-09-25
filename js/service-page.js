@@ -116,7 +116,6 @@ const videoCatalog = [
   ["../assets/proyectos/Asesoras Inmobiliaria ( Chile)/Contenido de redes/Tu plan futuro/Videos/Tuplanfuturo-Video1.mp4", "tu plan futuro"],
   ["../assets/proyectos/Asesoras Inmobiliaria ( Chile)/Contenido de redes/Tu plan futuro/Videos/Video1-OCTUBRE.mp4", "tu plan futuro"],
   ["../assets/proyectos/CampanasAds/CampañaPuertoMontt/Video/Videopuertomontt.mp4", "campaña puerto montt"],
-  ["../assets/proyectos/CampanasAds/Resultados/2026-07-2119-39-56.mp4", "resultados de campaña"],
   ["../assets/proyectos/Distribuidora ( Ecuador )/Video/08bc8b58-af64-49f3-afca-33a96a949324.mp4", "distribuidora"],
   ["../assets/proyectos/Distribuidora ( Ecuador )/Video/8620a042-ee78-423b-a843-beeae3a2118f.mp4", "distribuidora"],
   ["../assets/proyectos/Invesmar- (Chile)/Videos/1.mp4", "invesmar"],
