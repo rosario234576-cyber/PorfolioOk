@@ -861,3 +861,12 @@ button{font:inherit}
   .about-copy>.outline-button{order:7;justify-self:center;margin-top:28px}
   .about-data{order:8;margin-top:40px}
 }
+
+/* Manifiesto: gato a la derecha del texto, sin firma */
+.manifesto-card-bottom{align-items:center}
+@media(max-width:760px){
+  .manifesto-card-bottom{flex-direction:row;align-items:center;justify-content:space-between;gap:14px;text-align:left}
+  .manifesto-card-bottom>p{flex:1;width:auto;max-width:none;margin:0;text-align:left}
+  .manifesto-card-sign{flex:0 0 auto;width:auto;margin:0}
+  .manifesto-card-sign img{width:54px;height:54px}
+}
