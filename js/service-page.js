@@ -111,37 +111,30 @@ const lazyLoadVideos = () => {
 };
 
 const videoCatalog = [
-  ["../assets/Video.mp4", "showreel"],
-  ["../assets/proyectos/Distribuidora ( Ecuador )/Video/8620a042-ee78-423b-a843-beeae3a2118f.mp4", "distribuidora"],
-  ["../assets/proyectos/Distribuidora ( Ecuador )/Video/08bc8b58-af64-49f3-afca-33a96a949324.mp4", "distribuidora"],
   ["../assets/proyectos/Armado de pc (Arg)/Video/1080x1920.mp4", "armado de pc"],
-  ["../assets/proyectos/Invesmar- (Chile)/Videos/8.mp4", "invesmar"],
-  ["../assets/proyectos/Invesmar- (Chile)/Videos/7.mp4", "invesmar"],
-  ["../assets/proyectos/Invesmar- (Chile)/Videos/5.mp4", "invesmar"],
-  ["../assets/proyectos/Invesmar- (Chile)/Videos/4.mp4", "invesmar"],
-  ["../assets/proyectos/Invesmar- (Chile)/Videos/3.mp4", "invesmar"],
-  ["../assets/proyectos/Invesmar- (Chile)/Videos/2.mp4", "invesmar"],
-  ["../assets/proyectos/Invesmar- (Chile)/Videos/1.mp4", "invesmar"],
-  ["../assets/proyectos/Tienda Cosmética ( Argentina )/Historias/Cierre vitae (3).mp4", "tienda cosmetica"],
-  ["../assets/proyectos/Invesmar- (Chile)/Historias/4.mp4", "invesmar historias"],
-  ["../assets/proyectos/Invesmar- (Chile)/Historias/3.mp4", "invesmar historias"],
-  ["../assets/proyectos/CampanasAds/CampañaPuertoMontt/Video/Videopuertomontt.mp4", "campana puerto montt"],
-  ["../assets/proyectos/Noticias (Méx y Arg)/Video/Newsline report 2.mp4", "newsline report"],
-  ["../assets/proyectos/Asesoras Inmobiliaria ( Chile)/04 - Video Julio/Video julio.mp4", "asesoras inmobiliaria"],
-  ["../assets/proyectos/Asesoras Inmobiliaria ( Chile)/Contenido de redes/Tu plan futuro/Videos/Video1-OCTUBRE.mp4", "tu plan futuro"],
+  ["../assets/proyectos/Asesoras Inmobiliaria ( Chile)/Contenido de redes/Karla. ferval/Video/Parquequinta.mp4", "karla ferval"],
   ["../assets/proyectos/Asesoras Inmobiliaria ( Chile)/Contenido de redes/Tu plan futuro/Videos/Tuplanfuturo-Video1.mp4", "tu plan futuro"],
-  ["../assets/proyectos/Indumentaria (arg)/Historias/c (1).mp4", "indumentaria"],
-  ["../assets/proyectos/Indumentaria (arg)/Historias/2.mp4", "indumentaria"],
-  ["../assets/proyectos/Asesoras Inmobiliaria ( Chile)/Contenido de redes/Karla. ferval/Video/Parquequinta.mp4", "parquequinta"],
-  ["../assets/proyectos/Asesoras Inmobiliaria ( Chile)/Contenido de redes/Karla. ferval/Post/Atelier Prat(1).mp4", "atelier prat"],
-  ["../assets/proyectos/Videojuegos (Ecuador)/Videos/2.mp4", "hardcore gaming"],
-  ["../assets/proyectos/Videojuegos (Ecuador)/Videos/1.mp4", "gaming"],
-  ["../assets/proyectos/Videojuegos (Ecuador)/Videos/3.mp4", "reels promocionales"],
-  ["../assets/proyectos/Maximus gaming (Argentina)/Videos/ddc00307-f1ed-4d4d-93fa-5367d3b4a0ee.mp4", "esports"],
-  ["../assets/proyectos/Maximus gaming (Argentina)/Videos/505a44c8-109b-477a-810c-bd90c9a0b3ab.mp4", "maximus gaming"],
+  ["../assets/proyectos/Asesoras Inmobiliaria ( Chile)/Contenido de redes/Tu plan futuro/Videos/Video1-OCTUBRE.mp4", "tu plan futuro"],
+  ["../assets/proyectos/CampanasAds/CampañaPuertoMontt/Video/Videopuertomontt.mp4", "campaña puerto montt"],
+  ["../assets/proyectos/CampanasAds/Resultados/2026-07-2119-39-56.mp4", "resultados de campaña"],
+  ["../assets/proyectos/Distribuidora ( Ecuador )/Video/08bc8b58-af64-49f3-afca-33a96a949324.mp4", "distribuidora"],
+  ["../assets/proyectos/Distribuidora ( Ecuador )/Video/8620a042-ee78-423b-a843-beeae3a2118f.mp4", "distribuidora"],
+  ["../assets/proyectos/Invesmar- (Chile)/Videos/1.mp4", "invesmar"],
+  ["../assets/proyectos/Invesmar- (Chile)/Videos/2.mp4", "invesmar"],
+  ["../assets/proyectos/Invesmar- (Chile)/Videos/3.mp4", "invesmar"],
+  ["../assets/proyectos/Invesmar- (Chile)/Videos/4.mp4", "invesmar"],
+  ["../assets/proyectos/Invesmar- (Chile)/Videos/5.mp4", "invesmar"],
+  ["../assets/proyectos/Invesmar- (Chile)/Videos/7.mp4", "invesmar"],
+  ["../assets/proyectos/Invesmar- (Chile)/Videos/8.mp4", "invesmar"],
+  ["../assets/proyectos/Maximus gaming (Argentina)/Videos/35093dec-b60d-4371-b8dd-e84911aa3f82.mp4", "maximus gaming"],
+  ["../assets/proyectos/Maximus gaming (Argentina)/Videos/46655fc4-857f-402a-99e1-6c0dd319a0ad.mp4", "maximus gaming"],
   ["../assets/proyectos/Maximus gaming (Argentina)/Videos/4a93e1d7-e318-4be5-b207-7b308ef87ed4.mp4", "maximus gaming"],
-  ["../assets/proyectos/Maximus gaming (Argentina)/Videos/46655fc4-857f-402a-99e1-6c0dd319a0ad.mp4", "tournament"],
-  ["../assets/proyectos/Maximus gaming (Argentina)/Videos/35093dec-b60d-4371-b8dd-e84911aa3f82.mp4", "maximus gaming"]
+  ["../assets/proyectos/Maximus gaming (Argentina)/Videos/505a44c8-109b-477a-810c-bd90c9a0b3ab.mp4", "maximus gaming"],
+  ["../assets/proyectos/Maximus gaming (Argentina)/Videos/ddc00307-f1ed-4d4d-93fa-5367d3b4a0ee.mp4", "maximus gaming"],
+  ["../assets/proyectos/Noticias (Méx y Arg)/Video/Newsline report 2.mp4", "newsline report"],
+  ["../assets/proyectos/Videojuegos (Ecuador)/Videos/1.mp4", "gaming"],
+  ["../assets/proyectos/Videojuegos (Ecuador)/Videos/2.mp4", "gaming"],
+  ["../assets/proyectos/Videojuegos (Ecuador)/Videos/3.mp4", "gaming"]
 ];
 
 const buildVideoGallery = () => {
@@ -165,8 +158,37 @@ const buildVideoGallery = () => {
   }));
 };
 
+let previewVideoCards = [];
+let previewVideoObserver = null;
+
+const playMutedPreview = (video) => {
+  if (!video) return;
+  video.muted = true;
+  video.defaultMuted = true;
+  video.volume = 0;
+  video.playsInline = true;
+  video.loop = true;
+  video.setAttribute("muted", "");
+  video.setAttribute("playsinline", "");
+  const playPromise = video.play();
+  if (playPromise && typeof playPromise.catch === "function") playPromise.catch(() => {});
+};
+
+const resumeVisiblePreviewVideos = () => {
+  if (document.hidden || document.querySelector(".service-lightbox.is-open")) return;
+  previewVideoCards.forEach((card) => {
+    const rect = card.getBoundingClientRect();
+    const video = card.querySelector("video");
+    if (!video) return;
+    const visible = rect.bottom > 0 && rect.top < window.innerHeight;
+    if (visible) playMutedPreview(video);
+    else video.pause();
+  });
+};
+
 const setupVideoPreviewCards = () => {
-  document.querySelectorAll(".video-gallery-card, .video-intro-card").forEach((card) => {
+  previewVideoCards = [...document.querySelectorAll(".video-gallery-card, .video-intro-card")];
+  previewVideoCards.forEach((card) => {
     const video = card.querySelector("video");
     if (!video) return;
 
@@ -179,73 +201,49 @@ const setupVideoPreviewCards = () => {
       card.appendChild(overlay);
     }
 
-    overlay.addEventListener("click", (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-
-      const clonedVideo = video.cloneNode(true);
-      clonedVideo.muted = false;
-      clonedVideo.defaultMuted = false;
-      clonedVideo.controls = true;
-      clonedVideo.loop = false;
-      clonedVideo.autoplay = true;
-      clonedVideo.volume = 1;
-      clonedVideo.currentTime = 0;
-      clonedVideo.removeAttribute("muted");
-      clonedVideo.setAttribute("controls", "controls");
-      openLightbox(clonedVideo);
-    });
-
+    video.controls = false;
+    video.removeAttribute("autoplay");
     video.muted = true;
     video.defaultMuted = true;
+    video.volume = 0;
     video.playsInline = true;
     video.loop = true;
     video.preload = "metadata";
     video.setAttribute("muted", "");
     video.setAttribute("playsinline", "");
-    video.load();
+    video.setAttribute("preload", "metadata");
+    video.addEventListener("loadeddata", () => card.classList.add("is-video-ready"), { once: true });
+    const removeBrokenCard = () => {
+      video.pause();
+      card.remove();
+      previewVideoObserver?.unobserve(card);
+    };
+    video.addEventListener("error", removeBrokenCard, { once: true });
+    video.querySelectorAll("source").forEach((source) => source.addEventListener("error", removeBrokenCard, { once: true }));
 
-    card.addEventListener("click", () => {
-      const clonedVideo = video.cloneNode(true);
-      clonedVideo.muted = false;
-      clonedVideo.defaultMuted = false;
-      clonedVideo.controls = true;
-      clonedVideo.loop = false;
-      clonedVideo.autoplay = true;
-      clonedVideo.volume = 1;
-      clonedVideo.currentTime = 0;
-      clonedVideo.removeAttribute("muted");
-      clonedVideo.setAttribute("controls", "controls");
-      openLightbox(clonedVideo);
+    const openCardVideo = (event) => {
+      event?.preventDefault();
+      event?.stopPropagation();
+      openLightbox(video);
+    };
+    overlay.addEventListener("click", openCardVideo);
+    card.addEventListener("click", (event) => {
+      if (event.target.closest("button")) return;
+      openCardVideo(event);
     });
   });
 
-  const playVisibleVideos = (entries) => {
+  previewVideoObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       const video = entry.target.querySelector("video");
       if (!video) return;
-
-      if (entry.isIntersecting) {
-        const playPromise = video.play();
-        if (playPromise && typeof playPromise.catch === "function") {
-          playPromise.catch(() => {});
-        }
-      } else {
-        video.pause();
-      }
+      if (entry.isIntersecting && !document.querySelector(".service-lightbox.is-open")) playMutedPreview(video);
+      else video.pause();
     });
-  };
+  }, { rootMargin: "60px 0px", threshold: 0.18 });
 
-  const videoObserver = new IntersectionObserver(playVisibleVideos, {
-    rootMargin: "120px 0px",
-    threshold: 0.12
-  });
-
-  document.querySelectorAll(".video-gallery-card, .video-intro-card").forEach((card) => {
-    videoObserver.observe(card);
-  });
+  previewVideoCards.forEach((card) => previewVideoObserver.observe(card));
 };
-
 const heroPreviewVideos = document.querySelectorAll(".service-hero-preview video, .ads-loop-video");
 const galleryVideos = document.querySelectorAll(".video-grid video");
 
@@ -376,8 +374,9 @@ const stopAllVideoAudio = (except = null) => {
   });
 };
 const openLightbox = (source) => {
+  closeLightbox({ resumePreviews: false });
   stopAllVideoAudio();
-  lightboxMedia.querySelectorAll("video").forEach((video) => stopVideoPlayback(video, { release: true }));
+
   const tagName = source.tagName.toLowerCase();
   const media = source.cloneNode(true);
   const title = getCaption(source);
@@ -386,56 +385,85 @@ const openLightbox = (source) => {
   lightboxKicker.textContent = getClientName(source);
   lightboxTitle.textContent = title;
   lightboxText.textContent = buildDescription(source);
+  lightbox.classList.add("is-open");
+  lightbox.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
 
   if (tagName === "video") {
     media.controls = true;
     media.muted = false;
     media.defaultMuted = false;
     media.loop = false;
-    media.autoplay = true;
+    media.autoplay = false;
     media.preload = "auto";
     media.volume = 1;
     media.currentTime = 0;
     media.removeAttribute("muted");
+    media.removeAttribute("loop");
     media.setAttribute("controls", "controls");
+    const syncMuteControl = () => {
+      const muted = media.muted || media.volume === 0;
+      lightboxCta.textContent = muted ? "activar audio" : "silenciar audio";
+      lightboxCta.setAttribute("aria-pressed", String(muted));
+      lightboxCta.classList.toggle("is-muted", muted);
+      if (muted) stopAllVideoAudio(media);
+    };
+    media.addEventListener("volumechange", syncMuteControl);
+    media.addEventListener("webkitendfullscreen", () => closeLightbox(), { once: true });
+    syncMuteControl();
     const playPromise = media.play();
-    if (playPromise && typeof playPromise.catch === "function") {
-      playPromise.catch(() => {});
-    }
+    if (playPromise && typeof playPromise.catch === "function") playPromise.catch(() => {});
   }
 
-  lightbox.classList.add("is-open");
-  lightbox.setAttribute("aria-hidden", "false");
-  document.body.style.overflow = "hidden";
   lightboxClose.focus();
 };
 
 window.openServiceLightbox = openLightbox;
 
-const closeLightbox = () => {
-  lightboxMedia.querySelectorAll("video").forEach((video) => {
-    stopVideoPlayback(video, { release: true });
-  });
-  stopAllVideoAudio();
+function closeLightbox({ resumePreviews = true } = {}) {
+  lightboxMedia.querySelectorAll("video").forEach((video) => stopVideoPlayback(video, { release: true }));
   lightbox.classList.remove("is-open");
   lightbox.setAttribute("aria-hidden", "true");
   document.body.style.overflow = "";
   lightboxMedia.replaceChildren();
-};
+  stopAllVideoAudio();
+  if (resumePreviews) requestAnimationFrame(resumeVisiblePreviewVideos);
+}
 
 lightboxClose.addEventListener("click", closeLightbox);
 lightboxCta.addEventListener("click", () => {
   const video = lightboxMedia.querySelector("video");
-  if (video) {
-    video.muted = false;
-    video.volume = 1;
-    video.play();
+  if (!video) return;
+  const shouldMute = !(video.muted || video.volume === 0);
+  video.muted = shouldMute;
+  video.defaultMuted = shouldMute;
+  video.volume = shouldMute ? 0 : 1;
+  if (!shouldMute) {
+    stopAllVideoAudio(video);
+    const playPromise = video.play();
+    if (playPromise && typeof playPromise.catch === "function") playPromise.catch(() => {});
   }
 });
 lightbox.addEventListener("click", (event) => {
   if (event.target === lightbox) closeLightbox();
 });
 
+
+
+document.addEventListener("play", (event) => {
+  const video = event.target;
+  if (!(video instanceof HTMLVideoElement)) return;
+  if (!video.muted && video.volume > 0) stopAllVideoAudio(video);
+}, true);
+
+document.addEventListener("volumechange", (event) => {
+  const video = event.target;
+  if (!(video instanceof HTMLVideoElement)) return;
+  if (!video.muted && video.volume > 0) stopAllVideoAudio(video);
+}, true);
+document.addEventListener("fullscreenchange", () => {
+  if (!document.fullscreenElement && lightbox.classList.contains("is-open")) closeLightbox();
+});
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) {
     if (lightbox.classList.contains("is-open")) closeLightbox();
@@ -662,34 +690,6 @@ const enhanceProjectChapters = () => {
 enhanceProjectChapters();
 window.addEventListener("DOMContentLoaded", enhanceProjectChapters, { once: true });
 
-const catGuide = document.createElement("aside");
-catGuide.className = "service-cat-guide";
-catGuide.setAttribute("aria-live", "polite");
-catGuide.innerHTML = `
-  <div class="service-cat-bubble">
-    <span class="service-cat-kicker">nota del gato</span>
-    <span class="service-cat-text">baja tranqui: te voy marcando lo importante de cada proyecto.</span>
-    <span class="service-cat-action">segui bajando</span>
-  </div>
-  <img class="service-cat-img" src="../assets/Gatoposando2.png" alt="">
-`;
-
-const scrollProgress = document.createElement("div");
-scrollProgress.className = "service-scroll-progress";
-scrollProgress.innerHTML = "<span></span>";
-
-document.body.appendChild(catGuide);
-document.body.appendChild(scrollProgress);
-
-const catText = catGuide.querySelector(".service-cat-text");
-const serviceMessages = [
-  "mira como cambia el formato: feed, historia, banner o pieza impresa.",
-  "si una pieza te interesa, tocala para verla grande y con mas aire.",
-  "los carruseles de slices se leen mejor de izquierda a derecha.",
-  "cada bloque junta piezas de un mismo sistema visual, no son imagenes sueltas.",
-  "cuando el diseno respira, se entiende mejor la idea de la marca."
-];
-
 const updateServiceScroll = () => {
   const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
   const progress = Math.min(100, Math.max(0, (window.scrollY / maxScroll) * 100));
@@ -701,26 +701,6 @@ const updateServiceScroll = () => {
     const storyProgress = Math.min(1, Math.max(0, (window.innerHeight - storyRect.top) / storyRange));
     caseStorySection.style.setProperty("--case-progress", storyProgress.toFixed(3));
     caseStorySection.style.setProperty("--case-progress-pct", `${storyProgress * 100}%`);
-  }
-  catGuide.classList.toggle("is-visible", window.scrollY > 180);
-
-  const clients = [...document.querySelectorAll(".client-work")];
-  const currentClient = clients.find((client) => {
-    const rect = client.getBoundingClientRect();
-    return rect.top < window.innerHeight * 0.55 && rect.bottom > window.innerHeight * 0.3;
-  });
-
-  if (currentClient) {
-    const title = currentClient.querySelector(".client-copy h2")?.textContent.trim();
-    const tags = [...currentClient.querySelectorAll(".client-tags span")]
-      .slice(0, 2)
-      .map((tag) => tag.textContent.trim().toLowerCase())
-      .join(" + ");
-    catText.textContent = title
-      ? `${title}: aca conviene mirar ${tags || "la variedad de piezas"} como sistema.`
-      : serviceMessages[Math.floor(progress / 20) % serviceMessages.length];
-  } else {
-    catText.textContent = serviceMessages[Math.floor(progress / 20) % serviceMessages.length];
   }
 };
 

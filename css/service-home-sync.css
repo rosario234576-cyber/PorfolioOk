@@ -509,3 +509,50 @@
   }
   .service-detail.project-edicion-de-video .video-card-overlay{display:flex!important;visibility:visible!important;opacity:1!important}
 }
+/* Aperturas compactas: introducen cada proyecto sin ocupar una pantalla completa. */
+.service-detail .service-hero{min-height:0;padding:calc(var(--header,70px) + 34px) 0 46px}
+.service-detail .service-hero h1{max-width:760px;margin:0 auto 17px;font-size:clamp(3rem,5.25vw,5.8rem);line-height:.86}
+.service-detail .service-hero .reveal-left>p{max-width:600px;margin-inline:auto;font-size:clamp(.92rem,1.2vw,1.05rem);line-height:1.5}
+.service-detail .service-hero-actions{justify-content:center;margin-top:22px}
+.service-detail .case-story{min-height:0;padding:clamp(46px,5vw,70px) 0}
+.service-detail .case-story::before{top:-8%;right:-3vw;font-size:24vw;opacity:.6}
+.service-detail .case-story-intro h2{grid-column:2/10;margin:clamp(26px,3.2vw,44px) 0 12px;font-size:clamp(3rem,6vw,6.4rem);line-height:.84}
+.service-detail .case-story-lead{grid-column:8/13;font-size:clamp(.95rem,1.25vw,1.08rem);line-height:1.48}
+.service-detail .case-story-steps{margin-top:clamp(34px,4.5vw,58px)}
+.service-detail .case-story-steps article{min-height:185px;padding:20px clamp(18px,2.2vw,30px) 24px}
+.service-detail .case-story-steps article>span{font-size:clamp(2.5rem,4vw,4.5rem)}
+.service-detail .case-story-steps article>small{margin-top:18px}
+.service-detail .case-story-steps article>p{margin-top:10px;font-size:clamp(.84rem,1vw,.96rem);line-height:1.45}
+.service-detail .case-story-bridge{display:none}
+@media(max-width:760px){
+  .service-detail .service-hero{padding:calc(var(--header,70px) + 24px) 0 34px}
+  .service-detail .service-hero h1{font-size:clamp(2.65rem,12vw,4.2rem);margin-bottom:14px}
+  .service-detail .service-hero .reveal-left>p{max-width:33ch;font-size:.9rem}
+  .service-detail .service-hero-actions{margin-top:18px}
+  .service-detail .case-story{padding:42px 0 38px}
+  .service-detail .case-story::before{top:5%;right:-20vw;font-size:46vw}
+  .service-detail .case-story-label{margin-top:16px}
+  .service-detail .case-story-intro h2{margin:24px 0 13px;font-size:clamp(2.65rem,12.5vw,4.2rem)}
+  .service-detail .case-story-lead{font-size:.9rem;line-height:1.45}
+  .service-detail .case-story-steps{margin-top:32px;padding-bottom:10px}
+  .service-detail .case-story-steps article{flex-basis:min(76vw,300px);min-height:210px;padding:18px 20px 22px}
+}
+/* Diseño de piezas: título de apertura en una sola línea. */
+.project-diseno-de-piezas .service-hero h1{width:max-content;max-width:100%;font-size:clamp(3rem,6vw,6.2rem);white-space:nowrap}
+.project-diseno-de-piezas .service-hero h1 .service-title-line{display:inline;white-space:nowrap}
+.project-diseno-de-piezas .service-hero h1 .service-title-line:first-child::after{content:" ";white-space:pre}
+@media(max-width:760px){
+  .project-diseno-de-piezas .service-hero h1{font-size:clamp(1.9rem,9.2vw,3.25rem);letter-spacing:-.035em}
+  .project-diseno-de-piezas .service-hero h1 .service-title-line{display:inline;white-space:nowrap}
+}
+/* Diseño de piezas: encabezado de galería en una sola línea. */
+.project-diseno-de-piezas .trabajos-gallery-section .service-gallery-head{width:100%;max-width:none}
+.project-diseno-de-piezas .trabajos-gallery-section .service-gallery-head h2{width:max-content;max-width:100%;font-size:clamp(2.5rem,5.7vw,5.9rem);white-space:nowrap}
+@media(max-width:760px){
+  .project-diseno-de-piezas .trabajos-gallery-section .service-gallery-head h2{font-size:clamp(1.55rem,7.15vw,2.35rem);letter-spacing:-.035em;white-space:nowrap}
+}
+/* Introducción de proyecto: título y bajada comparten la misma línea visual. */
+@media(min-width:761px){
+  .service-detail .case-story-intro h2{grid-column:1/8;grid-row:2;margin:clamp(26px,3.2vw,44px) 0 0}
+  .service-detail .case-story-lead{grid-column:8/13;grid-row:2;align-self:center;margin:clamp(26px,3.2vw,44px) 0 0}
+}

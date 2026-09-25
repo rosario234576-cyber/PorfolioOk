@@ -766,3 +766,15 @@ button{font:inherit}
   .hero .hero-kicker{margin-bottom:13px}
   .hero .hero-info{margin-top:22px}
 }
+/* Sobre mi: presentacion personal con firma visual secundaria. */
+.about-copy .about-lead{color:var(--dark);font-size:clamp(15px,1.25vw,18px);line-height:1.55;font-weight:700}
+.about-copy .about-personal{max-width:500px;margin-top:14px;color:#555a55;font-size:13px;line-height:1.7}
+.about-portrait .about-cat-signature{position:absolute;z-index:3;right:-24px;bottom:24px;width:clamp(58px,6vw,88px);height:auto;object-fit:contain;filter:none;transform:rotate(7deg);animation:aboutCatFloat 4s ease-in-out infinite;filter:drop-shadow(0 12px 14px rgba(0,0,0,.18))}
+@keyframes aboutCatFloat{0%,100%{translate:0 0;rotate:0deg}50%{translate:0 -7px;rotate:2deg}}
+@media(max-width:760px){
+  .about-copy .about-lead,.about-copy .about-personal{max-width:34ch;margin-inline:auto}
+  .about-copy .about-personal{font-size:12.5px}
+  .about-copy ul{max-width:340px;margin-inline:auto}
+  .about-portrait .about-cat-signature{right:8px;bottom:14px;width:64px}
+}
+@media(prefers-reduced-motion:reduce){.about-portrait .about-cat-signature{animation:none}}
