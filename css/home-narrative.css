@@ -1,0 +1,63 @@
+/* Narrativa de scroll del home (js/home-narrative.js). Solo aplica con html.narrative-on. */
+.narrative-on main{position:relative}
+/* El hilo vive sobre los fondos de las secciones y debajo del contenido; nunca bloquea clics. */
+.ink-thread{position:absolute;z-index:1;top:0;left:0;overflow:visible;pointer-events:none}
+.narrative-on main>section>.section-shell,
+.narrative-on main>section>.manifesto-card,
+.narrative-on main>section>.cta-panel{position:relative;z-index:2}
+.ink-seg{fill:none;stroke:var(--orange);stroke-linecap:round;stroke-linejoin:round}
+.ink-seg-final{stroke-width:3}
+.ink-node{fill:var(--orange);stroke:var(--dark);stroke-width:2}
+
+/* Hero: al comprimirse deja ver el fondo oscuro de la página. */
+.narrative-on .hero-title .title-row{will-change:transform}
+.narrative-on .hero-kicker{overflow:hidden;padding:6px 8px;margin-inline:-8px}
+
+/* Títulos divididos en dos líneas que se unen. */
+.ink-line{display:block;will-change:transform}
+
+/* Proceso: la timeline la controla el scroll (reemplaza el ciclo automático en desktop y tablet). */
+@media(min-width:761px){
+  .narrative-on .process-timeline-track::after{display:none}
+  .narrative-on .pt-dot,.narrative-on .pt-step,.narrative-on .pt-step *{animation:none!important}
+  .ink-timeline{position:absolute;z-index:1;left:0;right:0;top:6px;height:2px;background:var(--orange);box-shadow:0 0 8px rgba(235,91,48,.45);pointer-events:none}
+}
+@media(max-width:760px){.ink-timeline{display:none}}
+
+/* Proceso → Reseñas: la mancha que nace del último nodo. */
+.narrative-on .testimonials{position:relative;overflow:hidden}
+.ink-blob{position:absolute;z-index:0;top:6%;left:4%;width:min(46vw,620px);aspect-ratio:1.15;background:radial-gradient(circle at 40% 40%,rgba(235,91,48,.34),rgba(235,91,48,.12) 60%,rgba(235,91,48,0) 75%);pointer-events:none;will-change:transform}
+.narrative-on .testimonials>.section-shell{position:relative;z-index:2}
+
+/* Contacto: los botones quedan respirando muy suave. */
+.contact-links.is-breathing{animation:inkBreath 8s ease-in-out infinite}
+@keyframes inkBreath{0%,100%{transform:scale(1)}50%{transform:scale(1.01)}}
+
+@media(max-width:760px){
+  .ink-blob{display:none}
+}
+
+/* Punta del hilo: un punto luminoso que guía la mirada. */
+.ink-head{fill:var(--orange);filter:drop-shadow(0 0 6px rgba(235,91,48,.85))}
+
+/* Proceso: tarjeta que sube sobre el CTA, punto que recorre la línea y palabra de fondo. */
+@media(min-width:761px){
+  .narrative-on .process{position:relative;z-index:3;overflow:hidden;min-height:100vh;display:flex;flex-direction:column;justify-content:center;box-shadow:0 -30px 60px -30px rgba(0,0,0,.45)}
+  .narrative-on .process>.section-shell{width:var(--shell);margin-inline:auto}
+  .narrative-on .process>.section-shell{position:relative;z-index:2}
+  .narrative-on .pt-step{opacity:.28;transition:opacity .5s ease}
+  .narrative-on .pt-step.is-done{opacity:.6}
+  .narrative-on .pt-step.is-active{opacity:1}
+  .narrative-on .pt-step .pt-dot{transition:transform .5s cubic-bezier(.2,.75,.2,1),background-color .4s ease}
+  .narrative-on .pt-step.is-done .pt-dot,.narrative-on .pt-step.is-active .pt-dot{background-color:var(--orange)}
+  .narrative-on .pt-step.is-active .pt-dot{transform:scale(1.5)}
+  .narrative-on .pt-step.is-active .pt-dot::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--orange);animation:inkPulse 1.8s ease-out infinite!important}
+  .narrative-on .pt-step.is-active h3{color:var(--orange)}
+  .ink-playhead{position:absolute;z-index:3;left:-9px;top:-2px;width:20px;height:20px;border-radius:50%;background:var(--orange);box-shadow:0 0 0 6px rgba(235,91,48,.18),0 0 18px rgba(235,91,48,.6);pointer-events:none}
+  .ink-stage-word{position:absolute;z-index:1;left:50%;bottom:2%;transform:translateX(-50%);font:800 clamp(80px,12vw,200px)/.8 Roc,Impact,sans-serif;letter-spacing:-.03em;color:transparent;-webkit-text-stroke:1.5px rgba(235,91,48,.22);white-space:nowrap;pointer-events:none;opacity:0}
+}
+@media(max-width:760px){.ink-playhead,.ink-stage-word{display:none}}
+@keyframes inkPulse{0%{transform:scale(.6);opacity:1}100%{transform:scale(1.9);opacity:0}}
+
+/* Columna: conector corto de cada nodo al ✦ de su sección. */
+.ink-tick{fill:none;stroke:var(--orange);stroke-width:1.5;stroke-linecap:round;opacity:.85}
