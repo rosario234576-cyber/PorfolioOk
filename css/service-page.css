@@ -563,6 +563,7 @@ body.service-detail{
 .trabajos-card:hover img{transform:scale(1.025);filter:saturate(1.08)}
 .trabajos-carousel-button{display:grid;place-items:center;flex:0 0 38px;width:38px;height:38px;border:1px solid rgba(235,91,48,.55);border-radius:50%;background:rgba(235,91,48,.12);color:var(--primary);cursor:pointer;transition:background .2s ease,color .2s ease,transform .2s ease}
 .trabajos-carousel-button:hover{background:var(--primary);color:#071817;transform:translateY(-2px)}
+@media (prefers-reduced-motion:reduce){.trabajos-client,.trabajos-card{opacity:1;transform:none}}
 @keyframes trabajosReveal{to{opacity:1;transform:none}}
 @keyframes trabajosCardIn{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
 

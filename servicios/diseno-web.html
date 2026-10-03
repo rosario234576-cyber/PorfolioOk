@@ -7,12 +7,13 @@
   <link rel="icon" type="image/png" href="../assets/favicon-gato.png">
   <link rel="apple-touch-icon" href="../assets/favicon-gato.png">
   <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="../css/service-page.css?v=10">
-  <link rel="stylesheet" href="../css/aurelia-rebuild.css?v=74">
+  <link rel="stylesheet" href="../css/service-page.css?v=11">
+  <link rel="stylesheet" href="../css/aurelia-rebuild.css?v=92">
   <link rel="stylesheet" href="../css/service-aurelia-skin.css?v=7">
   <link rel="stylesheet" href="../css/service-home-sync.css?v=15">
+  <link rel="stylesheet" href="../css/web-landing.css?v=1">
 </head>
-<body class="service-detail">
+<body class="service-detail web-landing">
   <div class="scroll-progress" aria-hidden="true"><span></span></div>
 
   <header class="site-header" data-header>
@@ -42,41 +43,151 @@
   </header>
 
   <main>
-    <section class="service-hero" data-label="web">
-      <div class="container service-hero-inner">
+    <section class="wl-hero" aria-labelledby="wl-title">
+      <div class="wl-shell wl-hero-grid">
         <div class="reveal-left">
-          <span class="service-eyebrow">web</span>
-          <h1><span class="service-title-line">diseño de</span><span class="service-title-line">página web</span></h1>
-          <div class="service-hero-actions">
-            <a href="#clientes" class="service-pill">ver clientes</a>
-            <span class="service-pill">banners web</span>
-            <span class="service-pill">e-commerce</span>
-            <span class="service-pill">producto</span>
+          <span class="wl-kicker">diseño web · landing pages · e-commerce</span>
+          <h1 id="wl-title"><span>webs que</span><span><em>venden.</em></span></h1>
+          <p class="wl-lead">Sitios y landing pages diseñados a medida: claros, rápidos y pensados para que la persona entienda tu propuesta y dé el siguiente paso.</p>
+          <div class="wl-actions">
+            <a class="wl-btn wl-btn-primary" href="#sitios">ver sitios publicados <span>↓</span></a>
+            <a class="wl-btn wl-btn-ghost" href="https://wa.me/5491132598397?text=Hola!%20Vengo%20de%20la%20web%20portfolio%20de%20Inkk%20Studio.%20Me%20interesa%20el%20servicio%20de%20dise%C3%B1o%20web." target="_blank" rel="noopener">quiero mi web <span>↗</span></a>
+          </div>
+          <div class="wl-stats">
+            <div><strong>3<i>+</i></strong><span>sitios online</span></div>
+            <div><strong>2</strong><span>países</span></div>
+            <div><strong>100<i>%</i></strong><span>responsive</span></div>
           </div>
         </div>
-        <div class="service-hero-preview reveal-right" aria-hidden="true">
-          <img src="../assets/proyectos/Tienda Cosmética ( Argentina )/Banner web/1.png" alt="">
-          <img src="../assets/proyectos/Indumentaria (arg)/Banner web/Banners/1.jpg" alt="">
-          <img src="../assets/proyectos/Indumentaria (arg)/Banner web/Productos/1.jpg" alt="">
+        <div class="wl-hero-stage reveal-right" aria-hidden="true">
+          <div class="wl-browser">
+            <div class="wl-browser-bar"><i></i><i></i><i></i><span>tuplanfuturo.cl</span></div>
+            <div class="wl-screen"><img src="../assets/Trabajos/Web/tuplanfuturo-full.jpg" alt=""></div>
+          </div>
+          <div class="wl-phone"><img src="../assets/Trabajos/Web/nutritionglobal-mobile.jpg" alt=""></div>
+          <div class="wl-hero-badge"><b>✓</b> online y funcionando</div>
         </div>
       </div>
     </section>
 
-    <section class="service-note" aria-hidden="true">
-      <div class="service-note-strip">
-        <div class="service-note-track">
-          <span>banners web + tiendas visuales + recursos para pantalla</span>
-          <span>banners web + tiendas visuales + recursos para pantalla</span>
-          <span>banners web + tiendas visuales + recursos para pantalla</span>
-          <span>banners web + tiendas visuales + recursos para pantalla</span>
+    <div class="wl-strip" aria-hidden="true"><div><span>landing pages <i>✦</i> e-commerce shopify <i>✦</i> sitios a medida <i>✦</i> responsive <i>✦</i> llamados a la acción <i>✦</i></span><span>landing pages <i>✦</i> e-commerce shopify <i>✦</i> sitios a medida <i>✦</i> responsive <i>✦</i> llamados a la acción <i>✦</i></span></div></div>
+
+    <section class="wl-sites" id="sitios" data-case-story aria-labelledby="wl-sites-title">
+      <div class="wl-shell">
+        <header class="wl-head reveal">
+          <div>
+            <span class="wl-kicker">sitios publicados</span>
+            <h2 id="wl-sites-title">proyectos <em>en vivo</em></h2>
+          </div>
+          <p>Pasá el mouse sobre cada pantalla para recorrer la página completa, o entrá al sitio real con el botón.</p>
+        </header>
+
+        <div class="wl-site-list">
+          <article class="wl-site reveal">
+            <a class="wl-site-media wl-scrolls" href="https://nutritionglobal.online" target="_blank" rel="noopener" aria-label="Abrir nutritionglobal.online en una pestaña nueva">
+              <div class="wl-browser">
+                <div class="wl-browser-bar"><i></i><i></i><i></i><span>nutritionglobal.online</span></div>
+                <div class="wl-screen"><img src="../assets/Trabajos/Web/nutritionglobal-full.jpg" alt="Página de inicio de Global Nutrition" loading="lazy"><span class="wl-screen-hint">pasá el mouse ↕</span></div>
+              </div>
+              <div class="wl-phone"><img src="../assets/Trabajos/Web/nutritionglobal-mobile.jpg" alt="" loading="lazy"></div>
+            </a>
+            <div class="wl-site-info">
+              <span class="wl-site-num">01 / e-commerce</span>
+              <h3>Global Nutrition</h3>
+              <span class="wl-site-domain">nutritionglobal.online</span>
+              <p>Tienda de suplementos deportivos: proteínas, creatina, vitaminas y accesorios de fitness. Catálogo, comparador y compra online.</p>
+              <ul class="wl-chips"><li>Shopify</li><li>tienda online</li><li>responsive</li></ul>
+              <a class="wl-btn wl-btn-primary" href="https://nutritionglobal.online" target="_blank" rel="noopener">visitar sitio <span>↗</span></a>
+              <small class="wl-site-note">Con asistencia de Claude Code y ChatGPT</small>
+            </div>
+          </article>
+
+          <article class="wl-site reveal">
+            <a class="wl-site-media wl-scrolls" href="https://tuplanfuturo.cl" target="_blank" rel="noopener" aria-label="Abrir tuplanfuturo.cl en una pestaña nueva">
+              <div class="wl-browser">
+                <div class="wl-browser-bar"><i></i><i></i><i></i><span>tuplanfuturo.cl</span></div>
+                <div class="wl-screen"><img src="../assets/Trabajos/Web/tuplanfuturo-full.jpg" alt="Página de inicio de Tu Plan Futuro" loading="lazy"><span class="wl-screen-hint">pasá el mouse ↕</span></div>
+              </div>
+              <div class="wl-phone"><img src="../assets/Trabajos/Web/tuplanfuturo-mobile.jpg" alt="" loading="lazy"></div>
+            </a>
+            <div class="wl-site-info">
+              <span class="wl-site-num">02 / landing page</span>
+              <h3>Tu Plan Futuro</h3>
+              <span class="wl-site-domain">tuplanfuturo.cl</span>
+              <p>Asesoría en inversión inmobiliaria en Chile: propiedades donde el arriendo paga el crédito hipotecario. Calculadora de dividendo y contacto directo por WhatsApp.</p>
+              <ul class="wl-chips"><li>landing page</li><li>inmobiliaria</li><li>conversión</li></ul>
+              <a class="wl-btn wl-btn-primary" href="https://tuplanfuturo.cl" target="_blank" rel="noopener">visitar sitio <span>↗</span></a>
+              <small class="wl-site-note">Con asistencia de Claude Code y ChatGPT</small>
+            </div>
+          </article>
+
+          <article class="wl-site reveal">
+            <a class="wl-site-media wl-scrolls" href="../index.html" aria-label="Ir al inicio de este portfolio">
+              <div class="wl-browser">
+                <div class="wl-browser-bar"><i></i><i></i><i></i><span>inkkstudio.art</span></div>
+                <div class="wl-screen"><img src="../assets/Trabajos/Web/inkkstudio-full.jpg" alt="Página de inicio del portfolio Inkkstudios" loading="lazy"><span class="wl-screen-hint">pasá el mouse ↕</span></div>
+              </div>
+              <div class="wl-phone"><img src="../assets/Trabajos/Web/inkkstudio-mobile.jpg" alt="" loading="lazy"></div>
+            </a>
+            <div class="wl-site-info">
+              <span class="wl-site-num">03 / sitio a medida</span>
+              <h3>Inkkstudios</h3>
+              <span class="wl-site-domain">inkkstudio.art</span>
+              <p>El portfolio que estás viendo: diseño editorial, animaciones y galerías de proyectos, programado a mano en Visual Studio Code.</p>
+              <ul class="wl-chips"><li>HTML + CSS + JS</li><li>portfolio</li><li>animaciones</li></ul>
+              <a class="wl-btn wl-btn-primary" href="https://www.inkkstudio.art" target="_blank" rel="noopener">visitar sitio <span>↗</span></a>
+              <small class="wl-site-note">Con asistencia de Claude Code</small>
+            </div>
+          </article>
+
+          <article class="wl-site wl-site-soon reveal">
+            <div class="wl-site-media">
+              <div class="wl-browser">
+                <div class="wl-browser-bar"><i></i><i></i><i></i><span>irazztech.com</span></div>
+                <div class="wl-screen"><div class="wl-soon-card"><b>irazztech</b><span>próximamente</span></div></div>
+              </div>
+            </div>
+            <div class="wl-site-info">
+              <span class="wl-site-num">04 / en desarrollo</span>
+              <h3>Irazztech</h3>
+              <span class="wl-site-domain">irazztech.com</span>
+              <p>Servicios de armado, mantenimiento y diagnóstico de PC. El sitio está en desarrollo y todavía no se publicó.</p>
+              <ul class="wl-chips"><li>sitio a medida</li><li>servicios tech</li></ul>
+              <span class="wl-btn" aria-disabled="true">próximamente</span>
+              <small class="wl-site-note">Con asistencia de Claude Code</small>
+            </div>
+          </article>
         </div>
       </div>
     </section>
 
-    <section class="service-clients" id="clientes">
+    <section class="wl-process" aria-labelledby="wl-process-title">
+      <div class="wl-shell">
+        <header class="wl-head reveal">
+          <div>
+            <span class="wl-kicker">cómo trabajamos</span>
+            <h2 id="wl-process-title">de la idea <em>al sitio online</em></h2>
+          </div>
+          <p>Un proceso corto y claro: sabés qué se hace en cada etapa y qué recibís al final.</p>
+        </header>
+        <ol class="wl-steps reveal">
+          <li><b>01</b><h3>estrategia</h3><p>Objetivo, público y qué acción tiene que hacer la persona al entrar.</p></li>
+          <li><b>02</b><h3>diseño</h3><p>Estructura, jerarquía y estética alineadas a tu marca, primero en celular.</p></li>
+          <li><b>03</b><h3>desarrollo</h3><p>Sitio rápido y responsive, con WhatsApp, formularios o tienda según el caso.</p></li>
+          <li><b>04</b><h3>lanzamiento</h3><p>Dominio, publicación y ajustes finales para que quede listo para recibir visitas.</p></li>
+        </ol>
+        <ul class="wl-includes reveal">
+          <li>diseño a medida</li><li>versión celular</li><li>botón de WhatsApp</li><li>banners web</li><li>dominio y publicación</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="service-clients wl-banners" id="clientes">
       <div class="container">
         <div class="service-gallery-head reveal">
-          <h2>clientes</h2>
+          <span class="wl-kicker">recursos para web</span>
+          <h2>banners web</h2>
+          <p>Piezas para tiendas online, portadas y redes que acompañan cada sitio.</p>
         </div>
 
         <article class="client-work reveal" data-client="cosmética">
@@ -258,13 +369,14 @@
       </div>
     </section>
 
-    <section class="service-end">
-      <div class="container">
-        <div class="service-end-box">
+    <section class="wl-cta">
+      <div class="wl-shell">
+        <div class="wl-cta-box reveal">
           <div>
-            <h2>digital con identidad</h2>
+            <h2>¿tu marca necesita<br>una web?</h2>
+            <p>Contame qué vendés y a quién. Te propongo la estructura y el diseño para que tu sitio trabaje por vos.</p>
           </div>
-          <a href="../index.html#contacto" class="btn btn-primary">contacto</a>
+          <a class="wl-btn" href="https://wa.me/5491132598397?text=Hola!%20Vengo%20de%20la%20web%20portfolio%20de%20Inkk%20Studio.%20Me%20interesa%20el%20servicio%20de%20dise%C3%B1o%20web." target="_blank" rel="noopener">hablemos por WhatsApp <span>↗</span></a>
         </div>
       </div>
     </section>
