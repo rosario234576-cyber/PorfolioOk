@@ -66,7 +66,7 @@ const createTrabajosGallery = () => {
       figure.className = "trabajos-card";
       figure.style.setProperty("--card-delay", `${index * 45}ms`);
       const image = document.createElement("img");
-      image.src = `../assets/Trabajos/${type === "redes" ? "Graficas de redes" : type === "packaging" ? "Packaging, Cartelería" : "Fotografia"}/${file}`;
+      image.src = `../assets/opt/Trabajos/${type === "redes" ? "Graficas de redes" : type === "packaging" ? "Packaging, Cartelería" : "Fotografia"}/${file.replace(/\.(jpe?g|png)$/i, ".webp")}`;
       image.alt = `${client}, ${category}, pieza ${index + 1}`;
       image.loading = index < 3 ? "eager" : "lazy";
       figure.append(image);

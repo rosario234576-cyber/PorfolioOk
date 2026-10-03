@@ -1,6 +1,6 @@
 /*
  * Astronauta del hero controlado 100% por scroll (GSAP + ScrollTrigger).
- * Reutiliza el asset existente (assets/Gatoastro.png) — no genera ni reemplaza mascotas,
+ * Reutiliza el asset existente (assets/opt/Gatoastro.webp) — no genera ni reemplaza mascotas,
  * no mueve PORTFOLIO/CREATIVO ni ninguna otra parte del hero.
  *
  * Recorrido (medido con getBoundingClientRect, no con porcentajes fijos):

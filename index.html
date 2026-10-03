@@ -6,7 +6,11 @@
   <meta name="description" content="Inkkstudios: diseño gráfico, branding, campañas, fotografía y video para marcas de Argentina y Latinoamérica.">
   <title>Inkkstudios — Portfolio creativo</title>
   <link rel="icon" type="image/png" href="assets/favicon-gato.png">
-  <link rel="stylesheet" href="css/aurelia-rebuild.css?v=94">
+  <link rel="preload" href="Fuente/RocGroteskCondensedExtraBold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preload" href="assets/opt/congreso-nacion.webp" as="image" fetchpriority="high">
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="stylesheet" href="css/aurelia-rebuild.css?v=95">
   <link rel="stylesheet" href="css/icon-burst.css?v=1">
 </head>
 <body>
@@ -15,14 +19,14 @@
   <div class="astronaut-rig" aria-hidden="true">
     <span class="astronaut-rope"></span>
     <div class="scroll-astronaut">
-      <img src="assets/Gatoastro.png" alt="">
+      <img src="assets/opt/Gatoastro.webp" alt="">
     </div>
   </div>
 
   <header class="site-header" data-header>
     <a class="brand" href="#inicio" aria-label="Inkkstudios, volver al inicio">
-      <img class="brand-cat" src="assets/gato.png" alt="">
-      <img class="brand-word" src="assets/LogoBlanco.png" alt="Inkkstudios">
+      <img class="brand-cat" src="assets/opt/gato.webp" alt="">
+      <img class="brand-word" src="assets/opt/LogoBlanco.webp" alt="Inkkstudios">
     </a>
     <button class="menu-toggle" type="button" aria-controls="site-menu" aria-expanded="false" aria-label="Menú"><span></span><span></span><span></span></button>
     <nav class="site-nav" id="site-menu" aria-label="Navegación principal">
@@ -87,8 +91,8 @@
             </div>
             <button class="svc-mockup" type="button" aria-label="Girar tarjeta de presentación">
               <span class="svc-flip">
-                <img class="svc-face svc-face-front" src="assets/tarjeta/tarjeta-frente.jpg" width="1063" height="591" alt="Frente de la tarjeta de Inkkstudio: creatividad + actitud = impacto" loading="lazy">
-                <img class="svc-face svc-face-back" src="assets/tarjeta/tarjeta-dorso.jpg" width="1063" height="591" alt="Dorso de la tarjeta de Inkkstudio con la lista de servicios y un código QR" loading="lazy">
+                <img decoding="async" class="svc-face svc-face-front" src="assets/opt/tarjeta/tarjeta-frente.webp" width="1063" height="591" alt="Frente de la tarjeta de Inkkstudio: creatividad + actitud = impacto" loading="lazy">
+                <img decoding="async" class="svc-face svc-face-back" src="assets/opt/tarjeta/tarjeta-dorso.webp" width="1063" height="591" alt="Dorso de la tarjeta de Inkkstudio con la lista de servicios y un código QR" loading="lazy">
               </span>
               <span class="svc-shadow" aria-hidden="true"></span>
               <span class="svc-mockup-hint">tocá para girar ↻</span>
@@ -113,30 +117,30 @@
         <div class="about-copy" data-reveal="left">
           <div class="eyebrow"><i>✦</i> Detrás de Inkkstudios</div>
           <h2>HOLA, SOY<br>ROSARIO.</h2>
-          <p class="about-lead">Soy diseñadora gráfica y directora de arte. Trabajo entre estrategia, identidad y contenido para transformar ideas en sistemas visuales claros, actuales y con personalidad.</p>
-          <p class="about-personal">Colaboro con marcas, emprendimientos y equipos de Argentina y Latinoamérica. Me diferencia una mirada integral: puedo pensar el concepto, diseñar cada pieza y adaptar la comunicación a todos sus formatos sin perder coherencia.</p>
-          <ul><li><b>+</b> Más de 3 años creando para marcas reales</li><li><b>+</b> Buenos Aires · proyectos para toda Latinoamérica</li></ul>
-          <a class="outline-button outline-dark" href="assets/Rosario_Fernández_CV.pdf" download="Rosario_Fernandez_CV.pdf">Descargar CV <span>↓</span></a>
+          <p class="about-lead">Soy diseñadora gráfica especializada en diseño digital y publicitario. Tengo más de 3 años de experiencia en diseño, publicidad y edición de video, con dominio avanzado de Photoshop, Illustrator y Figma, y uso herramientas de inteligencia artificial para optimizar los procesos creativos.</p>
+          <p class="about-personal">Trabajo con marcas de Argentina y Chile en gestión de redes sociales, material impreso, packaging, identidad visual y campañas en Meta Ads. Me sumo a equipos multidisciplinarios aportando creatividad, autonomía y eficiencia.</p>
+          <ul><li><b>+</b> Técnica en Diseño Gráfico · UAI (2021–2024)</li><li><b>+</b> Más de 3 años creando para marcas reales</li><li><b>+</b> Buenos Aires · proyectos en Argentina y Chile</li></ul>
+          <a class="outline-button outline-dark" href="assets/Cv_Rosario_Fernadez.pdf" download="Rosario_Fernandez_CV.pdf">Descargar CV <span>↓</span></a>
         </div>
         <div class="about-portrait" data-parallax="-.06">
           <span class="portrait-label">Diseñadora gráfica<br>Buenos Aires, AR 🇦🇷</span>
-          <img src="assets/Foto.jpg" alt="Rosario Fernández, diseñadora de Inkkstudios">
-          <img class="about-cat-signature" src="assets/gato.png" alt="" aria-hidden="true">
+          <img loading="lazy" decoding="async" src="assets/opt/Foto.webp" alt="Rosario Fernández, diseñadora de Inkkstudios">
+          <img loading="lazy" decoding="async" class="about-cat-signature" src="assets/opt/gato.webp" alt="" aria-hidden="true">
         </div>
         <div class="about-data" data-reveal="right">
-          <div><small>CAMPAÑAS LANZADAS</small><strong>+25</strong></div>
-          <div><small>FORMATOS RESUELTOS</small><strong>+450</strong></div>
-          <div><small>ALCANCE REGIONAL</small><strong>LATAM</strong></div>
-          <p>Diseño, fotografía, video y campañas conectados por una misma mirada visual.</p>
+          <div><small>AÑOS DE EXPERIENCIA</small><strong>+3</strong></div>
+          <div><small>PIEZAS POR DÍA</small><strong>+30</strong></div>
+          <div><small>PAÍSES</small><strong>AR · CL</strong></div>
+          <p>Diseño digital y publicitario, redes, packaging y video conectados por una misma mirada visual.</p>
         </div>
       </div>
       <div class="logo-rail" aria-label="Programas y plataformas de trabajo">
         <div class="logo-rail-track" aria-hidden="true">
           <div class="logo-rail-group">
-            <img src="assets/Programas/Iconos1-27.png" alt="Photoshop"><img src="assets/Programas/Iconos1-28.png" alt="Illustrator"><img src="assets/Programas/Iconos1-29.png" alt="InDesign"><img src="assets/Programas/Iconos1-30.png" alt="Instagram"><img src="assets/Programas/Iconos1-31.png" alt="Meta"><img src="assets/Programas/Iconos1-32.png" alt="CapCut"><img src="assets/Programas/Iconos1-33.png" alt="Canva">
+            <img loading="lazy" decoding="async" src="assets/opt/Programas/Iconos1-27.webp" alt="Photoshop"><img loading="lazy" decoding="async" src="assets/opt/Programas/Iconos1-28.webp" alt="Illustrator"><img loading="lazy" decoding="async" src="assets/opt/Programas/Iconos1-29.webp" alt="InDesign"><img loading="lazy" decoding="async" src="assets/opt/Programas/Iconos1-30.webp" alt="Instagram"><img loading="lazy" decoding="async" src="assets/opt/Programas/Iconos1-31.webp" alt="Meta"><img loading="lazy" decoding="async" src="assets/opt/Programas/Iconos1-32.webp" alt="CapCut"><img loading="lazy" decoding="async" src="assets/opt/Programas/Iconos1-33.webp" alt="Canva">
           </div>
           <div class="logo-rail-group logo-rail-clone">
-            <img src="assets/Programas/Iconos1-27.png" alt=""><img src="assets/Programas/Iconos1-28.png" alt=""><img src="assets/Programas/Iconos1-29.png" alt=""><img src="assets/Programas/Iconos1-30.png" alt=""><img src="assets/Programas/Iconos1-31.png" alt=""><img src="assets/Programas/Iconos1-32.png" alt=""><img src="assets/Programas/Iconos1-33.png" alt="">
+            <img loading="lazy" decoding="async" src="assets/opt/Programas/Iconos1-27.webp" alt=""><img loading="lazy" decoding="async" src="assets/opt/Programas/Iconos1-28.webp" alt=""><img loading="lazy" decoding="async" src="assets/opt/Programas/Iconos1-29.webp" alt=""><img loading="lazy" decoding="async" src="assets/opt/Programas/Iconos1-30.webp" alt=""><img loading="lazy" decoding="async" src="assets/opt/Programas/Iconos1-31.webp" alt=""><img loading="lazy" decoding="async" src="assets/opt/Programas/Iconos1-32.webp" alt=""><img loading="lazy" decoding="async" src="assets/opt/Programas/Iconos1-33.webp" alt="">
           </div>
         </div>
       </div>
@@ -155,7 +159,7 @@
         </h2>
         <div class="manifesto-card-bottom">
           <p>Convertimos ideas en sistemas visuales que se ven, se entienden y se recuerdan.</p>
-          <div class="manifesto-card-sign"><img src="assets/gato.png" alt=""></div>
+          <div class="manifesto-card-sign"><img loading="lazy" decoding="async" src="assets/opt/gato.webp" alt=""></div>
         </div>
       </div>
     </section>
@@ -232,8 +236,8 @@
         </div>
         <div class="experience-phone" data-reveal="right" style="--reveal-x:160px">
           <div class="experience-phone-frame">
-            <img class="phone-slide" src="assets/Imagenes/LinkedinYIG/IG.jpeg" alt="Perfil de Instagram de Inkkstudios">
-            <img class="phone-slide" src="assets/Imagenes/LinkedinYIG/Linkedin.jpeg" alt="Perfil de LinkedIn de Rosario Fernández">
+            <img loading="lazy" decoding="async" class="phone-slide" src="assets/opt/Imagenes/LinkedinYIG/IG.webp" alt="Perfil de Instagram de Inkkstudios">
+            <img loading="lazy" decoding="async" class="phone-slide" src="assets/opt/Imagenes/LinkedinYIG/Linkedin.webp" alt="Perfil de LinkedIn de Rosario Fernández">
           </div>
         </div>
       </div>
@@ -254,7 +258,7 @@
             <span>Contenido que se mueve.</span>
           </div>
           <figure class="expert-core" data-reveal="up">
-            <img class="expert-cat-idle" src="assets/Gatoposando3.png" alt="Mascota Inkkstudios trabajando">
+            <img loading="lazy" decoding="async" class="expert-cat-idle" src="assets/opt/Gatoposando3.webp" alt="Mascota Inkkstudios trabajando">
             <span class="expert-wait-dots"><i></i><i></i><i></i></span>
           </figure>
           <div class="expert-tags expert-tags-right" data-reveal="right">
@@ -271,7 +275,7 @@
     </section>
     <section class="big-cta" data-theme="dark">
       <div class="cta-backdrop" data-parallax=".08"></div>
-      <div class="cta-panel" data-reveal="up"><div class="eyebrow"><i>✦</i> Hagamos algo</div><h2>¿TENÉS UNA IDEA?<br>HAGÁMOSLA VISIBLE.</h2><a class="outline-button" href="#contacto">Contactar <span>↗</span></a><img src="assets/Sello.png" alt="Sello Inkkstudios"></div>
+      <div class="cta-panel" data-reveal="up"><div class="eyebrow"><i>✦</i> Hagamos algo</div><h2>¿TENÉS UNA IDEA?<br>HAGÁMOSLA VISIBLE.</h2><a class="outline-button" href="#contacto">Contactar <span>↗</span></a><img loading="lazy" decoding="async" src="assets/opt/Sello.webp" alt="Sello Inkkstudios"></div>
     </section>
 
     <section class="process section-light" data-theme="light">
@@ -342,20 +346,22 @@
     </section>
 
     <section class="contact section-light" id="contacto" data-theme="light">
-      <div class="section-shell contact-panel" data-reveal="up"><img class="contact-cat" src="assets/Gatoastro.png" alt=""><div><div class="eyebrow"><i>✦</i> Contacto</div><h2>IDEAS, PROYECTOS<br>Y NUEVAS HISTORIAS.</h2><p>Contame qué necesitás y armamos una propuesta.</p></div><div class="contact-links"><a href="mailto:rosario234576@gmail.com">rosario234576@gmail.com <span>↗</span></a><a href="https://wa.me/5491132598397" target="_blank" rel="noopener">WhatsApp <span>↗</span></a><a href="https://www.instagram.com/inkkstudios_/" target="_blank" rel="noopener">Instagram <span>↗</span></a></div></div>
+      <div class="section-shell contact-panel" data-reveal="up"><img loading="lazy" decoding="async" class="contact-cat" src="assets/opt/Gatoastro.webp" alt=""><div><div class="eyebrow"><i>✦</i> Contacto</div><h2>IDEAS, PROYECTOS<br>Y NUEVAS HISTORIAS.</h2><p>Contame qué necesitás y armamos una propuesta.</p></div><div class="contact-links"><a href="mailto:rosario234576@gmail.com">rosario234576@gmail.com <span>↗</span></a><a href="https://wa.me/5491132598397" target="_blank" rel="noopener">WhatsApp <span>↗</span></a><a href="https://www.instagram.com/inkkstudios_/" target="_blank" rel="noopener">Instagram <span>↗</span></a></div></div>
     </section>
   </main>
 
   <footer class="footer section-dark">
-    <div class="section-shell footer-grid"><div class="footer-brand"><img src="assets/gato.png" alt=""><img src="assets/LogoBlanco.png" alt="Inkkstudios"></div><div><h3>PÁGINAS</h3><a href="#inicio">Inicio</a><a href="#servicios">Servicios</a><a href="#proyectos">Proyectos</a><a href="#sobre-mi">Sobre mí</a></div><div><h3>CONECTEMOS</h3><a href="https://www.instagram.com/inkkstudios_/" target="_blank" rel="noopener">Instagram</a><a href="https://www.linkedin.com/in/rosariofernandezarg/" target="_blank" rel="noopener">LinkedIn</a><a href="mailto:rosario234576@gmail.com">Email</a></div><div class="footer-contact"><strong>+54 9 11 3259 8397</strong><strong>rosario234576@gmail.com</strong><p>Buenos Aires, Argentina<br>Diseño para Latinoamérica.</p></div></div>
+    <div class="section-shell footer-grid"><div class="footer-brand"><img loading="lazy" decoding="async" src="assets/opt/gato.webp" alt=""><img loading="lazy" decoding="async" src="assets/opt/LogoBlanco.webp" alt="Inkkstudios"></div><div><h3>PÁGINAS</h3><a href="#inicio">Inicio</a><a href="#servicios">Servicios</a><a href="#proyectos">Proyectos</a><a href="#sobre-mi">Sobre mí</a></div><div><h3>CONECTEMOS</h3><a href="https://www.instagram.com/inkkstudios_/" target="_blank" rel="noopener">Instagram</a><a href="https://www.linkedin.com/in/rosariofernandezarg/" target="_blank" rel="noopener">LinkedIn</a><a href="mailto:rosario234576@gmail.com">Email</a></div><div class="footer-contact"><strong>+54 9 11 3259 8397</strong><strong>rosario234576@gmail.com</strong><p>Buenos Aires, Argentina<br>Diseño para Latinoamérica.</p></div></div>
     <div class="footer-word" aria-hidden="true"><div class="footer-word-track"><span>INKKSTUDIOS</span><span>INKKSTUDIOS</span></div></div>
     <div class="footer-bottom"><span>© 2026 INKKSTUDIOS</span><a href="#inicio">VOLVER ARRIBA ↑</a></div>
   </footer>
 
-  <script src="js/aurelia-rebuild.js?v=11"></script>
+  <script src="js/aurelia-rebuild.js?v=12"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
   <script src="js/editorial-manifesto.js?v=1"></script>
   <script src="js/icon-burst.js?v=2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+  <script src="js/smooth-scroll.js?v=2"></script>
 </body>
 </html>

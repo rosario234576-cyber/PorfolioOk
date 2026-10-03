@@ -144,8 +144,8 @@ const buildVideoGallery = () => {
     const card = document.createElement("figure");
     card.className = "video-gallery-card reveal visible";
     card.innerHTML = `
-      <video muted loop playsinline autoplay preload="metadata">
-        <source src="${source}" type="video/mp4">
+      <video muted loop playsinline preload="none">
+        <source data-src="${source}" type="video/mp4">
       </video>
       <button class="video-card-overlay" type="button" aria-label="Ver video completo">
         <span class="video-card-play" aria-hidden="true"></span>
@@ -160,8 +160,18 @@ const buildVideoGallery = () => {
 let previewVideoCards = [];
 let previewVideoObserver = null;
 
+// Los videos de la galería recién se descargan cuando su tarjeta se acerca a la pantalla.
+const attachDeferredSource = (video) => {
+  const source = video?.querySelector("source[data-src]");
+  if (!source || source.getAttribute("src")) return;
+  source.src = source.dataset.src;
+  video.preload = "metadata";
+  video.load();
+};
+
 const playMutedPreview = (video) => {
   if (!video) return;
+  attachDeferredSource(video);
   video.muted = true;
   video.defaultMuted = true;
   video.volume = 0;
@@ -212,10 +222,11 @@ const setupVideoPreviewCards = () => {
     video.volume = 0;
     video.playsInline = true;
     video.loop = true;
-    video.preload = "metadata";
+    const deferred = Boolean(video.querySelector("source[data-src]:not([src])"));
+    video.preload = deferred ? "none" : "metadata";
     video.setAttribute("muted", "");
     video.setAttribute("playsinline", "");
-    video.setAttribute("preload", "metadata");
+    video.setAttribute("preload", video.preload);
     video.addEventListener("loadeddata", () => card.classList.add("is-video-ready"), { once: true });
     const removeBrokenCard = () => {
       video.pause();
@@ -223,7 +234,10 @@ const setupVideoPreviewCards = () => {
       previewVideoObserver?.unobserve(card);
     };
     video.addEventListener("error", removeBrokenCard, { once: true });
-    video.querySelectorAll("source").forEach((source) => source.addEventListener("error", removeBrokenCard, { once: true }));
+    // Un <source> diferido (sin src todavía) también dispara "error": solo cuenta si ya tiene video.
+    video.querySelectorAll("source").forEach((source) => source.addEventListener("error", () => {
+      if (source.getAttribute("src")) removeBrokenCard();
+    }));
 
     const openCardVideo = (event) => {
       event?.preventDefault();
@@ -518,7 +532,7 @@ document.querySelectorAll(".work-card").forEach((card) => {
       errorBox.className = "media-error";
       errorBox.innerHTML = `
         <div class="media-error-inner">
-          <img src="../assets/Gatoposando3.png" alt="">
+          <img src="../assets/opt/Gatoposando3.webp" alt="">
           <span>${errorMessage}</span>
         </div>
       `;

@@ -230,13 +230,17 @@
       startX = event.clientX;
       startScroll = surface.scrollLeft;
       moved = false;
-      surface.classList.add('is-dragging');
-      surface.setPointerCapture(pointerId);
     });
     surface.addEventListener('pointermove', (event) => {
       if (event.pointerId !== pointerId) return;
       const delta = event.clientX - startX;
-      moved ||= Math.abs(delta) > 5;
+      if (!moved && Math.abs(delta) > 5) {
+        // Captura el puntero recién cuando hay arrastre real, así un clic simple llega a la pieza (lightbox).
+        moved = true;
+        surface.classList.add('is-dragging');
+        surface.setPointerCapture(pointerId);
+      }
+      if (!moved) return;
       surface.scrollLeft = startScroll - delta;
       if (moved) event.preventDefault();
     });
