@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <script>try{var m=new URLSearchParams(location.search).get("motion");if(m==="full")localStorage.setItem("inkk-motion","full");if(m==="auto")localStorage.removeItem("inkk-motion");if(localStorage.getItem("inkk-motion")==="full")document.documentElement.classList.add("motion-full")}catch(e){}</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
   <title>Inkkstudio</title>
   <link rel="icon" type="image/png" href="../assets/favicon-gato.png">
@@ -9,8 +10,8 @@
   <link rel="preload" href="../Fuente/RocGroteskCondensedExtraBold.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="../css/service-page.css?v=11">
-  <link rel="stylesheet" href="../css/aurelia-rebuild.css?v=96">
+  <link rel="stylesheet" href="../css/service-page.css?v=13">
+  <link rel="stylesheet" href="../css/aurelia-rebuild.css?v=113">
   <link rel="stylesheet" href="../css/service-aurelia-skin.css?v=7">
   <link rel="stylesheet" href="../css/service-home-sync.css?v=15">
   <link rel="stylesheet" href="../css/web-landing.css?v=1">
@@ -391,10 +392,13 @@
     <div class="footer-bottom"><span>© 2026 INKKSTUDIOS</span><a href="../index.html#inicio">VOLVER ARRIBA ↑</a></div>
   </footer>
 
-  <script src="../js/service-page.js?v=18"></script>
-  <script src="../js/aurelia-rebuild.js?v=12"></script>
+  <script src="../js/service-page.js?v=19"></script>
+  <script src="../js/aurelia-rebuild.js?v=13"></script>
   <script src="../js/icon-burst.js?v=2"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="../js/service-motion.js?v=2"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
-  <script src="../js/smooth-scroll.js?v=3"></script>
+  <script src="../js/smooth-scroll.js?v=5"></script>
 </body>
 </html>

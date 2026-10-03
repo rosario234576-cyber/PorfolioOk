@@ -5,8 +5,12 @@
   const hasScrollTrigger = Boolean(window.gsap && window.ScrollTrigger);
 
   const lenis = new Lenis({
-    // Interpolación continua: cada movimiento de la rueda se suma a un deslizamiento suave, sin pasos.
-    lerp: 0.075,
+    // Interpolación continua: cada movimiento de la rueda se suma a un deslizamiento suave, sin pasos
+    // (0.085 = se desliza con fluidez pero frena enseguida al soltar la rueda).
+    lerp: 0.085,
+    // El suavizado de la rueda se mantiene aunque el sistema tenga "reducir movimiento":
+    // es el mismo recorrido que pide el usuario, solo sin saltos entre pasos de la rueda.
+    respectReducedMotion: false,
     smoothWheel: true,
     wheelMultiplier: 1,
     autoRaf: !hasScrollTrigger,

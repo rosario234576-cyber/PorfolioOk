@@ -197,7 +197,8 @@ button{font:inherit}
 @media(max-width:430px){.hero-title{font-size:17vw}.hero-stats{gap:12px}.process-timeline-track{grid-template-columns:1fr;row-gap:34px}.process-timeline-track::before,.process-timeline-track::after{display:none}.testimonial-track article{flex-basis:94%;padding:27px}.footer-grid{grid-template-columns:1fr}.footer-grid>div:not(.footer-brand):not(.footer-contact){display:none}}
 .nav-links>a.is-active::after{transform:scaleX(1)!important;transform-origin:left!important}
 /* Movimiento reducido: las animaciones terminan al instante (no se cancelan) para que el contenido llegue a su estado visible. */
-@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important}[data-reveal]{opacity:1;transform:none;clip-path:none}.split-word>span{transform:none}}
+/* Reducir movimiento: se respeta salvo que se haya elegido animación completa (?motion=full → html.motion-full). */
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}html:not(.motion-full) *,html:not(.motion-full) *::before,html:not(.motion-full) *::after{animation-duration:.01ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.01ms!important;transition-delay:0s!important}html:not(.motion-full) [data-reveal]{opacity:1;transform:none;clip-path:none}html:not(.motion-full) .split-word>span{transform:none}}
 
 .logo-rail{width:fit-content;max-width:calc(100% - 32px);padding-inline:clamp(24px,4vw,50px)}
 .logo-rail-track{display:flex;justify-content:center;flex-wrap:wrap;width:auto;gap:clamp(24px,4vw,54px);padding:0;animation:none}
@@ -499,24 +500,26 @@ button{font:inherit}
   .work-head p{margin-top:0}
 }
 
-/* --- Timeline de proceso en mobile: un paso a la vez, avanza solo ------- */
+/* --- Timeline de proceso en mobile: etapas apiladas sobre una línea vertical ---
+   Sin JS (o con movimiento reducido) se ven todas; con la narrativa, la línea se llena con el scroll (--pt-fill)
+   y cada etapa se enciende al llegar. */
 @media(max-width:760px){
-  .process-timeline{padding:10px 0 30px}
-  .process-timeline-track{display:block;position:relative;min-height:196px;padding-bottom:26px}
-  .process-timeline-track::before{display:block;left:50%;right:auto;top:auto;bottom:0;transform:translateX(-50%);width:min(220px,70%);height:2px;background-color:var(--line);background-repeat:no-repeat;background-image:radial-gradient(circle 3px,var(--muted) 100%,transparent 101%),radial-gradient(circle 3px,var(--muted) 100%,transparent 101%),radial-gradient(circle 3px,var(--muted) 100%,transparent 101%),radial-gradient(circle 3px,var(--muted) 100%,transparent 101%);background-position:0% 50%,33.333% 50%,66.666% 50%,100% 50%}
-  .process-timeline-track::after{display:block;left:50%;right:auto;top:auto;bottom:0;transform:translateX(-50%);width:0;max-width:min(220px,70%);height:2px;background:var(--orange);box-shadow:0 0 8px rgba(235,91,48,.55);animation:pt-line-progress 16s linear infinite}
-  .pt-step{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0;opacity:0;transform:translateX(26px);animation:pt-slide-cycle 16s ease-in-out infinite}
-  .pt-step:nth-child(1){animation-delay:0s}
-  .pt-step:nth-child(2){animation-delay:4s}
-  .pt-step:nth-child(3){animation-delay:8s}
-  .pt-step:nth-child(4){animation-delay:12s}
-  .pt-dot{display:none}
-  .pt-step b{position:static;margin-bottom:10px}
-  .pt-step h3{margin:0 0 10px;font-size:clamp(26px,7vw,32px)}
-  .pt-step p{max-width:260px}
+  .process-timeline{padding:4px 0 10px}
+  .process-timeline-track{display:grid;grid-template-columns:1fr;row-gap:30px;gap:30px;position:relative;min-height:0;padding:0 0 0 36px}
+  .process-timeline-track::before{display:block;content:"";position:absolute;left:7px;right:auto;top:8px;bottom:8px;width:2px;height:auto;transform:none;background:var(--line);background-image:none;animation:none}
+  .process-timeline-track::after{display:block;content:"";position:absolute;left:7px;right:auto;top:8px;bottom:auto;width:2px;max-width:none;height:calc((100% - 16px) * var(--pt-fill-n, 1));transform:none;background:var(--orange);box-shadow:0 0 8px rgba(235,91,48,.5);animation:none}
+  .narrative-on .process-timeline-track::after{display:block;height:min(var(--pt-fill,0%),calc(100% - 16px))}
+  .pt-step{position:relative;inset:auto;display:block;padding:0;text-align:left;opacity:1;transform:none;animation:none}
+  .pt-dot{display:block;position:absolute;left:-36px;top:1px;width:16px;height:16px;border:2px solid var(--orange);border-radius:50%;background:var(--paper);animation:none;transition:background-color .35s,transform .35s var(--ease)}
+  .pt-step b{position:static;display:block;margin-bottom:6px}
+  .pt-step h3{margin:0 0 6px;font-size:clamp(24px,7vw,30px);animation:none;transition:color .35s}
+  .pt-step p{max-width:none;animation:none}
+  .narrative-on .pt-step{opacity:.35;transition:opacity .4s ease}
+  .narrative-on .pt-step.is-active,.narrative-on .pt-step.is-done{opacity:1}
+  .narrative-on .pt-step.is-active .pt-dot,.narrative-on .pt-step.is-done .pt-dot{background:var(--orange)}
+  .narrative-on .pt-step.is-active .pt-dot{transform:scale(1.25)}
+  .narrative-on .pt-step.is-active h3{color:var(--orange)}
 }
-@keyframes pt-slide-cycle{0%{opacity:0;transform:translateX(26px)}4%{opacity:1;transform:translateX(0)}21%{opacity:1;transform:translateX(0)}25%{opacity:0;transform:translateX(-26px)}100%{opacity:0}}
-@keyframes pt-line-progress{0%{width:0}96%{width:min(220px,70%)}100%{width:min(220px,70%)}}
 
 /* --- Footer mobile: todo apilado en una sola columna, prolijo ----------- */
 @media(max-width:760px){
@@ -906,3 +909,104 @@ html.lenis,html.lenis body{height:auto}
 .lenis.lenis-smooth{scroll-behavior:auto!important}
 .lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain}
 .lenis.lenis-stopped{overflow:clip}
+
+/* Hero: CTA en pastilla. */
+.hero-cta{display:inline-flex;align-items:center;gap:12px;margin-top:6px;padding:14px 16px 13px 22px;border-radius:999px;background:var(--orange);color:var(--dark);font:800 13px/1 Roc,Impact,sans-serif;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;transition:background .25s,transform .25s var(--ease)}
+.hero-cta span{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--dark);color:var(--orange);font-size:14px;transition:transform .25s var(--ease)}
+.hero-cta:hover{background:var(--orange-hot);transform:translateY(-2px)}
+.hero-cta:hover span{transform:rotate(45deg)}
+.hero-cta:focus-visible{outline:2px solid var(--paper);outline-offset:4px}
+
+
+/* Sobre mí: marcas con las que trabajé (reemplaza las cifras). Logo o nombre a la izquierda, rubro y qué se hizo a la derecha. */
+.about-brands{align-self:center}
+.about-brands-title{display:block;margin-bottom:6px;font:800 10px/1 Roc,Impact,sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--orange)}
+.about-brands ul{margin:0;padding:0;list-style:none}
+.about-brands li{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:18px;align-items:center;padding:20px 0;border-bottom:1px solid var(--line)}
+.about-brands .brand-mark{display:flex;align-items:center;min-height:44px;overflow-wrap:anywhere;font:800 clamp(15px,1.3vw,21px)/.95 Roc,Impact,sans-serif;letter-spacing:-.01em;text-transform:uppercase;color:var(--dark)}
+/* Todos los logos viven en la misma caja y se ajustan sin deformarse (object-fit: contain). */
+.about-brands img.brand-mark{display:block;box-sizing:border-box;width:min(100%,140px);height:50px;object-fit:contain;object-position:left center}
+/* Maximus tiene texto blanco: va sobre una placa oscura en vez de cambiarle los colores. */
+.about-brands img.brand-on-dark{height:44px;padding:9px 11px;border-radius:8px;background:var(--dark);object-position:center}
+.about-brands b{display:block;font:800 9.5px/1.2 Roc,Impact,sans-serif;letter-spacing:.07em;text-transform:uppercase;color:var(--orange)}
+.about-brands p{margin:5px 0 0;font-size:12.5px;line-height:1.5;color:#555a55}
+@media(max-width:1050px){.about-brands{grid-column:1/-1}.about-brands ul{display:grid;grid-template-columns:1fr 1fr;column-gap:36px}}
+@media(max-width:760px){
+  .about-brands{order:8;margin-top:44px;text-align:left}
+  .about-brands-title{text-align:center;margin-bottom:4px}
+  .about-brands ul{grid-template-columns:1fr}
+  .about-brands li{grid-template-columns:104px 1fr;gap:14px;padding:16px 0}
+  .about-brands .brand-mark{font-size:17px}
+}
+
+/* Manifiesto a sangre: sin tarjeta, toda la sección es naranja. El círculo que la revela (home-narrative.js) se abre sobre el crema de la página. */
+.manifesto{padding:0!important;background:var(--paper)!important}
+.manifesto-card{width:100%;max-width:none;min-height:clamp(520px,78svh,760px);display:flex;flex-direction:column;justify-content:center;padding:clamp(70px,8vw,120px) max(5vw,calc((100% - 1320px) / 2));border-radius:0;box-shadow:none}
+.manifesto-card::after{content:none}
+.manifesto-star{position:absolute;z-index:0;right:max(3vw,calc((100% - 1460px) / 2));top:50%;margin-top:-.5em;color:rgba(16,21,19,.13);font:800 clamp(220px,32vw,500px)/1 Roc,Impact,sans-serif;pointer-events:none;transform:rotate(12deg)}
+.manifesto-card h2{font-size:clamp(46px,7.2vw,112px)}
+/* Las máscaras de entrada dejan aire arriba para que los acentos y la tilde de la Ñ no se corten. */
+.manifesto-card h2 span{clip-path:inset(-.35em -.1em 100% -.1em)}
+.manifesto-card h2 mark{clip-path:inset(-.35em -.1em 100% -.1em)}
+.manifesto-card.is-visible h2 span,.manifesto-card.is-visible h2 mark{clip-path:inset(-.35em -.1em -.15em -.1em)}
+@media(max-width:760px){
+  .manifesto-card{min-height:0;padding:72px 20px 64px}
+  .manifesto-card h2{font-size:clamp(34px,11vw,50px)}
+  .manifesto-star{right:-60px;top:38%;font-size:260px}
+}
+@media(max-width:760px) and (prefers-reduced-motion:reduce){.manifesto-card h2 span,.manifesto-card h2 mark{clip-path:none}}
+
+/* Perfil creativo: el gato ("una mirada") en el centro y los lenguajes como stickers en una órbita elíptica.
+   La posición de cada sticker sale de su ángulo (--i * 45° + --spin); home-narrative.js gira --spin con el scroll.
+   Los de adelante (mitad inferior de la elipse) se ven más grandes; los de atrás, más chicos y tenues. */
+.expert{overflow-x:clip}
+.expert-orbit{--rx:min(470px,41vw);--ry:265px;--spin:0deg;position:relative;height:calc(var(--ry) * 2 + 90px);margin:clamp(18px,3vw,40px) auto 0}
+.expert-orbit-track{position:absolute;left:50%;top:50%;width:calc(var(--rx) * 2);height:calc(var(--ry) * 2);transform:translate(-50%,-50%);border:1.5px dashed rgba(235,91,48,.38);border-radius:50%;pointer-events:none}
+.expert-orbit .expert-core{position:absolute;z-index:1;left:50%;top:50%;width:min(290px,62vw);min-height:0;margin:0;transform:translate(-50%,-50%)}
+.expert-orbit .expert-core img{max-height:300px}
+.expert-ring{position:absolute;z-index:2;inset:0;margin:0;padding:0;list-style:none}
+.expert-ring li{--a:calc(var(--i) * 45deg + 22.5deg + var(--spin));--d:sin(var(--a));position:absolute;left:calc(50% + cos(var(--a)) * var(--rx));top:calc(50% + var(--d) * var(--ry));transform:translate(-50%,-50%) scale(calc(.9 + var(--d) * .1));opacity:calc(.85 + var(--d) * .15)}
+.expert-ring .sk{--tilt:-4deg;display:block;padding:16px 22px 14px;border-radius:12px;font:800 clamp(14px,1.25vw,18px)/1.1 Roc,Impact,sans-serif;letter-spacing:.045em;text-transform:uppercase;white-space:nowrap;box-shadow:5px 5px 0 rgba(16,21,19,.2);transform:rotate(var(--tilt))}
+.expert-ring.is-ready .sk,html:not(.narrative-on) .expert-ring .sk{transition:transform .3s var(--ease),box-shadow .3s var(--ease)}
+.expert-ring li:nth-child(even) .sk{--tilt:3deg}
+.expert-ring li:nth-child(3n) .sk{--tilt:-1.5deg}
+.expert-ring .sk:hover{transform:rotate(0) scale(1.07);box-shadow:6px 6px 0 rgba(16,21,19,.22)}
+.sk-paper{border:1.5px solid var(--dark);background:#fff;color:var(--dark)}
+.sk-orange{background:var(--orange);color:var(--dark)}
+.sk-dark{background:var(--dark);color:var(--paper)}
+.sk-line{border:1.5px dashed var(--dark);background:var(--paper);color:var(--dark)}
+@media(max-width:1050px){.expert-orbit{--rx:min(340px,37vw);--ry:235px}.expert-ring .sk{padding:13px 16px 11px;font-size:13px}}
+@media(max-width:760px){
+  .expert-orbit{--rx:calc(50vw - 58px);--ry:215px;height:520px;margin-top:10px}
+  .expert-orbit .expert-core{width:min(190px,48vw)}
+  .expert-orbit .expert-core img{max-height:200px}
+  .expert-ring .sk{max-width:104px;padding:9px 10px 8px;font-size:10px;line-height:1.15;white-space:normal;text-align:center;box-shadow:3px 3px 0 rgba(16,21,19,.2)}
+}
+
+/* Sobre mí: foto más chica para que las marcas tengan protagonismo. */
+.about-portrait{width:100%;max-width:400px;justify-self:center}
+.about-portrait>img{height:clamp(420px,36vw,540px)}
+@media(max-width:760px){.about-portrait{max-width:none}.about-portrait>img{height:340px}}
+
+/* Cinta de servicios infinita: 4 grupos idénticos, se desplaza la mitad y empalma sin salto. Las estrellas giran al pasar. */
+.ticker div{display:flex;animation:ticker 34s linear infinite}
+.ticker-group{flex:0 0 auto;padding-right:.25em}
+.ticker i{display:inline-block;animation:tickerStar 3.2s linear infinite}
+@keyframes tickerStar{to{transform:rotate(360deg)}}
+@media(prefers-reduced-motion:reduce){.ticker div{animation:ticker 34s linear infinite!important}.ticker i{animation:tickerStar 3.2s linear infinite!important}}
+
+/* El astronauta siempre flota por encima del contenido (debajo del header y del menú, que lo oculta al abrirse). */
+.astronaut-rig{z-index:1150}
+
+/* CTA en mobile: el sello va chico en la esquina para no tapar el título. */
+@media(max-width:760px){.cta-panel>img{width:96px!important;right:14px!important;bottom:14px!important;top:auto!important;opacity:.9}}
+
+/* Hero: el párrafo va pegado al título (el bloque de CREATIVO ya deja aire debajo de las letras). */
+@media(min-width:761px){.hero .hero-info{margin-top:clamp(-8px,-.5vw,-3px)}}
+@media(max-width:760px){.hero .hero-info{margin-top:8px}}
+
+/* Páginas de servicios (js/service-motion.js): palabras con máscara en los títulos. El aire arriba evita cortar tildes. */
+.sm-word{display:inline-block;overflow:hidden;vertical-align:bottom;padding-top:.16em;margin-top:-.16em;padding-inline:.03em;margin-inline:-.03em}
+.sm-word>span{display:inline-block}
+/* La cinta de servicios sigue corriendo si se eligió animación completa. */
+html.motion-full .service-note-track{animation:serviceTape 24s linear infinite!important}

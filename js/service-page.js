@@ -136,25 +136,75 @@ const videoCatalog = [
   ["../assets/proyectos/Videojuegos (Ecuador)/Videos/3.mp4", "gaming"]
 ];
 
+// Cada etiqueta del catálogo pertenece a una marca; las que tienen un solo video van juntas en "otros proyectos".
+const videoBrands = {
+  invesmar: { name: "Invesmar", place: "Chile", logo: "../assets/opt/clientes/invesmar.webp" },
+  "maximus gaming": { name: "Grupo Maximus", place: "Argentina", logo: "../assets/opt/clientes/maximus.svg", dark: true },
+  gaming: { name: "Electronic Games", place: "Ecuador", logo: "../assets/opt/clientes/electronicgames.webp" },
+  "tu plan futuro": { name: "Tu Plan Futuro", place: "Chile", logo: "../assets/opt/clientes/tuplanfuturo.webp" },
+  distribuidora: { name: "Distribuidora", place: "Ecuador" },
+  "newsline report": { name: "Newsline Report", place: "Argentina", logo: "../assets/opt/clientes/newsline.webp" }
+};
+const otherVideos = { name: "Otros proyectos", place: "Chile · Argentina" };
+
+const videoCard = ([source, label], index) => {
+  const card = document.createElement("figure");
+  card.className = "video-gallery-card";
+  card.innerHTML = `
+    <video muted loop playsinline preload="none">
+      <source data-src="${source}" type="video/mp4">
+    </video>
+    <button class="video-card-overlay" type="button" aria-label="Ver video completo">
+      <span class="video-card-play" aria-hidden="true"></span>
+      <span class="video-card-text">ver video</span>
+    </button>
+    <figcaption><b>${String(index + 1).padStart(2, "0")}</b><span>${label}</span></figcaption>
+  `;
+  return card;
+};
+
 const buildVideoGallery = () => {
   const gallery = document.querySelector(".video-gallery-grid");
   if (!gallery) return;
 
-  gallery.replaceChildren(...videoCatalog.map(([source, label], index) => {
-    const card = document.createElement("figure");
-    card.className = "video-gallery-card reveal visible";
-    card.innerHTML = `
-      <video muted loop playsinline preload="none">
-        <source data-src="${source}" type="video/mp4">
-      </video>
-      <button class="video-card-overlay" type="button" aria-label="Ver video completo">
-        <span class="video-card-play" aria-hidden="true"></span>
-        <span class="video-card-text">ver video</span>
-      </button>
-      <figcaption><b>${String(index + 1).padStart(2, "0")}</b><span>${label}</span></figcaption>
+  const groups = new Map();
+  videoCatalog.forEach((video) => {
+    const brand = videoBrands[video[1]] || otherVideos;
+    if (!groups.has(brand)) groups.set(brand, []);
+    groups.get(brand).push(video);
+  });
+  // Primero las marcas con más videos; "otros proyectos" siempre al final.
+  const ordered = [...groups].sort(([a, av], [b, bv]) => (a === otherVideos) - (b === otherVideos) || bv.length - av.length);
+
+  const wrap = document.createElement("div");
+  wrap.className = "video-brands";
+  wrap.append(...ordered.map(([brand, videos], brandIndex) => {
+    const section = document.createElement("section");
+    section.className = "video-brand";
+    const initials = brand.name.split(" ").map((word) => word[0]).join("").slice(0, 2);
+    const mark = brand.logo
+      ? `<img class="video-brand-logo${brand.dark ? " is-dark" : ""}" src="${brand.logo}" alt="${brand.name}" loading="lazy" decoding="async">`
+      : `<span class="video-brand-initials">${initials}</span>`;
+    section.innerHTML = `
+      <header class="video-brand-head">
+        <span class="video-brand-mark">${mark}</span>
+        <div class="video-brand-copy">
+          <small>${String(brandIndex + 1).padStart(2, "0")} · ${brand.place}</small>
+          <h3>${brand.name}</h3>
+        </div>
+        <span class="video-brand-count"><b>${videos.length}</b> ${videos.length === 1 ? "video" : "videos"}</span>
+      </header>
+      <span class="video-brand-ghost" aria-hidden="true">${brand.name}</span>
     `;
-    return card;
+    const grid = document.createElement("div");
+    grid.className = "video-gallery-grid";
+    grid.append(...videos.map(videoCard));
+    section.append(grid);
+    return section;
   }));
+  gallery.replaceWith(wrap);
+  const headNote = document.querySelector(".video-gallery-head p");
+  if (headNote) headNote.textContent = "por marca";
 };
 
 let previewVideoCards = [];

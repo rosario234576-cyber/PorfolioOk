@@ -2442,3 +2442,28 @@ p::first-letter,
 .video-intro-card .video-card-overlay{display:none!important}
 .video-intro-card figcaption{top:14px;bottom:auto;padding:0 0 10px;border-top:0;border-bottom:1px solid rgba(245,242,238,.25);pointer-events:none}
 .video-intro-card::before{pointer-events:none;background:linear-gradient(180deg,rgba(3,16,16,.48),transparent 28%,rgba(3,16,16,.2) 72%,rgba(3,16,16,.52))}
+/* Edición de video: portfolio agrupado por marca. Cada bloque tiene su logo (placa tipo sticker), nombre y conteo;
+   detrás, el nombre en contorno gigante se desliza con el scroll (js/service-motion.js). */
+.video-gallery-showcase{overflow-x:clip}
+.video-brands{display:grid;grid-template-columns:minmax(0,1fr);gap:clamp(56px,7vw,104px)}
+.video-brand{position:relative;min-width:0}
+.video-brand-head{position:relative;z-index:2;display:flex;align-items:center;gap:clamp(14px,2vw,22px);margin-bottom:22px;padding-bottom:18px;border-bottom:1px solid rgba(245,242,238,.16)}
+.video-brand-mark{flex:0 0 auto;display:grid;place-items:center;width:clamp(64px,6vw,82px);aspect-ratio:1;border-radius:18px;background:#f1eee7;box-shadow:5px 5px 0 rgba(235,91,48,.9);transform:rotate(-4deg)}
+.video-brand-mark:has(.is-dark){background:#0b0f0e;border:1px solid rgba(245,242,238,.22)}
+.video-brand-logo{display:block;width:78%;height:62%;object-fit:contain}
+.video-brand-initials{font:800 clamp(22px,2.2vw,30px)/1 Roc,Impact,sans-serif;color:#101513;letter-spacing:-.02em}
+.video-brand-copy{min-width:0}
+.video-brand-copy small{display:block;color:var(--primary);font-family:var(--font-subtitle);font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.video-brand-copy h3{margin:6px 0 0;color:#f5f2ee;font:800 clamp(30px,4.2vw,62px)/.9 Roc,Impact,sans-serif;letter-spacing:-.02em;text-transform:uppercase}
+.video-brand-count{margin-left:auto;flex:0 0 auto;padding:9px 15px;border:1px solid rgba(235,91,48,.7);border-radius:999px;color:rgba(245,242,238,.8);font-family:var(--font-subtitle);font-size:.74rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.video-brand-count b{color:var(--primary)}
+.video-brand-ghost{position:absolute;z-index:0;right:-2vw;top:-.42em;color:transparent;-webkit-text-stroke:1px rgba(235,91,48,.24);font:800 clamp(72px,13vw,200px)/1 Roc,Impact,sans-serif;letter-spacing:-.03em;text-transform:uppercase;white-space:nowrap;pointer-events:none}
+.video-brand>.video-gallery-grid{position:relative;z-index:1}
+@media(max-width:760px){
+  .video-brand-head{flex-wrap:wrap;gap:12px 14px}
+  .video-brand-mark{width:58px;border-radius:14px;box-shadow:4px 4px 0 rgba(235,91,48,.9)}
+  .video-brand-copy{flex:1}
+  .video-brand-copy h3{font-size:clamp(26px,8vw,36px)}
+  .video-brand-count{margin-left:0;padding:7px 12px;font-size:.66rem}
+  .video-brand-ghost{top:-.2em;font-size:clamp(64px,22vw,110px)}
+}

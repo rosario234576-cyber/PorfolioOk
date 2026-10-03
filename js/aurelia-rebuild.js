@@ -143,29 +143,31 @@
 
   const parallaxItems = [...document.querySelectorAll('[data-parallax]')];
   const hero = document.querySelector('.hero');
+  const heroTitle = hero?.querySelector('.hero-title');
+  const progressBar = document.querySelector('.scroll-progress span');
   let ticking = false;
 
+  // Primero se lee todo y después se escribe: mezclar lecturas de layout con escrituras de estilo
+  // obliga a recalcular la página entera en cada cuadro y el scroll se traba.
+  // Las variables van en el elemento que las usa (no en <html>) para no invalidar el estilo de todo el documento.
   const updateScroll = () => {
     ticking = false;
     const scrollTop = window.scrollY;
-    const maxScroll = Math.max(1, root.scrollHeight - window.innerHeight);
+    const viewportHeight = window.innerHeight;
+    const maxScroll = Math.max(1, root.scrollHeight - viewportHeight);
     const pageProgress = clamp(scrollTop / maxScroll);
     const heroExit = hero ? clamp(scrollTop / Math.max(1, hero.offsetHeight)) : 0;
+    const parallax = reducedMotion.matches ? [] : parallaxItems.map((item) => {
+      const rect = item.getBoundingClientRect();
+      if (rect.bottom < -200 || rect.top > viewportHeight + 200) return null;
+      const distance = rect.top + rect.height / 2 - viewportHeight / 2;
+      return [item, distance * Number(item.dataset.parallax || 0)];
+    }).filter(Boolean);
 
-    root.style.setProperty('--page-progress', pageProgress.toFixed(4));
-    root.style.setProperty('--hero-exit', heroExit.toFixed(4));
+    progressBar?.style.setProperty('--page-progress', pageProgress.toFixed(4));
+    heroTitle?.style.setProperty('--hero-exit', heroExit.toFixed(4));
     header?.classList.toggle('is-scrolled', scrollTop > 35);
-
-    if (!reducedMotion.matches) {
-      const viewportCenter = window.innerHeight / 2;
-      parallaxItems.forEach((item) => {
-        const rect = item.getBoundingClientRect();
-        if (rect.bottom < -200 || rect.top > window.innerHeight + 200) return;
-        const speed = Number(item.dataset.parallax || 0);
-        const distance = rect.top + rect.height / 2 - viewportCenter;
-        item.style.setProperty('--parallax-y', `${distance * speed}px`);
-      });
-    }
+    parallax.forEach(([item, y]) => item.style.setProperty('--parallax-y', `${y.toFixed(1)}px`));
   };
 
   const requestScrollUpdate = () => {
