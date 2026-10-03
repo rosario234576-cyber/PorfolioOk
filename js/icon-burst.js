@@ -1,14 +1,14 @@
 (() => {
   const script = document.currentScript;
   const base = new URL("../assets/burst/", script?.src || location.href);
-  const icons = ["gato", "sello", "astro", "posando1", "posando2", "posando3", "vinetas", "ps", "ai", "id", "instagram", "meta", "capcut", "canva"];
-  const tallIcons = new Set(["astro", "posando1", "posando2", "posando3"]);
+  const icons = ["gato", "sello", "astro", "posando1", "posando2", "posando3", "vinetas", "fachero", "saltando"];
+  const tallIcons = new Set(["astro", "posando1", "posando2", "posando3", "saltando"]);
   const PARTICLES_PER_BURST = 42;
   const MAX_PARTICLES = 160;
 
   const wrap = document.createElement("div");
   wrap.className = "icon-burst";
-  wrap.innerHTML = `<button class="icon-burst-button" type="button" aria-label="Lanzar íconos de Inkkstudios" title="¡Tocame!"><img src="${new URL("gato.webp", base)}" alt=""></button>`;
+  wrap.innerHTML = `<button class="icon-burst-button" type="button" aria-label="Lanzar gatitos de Inkkstudios" title="¡Tocame!"><img src="${new URL("gato.webp", base)}" alt=""></button>`;
   document.body.append(wrap);
   const button = wrap.querySelector("button");
 
@@ -60,6 +60,8 @@
         y: originY - size / 2,
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed,
+        // Cada gato sale con su propio punto de vista: espejado o no, más o menos inclinado.
+        flip: Math.random() < 0.5 ? -1 : 1,
         rotation: random(-30, 30),
         spin: random(-420, 420),
         born: now + random(0, 90),
@@ -98,7 +100,7 @@
       const scale = pop < 1 ? 0.3 + pop * 0.85 : 1.15 - Math.min(0.15, (age - 180) / 1200);
       const fadeStart = p.life - 550;
       p.img.style.opacity = age > fadeStart ? String(Math.max(0, 1 - (age - fadeStart) / 550)) : "1";
-      p.img.style.transform = `translate3d(${p.x}px, ${p.y}px, 0) rotate(${p.rotation}deg) scale(${scale})`;
+      p.img.style.transform = `translate3d(${p.x}px, ${p.y}px, 0) rotate(${p.rotation}deg) scale(${scale * p.flip}, ${scale})`;
       return true;
     });
 

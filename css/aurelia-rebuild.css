@@ -291,7 +291,7 @@ button{font:inherit}
 }
 
 /* El sello gira siempre, lento, también con movimiento reducido. */
-@media(prefers-reduced-motion:reduce){.hero-title-seal{animation:heroSealSpin 20s linear infinite!important}}
+@media(prefers-reduced-motion:reduce){.hero-title-seal .hero-seal-ring{animation:heroSealSpin 20s linear infinite!important}.hero-title-seal .hero-seal-cat{animation:heroSealCat 5s ease-in-out infinite!important}}
 
 /* Manifiesto editorial: menos decoracion, mayor jerarquia. */
 .manifesto{
@@ -889,3 +889,14 @@ button{font:inherit}
 @media(prefers-reduced-motion:reduce){
   .hero-title .title-row b::after{animation:heroTitleShine 7s ease-in-out 1s infinite!important}
 }
+
+/* Sello: gira solo el anillo de texto; el gato del centro queda derecho. */
+.hero-title-seal{display:block;aspect-ratio:1;animation:none}
+.hero-title-seal img{position:absolute;inset:8%;width:84%;height:84%;display:block}
+.hero-seal-ring{animation:heroSealSpin 20s linear infinite}
+.hero-seal-cat{animation:heroSealCat 5s ease-in-out infinite}
+@keyframes heroSealCat{0%,100%{rotate:-5deg}50%{rotate:5deg}}
+/* Astronauta: el gancho del casco queda alineado con la cuerda aunque no haya animacion. */
+.scroll-astronaut{transform:translate3d(-52.5%,var(--astronaut-y),0)}
+@keyframes astronautFloat{0%,100%{transform:translate3d(-52.5%,var(--astronaut-y),0) rotate(-2deg)}50%{transform:translate3d(-52.5%,calc(var(--astronaut-y) - 13px),0) rotate(2deg)}}
+@media(prefers-reduced-motion:reduce){.scroll-astronaut{animation:astronautFloat 5.2s ease-in-out infinite!important}}
