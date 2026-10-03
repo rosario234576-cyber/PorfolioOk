@@ -1,0 +1,22 @@
+/* Botón flotante: al tocarlo explota un patrón de íconos Inkk por la pantalla. */
+.icon-burst{position:fixed;z-index:9998;right:28px;bottom:max(28px,calc(env(safe-area-inset-bottom) + 16px));width:64px;height:64px}
+.icon-burst::before{content:"";position:absolute;inset:-16px;border-radius:50%;background:radial-gradient(circle,rgba(235,91,48,.5) 0%,rgba(235,91,48,0) 68%);pointer-events:none;animation:iconBurstGlow 2.6s ease-in-out infinite}
+.icon-burst-button{position:relative;display:block;width:100%;height:100%;padding:0;border:0;border-radius:50%;background:var(--paper,#f1eee7);box-shadow:0 14px 30px -10px rgba(0,0,0,.6),0 0 0 3px rgba(16,21,19,.85),0 0 0 4px rgba(235,91,48,.6);cursor:pointer;animation:iconBurstFloat 3.2s ease-in-out infinite;transition:box-shadow .3s ease}
+.icon-burst-button img{display:block;width:100%;height:100%;padding:9px;box-sizing:border-box;object-fit:contain;pointer-events:none;transition:transform .35s cubic-bezier(.3,1.6,.5,1)}
+.icon-burst-button:hover img,.icon-burst-button:focus-visible img{transform:scale(1.1) rotate(8deg)}
+.icon-burst-button:focus-visible{outline:2px solid var(--orange,#eb5b30);outline-offset:5px}
+.icon-burst-button.is-popping img{animation:iconBurstPop .45s cubic-bezier(.3,1.6,.5,1)}
+.icon-burst-layer{position:fixed;z-index:9997;inset:0;overflow:hidden;pointer-events:none}
+.icon-burst-layer img{position:absolute;left:0;top:0;height:auto;will-change:transform,opacity;filter:drop-shadow(0 10px 14px rgba(0,0,0,.35));user-select:none}
+@keyframes iconBurstFloat{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-7px) rotate(-3deg)}}
+@keyframes iconBurstGlow{0%,100%{transform:scale(1);opacity:.75}50%{transform:scale(1.22);opacity:1}}
+@keyframes iconBurstPop{0%{transform:scale(1)}30%{transform:scale(.72) rotate(-14deg)}100%{transform:scale(1) rotate(0)}}
+/* El botón sigue flotando aunque el sistema tenga las animaciones reducidas. */
+@media(prefers-reduced-motion:reduce){
+  .icon-burst::before{animation:iconBurstGlow 2.6s ease-in-out infinite!important}
+  .icon-burst-button{animation:iconBurstFloat 3.2s ease-in-out infinite!important}
+}
+/* En la home, el indicador de scroll pasa a la izquierda para dejar la esquina al botón. */
+@media(min-width:761px){.hero .hero-scroll{right:auto;left:4vw}}
+@media(max-width:760px){.icon-burst{right:18px;width:56px;height:56px}}
+@media print{.icon-burst,.icon-burst-layer{display:none}}

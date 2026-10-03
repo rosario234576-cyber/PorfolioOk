@@ -880,11 +880,12 @@ button{font:inherit}
   .hero .hero-title{position:relative;top:auto;left:auto;transform:none;margin:0;font-size:clamp(76px,min(11vw,19vh),180px)}
   .hero .hero-info{position:relative;top:auto;left:auto;margin-top:clamp(26px,4.5vh,52px)}
 }
-/* Titulo del hero: brillo tenue que recorre las letras. */
+/* Titulo del hero: brillo tenue que recorre las letras (capa aparte; el texto base queda solido). */
 .hero-title{filter:drop-shadow(0 0 34px rgba(235,91,48,.16))}
-.hero-title .title-row b{background:linear-gradient(100deg,var(--paper) 0 42%,#fff 50%,var(--paper) 58% 100%) 120% 0/300% 100% no-repeat;-webkit-background-clip:text;background-clip:text;color:transparent;animation:hero-title-in 1s var(--ease) forwards,heroTitleShine 7s ease-in-out 1.4s infinite}
-.hero-title .title-row-accent b{background-image:linear-gradient(100deg,var(--orange) 0 42%,#ffb08f 50%,var(--orange) 58% 100%);animation-delay:.13s,1.9s}
+.hero-title .title-row b{position:relative}
+.hero-title .title-row b::after{content:attr(data-text);position:absolute;inset:0;background:linear-gradient(100deg,transparent 0 40%,rgba(255,255,255,.75) 50%,transparent 60% 100%) 120% 0/300% 100% no-repeat;-webkit-background-clip:text;background-clip:text;color:transparent;pointer-events:none;animation:heroTitleShine 7s ease-in-out 1.4s infinite}
+.hero-title .title-row-accent b::after{background-image:linear-gradient(100deg,transparent 0 40%,rgba(255,196,170,.7) 50%,transparent 60% 100%);animation-delay:1.9s}
 @keyframes heroTitleShine{0%{background-position:120% 0}40%,100%{background-position:-20% 0}}
 @media(prefers-reduced-motion:reduce){
-  .hero-title .title-row b{animation:hero-title-in .01ms forwards,heroTitleShine 7s ease-in-out 1s infinite!important}
+  .hero-title .title-row b::after{animation:heroTitleShine 7s ease-in-out 1s infinite!important}
 }
