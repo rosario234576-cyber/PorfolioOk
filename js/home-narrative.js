@@ -11,7 +11,7 @@
  *   bridges        – conexiones distintas entre Redes, Perfil creativo, CTA, Proceso, Reseñas y Contacto.
  *
  * Desktop: experiencia completa. Tablet: sin pinning y con menos amplitud. Mobile: solo hero y proyectos.
- * prefers-reduced-motion: solo quedan los fades existentes (se puede forzar con ?motion=full).
+ * Movimiento: activo por defecto; con ?motion=reduced solo quedan los fades existentes.
  */
 (() => {
   if (!window.gsap || !window.ScrollTrigger) return;
@@ -21,15 +21,8 @@
   const hero = document.querySelector(".hero");
   if (!main || !hero) return;
 
-  // Override para probar la experiencia completa con "animaciones reducidas" activado en el sistema.
-  const params = new URLSearchParams(location.search);
-  try {
-    if (params.get("motion") === "full") localStorage.setItem("inkk-motion", "full");
-    if (params.get("motion") === "auto") localStorage.removeItem("inkk-motion");
-  } catch {}
-  let forcedMotion = false;
-  try { forcedMotion = localStorage.getItem("inkk-motion") === "full"; } catch {}
-  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches && !forcedMotion;
+  // La preferencia de movimiento la resuelve el <head> (animación por defecto; ?motion=reduced la apaga).
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   if (reduced) return;
 
   document.documentElement.classList.add("narrative-on");
@@ -92,16 +85,38 @@
     const card = $(".manifesto-card");
     if (!card) return;
     takeOver([card]);
-    // Un círculo naranja nace arriba al centro y se abre hasta cubrir toda la sección.
-    gsap.fromTo(card, { clipPath: "circle(0% at 50% 0%)" }, {
-      clipPath: "circle(150% at 50% 0%)",
-      ease: "power2.inOut",
-      scrollTrigger: { trigger: card, start: "top bottom", end: "top 35%", scrub: 1.2 }
-    });
-    gsap.fromTo($(".manifesto-card-top, .manifesto-card-bottom", card), { y: 40, opacity: 0 }, {
-      y: 0, opacity: 1, stagger: 0.1, ease: "power2.out",
-      scrollTrigger: { trigger: card, start: "top 60%", end: "top 25%", scrub: 1 }
-    });
+    const lines = $$("h2 span, h2 mark", card);
+    const rows = $$(".manifesto-card-top, .manifesto-card-bottom", card);
+    // Las líneas dejan de usar la transición CSS del reveal: las maneja esta escena.
+    gsap.set([...lines, ...rows], { transition: "none" });
+    // El naranja es un círculo real que crece con transform (lo resuelve la GPU, sin repintar el texto en cada cuadro).
+    // Su tamaño cubre la sección desde el centro superior y se recalcula en cada refresh.
+    let burst = $(".manifesto-burst", card);
+    if (!burst) {
+      burst = document.createElement("span");
+      burst.className = "manifesto-burst";
+      burst.setAttribute("aria-hidden", "true");
+      card.prepend(burst);
+    }
+    const sizeBurst = () => {
+      const radius = Math.ceil(Math.hypot(card.offsetWidth / 2, card.offsetHeight)) + 4;
+      gsap.set(burst, { width: radius * 2, height: radius * 2, marginLeft: -radius, marginTop: -radius });
+    };
+    sizeBurst();
+    ScrollTrigger.addEventListener("refreshInit", sizeBurst);
+    // Entrada al llegar, con buena parte de la sección ya visible: el círculo se abre desde arriba,
+    // después suben las líneas y el texto. Al volver hacia arriba se deshace.
+    gsap.timeline({ scrollTrigger: { trigger: card, start: "top 58%", toggleActions: "play none none reverse" } })
+      .fromTo(burst, { scale: 0 }, { scale: 1, duration: 1.1, ease: "power3.inOut", force3D: true }, 0)
+      .fromTo(rows[0] || [], { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power2.out" }, 0.4)
+      .fromTo(lines, { yPercent: 70, opacity: 0 }, { yPercent: 0, opacity: 1, duration: 0.75, stagger: 0.1, ease: "power4.out" }, 0.45)
+      .fromTo(rows[1] || [], { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "power2.out" }, 0.85);
+    return () => ScrollTrigger.removeEventListener("refreshInit", sizeBurst);
+  };
+
+  const manifestoStar = () => {
+    const card = $(".manifesto-card");
+    if (!card) return;
     // La estrella de fondo gira y sube mientras la sección cruza la pantalla.
     const star = $(".manifesto-star", card);
     if (star) gsap.fromTo(star, { rotate: -20, yPercent: 18 }, { rotate: 70, yPercent: -18, ease: "none", scrollTrigger: { trigger: card, start: "top bottom", end: "bottom top", scrub: 0.8 } });
@@ -346,11 +361,11 @@
     const testimonials = $(".testimonials");
     const contact = $("#contacto");
 
-    // Servicios → Sobre mí: Sobre mí sube como una hoja con esquinas redondeadas y Servicios se hunde detrás.
+    // Sobre mí → Servicios: Servicios sube como una hoja oscura con esquinas redondeadas y Sobre mí se hunde detrás.
     if (about && services) {
-      const st = { trigger: about, start: "top bottom", end: "top 18%", scrub: 1.2 };
-      gsap.fromTo(about, { clipPath: "inset(6% 4% 0% 4% round 64px 64px 0px 0px)" }, { clipPath: "inset(0% 0% 0% 0% round 0px 0px 0px 0px)", ease: "sine.inOut", scrollTrigger: st });
-      gsap.fromTo($(".section-shell", services), { scale: 1, opacity: 1 }, { scale: 0.94, opacity: 0.45, transformOrigin: "50% 100%", ease: "sine.in", scrollTrigger: { ...st } });
+      const st = { trigger: services, start: "top bottom", end: "top 18%", scrub: 1.2 };
+      gsap.fromTo(services, { clipPath: "inset(6% 4% 0% 4% round 64px 64px 0px 0px)" }, { clipPath: "inset(0% 0% 0% 0% round 0px 0px 0px 0px)", ease: "sine.inOut", scrollTrigger: st });
+      gsap.fromTo($(".section-shell", about), { scale: 1, opacity: 1 }, { scale: 0.94, opacity: 0.45, transformOrigin: "50% 100%", ease: "sine.in", scrollTrigger: { ...st } });
     }
 
     // Manifiesto → Proyectos: sin transición de salida. El bloque naranja queda fijo al bajar (solo anima su entrada,
@@ -414,7 +429,8 @@
       ScrollTrigger.refresh();
       heroScene({ isMobile: false });
       aboutScene();
-      manifestoScene();
+      const cleanManifesto = manifestoScene();
+      manifestoStar();
       projectsScene({ isDesktop });
       handoffTitles({ isDesktop });
       expertScene({ isMobile: false });
@@ -423,6 +439,7 @@
       contactScene();
       sectionBridges({ isDesktop });
       ScrollTrigger.refresh();
+      return () => cleanManifesto?.();
     });
   };
   heroIntro();

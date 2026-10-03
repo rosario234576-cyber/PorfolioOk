@@ -7,14 +7,12 @@
  *   Con el scroll (scrub, sin pin): el título del hero se corre, el collage sube más lento (parallax),
  *                       la cinta se inclina y el cierre se abre con un círculo.
  *
- * Respeta "reducir movimiento" salvo que se haya elegido animación completa (?motion=full).
+ * Animación activa por defecto; ?motion=reduced la apaga (lo resuelve el script del <head>).
  * Los elementos que anima GSAP dejan de usar el reveal genérico (.reveal / .visible) para no pelear con él.
  */
 (() => {
   if (!window.gsap || !window.ScrollTrigger) return;
-  let forced = false;
-  try { forced = localStorage.getItem("inkk-motion") === "full"; } catch {}
-  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches && !forced) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
   gsap.registerPlugin(ScrollTrigger);
   document.documentElement.classList.add("service-motion-on");
 

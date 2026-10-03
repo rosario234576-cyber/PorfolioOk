@@ -56,3 +56,7 @@
 /* Hero: el título queda fijo (sin el desvanecido general); solo PORTFOLIO y 2026 responden al scroll. */
 .narrative-on .hero .hero-title{translate:none;opacity:1}
 .narrative-on .hero-kicker-tag{will-change:transform}
+
+/* Manifiesto: el fondo naranja lo pone un círculo que crece con transform (compuesto por la GPU, sin repintar el texto). */
+.narrative-on .manifesto-card{background:transparent;isolation:isolate}
+.manifesto-burst{position:absolute;z-index:-1;left:50%;top:0;border-radius:50%;background:var(--orange);transform:scale(0);will-change:transform;pointer-events:none}

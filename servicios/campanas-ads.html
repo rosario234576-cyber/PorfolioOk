@@ -2,7 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <script>try{var m=new URLSearchParams(location.search).get("motion");if(m==="full")localStorage.setItem("inkk-motion","full");if(m==="auto")localStorage.removeItem("inkk-motion");if(localStorage.getItem("inkk-motion")==="full")document.documentElement.classList.add("motion-full")}catch(e){}</script>
+  <!-- Animaciones activas por defecto (aunque el sistema pida reducir movimiento). ?motion=reduced las apaga en este navegador; ?motion=full las vuelve a activar. -->
+  <script>(function(){var reduced=false;try{var m=new URLSearchParams(location.search).get("motion");if(m==="reduced")localStorage.setItem("inkk-motion","reduced");if(m==="full"||m==="auto")localStorage.removeItem("inkk-motion");reduced=localStorage.getItem("inkk-motion")==="reduced"}catch(e){}if(reduced)return;document.documentElement.classList.add("motion-full");var native=window.matchMedia.bind(window);window.matchMedia=function(q){if(String(q).indexOf("prefers-reduced-motion")>-1){var noop=function(){};return{matches:false,media:q,onchange:null,addEventListener:noop,removeEventListener:noop,addListener:noop,removeListener:noop,dispatchEvent:function(){return false}}}return native(q)}})();</script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
   <title>Campañas Ads · Puerto Montt · Inkkstudio</title>
   <link rel="icon" type="image/png" href="../assets/favicon-gato.png">
@@ -11,7 +12,7 @@
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/service-page.css?v=13">
-  <link rel="stylesheet" href="../css/aurelia-rebuild.css?v=113">
+  <link rel="stylesheet" href="../css/aurelia-rebuild.css?v=115">
   <link rel="stylesheet" href="../css/service-aurelia-skin.css?v=7">
   <link rel="stylesheet" href="../css/service-home-sync.css?v=15">
   <link rel="stylesheet" href="../css/icon-burst.css?v=1">
@@ -28,6 +29,7 @@
     <nav class="site-nav" id="site-menu" aria-label="Navegación principal">
       <div class="nav-links">
         <a href="../index.html#inicio">Inicio</a>
+        <a href="../index.html#sobre-mi">Sobre mí</a>
         <a href="../index.html#servicios">Servicios</a>
         <div class="nav-projects">
           <a class="nav-projects-trigger" href="../index.html#proyectos" aria-haspopup="true">Proyectos <span>⌄</span></a>
@@ -39,7 +41,6 @@
             <a href="fotografia.html">Fotografía</a>
           </div>
         </div>
-        <a href="../index.html#sobre-mi">Sobre mí</a>
       </div>
       <a class="nav-contact" href="../index.html#contacto">Contacto <span>↗</span></a>
     </nav>
@@ -168,7 +169,7 @@
   </main>
 
   <footer class="footer section-dark">
-    <div class="section-shell footer-grid"><div class="footer-brand"><img loading="lazy" decoding="async" src="../assets/opt/gato.webp" alt=""><img loading="lazy" decoding="async" src="../assets/opt/LogoBlanco.webp" alt="Inkkstudios"></div><div><h3>PÁGINAS</h3><a href="../index.html#inicio">Inicio</a><a href="../index.html#servicios">Servicios</a><a href="../index.html#proyectos">Proyectos</a><a href="../index.html#sobre-mi">Sobre mí</a></div><div><h3>CONECTEMOS</h3><a href="https://www.instagram.com/inkkstudios_/" target="_blank" rel="noopener">Instagram</a><a href="https://www.linkedin.com/in/rosariofernandezarg/" target="_blank" rel="noopener">LinkedIn</a><a href="mailto:rosario234576@gmail.com">Email</a></div><div class="footer-contact"><strong>+54 9 11 3259 8397</strong><strong>rosario234576@gmail.com</strong><p>Buenos Aires, Argentina<br>Diseño para Latinoamérica.</p></div></div>
+    <div class="section-shell footer-grid"><div class="footer-brand"><img loading="lazy" decoding="async" src="../assets/opt/gato.webp" alt=""><img loading="lazy" decoding="async" src="../assets/opt/LogoBlanco.webp" alt="Inkkstudios"></div><div><h3>PÁGINAS</h3><a href="../index.html#inicio">Inicio</a><a href="../index.html#sobre-mi">Sobre mí</a><a href="../index.html#servicios">Servicios</a><a href="../index.html#proyectos">Proyectos</a></div><div><h3>CONECTEMOS</h3><a href="https://www.instagram.com/inkkstudios_/" target="_blank" rel="noopener">Instagram</a><a href="https://www.linkedin.com/in/rosariofernandezarg/" target="_blank" rel="noopener">LinkedIn</a><a href="mailto:rosario234576@gmail.com">Email</a></div><div class="footer-contact"><strong>+54 9 11 3259 8397</strong><strong>rosario234576@gmail.com</strong><p>Buenos Aires, Argentina<br>Diseño para Latinoamérica.</p></div></div>
     <div class="footer-word" aria-hidden="true">INKKSTUDIOS</div>
     <div class="footer-bottom"><span>© 2026 INKKSTUDIOS</span><a href="../index.html#inicio">VOLVER ARRIBA ↑</a></div>
   </footer>
@@ -178,7 +179,7 @@
   <script src="../js/icon-burst.js?v=2"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-  <script src="../js/service-motion.js?v=2"></script>
+  <script src="../js/service-motion.js?v=3"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
   <script src="../js/smooth-scroll.js?v=5"></script>
 </body>
