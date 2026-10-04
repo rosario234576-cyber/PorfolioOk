@@ -332,14 +332,14 @@
       return axis === "x" ? o.left + o.width / 2 - (r.left + r.width / 2) : o.top + o.height / 2 - (r.top + r.height / 2);
     };
     gsap.set(stickers, { opacity: 0 });
-    ScrollTrigger.create({
-      trigger: orbit, start: "top 72%", once: true,
-      onEnter: () => gsap.fromTo(stickers, { x: fromCenter("x"), y: fromCenter("y"), scale: 0.2, opacity: 0 }, {
+    // Se reproduce una vez al llegar; si un refresh encuentra que ya se pasó el inicio, se reproduce igual.
+    let played = false;
+    const play = () => { if (played) return; played = true; gsap.fromTo(stickers, { x: fromCenter("x"), y: fromCenter("y"), scale: 0.2, opacity: 0 }, {
         x: 0, y: 0, scale: 1, opacity: 1, duration: 0.9, stagger: 0.07, ease: "back.out(1.5)",
         // Al terminar vuelve a mandar el CSS (inclinación y hover de cada sticker).
         clearProps: "transform,opacity", onComplete: () => ring.classList.add("is-ready")
-      })
-    });
+      }); };
+    ScrollTrigger.create({ trigger: orbit, start: "top 72%", once: true, onEnter: play, onRefresh: (self) => { if (self.progress > 0) play(); } });
   };
 
   // Perfil creativo, scroll: la órbita gira mientras la sección cruza la pantalla.

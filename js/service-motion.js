@@ -51,6 +51,14 @@
     return $$(".sm-word > span", root);
   };
 
+  // Entrada que se reproduce una vez al llegar. Si un refresh (imágenes que terminan de cargar) encuentra
+  // que ya se pasó el punto de inicio, se reproduce igual: así ninguna entrada queda en pausa para siempre.
+  const arrive = (trigger, start, play) => {
+    let done = false;
+    const run = () => { if (!done) { done = true; play(); } };
+    ScrollTrigger.create({ trigger, start, once: true, onEnter: run, onRefresh: (self) => { if (self.progress > 0) run(); } });
+  };
+
   /* ---------- Hero ---------- */
   const hero = $(".service-hero, .wl-hero");
   if (hero) {
@@ -84,7 +92,8 @@
     const holder = h2.closest(".reveal, .reveal-left, .reveal-right, .reveal-scale");
     release([holder]);
     const words = splitWords(h2);
-    gsap.fromTo(words, { yPercent: 115 }, { yPercent: 0, duration: 0.9, stagger: 0.06, ease: "power4.out", scrollTrigger: { trigger: h2, start: "top 88%", once: true } });
+    const rise = gsap.fromTo(words, { yPercent: 115 }, { yPercent: 0, duration: 0.9, stagger: 0.06, ease: "power4.out", paused: true });
+    arrive(h2, "top 88%", () => rise.play());
   });
 
   /* ---------- Tarjetas de cliente: se destapan y presentan su marca ---------- */
@@ -94,7 +103,8 @@
     const head = $(".client-head", card);
     const logo = $(".client-logo-slot", card);
     const copy = $$(".client-kicker, .client-copy h2, .client-tags span", card);
-    const tl = gsap.timeline({ scrollTrigger: { trigger: card, start: "top 86%", once: true } });
+    const tl = gsap.timeline({ paused: true });
+    arrive(card, "top 86%", () => tl.play());
     tl.fromTo(card, { clipPath: "inset(14% 5% 0% 5% round 28px)", opacity: 0.4 }, { clipPath: "inset(0% 0% 0% 0% round 0px)", opacity: 1, duration: 1.1, ease: "power3.out", clearProps: "clipPath" }, 0);
     if (logo) tl.fromTo(logo, { scale: 0, rotation: -25 }, { scale: 1, rotation: 0, duration: 0.7, ease: "back.out(2.2)" }, 0.25);
     if (copy.length) tl.fromTo(copy, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, stagger: 0.05, ease: "power2.out" }, 0.35);
@@ -109,7 +119,8 @@
     const count = $(".video-brand-count b", brand);
     const ghost = $(".video-brand-ghost", brand);
     const words = name ? splitWords(name) : [];
-    const tl = gsap.timeline({ scrollTrigger: { trigger: brand, start: "top 82%", once: true } });
+    const tl = gsap.timeline({ paused: true });
+    arrive(brand, "top 82%", () => tl.play());
     if (mark) tl.fromTo(mark, { scale: 0, rotation: -30 }, { scale: 1, rotation: -4, duration: 0.8, ease: "back.out(2.2)" }, 0);
     if (words.length) tl.fromTo(words, { yPercent: 115 }, { yPercent: 0, duration: 0.8, stagger: 0.06, ease: "power4.out" }, 0.15);
     if (meta.length) tl.fromTo(meta, { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.08, ease: "power2.out" }, 0.3);
@@ -129,12 +140,19 @@
   const piecesAll = $$(pieceSelector).filter((el) => !el.closest(".service-hero, .wl-hero"));
   release(piecesAll);
   gsap.set(piecesAll, { opacity: 0 });
-  ScrollTrigger.batch(piecesAll, {
-    start: "top 92%",
-    once: true,
-    onEnter: (batch) => gsap.fromTo(batch,
+  const pending = new Set(piecesAll);
+  const stick = (batch) => {
+    const fresh = batch.filter((el) => pending.delete(el));
+    if (fresh.length) gsap.fromTo(fresh,
       { y: mobile ? 40 : 70, scale: 0.92, rotation: (i) => (i % 2 ? 3 : -3), opacity: 0 },
-      { y: 0, scale: 1, rotation: 0, opacity: 1, duration: 0.9, stagger: 0.08, ease: "back.out(1.3)", clearProps: "transform" })
+      { y: 0, scale: 1, rotation: 0, opacity: 1, duration: 0.9, stagger: 0.08, ease: "back.out(1.3)", clearProps: "transform" });
+  };
+  ScrollTrigger.batch(piecesAll, { start: "top 92%", once: true, onEnter: stick });
+  // Después de cada refresh, las piezas que ya quedaron a la vista (o por encima) se muestran igual.
+  ScrollTrigger.addEventListener("refresh", () => {
+    if (!pending.size) return;
+    const limit = window.innerHeight * 0.92;
+    stick([...pending].filter((el) => el.getBoundingClientRect().top < limit));
   });
 
   /* ---------- Cierre: un círculo abre la caja final ---------- */
@@ -144,8 +162,11 @@
       clipPath: "circle(150% at 50% 100%)", ease: "power2.inOut",
       scrollTrigger: { trigger: box, start: "top bottom", end: "top 45%", scrub: 1 }
     });
-    const button = $(".btn, a", box);
-    if (button) gsap.fromTo(button, { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.7, ease: "back.out(2)", scrollTrigger: { trigger: box, start: "top 70%", once: true } });
+    const buttons = $(".btn, .wl-btn", box);
+    if (buttons.length) {
+      const pop = gsap.fromTo(buttons, { scale: 0.7, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.7, stagger: 0.08, ease: "back.out(2)", paused: true });
+      arrive(box, "top 70%", () => pop.play());
+    }
   });
 
   // Imágenes diferidas y videos cambian el alto: se recalculan los disparadores (sin rehacer las animaciones).
