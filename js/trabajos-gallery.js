@@ -41,41 +41,92 @@ const createTrabajosGallery = () => {
   if (!type || (!legacySection && !mountPoint) || !groups) return;
 
   if (legacySection) legacySection.hidden = true;
-  const section = document.createElement("section");
-  section.className = "service-clients trabajos-gallery-section";
-  section.setAttribute("aria-label", "Trabajos seleccionados");
-  section.innerHTML = `<div class="container"><div class="service-gallery-head"><span class="trabajos-kicker">selección de trabajos</span><h2>${type === "redes" ? "gráficas que se mueven" : type === "packaging" ? "objetos que se recuerdan" : "imágenes con intención"}</h2><p>Explorá cada serie sin perder el formato original de las piezas.</p></div><div class="trabajos-gallery-grid"></div></div>`;
-  if (legacySection) {
-    legacySection.parentNode.insertBefore(section, legacySection);
-  } else {
-    mountPoint.replaceWith(section);
-  }
+  const folder = type === "redes" ? "Graficas de redes" : type === "packaging" ? "Packaging, Cartelería" : "Fotografia";
+  const title = type === "redes" ? "gráficas que se mueven" : type === "packaging" ? "objetos que se recuerdan" : "imágenes con intención";
+  const PAGE = 16;
 
-  const grid = section.querySelector(".trabajos-gallery-grid");
-  groups.forEach(([client, category, files, story], groupIndex) => {
-    const article = document.createElement("article");
-    const layout = type === "packaging" ? (groupIndex === 0 ? "feature" : "project") : type === "fotografia" ? "contact-sheet" : groupIndex % 2 === 0 ? "editorial" : "sequence";
-    article.className = `trabajos-client trabajos-layout-${layout}`;
-    article.style.setProperty("--trabajos-delay", `${groupIndex * 70}ms`);
-    const projectStory = story || `Una serie para ${client} donde cada ${category} mantiene el mismo criterio visual y ayuda a leer la marca como un sistema, no como piezas aisladas.`;
-    article.innerHTML = `<header class="trabajos-client-head"><span>${String(groupIndex + 1).padStart(2, "0")}</span><div><small>${category}</small><h3>${client}</h3></div><b>${files.length} piezas</b></header><p class="trabajos-story">${projectStory}</p><div class="trabajos-project-layout"></div>`;
-    const gallery = article.querySelector(".trabajos-project-layout");
-
-    files.forEach((file, index) => {
-      const figure = document.createElement("figure");
-      figure.className = "trabajos-card";
-      figure.style.setProperty("--card-delay", `${index * 45}ms`);
-      const image = document.createElement("img");
-      image.src = `../assets/opt/Trabajos/${type === "redes" ? "Graficas de redes" : type === "packaging" ? "Packaging, Cartelería" : "Fotografia"}/${file.replace(/\.(jpe?g|png)$/i, ".webp")}`;
-      image.alt = `${client}, ${category}, pieza ${index + 1}`;
-      image.loading = index < 3 ? "eager" : "lazy";
-      figure.append(image);
-      figure.innerHTML += `<figcaption>${String(index + 1).padStart(2, "0")} / ${category}</figcaption>`;
-      figure.addEventListener("click", () => window.openServiceLightbox?.(image));
-      gallery.append(figure);
-    });
-    grid.append(article);
+  // Agrupa por cliente (una marca puede tener varias series).
+  const clients = [];
+  groups.forEach(([client, category, files, story]) => {
+    let entry = clients.find((c) => c.name === client);
+    if (!entry) { entry = { name: client, pieces: [], stories: [] }; clients.push(entry); }
+    entry.stories.push(story || `Una serie de ${category} para ${client}: cada pieza mantiene el mismo criterio visual para que la marca se lea como un sistema, no como piezas aisladas.`);
+    files.forEach((file) => entry.pieces.push({ client, category, file }));
   });
+
+  // En "Todos" las piezas se intercalan entre marcas para que la grilla se vea variada.
+  const mixed = [];
+  const max = Math.max(...clients.map((c) => c.pieces.length));
+  for (let i = 0; i < max; i++) clients.forEach((c) => { if (c.pieces[i]) mixed.push(c.pieces[i]); });
+
+  const section = document.createElement("section");
+  section.className = "service-clients trabajos-gallery-section tg";
+  section.setAttribute("aria-label", "Trabajos seleccionados");
+  section.innerHTML = `<div class="container"><div class="service-gallery-head"><span class="trabajos-kicker">selección de trabajos</span><h2>${title}</h2><p>Filtrá por marca o recorré todo el trabajo junto. Tocá una pieza para verla en grande.</p></div><div class="tg-filters" role="toolbar" aria-label="Filtrar por marca"></div><p class="tg-story" aria-live="polite"></p><div class="tg-grid"></div><div class="tg-more-wrap"><button class="tg-more" type="button">Ver más piezas <span>↓</span></button></div></div>`;
+  if (legacySection) legacySection.parentNode.insertBefore(section, legacySection);
+  else mountPoint.replaceWith(section);
+
+  const filters = section.querySelector(".tg-filters");
+  const grid = section.querySelector(".tg-grid");
+  const story = section.querySelector(".tg-story");
+  const moreWrap = section.querySelector(".tg-more-wrap");
+  const moreBtn = section.querySelector(".tg-more");
+  let current = null;
+  let shown = PAGE;
+
+  const makeCard = (piece, index) => {
+    const figure = document.createElement("figure");
+    figure.className = "trabajos-card tg-card";
+    figure.style.setProperty("--card-delay", `${(index % PAGE) * 35}ms`);
+    const image = document.createElement("img");
+    image.src = `../assets/opt/Trabajos/${folder}/${piece.file.replace(/\.(jpe?g|png)$/i, ".webp")}`;
+    image.alt = `${piece.client}, ${piece.category}`;
+    image.loading = index < 8 ? "eager" : "lazy";
+    image.decoding = "async";
+    figure.append(image);
+    figure.insertAdjacentHTML("beforeend", `<figcaption><b>${piece.client}</b><span>${piece.category}</span></figcaption>`);
+    figure.addEventListener("click", () => window.openServiceLightbox?.(image));
+    return figure;
+  };
+
+  const render = () => {
+    const list = current ? current.pieces : mixed;
+    const limit = current ? list.length : Math.min(shown, list.length);
+    grid.replaceChildren(...list.slice(0, limit).map(makeCard));
+    moreWrap.hidden = limit >= list.length;
+    story.textContent = current ? current.stories[0] : "";
+    story.hidden = !current;
+    filters.querySelectorAll("button").forEach((btn) => btn.setAttribute("aria-pressed", String(btn.dataset.client === (current ? current.name : ""))));
+    requestAnimationFrame(() => grid.classList.add("is-ready"));
+  };
+
+  const addChip = (label, count, client) => {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.dataset.client = client ? client.name : "";
+    btn.innerHTML = `${label} <span>${count}</span>`;
+    btn.addEventListener("click", () => {
+      current = client;
+      shown = PAGE;
+      grid.classList.remove("is-ready");
+      render();
+      if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+    });
+    filters.append(btn);
+  };
+  addChip("Todos", mixed.length, null);
+  clients.forEach((c) => addChip(c.name, c.pieces.length, c));
+
+  moreBtn.addEventListener("click", () => {
+    const from = shown;
+    shown += PAGE;
+    const extra = mixed.slice(from, shown).map((piece, i) => makeCard(piece, from + i));
+    grid.append(...extra);
+    moreWrap.hidden = shown >= mixed.length;
+    if (window.ScrollTrigger) window.ScrollTrigger.refresh();
+  });
+
+  render();
 };
 
 createTrabajosGallery();
