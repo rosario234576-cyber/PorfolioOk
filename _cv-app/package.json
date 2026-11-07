@@ -1,0 +1,26 @@
+{
+  "name": "cv-adapter",
+  "version": "1.0.0",
+  "description": "Adapta tu CV a cada oferta laboral y genera PDF estilo Harvard",
+  "main": "server.js",
+  "scripts": {
+    "start": "node --env-file-if-exists=.env server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.6.0",
+    "@fontsource/tinos": "^5.3.0",
+    "@google/genai": "^3.0.0",
+    "cheerio": "^1.2.0",
+    "express": "^5.3.0",
+    "mammoth": "^1.13.0",
+    "multer": "^2.5.0",
+    "pdfkit": "^0.20.2"
+  },
+  "engines": {
+    "node": ">=22.9"
+  }
+}
