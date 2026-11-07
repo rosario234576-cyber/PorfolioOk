@@ -7,291 +7,240 @@
   <meta name="description" content="Rosario Fernández · Inkkstudios. Diseño gráfico, dirección de arte, web, packaging, fotografía y video para marcas de Latinoamérica.">
   <meta name="robots" content="noindex">
   <link rel="icon" type="image/png" href="assets/favicon-gato.png">
-  <link rel="apple-touch-icon" href="assets/favicon-gato.png">
   <link rel="preload" href="Fuente/RocGroteskCondensedExtraBold.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="css/inicio-nuevo.css?v=1">
-  <script>document.documentElement.classList.add("js");</script>
+  <link rel="preload" href="assets/opt/nuevo/gato-brazos.webp" as="image">
+  <link rel="stylesheet" href="css/inicio-nuevo.css?v=2">
 </head>
 <body>
-  <div class="nx-progress" aria-hidden="true"><span></span></div>
-  <div class="nx-cursor" aria-hidden="true"><span></span></div>
-
-  <header class="nx-header" data-header>
-    <a class="nx-brand" href="#inicio" aria-label="Inkkstudios, volver al inicio">
-      <img src="assets/opt/gato.webp" alt="" width="40" height="40">
-      <img class="nx-brand-word" src="assets/opt/LogoBlanco.webp" alt="Inkkstudios" width="72" height="52">
-    </a>
-    <nav class="nx-nav" id="nx-menu" aria-label="Navegación principal">
-      <a href="#sobre-mi">Sobre mí</a>
-      <a href="#trabajos">Trabajos</a>
-      <a href="#servicios">Servicios</a>
-      <a href="#resenas">Reseñas</a>
-      <a class="nx-nav-cta" href="#contacto">Contacto <span>↗</span></a>
+  <!-- Marco fijo: navegación, rieles laterales y botón flotante -->
+  <header class="fx-nav" data-ui>
+    <a class="fx-logo" href="#inicio" aria-label="Inkkstudios, inicio"><img src="assets/opt/gato.webp" alt=""><span>Inkkstudios</span></a>
+    <nav aria-label="Navegación principal">
+      <a href="#ficha">Sobre mí</a>
+      <a href="#trayectoria">Trayectoria</a>
+      <a href="#explora">Trabajos</a>
+      <a href="#contacto">Contacto</a>
     </nav>
-    <button class="nx-burger" type="button" aria-controls="nx-menu" aria-expanded="false" aria-label="Abrir menú"><span></span><span></span></button>
+    <span class="fx-nav-count"><b data-section-num>01</b> / 07</span>
   </header>
+  <div class="fx-rail fx-rail-l" data-ui aria-hidden="true"><span data-section-name>Portfolio creativo</span><span>Buenos Aires · AR</span></div>
+  <div class="fx-rail fx-rail-r" data-ui aria-hidden="true"><span>Diseño gráfico &amp; dirección de arte</span><span data-section-name>Portfolio creativo</span></div>
+  <a class="fx-fab" href="https://wa.me/5491132598397?text=Hola!%20Vengo%20de%20la%20web%20portfolio%20de%20Inkk%20Studio." target="_blank" rel="noopener" aria-label="Escribime por WhatsApp">
+    <img class="fx-fab-ring" src="assets/sello-ring.webp" alt=""><img class="fx-fab-cat" src="assets/opt/gato.webp" alt="">
+  </a>
 
   <main>
-    <!-- HERO -->
-    <section class="nx-hero" id="inicio">
-      <div class="nx-hero-glow" aria-hidden="true"></div>
-      <div class="nx-shell nx-hero-grid">
-        <div class="nx-hero-copy">
-          <p class="nx-eyebrow nx-in"><b>2026</b> diseño gráfico · dirección de arte · contenido digital</p>
-          <h1 class="nx-hero-title">
-            <span class="nx-line"><span>Portfolio</span></span>
-            <span class="nx-line nx-accent"><span>creativo<i class="nx-star">✦</i></span></span>
-          </h1>
-          <p class="nx-hero-lead nx-in">Soy Rosario, diseñadora gráfica de Buenos Aires. Creo piezas, webs, packaging y video para marcas que quieren <em>hacerse ver</em>.</p>
-          <div class="nx-hero-actions nx-in">
-            <a class="nx-btn nx-btn-primary" href="#trabajos" data-magnetic>Ver trabajos <span>↓</span></a>
-            <a class="nx-btn nx-btn-ghost" href="https://wa.me/5491132598397?text=Hola!%20Vengo%20de%20la%20web%20portfolio%20de%20Inkk%20Studio." target="_blank" rel="noopener" data-magnetic>Hablemos <span>↗</span></a>
-          </div>
-          <dl class="nx-stats nx-in">
-            <div><dt><span data-count="3">3</span>+</dt><dd>años creando</dd></div>
-            <div><dt><span data-count="15">15</span>+</dt><dd>marcas</dd></div>
-            <div><dt><span data-count="4">4</span></dt><dd>países</dd></div>
+    <!-- 01 · PORTADA -->
+    <section class="fx-hero fx-orange" id="inicio" data-name="Portfolio creativo" data-num="01">
+      <div class="fx-hero-inner">
+        <p class="fx-hero-kicker">Rosario Fernández <i>✦</i> diseñadora gráfica</p>
+        <h1 class="fx-hero-title" aria-label="Inkk Studios">
+          <span class="fx-row fx-row-1" aria-hidden="true"><span>I</span><span>N</span><span>K</span><span>K</span></span>
+          <span class="fx-row fx-row-2" aria-hidden="true"><span>S</span><span>T</span><span>U</span><span>D</span><span>I</span><span>O</span><span>S</span></span>
+        </h1>
+        <img class="fx-hero-cat" src="assets/opt/nuevo/gato-brazos.webp" alt="El gato de Inkkstudios con lentes naranjas y los brazos cruzados">
+        <span class="fx-hero-tag fx-tag-a">Diseño de piezas</span>
+        <span class="fx-hero-tag fx-tag-b">Webs</span>
+        <span class="fx-hero-tag fx-tag-c">Packaging</span>
+        <span class="fx-hero-tag fx-tag-d">Video &amp; Ads</span>
+        <p class="fx-hero-scroll">Bajá <span>↓</span></p>
+      </div>
+    </section>
+
+    <!-- 02 · FICHA -->
+    <section class="fx-panel fx-cream" id="ficha" data-name="Sobre mí" data-num="02">
+      <div class="fx-sheet">
+        <div class="fx-facts">
+          <div class="fx-crest"><small>[ sello del estudio ]</small><img src="assets/opt/nuevo/sello.webp" alt="Sello de Inkkstudios"></div>
+          <dl>
+            <div><dt>Rol</dt><dd>Diseñadora gráfica</dd></div>
+            <div><dt>Base</dt><dd>Buenos Aires, AR</dd></div>
+            <div><dt>Trayectoria</dt><dd>2023 — hoy</dd></div>
+            <div><dt>Países</dt><dd>AR · CL · EC · MX</dd></div>
+            <div><dt>Especialidad</dt><dd>Marcas &amp; contenido</dd></div>
+            <div><dt>Estado</dt><dd><i class="fx-dot"></i> Disponible</dd></div>
           </dl>
         </div>
-
-        <div class="nx-hero-stage" data-tilt aria-hidden="true">
-          <div class="nx-deck" data-deck>
-            <figure class="nx-card"><img src="assets/opt/Trabajos/Graficas de redes/ElectronicGames/10.webp" alt=""></figure>
-            <figure class="nx-card"><img src="assets/opt/Trabajos/Fotografia/MaximusGaming/9.webp" alt=""></figure>
-            <figure class="nx-card"><img src="assets/opt/Trabajos/Graficas de redes/ZonaDelVerde/1.webp" alt=""></figure>
-            <figure class="nx-card"><img src="assets/opt/proyectos/CampanasAds/CampañaPuertoMontt/Post/101.webp" alt=""></figure>
-            <figure class="nx-card"><img src="assets/opt/Trabajos/Graficas de redes/PiramideDtf/1.webp" alt=""></figure>
+        <div class="fx-intro">
+          <figure class="fx-portrait"><img src="assets/opt/Foto.webp" alt="Rosario Fernández" loading="lazy"><figcaption>Rosario · fundadora</figcaption></figure>
+          <div class="fx-intro-copy">
+            <img class="fx-mini-cat" src="assets/opt/gato.webp" alt="">
+            <h2 class="fx-statement" data-lines>Hola, soy Rosario: diseño piezas, webs, packaging y video para marcas que quieren hacerse ver.</h2>
+            <p data-fade>Hace más de tres años trabajo con marcas de Argentina, Chile, Ecuador y México. Me encargo de cómo se ve tu marca y de que llegue a la gente correcta: un estudio de diseño y marketing en un mismo lugar.</p>
+            <a class="fx-btn" href="assets/Cv_Rosario_Fernadez.pdf" download="Rosario_Fernandez_CV.pdf" data-fade>Descargar CV <span>↓</span></a>
           </div>
-          <img class="nx-astro" src="assets/opt/Gatoastro.webp" alt="">
-          <div class="nx-sticker"><b>✓</b> disponible para proyectos</div>
-        </div>
-      </div>
-      <a class="nx-scroll" href="#marcas" aria-label="Bajar"><span></span></a>
-    </section>
-
-    <!-- MARCAS -->
-    <section class="nx-logos" id="marcas" aria-label="Marcas con las que trabajé">
-      <p>Marcas que confiaron en Inkkstudios</p>
-      <div class="nx-logos-track">
-        <div class="nx-logos-row">
-          <img src="assets/opt/clientes/tuplanfuturo.webp" alt="Tu Plan Futuro"><img src="assets/opt/clientes/invesmar.webp" alt="Invesmar"><img src="assets/opt/clientes/todotrabajo.webp" alt="Todotrabajo.ar"><img src="assets/opt/clientes/newsline.webp" alt="Newsline Report"><img src="assets/opt/clientes/electronicgames.webp" alt="Electronic Games"><img class="nx-logo-dark" src="assets/opt/clientes/maximus.svg" alt="Maximus Gaming">
-        </div>
-        <div class="nx-logos-row" aria-hidden="true">
-          <img src="assets/opt/clientes/tuplanfuturo.webp" alt=""><img src="assets/opt/clientes/invesmar.webp" alt=""><img src="assets/opt/clientes/todotrabajo.webp" alt=""><img src="assets/opt/clientes/newsline.webp" alt=""><img src="assets/opt/clientes/electronicgames.webp" alt=""><img class="nx-logo-dark" src="assets/opt/clientes/maximus.svg" alt="">
         </div>
       </div>
     </section>
 
-    <!-- SOBRE MI -->
-    <section class="nx-about nx-light" id="sobre-mi">
-      <div class="nx-shell nx-about-grid">
-        <div class="nx-about-photo" data-reveal>
-          <div class="nx-photo-frame" data-parallax="-0.08"><img src="assets/opt/Foto.webp" alt="Rosario Fernández, diseñadora gráfica" loading="lazy"></div>
-          <span class="nx-photo-tag">Diseñadora gráfica · Buenos Aires 🇦🇷</span>
-          <img class="nx-about-cat" src="assets/opt/Gatoposando3.webp" alt="" loading="lazy">
-        </div>
-        <div class="nx-about-copy">
-          <p class="nx-eyebrow" data-reveal>✦ Detrás de Inkkstudios</p>
-          <h2 class="nx-h2" data-split>Hola, soy <em>Rosario.</em></h2>
-          <p class="nx-about-lead" data-reveal>Hace más de 3 años creo piezas digitales, impresos, packaging y video para marcas de Argentina, Chile, Ecuador y México. Me encargo de cómo se ve tu marca <strong>y de que llegue a la gente correcta.</strong></p>
-          <a class="nx-btn nx-btn-dark" href="assets/Cv_Rosario_Fernadez.pdf" download="Rosario_Fernandez_CV.pdf" data-reveal data-magnetic>Descargar CV <span>↓</span></a>
-
-          <ol class="nx-timeline">
-            <li data-reveal><img src="assets/opt/clientes/tuplanfuturo.webp" alt="Tu Plan Futuro" loading="lazy"><div><b>Inmobiliaria · Chile · 2023–hoy</b><p>Rediseño de identidad, web, impresos, catálogos y video para pautas.</p></div></li>
-            <li data-reveal><img src="assets/opt/clientes/invesmar.webp" alt="Invesmar" loading="lazy"><div><b>Chile · 2025–hoy</b><p>Redes de punta a punta: piezas, video y campañas en Meta Ads.</p></div></li>
-            <li data-reveal><img src="assets/opt/clientes/todotrabajo.webp" alt="Todotrabajo.ar" loading="lazy"><div><b>Argentina · 2025–hoy</b><p>Más de 30 piezas diarias sobre el sistema de la marca.</p></div></li>
-            <li data-reveal><img src="assets/opt/clientes/electronicgames.webp" alt="Electronic Games" loading="lazy"><div><b>Ecuador · 2023–2025</b><p>Redes, campañas en Meta Ads y edición de video.</p></div></li>
-            <li data-reveal><img class="nx-logo-dark" src="assets/opt/clientes/maximus.svg" alt="Maximus Gaming" loading="lazy"><div><b>Argentina · 2024–2025</b><p>Hot Sale y Cyber Monday: diseño, video y foto de producto.</p></div></li>
-          </ol>
-        </div>
-      </div>
-      <div class="nx-tools" data-reveal>
-        <span>Herramientas</span>
-        <img src="assets/opt/Programas/Iconos1-27.webp" alt="Photoshop" loading="lazy"><img src="assets/opt/Programas/Iconos1-28.webp" alt="Illustrator" loading="lazy"><img src="assets/opt/Programas/Iconos1-29.webp" alt="InDesign" loading="lazy"><img src="assets/opt/Programas/Iconos1-30.webp" alt="Instagram" loading="lazy"><img src="assets/opt/Programas/Iconos1-31.webp" alt="Meta" loading="lazy"><img src="assets/opt/Programas/Iconos1-32.webp" alt="CapCut" loading="lazy"><img src="assets/opt/Programas/Iconos1-33.webp" alt="Canva" loading="lazy">
-      </div>
-    </section>
-
-    <!-- TRABAJOS -->
-    <section class="nx-work" id="trabajos">
-      <div class="nx-shell">
-        <header class="nx-head">
-          <div>
-            <p class="nx-eyebrow" data-reveal>✦ Trabajo seleccionado</p>
-            <h2 class="nx-h2" data-split>Proyectos <em>reales,</em><br>marcas reales.</h2>
-          </div>
-          <p data-reveal>Una selección de diseño, webs, packaging, campañas y fotografía entregados a clientes de Latinoamérica. Entrá a cada categoría para ver el proyecto completo.</p>
-        </header>
-
-        <div class="nx-bento">
-          <a class="nx-tile nx-tile-xl" href="servicios/diseno-de-piezas.html" data-reveal>
-            <div class="nx-tile-media nx-rotator" data-rotator>
-              <img src="assets/opt/Trabajos/Graficas de redes/ElectronicGames/1.webp" alt="Pieza para Electronic Games" loading="lazy">
-              <img src="assets/opt/Trabajos/Graficas de redes/PalancaStore/2.webp" alt="Pieza para Palanca Store" loading="lazy">
-              <img src="assets/opt/Trabajos/Graficas de redes/VitaeCharm/1.webp" alt="Pieza para Vitae Charm" loading="lazy">
-              <img src="assets/opt/Trabajos/Graficas de redes/ZonaDtf/2.webp" alt="Pieza para Zona DTF" loading="lazy">
-            </div>
-            <div class="nx-tile-info"><span>01 · Diseño de piezas</span><h3>Redes que frenan el scroll</h3><i>↗</i></div>
-          </a>
-
-          <a class="nx-tile nx-tile-wide" href="servicios/diseno-web.html" data-reveal>
-            <div class="nx-tile-media nx-tile-web">
-              <div class="nx-browser"><div class="nx-browser-bar"><i></i><i></i><i></i><span>tuplanfuturo.cl</span></div><div class="nx-browser-screen"><img src="assets/opt/Trabajos/Web/tuplanfuturo-full.webp" alt="Sitio web de Tu Plan Futuro" loading="lazy"></div></div>
-            </div>
-            <div class="nx-tile-info"><span>02 · Diseño web</span><h3>Webs que venden</h3><i>↗</i></div>
-          </a>
-
-          <a class="nx-tile" href="servicios/packaging.html" data-reveal>
-            <div class="nx-tile-media"><img src="assets/opt/Trabajos/Packaging, Cartelería/Packaging/Packaging1/Mock_Up_Elegido/2.webp" alt="Packaging para bmh" loading="lazy"></div>
-            <div class="nx-tile-info"><span>03 · Packaging</span><h3>Cajas que se recuerdan</h3><i>↗</i></div>
-          </a>
-
-          <a class="nx-tile" href="servicios/fotografia.html" data-reveal>
-            <div class="nx-tile-media"><img src="assets/opt/Trabajos/Fotografia/MaximusGaming/6.webp" alt="Fotografía de producto para Maximus Gaming" loading="lazy"></div>
-            <div class="nx-tile-info"><span>04 · Fotografía</span><h3>Producto con intención</h3><i>↗</i></div>
-          </a>
-
-          <a class="nx-tile nx-tile-half" href="servicios/campanas-ads.html" data-reveal>
-            <div class="nx-tile-media"><img src="assets/opt/proyectos/CampanasAds/CampañaPuertoMontt/Post/101.webp" alt="Campaña Puerto Montt para Invesmar" loading="lazy"></div>
-            <div class="nx-tile-info"><span>05 · Campañas Ads</span><h3>Leads en Meta Ads</h3><i>↗</i></div>
-          </a>
-
-          <a class="nx-tile nx-tile-video nx-tile-half" href="servicios/edicion-de-video.html" data-reveal>
-            <div class="nx-tile-media"><div class="nx-phone"><video src="assets/proyectos/Videojuegos (Ecuador)/Videos/1.mp4" muted loop playsinline preload="none" data-autoplay></video></div></div>
-            <div class="nx-tile-info"><span>06 · Edición de video</span><h3>Reels con ritmo</h3><i>↗</i></div>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <!-- SERVICIOS -->
-    <section class="nx-services" id="servicios">
-      <div class="nx-shell">
-        <header class="nx-head">
-          <div>
-            <p class="nx-eyebrow" data-reveal>✦ Qué hago</p>
-            <h2 class="nx-h2" data-split>Diseño para marcas<br>que quieren <em>hacerse ver.</em></h2>
-          </div>
-          <p data-reveal>Un estudio de diseño y marketing en un solo lugar: desde la idea hasta la pieza publicada.</p>
-        </header>
-
-        <ul class="nx-svc-list">
-          <li data-reveal><a href="servicios/gestion-de-redes.html" data-preview="assets/opt/Imagenes/CuentasManejadas/Invesmar.webp"><span>01</span><h3>Gestión de redes</h3><p>Planifico, diseño y publico para que tu marca tenga presencia constante.</p><i>↗</i></a></li>
-          <li data-reveal><a href="servicios/diseno-web.html" data-preview="assets/opt/Trabajos/Web/nutritionglobal-mobile.webp"><span>02</span><h3>Diseño web</h3><p>Sitios y landings rápidos, pensados para convertir visitas en clientes.</p><i>↗</i></a></li>
-          <li data-reveal><a href="servicios/campanas-ads.html" data-preview="assets/opt/proyectos/CampanasAds/CampañaPuertoMontt/Historia/44.webp"><span>03</span><h3>Publicidad</h3><p>Campañas en Meta y Google con piezas y variantes listas para medir.</p><i>↗</i></a></li>
-          <li data-reveal><a href="servicios/packaging.html" data-preview="assets/opt/Trabajos/Packaging, Cartelería/Packaging/Packaging2/MockUp2.webp"><span>04</span><h3>Packaging</h3><p>Etiquetas, cajas y envases que hacen destacar tu producto.</p><i>↗</i></a></li>
-          <li data-reveal><a href="servicios/gigantografia-brandeo.html" data-preview="assets/opt/Trabajos/Packaging, Cartelería/Tu plan Futuro/Banner Publicitario/Mock up.webp"><span>05</span><h3>Cartelería</h3><p>Gigantografías, vinilos y brandeo de locales y vehículos.</p><i>↗</i></a></li>
-          <li data-reveal><a href="servicios/edicion-de-video.html" data-preview="assets/opt/Trabajos/Fotografia/MaximusGaming/11.webp"><span>06</span><h3>Edición de video</h3><p>Reels, ads verticales y motion con el ritmo de cada plataforma.</p><i>↗</i></a></li>
-          <li data-reveal><a href="servicios/fotografia.html" data-preview="assets/opt/Trabajos/Fotografia/ArvelCustom/1.webp"><span>07</span><h3>Fotografía</h3><p>Producto y marca, con atención a la luz, el encuadre y el detalle.</p><i>↗</i></a></li>
+    <!-- 03 · MARCAS -->
+    <section class="fx-panel fx-split" id="marcas" data-name="Marcas" data-num="03">
+      <div class="fx-split-media fx-orange">
+        <div class="fx-arc" aria-hidden="true"></div>
+        <ul class="fx-logo-grid">
+          <li><img src="assets/opt/clientes/tuplanfuturo.webp" alt="Tu Plan Futuro" loading="lazy"></li>
+          <li><img src="assets/opt/clientes/invesmar.webp" alt="Invesmar" loading="lazy"></li>
+          <li><img src="assets/opt/clientes/electronicgames.webp" alt="Electronic Games" loading="lazy"></li>
+          <li class="fx-logo-dark"><img src="assets/opt/clientes/maximus.svg" alt="Maximus Gaming" loading="lazy"></li>
+          <li><img src="assets/opt/clientes/todotrabajo.webp" alt="Todotrabajo.ar" loading="lazy"></li>
+          <li><img src="assets/opt/clientes/newsline.webp" alt="Newsline Report" loading="lazy"></li>
         </ul>
       </div>
-      <div class="nx-svc-preview" aria-hidden="true"><img alt=""></div>
-    </section>
-
-    <!-- MANIFIESTO -->
-    <section class="nx-manifesto" aria-label="Manifiesto">
-      <div class="nx-shell">
-        <p class="nx-manifesto-text" data-words>Ideas claras. Diseño con carácter. Marcas que quedan. Convierto ideas en sistemas visuales que se ven, se entienden y se recuerdan.</p>
-      </div>
-      <div class="nx-marquee" aria-hidden="true"><div><span>Branding ✦ Diseño gráfico ✦ Web design ✦ Campañas ✦ Fotografía ✦ Video ✦ Packaging ✦&nbsp;</span><span>Branding ✦ Diseño gráfico ✦ Web design ✦ Campañas ✦ Fotografía ✦ Video ✦ Packaging ✦&nbsp;</span></div></div>
-    </section>
-
-    <!-- PROCESO -->
-    <section class="nx-process nx-light">
-      <div class="nx-shell">
-        <header class="nx-head">
-          <div>
-            <p class="nx-eyebrow" data-reveal>✦ Proceso</p>
-            <h2 class="nx-h2" data-split>De la idea<br><em>a la entrega.</em></h2>
-          </div>
-          <p data-reveal>Un flujo simple para que cada proyecto avance con claridad, criterio y buen ritmo.</p>
-        </header>
-        <ol class="nx-steps" data-steps>
-          <li><b>01</b><h3>Descubrir</h3><p>Objetivos, audiencia, referencias y necesidades.</p></li>
-          <li><b>02</b><h3>Diseñar</h3><p>Concepto, dirección visual y primeras decisiones.</p></li>
-          <li><b>03</b><h3>Desarrollar</h3><p>Sistema, piezas, variantes y adaptaciones.</p></li>
-          <li><b>04</b><h3>Entregar</h3><p>Archivos organizados y listos para usar.</p></li>
-        </ol>
-      </div>
-    </section>
-
-    <!-- RESEÑAS -->
-    <section class="nx-reviews" id="resenas">
-      <div class="nx-shell">
-        <header class="nx-head">
-          <div>
-            <p class="nx-eyebrow" data-reveal>✦ Referencias</p>
-            <h2 class="nx-h2" data-split>Lo que dicen<br><em>los clientes.</em></h2>
-          </div>
-          <div class="nx-reviews-ctrl" data-reveal>
-            <button type="button" data-rev="prev" aria-label="Reseña anterior">←</button>
-            <button type="button" data-rev="next" aria-label="Reseña siguiente">→</button>
-          </div>
-        </header>
-      </div>
-      <div class="nx-reviews-track" data-reviews tabindex="0" aria-label="Reseñas de clientes">
-        <article class="nx-review">
-          <div class="nx-stars">★★★★★</div>
-          <blockquote><p>“Quiero recomendar a Rosario con total confianza. Llevamos más de tres años trabajando juntas, desde que aún estaba estudiando, y ha sido increíble ver su crecimiento profesional durante todo este tiempo.</p><p>Además de ser una persona muy responsable y comprometida, siempre aporta ideas creativas que marcan la diferencia. Gracias a su trabajo, la imagen de mi empresa ha evolucionado muchísimo y hoy proyecta un aspecto mucho más profesional, moderno y confiable.</p><p>Valoro enormemente su dedicación, su disposición para escuchar y transformar las ideas en diseños de gran calidad. Sin duda, ha sido una pieza clave en el crecimiento de mi negocio.</p><p>La recomiendo al 100 %. Si buscan una diseñadora gráfica talentosa, creativa y comprometida, Rosario es una excelente elección.”</p></blockquote>
-          <button class="nx-more" type="button">Leer completa</button>
-          <footer><span class="nx-avatar">KF</span><div><a href="https://www.linkedin.com/in/karla-fernandez-valdes/" target="_blank" rel="noopener"><strong>Karla Fernández Valdés</strong></a><small>Real Group · Tu Plan Futuro</small></div></footer>
-        </article>
-        <article class="nx-review">
-          <div class="nx-stars">★★★★★</div>
-          <blockquote><p>“Como socio y Gerente de Operaciones de Invesmar, recomiendo a Rosario sin ninguna duda. Ella colabora con nosotros gestionando nuestras campañas de Meta Ads desde el otro lado de la cordillera, y en este tiempo se ha convertido en un pilar fundamental para el crecimiento de la generación de leads de la empresa. Precisamente porque conozco de cerca la calidad de su trabajo, no dudo en recomendarla para que sume nuevos proyectos y clientes, ya que es de esas personas que dan abasto y valor sin importar cuántos frentes tenga abiertos.</p><p>Gestiona simultáneamente varias campañas a lo largo de distintas regiones de Chile, cuidando que cada una mantenga la identidad de marca que buscamos transmitir, sin perder de vista los números. Su manejo de la data es impecable. Sus integraciones con Google Sheets nos han dado visibilidad clara y en tiempo real de cómo rinde cada campaña en cada zona, algo clave para tomar decisiones rápidas y bien fundamentadas a nivel nacional.</p><p>Un ejemplo concreto fue el lanzamiento de nuestra campaña de Meta Lead Ads para Puerto Montt, una muestra de cómo logra adaptar la estrategia a cada mercado local sin perder coherencia con el resto de las campañas del país.</p><p>Rosario es proactiva, ordenada y siempre dispuesta a ir un paso más allá. Valoramos enormemente contar con gente así, y por lo mismo confío en que cualquier empresa u organización que sume su talento se va a beneficiar tanto como nosotros lo hemos hecho.”</p></blockquote>
-          <button class="nx-more" type="button">Leer completa</button>
-          <footer><span class="nx-avatar">CB</span><div><a href="https://www.linkedin.com/in/cristian-benavides-invesmar/" target="_blank" rel="noopener"><strong>Cristián Benavides Acuña</strong></a><small>Socio y Gerente de Operaciones · Invesmar</small></div></footer>
-        </article>
-        <article class="nx-review">
-          <div class="nx-stars">★★★★★</div>
-          <blockquote><p>“Tuve la oportunidad de trabajar junto a Rosario y puedo destacar su gran talento, profesionalismo y compromiso. Muy creativa, responsable y siempre dispuesta a aportar nuevas ideas.</p><p>Tiene una gran capacidad para interpretar lo que necesitamos y transformarlo en piezas visuales atractivas, claras y alineadas con nuestra marca. Además, se caracteriza por su cercanía, buena disposición y cumplimiento en cada proyecto.</p><p>Sin duda, recomiendo a Rosario por su calidad profesional y humana. Ha sido un gran aporte para nuestro equipo.”</p></blockquote>
-          <button class="nx-more" type="button">Leer completa</button>
-          <footer><span class="nx-avatar">MR</span><div><a href="https://www.linkedin.com/in/marcela-reyes-988146194/" target="_blank" rel="noopener"><strong>Marcela Reyes</strong></a><small>Invesmar</small></div></footer>
-        </article>
-        <article class="nx-review">
-          <div class="nx-stars">★★★★★</div>
-          <blockquote><p>“Tuve la oportunidad de trabajar con Rosario y quiero destacar su predisposición, profesionalismo y creatividad.</p><p>Como parte del equipo de contenido y redes ha hecho un gran trabajo comunicando y transmitiendo los valores y la identidad de la marca con una mirada creativa e innovadora, cuidando siempre el detalle y la calidad gráfica.</p><p>¡La recomiendo sin dudas! Una gran profesional y persona.”</p></blockquote>
-          <button class="nx-more" type="button">Leer completa</button>
-          <footer><span class="nx-avatar">MB</span><div><a href="https://www.linkedin.com/in/magalibernardi22/" target="_blank" rel="noopener"><strong>Magalí Bernardi</strong></a><small>Maximus Gaming</small></div></footer>
-        </article>
-        <article class="nx-review">
-          <div class="nx-stars">★★★★★</div>
-          <blockquote><p>“Tuve la oportunidad de trabajar con Rosario y siempre mostró mucha creatividad, responsabilidad y disposición para apoyar.</p><p>Me ayudó con la creación de diseños y publicidad, además de mejorar la imagen y organización de mis páginas de Facebook e Instagram. Su trabajo también ayudó a que las redes tuvieran mayor alcance y recibieran más visitas.</p><p>La recomiendo por su compromiso, sus buenas ideas y la calidad de su trabajo.”</p></blockquote>
-          <button class="nx-more" type="button">Leer completa</button>
-          <footer><span class="nx-avatar">GL</span><div><a href="https://www.linkedin.com/in/gonzalo-lopez-obeso-01313b262/" target="_blank" rel="noopener"><strong>Gonzalo López Obeso</strong></a><small>Recomendación en LinkedIn</small></div></footer>
-        </article>
-      </div>
-    </section>
-
-    <!-- CONTACTO -->
-    <section class="nx-contact" id="contacto">
-      <div class="nx-shell">
-        <p class="nx-eyebrow" data-reveal>✦ Hagamos algo</p>
-        <h2 class="nx-contact-title" data-split>¿Tenés una idea?<br><em>Hagámosla visible.</em></h2>
-        <div class="nx-contact-row">
-          <a class="nx-btn nx-btn-primary nx-btn-xl" href="https://wa.me/5491132598397?text=Hola!%20Vengo%20de%20la%20web%20portfolio%20de%20Inkk%20Studio." target="_blank" rel="noopener" data-magnetic data-reveal>Escribime por WhatsApp <span>↗</span></a>
-          <ul class="nx-contact-links" data-reveal>
-            <li><a href="mailto:rosario234576@gmail.com">rosario234576@gmail.com <span>↗</span></a></li>
-            <li><a href="https://www.instagram.com/inkkstudios_/" target="_blank" rel="noopener">Instagram <span>↗</span></a></li>
-            <li><a href="https://www.linkedin.com/in/rosariofernandezarg/" target="_blank" rel="noopener">LinkedIn <span>↗</span></a></li>
-          </ul>
+      <div class="fx-split-card fx-cream">
+        <div class="fx-box">
+          <h2 class="fx-box-title">Marcas que confiaron en el estudio</h2>
+          <p>Inmobiliarias, gaming, tecnología, empleo y medios. Cada marca con su propio sistema visual, sostenido en el tiempo: desde la pieza diaria hasta la campaña completa.</p>
+          <div class="fx-box-stats"><div><b data-count="15">15</b><span>marcas</span></div><div><b data-count="4">4</b><span>países</span></div><div><b data-count="3">3</b><span>años</span></div></div>
         </div>
       </div>
-      <img class="nx-contact-cat" src="assets/opt/Gatoastro.webp" alt="" loading="lazy">
+    </section>
+
+    <!-- 04 · HERRAMIENTAS -->
+    <section class="fx-panel fx-cream fx-tools" id="herramientas" data-name="Herramientas" data-num="04">
+      <div class="fx-sheet">
+        <p class="fx-label">Kit de trabajo</p>
+        <div class="fx-mask"><h2 class="fx-giant">Herramientas</h2></div>
+        <p class="fx-sub">Diseño, edición y pauta con las herramientas que usan los equipos profesionales.</p>
+        <ul class="fx-cards">
+          <li><span>01</span><img src="assets/opt/Programas/Iconos1-27.webp" alt="" loading="lazy"><b>Photoshop</b></li>
+          <li><span>02</span><img src="assets/opt/Programas/Iconos1-28.webp" alt="" loading="lazy"><b>Illustrator</b></li>
+          <li><span>03</span><img src="assets/opt/Programas/Iconos1-29.webp" alt="" loading="lazy"><b>InDesign</b></li>
+          <li><span>04</span><img src="assets/opt/Programas/Iconos1-30.webp" alt="" loading="lazy"><b>Instagram</b></li>
+          <li><span>05</span><img src="assets/opt/Programas/Iconos1-31.webp" alt="" loading="lazy"><b>Meta Ads</b></li>
+          <li><span>06</span><img src="assets/opt/Programas/Iconos1-32.webp" alt="" loading="lazy"><b>CapCut</b></li>
+          <li><span>07</span><img src="assets/opt/Programas/Iconos1-33.webp" alt="" loading="lazy"><b>Canva</b></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 05 · TRAYECTORIA -->
+    <section class="fx-panel fx-cream" id="trayectoria" data-name="Trayectoria" data-num="05">
+      <div class="fx-sheet">
+        <p class="fx-label">Momentos clave</p>
+        <div class="fx-mask"><h2 class="fx-giant">Trayectoria</h2></div>
+        <p class="fx-sub">Proyectos y marcas que marcaron el camino del estudio. Tocá cada uno para abrirlo.</p>
+        <div class="fx-acc" data-accordion>
+          <article class="fx-acc-item is-open">
+            <button type="button" aria-expanded="true"><b>2023</b><span>Tu Plan Futuro · Chile</span><i></i></button>
+            <div class="fx-acc-body"><div class="fx-acc-inner">
+              <div><p>Rediseño de identidad, sitio web, impresos, catálogos y video para pautas de una asesoría de inversión inmobiliaria.</p><a href="servicios/diseno-web.html">Ver el sitio ↗</a></div>
+              <figure><img class="fx-top" src="assets/opt/Trabajos/Web/tuplanfuturo-full.webp" alt="Web de Tu Plan Futuro" loading="lazy"><figcaption>Sitio web</figcaption></figure>
+              <figure><img src="assets/opt/Trabajos/Packaging, Cartelería/Tu plan Futuro/Banner Publicitario/Mock up.webp" alt="Banner de Tu Plan Futuro" loading="lazy"><figcaption>Cartelería</figcaption></figure>
+            </div></div>
+          </article>
+          <article class="fx-acc-item">
+            <button type="button" aria-expanded="false"><b>2023</b><span>Electronic Games · Ecuador</span><i></i></button>
+            <div class="fx-acc-body"><div class="fx-acc-inner">
+              <div><p>Redes de punta a punta: piezas, campañas en Meta Ads y edición de video para una tienda de consolas y videojuegos.</p><a href="servicios/diseno-de-piezas.html">Ver piezas ↗</a></div>
+              <figure><img src="assets/opt/Trabajos/Graficas de redes/ElectronicGames/1.webp" alt="Pieza para Electronic Games" loading="lazy"><figcaption>Lanzamiento</figcaption></figure>
+              <figure><img src="assets/opt/Trabajos/Graficas de redes/ElectronicGames/10.webp" alt="Pieza Nintendo Switch 2" loading="lazy"><figcaption>Producto</figcaption></figure>
+            </div></div>
+          </article>
+          <article class="fx-acc-item">
+            <button type="button" aria-expanded="false"><b>2024</b><span>Maximus Gaming · Argentina</span><i></i></button>
+            <div class="fx-acc-body"><div class="fx-acc-inner">
+              <div><p>Contenido para Hot Sale y Cyber Monday: diseño, video y fotografía de producto para hardware gamer.</p><a href="servicios/fotografia.html">Ver fotografías ↗</a></div>
+              <figure><img src="assets/opt/Trabajos/Fotografia/MaximusGaming/9.webp" alt="PC gamer fotografiada para Maximus" loading="lazy"><figcaption>Foto de producto</figcaption></figure>
+              <figure><img src="assets/opt/Trabajos/Fotografia/MaximusGaming/6.webp" alt="Placa de video fotografiada para Maximus" loading="lazy"><figcaption>Hot Sale</figcaption></figure>
+            </div></div>
+          </article>
+          <article class="fx-acc-item">
+            <button type="button" aria-expanded="false"><b>2025</b><span>Invesmar · Chile</span><i></i></button>
+            <div class="fx-acc-body"><div class="fx-acc-inner">
+              <div><p>Gestión de redes y campañas de Meta Lead Ads en distintas regiones de Chile, con reportes en tiempo real por zona.</p><a href="servicios/campanas-ads.html">Ver la campaña ↗</a></div>
+              <figure><img src="assets/opt/proyectos/CampanasAds/CampañaPuertoMontt/Post/101.webp" alt="Anuncio Puerto Montt" loading="lazy"><figcaption>Puerto Montt</figcaption></figure>
+              <figure><img class="fx-top" src="assets/opt/proyectos/CampanasAds/CampañaPuertoMontt/Historia/44.webp" alt="Historia de campaña" loading="lazy"><figcaption>Historias</figcaption></figure>
+            </div></div>
+          </article>
+          <article class="fx-acc-item">
+            <button type="button" aria-expanded="false"><b>2025</b><span>Todotrabajo.ar · Argentina</span><i></i></button>
+            <div class="fx-acc-body"><div class="fx-acc-inner">
+              <div><p>Más de 30 piezas diarias de ofertas laborales sobre el sistema visual de la marca, con entregas rápidas y consistencia total.</p><a href="servicios/gestion-de-redes.html">Ver gestión de redes ↗</a></div>
+              <figure class="fx-logo-fig"><img src="assets/opt/clientes/todotrabajo.webp" alt="Logo Todotrabajo.ar" loading="lazy"><figcaption>Sistema de piezas</figcaption></figure>
+              <figure><img src="assets/opt/Trabajos/Graficas de redes/PalancaStore/1.webp" alt="Pieza de redes" loading="lazy"><figcaption>Redes</figcaption></figure>
+            </div></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 06 · EXPLORÁ -->
+    <section class="fx-panel fx-cream" id="explora" data-name="Trabajos" data-num="06">
+      <div class="fx-sheet">
+        <p class="fx-label">Portfolio por categoría</p>
+        <div class="fx-mask"><h2 class="fx-giant">Explorá</h2></div>
+        <p class="fx-sub">Pasá el mouse por cada carta y entrá a ver el proyecto completo.</p>
+        <div class="fx-deck">
+          <a class="fx-flip" href="servicios/diseno-de-piezas.html"><div class="fx-flip-in">
+            <div class="fx-face"><img src="assets/opt/Trabajos/Graficas de redes/ZonaDelVerde/1.webp" alt="" loading="lazy"><b>01 · Diseño de piezas</b></div>
+            <div class="fx-face fx-back"><img src="assets/opt/nuevo/sello.webp" alt="" loading="lazy"><h3>Diseño de piezas</h3><span>Redes · identidad · campañas ↗</span></div>
+          </div></a>
+          <a class="fx-flip" href="servicios/diseno-web.html"><div class="fx-flip-in">
+            <div class="fx-face"><img class="fx-top" src="assets/opt/Trabajos/Web/nutritionglobal-full.webp" alt="" loading="lazy"><b>02 · Diseño web</b></div>
+            <div class="fx-face fx-back"><img src="assets/opt/nuevo/sello.webp" alt="" loading="lazy"><h3>Diseño web</h3><span>Shopify · WordPress · a medida ↗</span></div>
+          </div></a>
+          <a class="fx-flip" href="servicios/packaging.html"><div class="fx-flip-in">
+            <div class="fx-face"><img src="assets/opt/Trabajos/Packaging, Cartelería/Packaging/Packaging1/Mock_Up_Elegido/2.webp" alt="" loading="lazy"><b>03 · Packaging</b></div>
+            <div class="fx-face fx-back"><img src="assets/opt/nuevo/sello.webp" alt="" loading="lazy"><h3>Packaging</h3><span>Etiquetas · cajas · envases ↗</span></div>
+          </div></a>
+          <a class="fx-flip" href="servicios/campanas-ads.html"><div class="fx-flip-in">
+            <div class="fx-face"><img src="assets/opt/proyectos/CampanasAds/CampañaPuertoMontt/Carrusel/102.webp" alt="" loading="lazy"><b>04 · Campañas Ads</b></div>
+            <div class="fx-face fx-back"><img src="assets/opt/nuevo/sello.webp" alt="" loading="lazy"><h3>Campañas Ads</h3><span>Meta · Google · leads ↗</span></div>
+          </div></a>
+          <a class="fx-flip" href="servicios/edicion-de-video.html"><div class="fx-flip-in">
+            <div class="fx-face fx-face-video"><video src="assets/proyectos/Videojuegos (Ecuador)/Videos/1.mp4" muted loop playsinline preload="none" data-autoplay></video><b>05 · Edición de video</b></div>
+            <div class="fx-face fx-back"><img src="assets/opt/nuevo/sello.webp" alt="" loading="lazy"><h3>Edición de video</h3><span>Reels · ads · motion ↗</span></div>
+          </div></a>
+          <a class="fx-flip" href="servicios/fotografia.html"><div class="fx-flip-in">
+            <div class="fx-face"><img src="assets/opt/Trabajos/Fotografia/ArvelCustom/1.webp" alt="" loading="lazy"><b>06 · Fotografía</b></div>
+            <div class="fx-face fx-back"><img src="assets/opt/nuevo/sello.webp" alt="" loading="lazy"><h3>Fotografía</h3><span>Producto · marca · moda ↗</span></div>
+          </div></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 · RESEÑAS -->
+    <section class="fx-panel fx-cream" id="resenas" data-name="Reseñas" data-num="07">
+      <div class="fx-sheet">
+        <p class="fx-label">Lo que dicen</p>
+        <div class="fx-mask"><h2 class="fx-giant">Reseñas</h2></div>
+        <div class="fx-quotes">
+          <blockquote class="fx-quote"><p>“Llevamos más de tres años trabajando juntas y ha sido increíble ver su crecimiento profesional. Gracias a su trabajo, la imagen de mi empresa ha evolucionado muchísimo y hoy proyecta un aspecto mucho más profesional, moderno y confiable.”</p><footer><a href="https://www.linkedin.com/in/karla-fernandez-valdes/" target="_blank" rel="noopener"><b>Karla Fernández Valdés</b></a><span>Real Group · Tu Plan Futuro</span></footer></blockquote>
+          <blockquote class="fx-quote fx-quote-orange"><p>“Se ha convertido en un pilar fundamental para el crecimiento de la generación de leads de la empresa. Gestiona varias campañas en distintas regiones de Chile cuidando la identidad de marca, sin perder de vista los números.”</p><footer><a href="https://www.linkedin.com/in/cristian-benavides-invesmar/" target="_blank" rel="noopener"><b>Cristián Benavides Acuña</b></a><span>Socio y Gerente de Operaciones · Invesmar</span></footer></blockquote>
+          <blockquote class="fx-quote"><p>“Tiene una gran capacidad para interpretar lo que necesitamos y transformarlo en piezas visuales atractivas, claras y alineadas con nuestra marca.”</p><footer><a href="https://www.linkedin.com/in/marcela-reyes-988146194/" target="_blank" rel="noopener"><b>Marcela Reyes</b></a><span>Invesmar</span></footer></blockquote>
+          <blockquote class="fx-quote"><p>“Ha hecho un gran trabajo comunicando los valores y la identidad de la marca con una mirada creativa e innovadora, cuidando siempre el detalle y la calidad gráfica.”</p><footer><a href="https://www.linkedin.com/in/magalibernardi22/" target="_blank" rel="noopener"><b>Magalí Bernardi</b></a><span>Maximus Gaming</span></footer></blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACTO con círculo -->
+    <section class="fx-contact" id="contacto" data-name="Contacto" data-num="07">
+      <div class="fx-contact-pin">
+        <div class="fx-circle" aria-hidden="true"></div>
+        <div class="fx-contact-inner">
+          <p class="fx-hero-kicker">Inkkstudios <i>✦</i> hagamos algo</p>
+          <h2 class="fx-contact-title"><span>¿Hacemos</span><span>algo?</span></h2>
+          <img class="fx-contact-cat" src="assets/opt/nuevo/gato-paz.webp" alt="" loading="lazy">
+          <div class="fx-contact-actions">
+            <a class="fx-btn fx-btn-dark" href="https://wa.me/5491132598397?text=Hola!%20Vengo%20de%20la%20web%20portfolio%20de%20Inkk%20Studio." target="_blank" rel="noopener">WhatsApp <span>↗</span></a>
+            <a class="fx-btn fx-btn-cream" href="mailto:rosario234576@gmail.com">Email <span>↗</span></a>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 
-  <footer class="nx-footer">
-    <div class="nx-shell nx-footer-grid">
-      <div class="nx-brand"><img src="assets/opt/gato.webp" alt="" loading="lazy"><img class="nx-brand-word" src="assets/opt/LogoBlanco.webp" alt="Inkkstudios" loading="lazy"></div>
-      <div><h3>Proyectos</h3><a href="servicios/diseno-de-piezas.html">Diseño de piezas</a><a href="servicios/packaging.html">Packaging</a><a href="servicios/diseno-web.html">Diseño web</a><a href="servicios/edicion-de-video.html">Edición de video</a><a href="servicios/fotografia.html">Fotografía</a></div>
-      <div><h3>Conectemos</h3><a href="https://www.instagram.com/inkkstudios_/" target="_blank" rel="noopener">Instagram</a><a href="https://www.linkedin.com/in/rosariofernandezarg/" target="_blank" rel="noopener">LinkedIn</a><a href="mailto:rosario234576@gmail.com">Email</a></div>
-      <div class="nx-footer-contact"><strong>+54 9 11 3259 8397</strong><strong>rosario234576@gmail.com</strong><p>Buenos Aires, Argentina · Diseño para Latinoamérica.</p></div>
+  <footer class="fx-footer fx-cream">
+    <div class="fx-foot-grid">
+      <div><small>Escribime</small><a href="mailto:rosario234576@gmail.com">rosario234576@gmail.com</a><a href="https://wa.me/5491132598397" target="_blank" rel="noopener">+54 9 11 3259 8397</a></div>
+      <div><small>Más del estudio</small><p><a href="https://www.instagram.com/inkkstudios_/" target="_blank" rel="noopener">Instagram</a><a href="https://www.linkedin.com/in/rosariofernandezarg/" target="_blank" rel="noopener">LinkedIn</a><a href="tarisfario.html">Tarifario</a></p></div>
     </div>
-    <div class="nx-footer-word" aria-hidden="true">INKKSTUDIOS</div>
-    <div class="nx-shell nx-footer-bottom"><span>© 2026 Inkkstudios</span><a href="#inicio">Volver arriba ↑</a></div>
+    <p class="fx-copy">Inkkstudios © 2026 · Buenos Aires, Argentina · Diseño para Latinoamérica</p>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js" defer></script>
-  <script src="js/inicio-nuevo.js?v=1" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.3.26/dist/lenis.min.js"></script>
+  <script src="js/inicio-nuevo.js?v=2"></script>
 </body>
 </html>
