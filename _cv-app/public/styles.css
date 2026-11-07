@@ -339,3 +339,24 @@ input:focus, textarea:focus, select:focus { border-color: var(--orange); box-sha
 .gap-suggest { margin: 10px 0 0; font-size: 14px; color: #d8d6cf; line-height: 1.35; }
 .gap-suggest strong { color: var(--warn); }
 .btn-cta.full-w { width: 100%; }
+
+/* Opciones de descarga */
+.export-opts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 16px 0 12px; }
+.export-opts label { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.export-opts label > span { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+.export-opts select { padding: 10px 26px 10px 10px; font-size: 13px; background-position: calc(100% - 13px) 50%, calc(100% - 8px) 50%; }
+@media (max-width: 420px) { .export-opts { grid-template-columns: 1fr; } }
+
+/* Vista previa del diseño Moderno */
+.paper.design-moderno, .paper.design-minimalista { font-family: Arial, Helvetica, sans-serif; }
+.paper.design-ejecutivo .cv-name { text-align: left; color: #5b1a1a; font-size: 28px; }
+.paper.design-ejecutivo .cv-contact { text-align: left; }
+.paper.design-ejecutivo .cv-h { text-align: left; color: #5b1a1a; border-bottom: 2px solid #5b1a1a; }
+.paper.design-minimalista .cv-name { text-align: left; font-size: 27px; }
+.paper.design-minimalista .cv-contact { text-align: left; }
+.paper.design-minimalista .cv-h { text-align: left; border-bottom: 1px solid #b5b5b5; font-size: 14.5px; letter-spacing: .08em; }
+.paper.design-moderno .cv-name { text-align: left; color: #1d3557; font-size: 29px; }
+.paper.design-moderno .cv-contact { text-align: left; }
+.paper.design-moderno .cv-h { text-align: left; color: #1d3557; border-bottom: 2px solid #1d3557; font-size: 15px; letter-spacing: .07em; }
+.export-hint { margin: 10px 0 0; text-align: center; }
+.export-note { margin: 6px 0 0; text-align: center; color: var(--orange); }

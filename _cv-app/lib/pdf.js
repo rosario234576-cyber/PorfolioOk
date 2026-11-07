@@ -3,7 +3,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const LABELS = {
+export const LABELS = {
   es: { summary: "Perfil Profesional", experience: "Experiencia", education: "Educación", skills: "Habilidades e Intereses" },
   en: { summary: "Summary", experience: "Experience", education: "Education", skills: "Skills & Interests" },
   pt: { summary: "Perfil Profissional", experience: "Experiência", education: "Formação Acadêmica", skills: "Competências e Interesses" },
@@ -22,7 +22,23 @@ const FONTS = {
 };
 const HAS_TINOS = Object.values(FONTS).every((f) => fs.existsSync(path.join(FONT_DIR, f)));
 
-function registerFonts(doc) {
+// Diseños disponibles. Todos son de una sola columna, sin tablas ni gráficos, para que los ATS los lean bien.
+const DESIGNS = {
+  harvard: { serif: true, align: "center", accent: "#000000", ruleColor: "#000000", ruleWidth: 0.6, nameGap: 7 },
+  ejecutivo: { serif: true, align: "left", accent: "#5b1a1a", ruleColor: "#5b1a1a", ruleWidth: 1.2, nameGap: 10 },
+  moderno: { serif: false, align: "left", accent: "#1d3557", ruleColor: "#1d3557", ruleWidth: 1.4, nameGap: 11 },
+  minimalista: { serif: false, align: "left", accent: "#111111", ruleColor: "#b5b5b5", ruleWidth: 0.5, nameGap: 9 },
+};
+export const designOf = (d) => DESIGNS[d] || DESIGNS.harvard;
+
+function registerFonts(doc, design) {
+  if (!design.serif) {
+    doc.registerFont("regular", "Helvetica");
+    doc.registerFont("bold", "Helvetica-Bold");
+    doc.registerFont("italic", "Helvetica-Oblique");
+    doc.registerFont("boldItalic", "Helvetica-BoldOblique");
+    return;
+  }
   if (HAS_TINOS) {
     for (const [k, f] of Object.entries(FONTS)) doc.registerFont(k, path.join(FONT_DIR, f));
   } else {
@@ -36,7 +52,7 @@ function registerFonts(doc) {
 const clean = (s) => String(s ?? "").replace(/\s+/g, " ").trim();
 const nonEmpty = (arr) => (arr || []).map(clean).filter(Boolean);
 
-function render(doc, cv, size, photo) {
+function render(doc, cv, size, photo, D) {
   const L = LABELS[cv.language] || LABELS.es;
   const M = doc.page.margins;
   const X = M.left;
@@ -78,13 +94,14 @@ function render(doc, cv, size, photo) {
   const heading = (title) => {
     ensure(size * 4.5);
     doc.moveDown(0.55);
-    doc.font("bold").fontSize(size + 1).text(title.toUpperCase(), X, doc.y, {
+    doc.font("bold").fontSize(size + 1).fillColor(D.accent).text(title.toUpperCase(), X, doc.y, {
       width: W,
-      align: "center",
+      align: D.align,
       characterSpacing: 0.6,
     });
+    doc.fillColor("#000000");
     const y = doc.y + 1.5;
-    doc.moveTo(X, y).lineTo(X + W, y).lineWidth(0.6).strokeColor("#000").stroke();
+    doc.moveTo(X, y).lineTo(X + W, y).lineWidth(D.ruleWidth).strokeColor(D.ruleColor).stroke();
     doc.y = y + gap + 1;
     doc.x = X;
   };
@@ -107,7 +124,7 @@ function render(doc, cv, size, photo) {
     const d = 76;
     const tx = X + d + 18;
     const tw = W - d - 18;
-    doc.font("bold").fontSize(size + 7);
+    doc.font("bold").fontSize(size + D.nameGap);
     const nameH = doc.heightOfString(clean(cv.name), { width: tw });
     const half = Math.ceil(contact.length / 2);
     const contactText = contact.length > 2
@@ -122,7 +139,8 @@ function render(doc, cv, size, photo) {
     doc.image(photo, X, top, { width: d, height: d });
     doc.restore();
 
-    doc.font("bold").fontSize(size + 7).text(clean(cv.name), tx, ty, { width: tw });
+    doc.font("bold").fontSize(size + D.nameGap).fillColor(D.accent).text(clean(cv.name), tx, ty, { width: tw });
+    doc.fillColor("#000000");
     if (contact.length) {
       doc.y += 3;
       doc.font("regular").fontSize(size - 0.5).text(contactText, tx, doc.y, { width: tw });
@@ -130,10 +148,11 @@ function render(doc, cv, size, photo) {
     doc.x = X;
     doc.y = Math.max(doc.y, top + d);
   } else {
-    doc.font("bold").fontSize(size + 7).text(clean(cv.name), X, top, { width: W, align: "center" });
+    doc.font("bold").fontSize(size + D.nameGap).fillColor(D.accent).text(clean(cv.name), X, top, { width: W, align: D.align });
+    doc.fillColor("#000000");
     if (contact.length) {
       doc.moveDown(0.15);
-      doc.font("regular").fontSize(size - 0.5).text(contact.join("  •  "), X, doc.y, { width: W, align: "center" });
+      doc.font("regular").fontSize(size - 0.5).text(contact.join("  •  "), X, doc.y, { width: W, align: D.align });
     }
   }
 
@@ -190,16 +209,16 @@ function render(doc, cv, size, photo) {
   }
 }
 
-function build(cv, paper, size, photo) {
+function build(cv, paper, size, photo, D) {
   const doc = new PDFDocument({
     size: PAPER[paper] || "A4",
     margins: { top: 42, bottom: 42, left: 50, right: 50 },
     bufferPages: true,
     info: { Title: `CV - ${clean(cv.name)}`, Author: clean(cv.name), Creator: "CV Adapter" },
   });
-  registerFonts(doc);
+  registerFonts(doc, D);
   doc.lineGap(size * 0.12);
-  render(doc, cv, size, photo);
+  render(doc, cv, size, photo, D);
   return doc;
 }
 
@@ -212,12 +231,54 @@ const toBuffer = (doc) =>
     doc.end();
   });
 
-/** Genera el PDF Harvard; achica la letra (hasta 9.5 pt) para que entre en 1 página si es posible. */
-export async function generatePdf(cv, paper = "a4", photo = null) {
-  for (const size of [11, 10.5, 10, 9.5]) {
-    const doc = build(cv, paper, size, photo);
-    if (doc.bufferedPageRange().count === 1) return toBuffer(doc);
-    doc.end();
+const SIZES = [11, 10.5, 10, 9.5, 9];
+const pages = (cv, paper, size, photo, D) => {
+  const doc = build(cv, paper, size, photo, D);
+  const n = doc.bufferedPageRange().count;
+  doc.end();
+  return n;
+};
+
+/**
+ * Quita una cosa de lo menos relevante. Orden: viñetas de secciones extra y de trabajos viejos,
+ * después secciones extra completas y trabajos viejos enteros. Los 2 trabajos más recientes
+ * conservan hasta 3 viñetas todo lo posible.
+ */
+function trimOnce(cv) {
+  const exp = cv.experience || [];
+  const minBullets = (e) => (exp.indexOf(e) > -1 && exp.indexOf(e) < 2 ? 3 : 1);
+  const blocks = [...(cv.extra_sections || []).flatMap((s) => s.items || []), ...exp.slice().reverse()];
+  const pick = blocks.find((e) => (e.bullets || []).length > minBullets(e));
+  if (pick) { pick.bullets.pop(); return true; }
+  for (const e of cv.education || []) if ((e.details || []).length) { e.details.pop(); return true; }
+  if ((cv.extra_sections || []).length) { cv.extra_sections.pop(); return true; }
+  if (exp.length > 2) { exp.pop(); return true; }
+  const recent = exp.find((e) => (e.bullets || []).length > 1);
+  if (recent) { recent.bullets.pop(); return true; }
+  if ((cv.skills || []).length > 2) { cv.skills.pop(); return true; }
+  return false;
+}
+
+/**
+ * Ajusta el CV a UNA página: primero achica la letra (11 → 9 pt) y, si todavía no entra,
+ * quita de a una las viñetas menos relevantes. Devuelve el CV ajustado y el tamaño de letra.
+ */
+export function fitOnePage(cv, paper = "a4", photo = null, design = "harvard") {
+  const D = designOf(design);
+  for (const size of SIZES) if (pages(cv, paper, size, photo, D) === 1) return { cv, size, trimmed: 0 };
+  const copy = structuredClone(cv);
+  const size = SIZES.at(-1);
+  let trimmed = 0;
+  while (trimmed < 60 && trimOnce(copy)) {
+    trimmed++;
+    if (pages(copy, paper, size, photo, D) === 1) return { cv: copy, size, trimmed };
   }
-  return toBuffer(build(cv, paper, 10.5, photo));
+  return { cv: copy, size, trimmed };
+}
+
+/** Genera el PDF en una sola página. */
+export async function generatePdf(cv, paper = "a4", photo = null, design = "harvard") {
+  const D = designOf(design);
+  const fit = fitOnePage(cv, paper, photo, design);
+  return toBuffer(build(fit.cv, paper, fit.size, photo, D));
 }

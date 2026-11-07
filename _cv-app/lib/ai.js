@@ -65,12 +65,12 @@ Reglas innegociables:
 
 Estilo Harvard:
 - Viñetas que empiezan con un verbo de acción fuerte CONJUGADO en primera persona: pretérito para logros ("Lideré", "Analicé", "Reduje") o presente para tareas actuales ("Coordino"). En inglés, pasado ("Led", "Analyzed"). Nunca en infinitivo ("Analizar") ni gerundio. Concisas (1–2 líneas), orientadas a logros y resultados, sin pronombres personales ni punto final.
-- Priorizá y ordená viñetas por relevancia para la oferta; 3–5 viñetas en experiencias relevantes, 1–2 en las poco relevantes. Podés omitir experiencias muy antiguas o irrelevantes si el CV es largo.
-- Objetivo: 1 página para menos de ~10 años de experiencia; máximo 2 páginas.
-- summary: 2–3 líneas, específico para este puesto, sin clichés. Dejalo vacío ("") solo si no aporta.
+- UNA SOLA PÁGINA, SIEMPRE (obligatorio, aunque el CV original tenga varias páginas): el contenido total no debe superar ~550 palabras. Para lograrlo, elegí lo más relevante para la oferta (o para el puesto general indicado): máximo 4 experiencias; 3–4 viñetas en las 2 más relevantes y 1–2 en las demás; omití experiencias antiguas o irrelevantes, cursos menores, referencias y datos personales que no suman (DNI, estado civil, edad, dirección completa).
+- Priorizá y ordená viñetas por relevancia para la oferta.
+- summary: 2–3 líneas como máximo, específico para este puesto, sin clichés. Dejalo vacío ("") solo si no aporta.
 - experience_first: true si la persona tiene experiencia laboral relevante; false si es estudiante o recién graduada.
 - Fechas homogéneas (ej. "Mar 2021 – Presente" / "Mar 2021 – Present").
-- skills: 2–4 líneas con etiqueta (ej. "Técnicas", "Herramientas", "Idiomas", "Certificaciones"), priorizando las que pide la oferta y la persona realmente tiene.
+- skills: 2–3 líneas con etiqueta (ej. "Técnicas", "Herramientas", "Idiomas", "Certificaciones"), priorizando las que pide la oferta y la persona realmente tiene.
 - extra_sections: liderazgo, voluntariado, proyectos, etc., solo si existen en el CV y suman.
 - Campos sin dato: string vacío "".
 
@@ -159,7 +159,7 @@ ${corrections}
 
 INSTRUCCIONES PARA ESTA ETAPA:
 - Partí del CV adaptado actual y aplicá las correcciones de la persona. Son hechos verídicos que ella misma confirma: tienen prioridad sobre la regla de "datos fijos" y podés usarlos aunque no estuvieran en el CV original (puestos, fechas, herramientas, logros, experiencia nueva).
-- Mantené todo lo demás igual salvo lo necesario para integrar bien las correcciones (orden, viñetas, perfil, habilidades).
+- Mantené todo lo demás igual salvo lo necesario para integrar bien las correcciones (orden, viñetas, perfil, habilidades). El CV tiene que seguir entrando en UNA página: si agregás información, condensá o quitá lo menos relevante para la oferta.
 - No inventes nada más allá de lo que la persona dice.
 - Recalculá el análisis: match_after, keywords_matched, keywords_missing, gaps y tips según el CV corregido. Lo que la persona ya cubrió con sus respuestas no debe seguir en gaps. En "changes" listá solo los cambios hechos en esta corrección.`;
   const result = await adaptCv({ cvText, jobText, jobUrl, language: language === "auto" ? cv.language || "auto" : language });

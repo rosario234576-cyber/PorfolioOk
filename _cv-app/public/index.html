@@ -7,7 +7,7 @@
 <link rel="icon" type="image/png" href="brand/favicon-gato.png" />
 <link rel="preload" href="brand/RocGroteskCondensedExtraBold.woff2" as="font" type="font/woff2" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=2" />
+<link rel="stylesheet" href="styles.css?v=3" />
 </head>
 <body>
 <div class="grain" aria-hidden="true"></div>
@@ -111,13 +111,6 @@
               <option value="pt">Português</option>
             </select>
           </div>
-          <div>
-            <h2 class="step-title"><label for="paper">Hoja</label></h2>
-            <select id="paper">
-              <option value="a4">A4</option>
-              <option value="letter">Carta (EE. UU.)</option>
-            </select>
-          </div>
         </div>
       </div>
 
@@ -162,11 +155,11 @@
           <p class="side-name" id="side-name"></p>
           <p class="side-role hidden" id="side-role"></p>
           <div class="score">
-            <div><span class="score-num muted" id="score-before">–</span><span class="score-label">Antes</span></div>
+            <div><span class="score-num muted" id="score-before">–</span><span class="score-label">ATS original</span></div>
             <span class="score-arrow" aria-hidden="true">→</span>
-            <div><span class="score-num orange" id="score-after">–</span><span class="score-label">Después</span></div>
+            <div><span class="score-num orange" id="score-after">–</span><span class="score-label">ATS adaptado</span></div>
           </div>
-          <p class="tiny" id="score-caption">Compatibilidad estimada con la oferta</p>
+          <p class="tiny" id="score-caption">Compatibilidad ATS estimada con la oferta</p>
           <div class="meter" aria-hidden="true"><span id="meter-fill"></span></div>
 
           <div id="gaps" class="gaps hidden">
@@ -193,7 +186,32 @@
             <input type="file" id="photo-input" accept="image/jpeg,image/png,image/webp" hidden />
           </div>
 
-          <button id="download" class="btn-cta full"><span>Descargar PDF</span><span class="cta-arrow" aria-hidden="true">↓</span></button>
+          <div class="export-opts">
+            <label><span>Diseño</span>
+              <select id="design">
+                <option value="harvard">Harvard clásico</option>
+                <option value="ejecutivo">Ejecutivo</option>
+                <option value="moderno">Moderno</option>
+                <option value="minimalista">Minimalista</option>
+              </select>
+            </label>
+            <label><span>Archivo</span>
+              <select id="format">
+                <option value="pdf">PDF</option>
+                <option value="docx">Word (.docx)</option>
+                <option value="png">Imagen (PNG)</option>
+              </select>
+            </label>
+            <label><span>Hoja</span>
+              <select id="paper">
+                <option value="a4">A4</option>
+                <option value="letter">Carta (EE. UU.)</option>
+              </select>
+            </label>
+          </div>
+          <button id="download" class="btn-cta full"><span id="download-label">Descargar PDF</span><span class="cta-arrow" aria-hidden="true">↓</span></button>
+          <p class="tiny export-hint">Todos los diseños son de una columna, aptos para ATS, y siempre entran en <strong>1 página</strong>.</p>
+          <p id="export-note" class="tiny export-note hidden"></p>
           <p id="pdf-error" class="error hidden" role="alert"></p>
         </div>
 
@@ -228,6 +246,6 @@
   <img src="brand/gato.webp" alt="" /> Hecho por <strong>Inkkstudio</strong>
 </footer>
 
-<script src="app.js?v=2"></script>
+<script src="app.js?v=3"></script>
 </body>
 </html>
