@@ -57,6 +57,8 @@
   var letters1 = $$(".fx-row-1 > span"), letters2 = $$(".fx-row-2 > span");
   var tags = $$(".fx-hero-tag");
 
+  gsap.set(".fx-watermark", { xPercent: -50, yPercent: -46 });
+
   /* ---------- Entrada de la portada ---------- */
   var intro = gsap.timeline({ defaults: { ease: "expo.out" } });
   intro
@@ -65,13 +67,8 @@
     .from(letters2, { yPercent: 110, duration: 1.3, stagger: 0.05 }, 0.25)
     .from(cat, { yPercent: 70, duration: 1.6 }, 0.35)
     .from(tags, { scale: 0, rotation: -30, duration: 0.9, stagger: 0.08, ease: "back.out(2)" }, 1)
-    .from(".fx-hero-scroll", { opacity: 0, duration: 0.6 }, 1.3);
-
-  /* ---------- Marco claro sobre fondos naranjas ---------- */
-  ScrollTrigger.create({
-    trigger: hero, start: "top top", end: "bottom 10%",
-    onToggle: function (s) { body.classList.toggle("ui-light", s.isActive); }
-  });
+    .from(".fx-hero-scroll, .fx-hero-motto", { opacity: 0, y: 20, duration: 0.8 }, 1.3)
+    .from(".fx-watermark", { opacity: 0, scale: 0.8, duration: 2 }, 0);
 
   $$("main > section").forEach(function (sec) {
     ScrollTrigger.create({
@@ -91,7 +88,8 @@
       .to(letters1, { yPercent: -40, xPercent: function (i) { return (i - 1.5) * 60; }, ease: "none" }, 0)
       .to(letters2, { yPercent: 30, xPercent: function (i) { return (i - 3) * 40; }, ease: "none" }, 0)
       .to(tags, { y: function (i) { return -180 - i * 60; }, rotation: function (i) { return i % 2 ? 25 : -25; }, opacity: 0, ease: "none" }, 0)
-      .to(".fx-hero-inner", { opacity: 0.25, ease: "none" }, 0.5);
+      .to(".fx-hero-inner", { opacity: 0.25, ease: "none" }, 0.5)
+      .to(".fx-watermark", { rotation: 12, scale: 1.2, ease: "none" }, 0);
 
     var stack = $$(".fx-panel");
     stack.forEach(function (panel, i) {
