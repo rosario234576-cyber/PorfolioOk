@@ -11,9 +11,14 @@ Subís tu CV y el link de una oferta laboral: la app lee el puesto, adapta tu CV
 ## Uso
 
 1. **Tu CV**: arrastralo (PDF, DOCX o TXT). Queda guardado en el navegador para la próxima vez.
-2. **Link de la oferta**: pegalo. Si el sitio pide iniciar sesión (por ejemplo, LinkedIn), pegá el texto de la oferta en el recuadro.
+2. **El objetivo**, en uno de dos modos:
+   - **Oferta específica:** pegá el link. Si el sitio pide iniciar sesión (por ejemplo, LinkedIn), pegá el texto de la oferta.
+   - **Puesto en general:** sin oferta concreta. Podés escribir el puesto o dejarlo vacío para que la IA lo deduzca de cada CV.
 3. **Adaptar mi CV**: en 30–90 segundos ves la vista previa, el % de compatibilidad, las palabras clave cubiertas y las faltantes.
 4. Podés **editar cualquier texto** haciendo clic en la vista previa.
+- **Foto:** si el CV en PDF trae una foto, se copia sola al CV adaptado (dice «Tomada de tu CV original»). Podés cambiarla o quitarla desde el panel.
+- **Para llegar al 100%:** debajo del porcentaje ves qué falta, cuántos puntos suma cada cosa y por qué. Tocá «Lo tengo», contalo y «Actualizar CV»; o «No lo tengo» para ver una sugerencia.
+- **Corregir o agregar información:** en el panel derecho escribís qué está mal o qué falta (o tocás un requisito faltante) y la IA actualiza el CV y la compatibilidad. Tiene botón **Deshacer**.
 5. **Descargar PDF**: formato Harvard en Times New Roman. Si es posible, la app achica la letra para que entre en una página.
 
 ## Qué hace la IA (y qué no)
@@ -40,7 +45,7 @@ Nunca subas el archivo `.env` (ya está excluido en `.gitignore`). Con `ACCESS_C
 
 ## Técnico
 
-- Node.js 22.9+ · Express · `@google/genai` (Gemini, `gemini-3.6-flash` con respaldo `gemini-3.5-flash-lite`, salida JSON con esquema) · `@anthropic-ai/sdk` opcional · PDFKit.
+- Node.js 22.9+ · Express · `@google/genai` (Gemini, `gemini-3.6-flash` con respaldos `gemini-3.5-flash-lite` y `gemini-3.1-flash-lite`, salida JSON con esquema) · `@anthropic-ai/sdk` opcional · PDFKit.
 - `lib/job.js` lee la oferta (incluye datos JobPosting de LinkedIn, Indeed, Greenhouse, Lever, etc.).
 - `lib/ai.js` contiene las instrucciones de adaptación; `lib/pdf.js` arma el diseño Harvard.
-- Costo: gratis dentro del límite diario de Gemini. En el plan gratuito, Google puede usar el contenido enviado para mejorar sus productos.
+- Costo: gratis dentro del cupo diario de Gemini (unos 20 pedidos por día por modelo; la app usa 3 modelos en cadena y saltea el que se quedó sin cupo). En el plan gratuito, Google puede usar el contenido enviado para mejorar sus productos.

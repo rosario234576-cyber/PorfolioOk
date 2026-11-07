@@ -4,7 +4,7 @@ import mammoth from "mammoth";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchJobPosting } from "./lib/job.js";
-import { adaptCv, isConfigured } from "./lib/ai.js";
+import { adaptCv, refineCv, generalTarget, isConfigured } from "./lib/ai.js";
 import { generatePdf } from "./lib/pdf.js";
 import { authRequired, isAuthed, login, logout, requireAuth } from "./lib/auth.js";
 
@@ -14,7 +14,7 @@ const app = express();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 15 * 1024 * 1024 } });
 
 app.set("trust proxy", 1); // detrás del proxy HTTPS del hosting
-app.use(express.json({ limit: "2mb" }));
+app.use(express.json({ limit: "4mb" }));
 app.use(express.static(path.join(here, "public")));
 
 app.get("/api/status", (req, res) =>
@@ -56,7 +56,9 @@ app.post("/api/adapt", upload.single("cv"), async (req, res) => {
     if (!req.file) throw new Error("Subí tu CV.");
     const jobUrl = String(req.body.jobUrl || "").trim();
     let jobText = String(req.body.jobText || "").trim();
-    if (!jobText && !jobUrl) throw new Error("Pegá el link de la oferta o su descripción.");
+    const role = String(req.body.role || "").trim().slice(0, 200);
+    if (!jobText && req.body.mode === "general") jobText = generalTarget(role, String(req.body.details || "").trim().slice(0, 1500));
+    if (!jobText && !jobUrl) throw new Error("Pegá el link de la oferta o escribí el puesto.");
 
     const cv = await readCv(req.file);
     if (cv.cvText !== undefined && cv.cvText.trim().length < 50) {
@@ -69,6 +71,22 @@ app.post("/api/adapt", upload.single("cv"), async (req, res) => {
   } catch (err) {
     console.error("[adapt]", err);
     res.status(err.status && err.status >= 500 ? 502 : 400).json({ error: friendly(err) });
+  }
+});
+
+/** Corrige un CV ya adaptado con información que aporta la persona. */
+app.post("/api/refine", async (req, res) => {
+  try {
+    const { cv, corrections, jobUrl, language, role, details } = req.body || {};
+    let jobText = String(req.body?.jobText || "").trim();
+    if (!jobText && req.body?.mode === "general") jobText = generalTarget(String(role).trim().slice(0, 200), String(details || "").trim().slice(0, 1500));
+    if (!cv?.name) throw new Error("Faltan los datos del CV.");
+    if (!String(corrections || "").trim()) throw new Error("Escribí qué querés corregir o agregar.");
+    if (!String(jobText || "").trim()) throw new Error("Falta la descripción de la oferta.");
+    res.json(await refineCv({ cv, corrections: String(corrections).slice(0, 4000), jobText, jobUrl, language }));
+  } catch (err) {
+    console.error("[refine]", err);
+    res.status(400).json({ error: friendly(err) });
   }
 });
 

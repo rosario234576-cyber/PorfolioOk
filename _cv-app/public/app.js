@@ -120,14 +120,33 @@ $("logout").addEventListener("click", async () => {
 });
 renderQueue();
 
+// ---------- Modo: oferta específica / puesto en general ----------
+let mode = "offer";
+function setMode(m) {
+  mode = m;
+  document.querySelectorAll(".seg-btn").forEach((b) => {
+    const on = b.dataset.mode === m;
+    b.classList.toggle("active", on);
+    b.setAttribute("aria-selected", String(on));
+  });
+  $("mode-offer").classList.toggle("hidden", m !== "offer");
+  $("mode-general").classList.toggle("hidden", m !== "general");
+  showError("form-error", "");
+  try { localStorage.setItem("cv-a-medida:mode", m); } catch { /* ignorar */ }
+}
+document.querySelectorAll(".seg-btn").forEach((b) => b.addEventListener("click", () => setMode(b.dataset.mode)));
+try { if (localStorage.getItem("cv-a-medida:mode") === "general") setMode("general"); } catch { /* ignorar */ }
+
 // ---------- Enviar ----------
 $("adapt-form").addEventListener("submit", async (e) => {
   e.preventDefault();
   showError("form-error", "");
-  const jobUrl = $("job-url").value.trim();
-  let jobText = $("job-text").value.trim();
+  const jobUrl = mode === "offer" ? $("job-url").value.trim() : "";
+  let jobText = mode === "offer" ? $("job-text").value.trim() : "";
+  const role = mode === "general" ? $("role").value.trim() : "";
+  const details = mode === "general" ? $("role-details").value.trim() : "";
   if (!queue.length) return showError("form-error", "Agregá al menos un CV.");
-  if (!jobUrl && !jobText) return showError("form-error", "Pegá el link de la oferta o su descripción.");
+  if (mode === "offer" && !jobUrl && !jobText) return showError("form-error", "Pegá el link de la oferta o su descripción.");
   try {
     localStorage.setItem("cv-a-medida:paper", $("paper").value);
     localStorage.setItem("cv-a-medida:lang", $("language").value);
@@ -137,7 +156,7 @@ $("adapt-form").addEventListener("submit", async (e) => {
   btn.disabled = true;
   $("submit-label").textContent = "Leyendo la oferta…";
   try {
-    if (!jobText) {
+    if (mode === "offer" && !jobText) {
       const res = await api("/api/job", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ url: jobUrl }) });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || "No pude leer la oferta.");
@@ -152,13 +171,14 @@ $("adapt-form").addEventListener("submit", async (e) => {
     renderQueue();
   }
 
-  session = { jobText, jobUrl, language: $("language").value };
+  session = { mode, jobText, jobUrl, role, details, language: $("language").value };
   jobs = queue.map((file, i) => ({ id: `${Date.now()}-${i}`, file, status: "queued", result: null, error: "", photo: null, includePhoto: true }));
   selectedId = null;
-  $("job-meta").textContent = "Analizando la oferta";
+  $("job-meta").textContent = mode === "general" ? (role ? `${role} · Perfil general` : "Perfil general · puesto según cada CV") : "Analizando la oferta";
   show("result-view");
   renderCards();
   renderDetail();
+  jobs.forEach(grabPhotoFromCv);
   runQueue();
 });
 
@@ -181,6 +201,9 @@ async function processJob(job) {
   body.append("cv", job.file);
   body.append("jobText", session.jobText);
   body.append("jobUrl", session.jobUrl);
+  body.append("mode", session.mode);
+  body.append("role", session.role);
+  body.append("details", session.details);
   body.append("language", session.language);
   try {
     const res = await api("/api/adapt", { method: "POST", body });
@@ -192,7 +215,7 @@ async function processJob(job) {
     job.result = data;
     job.status = "done";
     const a = data.analysis || {};
-    const meta = [a.job_title, a.company].filter(has).join(" · ");
+    const meta = session.mode === "general" ? (session.role ? `${session.role} · Perfil general` : "Perfil general · puesto según cada CV") : [a.job_title, a.company].filter(has).join(" · ");
     if (meta) $("job-meta").textContent = meta;
     if (!selectedId) selectedId = job.id;
   } catch (err) {
@@ -243,6 +266,7 @@ function renderCards() {
       const a = job.result.analysis || {};
       const after = score(a.match_after), before = score(a.match_before);
       card.append(el("span", "rank", `#${rank}`));
+      if (session?.mode === "general" && has(a.job_title)) card.append(el("p", "card-role", a.job_title));
       card.append(el("div", "card-score", [el("span", "after", after !== null ? `${after}%` : "–"), before !== null ? el("span", "before", `antes ${before}%`) : null]));
       const bar = el("div", "bar");
       const base = el("span", "base"); base.style.width = `${before ?? 0}%`;
@@ -288,13 +312,22 @@ function renderDetail() {
   result = job.result;
   const a = result.analysis || {};
   $("side-name").textContent = result.name || job.file.name;
+  const showRole = session?.mode === "general" && has(a.job_title);
+  $("side-role").textContent = showRole ? `Orientado a: ${a.job_title}` : "";
+  $("side-role").classList.toggle("hidden", !showRole);
   $("score-before").textContent = score(a.match_before) !== null ? `${a.match_before}%` : "–";
   $("score-after").textContent = score(a.match_after) !== null ? `${a.match_after}%` : "–";
+  $("score-caption").textContent = session?.mode === "general" ? "Compatibilidad estimada con una oferta típica del puesto" : "Compatibilidad estimada con la oferta";
+  $("meter-fill").style.width = `${Math.max(0, Math.min(100, a.match_after ?? 0))}%`;
   chips("kw-matched", a.keywords_matched, "—");
-  chips("kw-missing", a.keywords_missing, "Ninguno: cubre todos los requisitos.");
   list("changes", a.changes);
   list("tips", a.tips);
   showError("pdf-error", "");
+  showError("refine-error", "");
+  showError("gaps-error", "");
+  $("refine-text").value = job.refineDraft || "";
+  $("undo").classList.toggle("hidden", !job.history?.length);
+  renderGaps();
   renderPhoto();
   renderPreview();
 }
@@ -302,6 +335,144 @@ function renderDetail() {
 function chips(id, words, emptyText) {
   $(id).replaceChildren(...(words?.length ? words.map((w) => el("span", "chip", w)) : [el("span", "empty", emptyText)]));
 }
+
+// ---------- Para llegar al 100% ----------
+function renderGaps() {
+  const job = currentJob();
+  const a = job.result.analysis || {};
+  const gaps = (a.gaps || []).filter((g) => has(g.requirement));
+  job.gapAnswers ||= {};
+  job.gapOpen ||= {};
+  const left = Math.max(0, 100 - (a.match_after ?? 0));
+  $("gaps").classList.toggle("hidden", !gaps.length);
+  $("gaps-left").textContent = left ? `· faltan ${left} puntos` : "";
+  $("gap-list").replaceChildren(...gaps.map((g) => {
+    const key = g.requirement;
+    const li = el("li", "gap");
+    li.append(el("div", "gap-head", [
+      el("span", "gap-pts", `+${Math.max(0, g.points || 0)}%`),
+      el("div", "gap-text", [el("strong", "", g.requirement), has(g.why) ? el("span", "gap-why", g.why) : null]),
+    ]));
+
+    const state = job.gapOpen[key]; // undefined | "have" | "nope"
+    const have = el("button", `gap-btn${state === "have" ? " on" : ""}`, "Lo tengo");
+    const nope = el("button", `gap-btn${state === "nope" ? " on" : ""}`, "No lo tengo");
+    have.type = "button";
+    nope.type = "button";
+    have.addEventListener("click", () => {
+      job.gapOpen[key] = state === "have" ? undefined : "have";
+      renderGaps();
+      if (job.gapOpen[key]) $("gap-list").querySelector(`[data-gap="${CSS.escape(key)}"]`)?.focus();
+    });
+    nope.addEventListener("click", () => {
+      job.gapOpen[key] = state === "nope" ? undefined : "nope";
+      delete job.gapAnswers[key];
+      renderGaps();
+    });
+    li.append(el("div", "gap-actions", [have, nope]));
+
+    if (state === "have") {
+      const t = el("textarea", "gap-input");
+      t.rows = 2;
+      t.dataset.gap = key;
+      t.placeholder = has(g.question) ? g.question : `Contá tu experiencia con ${key}`;
+      t.value = job.gapAnswers[key] || "";
+      t.addEventListener("input", () => { job.gapAnswers[key] = t.value; updateGapsButton(); });
+      li.append(t);
+    } else if (state === "nope" && has(g.suggestion)) {
+      li.append(el("p", "gap-suggest", [el("strong", "", "Sugerencia: "), g.suggestion]));
+    }
+    return li;
+  }));
+  updateGapsButton();
+}
+function answeredGaps(job) {
+  return Object.entries(job.gapAnswers || {}).filter(([k, v]) => job.gapOpen?.[k] === "have" && has(v));
+}
+function updateGapsButton() {
+  const job = currentJob();
+  const n = job ? answeredGaps(job).length : 0;
+  $("gaps-apply").classList.toggle("hidden", n === 0);
+  $("gaps-apply-label").textContent = n > 1 ? `Actualizar CV con ${n} respuestas` : "Actualizar CV con tu respuesta";
+}
+$("gaps-apply").addEventListener("click", async () => {
+  const job = currentJob();
+  if (!job) return;
+  const answers = answeredGaps(job);
+  if (!answers.length) return;
+  const corrections = "Respuestas de la persona sobre lo que le faltaba al CV:\n" + answers.map(([k, v]) => `- ${k}: ${v.trim()}`).join("\n");
+  const ok = await applyRefine(job, corrections, { button: $("gaps-apply"), label: $("gaps-apply-label"), errorId: "gaps-error" });
+  if (ok) {
+    job.gapAnswers = {};
+    job.gapOpen = {};
+    if (job.id === selectedId) renderGaps();
+  }
+});
+
+// ---------- Corregir o agregar información con IA ----------
+$("refine-text").addEventListener("input", (e) => { const j = currentJob(); if (j) j.refineDraft = e.target.value; });
+
+/** Envía correcciones a la IA y reemplaza el CV del job. Devuelve true si salió bien. */
+async function applyRefine(job, corrections, { button, label, errorId }) {
+  showError(errorId, "");
+  const prevLabel = label.textContent;
+  button.disabled = true;
+  label.textContent = "Actualizando…";
+  $("preview").classList.add("updating");
+  try {
+    const res = await api("/api/refine", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cv: job.result, corrections, jobText: session.jobText, jobUrl: session.jobUrl, mode: session.mode, role: session.role, details: session.details, language: session.language }),
+    });
+    const data = await res.json().catch(() => ({ error: "Respuesta inválida del servidor." }));
+    if (!res.ok) throw new Error(data.error);
+    for (const k of ["linkedin", "website"]) {
+      if (data.contact?.[k]) data.contact[k] = data.contact[k].replace(/^https?:\/\/(www\.)?/i, "").replace(/\/$/, "");
+    }
+    (job.history ||= []).push(structuredClone(job.result));
+    job.result = data;
+    renderCards();
+    if (job.id === selectedId) {
+      renderDetail();
+      $("preview").classList.remove("flash");
+      void $("preview").offsetWidth;
+      $("preview").classList.add("flash");
+    }
+    return true;
+  } catch (err) {
+    showError(errorId, err.message || "No se pudo actualizar el CV.");
+    return false;
+  } finally {
+    button.disabled = false;
+    label.textContent = prevLabel;
+    $("preview").classList.remove("updating");
+  }
+}
+
+$("refine-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const job = currentJob();
+  const corrections = $("refine-text").value.trim();
+  showError("refine-error", "");
+  if (!job) return;
+  if (!corrections) return showError("refine-error", "Escribí qué querés corregir o agregar.");
+  $("refine-form").classList.add("busy");
+  const ok = await applyRefine(job, corrections, { button: $("refine-btn"), label: $("refine-label"), errorId: "refine-error" });
+  $("refine-form").classList.remove("busy");
+  if (ok) {
+    job.refineDraft = "";
+    if (job.id === selectedId) $("refine-text").value = "";
+  }
+});
+
+$("undo").addEventListener("click", () => {
+  const job = currentJob();
+  if (!job?.history?.length) return;
+  job.result = job.history.pop();
+  renderCards();
+  renderDetail();
+});
 function list(id, items) {
   $(id).replaceChildren(...(items || []).map((t) => el("li", "", t)));
 }
@@ -316,17 +487,28 @@ function renderPhoto() {
   $("photo-btn").classList.toggle("has", !!p);
   $("photo-pick").textContent = p ? "Cambiar" : "Agregar";
   $("photo-remove").classList.toggle("hidden", !p);
+  $("photo-note").classList.toggle("hidden", !(p && job?.photoFromCv));
+}
+/** Recorte cuadrado (en fotos verticales, un poco más arriba para no cortar la cara) sobre fondo blanco. */
+function squareJpeg(source, w, h) {
+  const s = Math.min(w, h);
+  const sx = (w - s) / 2;
+  const sy = h > w ? (h - s) * 0.25 : (h - s) / 2;
+  const c = document.createElement("canvas");
+  c.width = c.height = Math.min(600, s);
+  const ctx = c.getContext("2d");
+  ctx.fillStyle = "#fff";
+  ctx.fillRect(0, 0, c.width, c.height);
+  ctx.drawImage(source, sx, sy, s, s, 0, 0, c.width, c.height);
+  return c.toDataURL("image/jpeg", 0.9);
 }
 function cropSquare(file) {
   return new Promise((resolve, reject) => {
     const img = new Image();
     img.onload = () => {
-      const s = Math.min(img.width, img.height);
-      const c = document.createElement("canvas");
-      c.width = c.height = Math.min(600, s);
-      c.getContext("2d").drawImage(img, (img.width - s) / 2, (img.height - s) / 2, s, s, 0, 0, c.width, c.height);
+      const out = squareJpeg(img, img.width, img.height);
       URL.revokeObjectURL(img.src);
-      resolve(c.toDataURL("image/jpeg", 0.9));
+      resolve(out);
     };
     img.onerror = () => reject(new Error("No pude leer la imagen. Probá con JPG o PNG."));
     img.src = URL.createObjectURL(file);
@@ -335,13 +517,98 @@ function cropSquare(file) {
 const pickPhoto = () => $("photo-input").click();
 $("photo-btn").addEventListener("click", pickPhoto);
 $("photo-pick").addEventListener("click", pickPhoto);
-$("photo-remove").addEventListener("click", () => { const j = currentJob(); if (j) { j.photo = null; renderPhoto(); renderPreview(); } });
+$("photo-remove").addEventListener("click", () => { const j = currentJob(); if (j) { j.photo = null; j.photoFromCv = false; renderPhoto(); renderPreview(); } });
+
+// ---------- Foto incluida en el CV original (PDF) ----------
+const PDFJS = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/";
+let pdfjsPromise;
+const loadPdfjs = () =>
+  (pdfjsPromise ??= import(PDFJS + "pdf.min.mjs").then((m) => {
+    m.GlobalWorkerOptions.workerSrc = PDFJS + "pdf.worker.min.mjs";
+    return m;
+  }));
+
+/** Busca en la 1.ª página del PDF una imagen con forma y tamaño de foto de perfil. Devuelve un JPEG cuadrado o null. */
+async function extractPhotoFromPdf(file) {
+  try {
+    const pdfjs = await loadPdfjs();
+    const doc = await pdfjs.getDocument({ data: new Uint8Array(await file.arrayBuffer()) }).promise;
+    const page = await doc.getPage(1);
+    const [x0, y0, x1, y1] = page.view;
+    const pw = x1 - x0, ph = y1 - y0;
+    const { fnArray, argsArray } = await page.getOperatorList();
+    const O = pdfjs.OPS;
+    const mul = (m, n) => [
+      m[0] * n[0] + m[2] * n[1], m[1] * n[0] + m[3] * n[1],
+      m[0] * n[2] + m[2] * n[3], m[1] * n[2] + m[3] * n[3],
+      m[0] * n[4] + m[2] * n[5] + m[4], m[1] * n[4] + m[3] * n[5] + m[5],
+    ];
+    let ctm = [1, 0, 0, 1, 0, 0];
+    const stack = [];
+    const found = [];
+    fnArray.forEach((fn, i) => {
+      const args = argsArray[i];
+      if (fn === O.save) stack.push(ctm);
+      else if (fn === O.restore) ctm = stack.pop() || ctm;
+      else if (fn === O.transform) ctm = mul(ctm, args);
+      else if (fn === O.paintImageXObject || fn === O.paintInlineImageXObject) {
+        const w = Math.hypot(ctm[0], ctm[1]), h = Math.hypot(ctm[2], ctm[3]);
+        found.push({ ref: args[0], w, h });
+      }
+    });
+    // Tamaño de foto de perfil: ni ícono ni fondo de página, y forma aproximadamente cuadrada o vertical
+    const candidates = found
+      .filter(({ w, h }) => w >= 40 && h >= 40 && w < pw * 0.6 && h < ph * 0.5 && w / h > 0.55 && w / h < 1.6)
+      .sort((a, b) => b.w * b.h - a.w * a.h);
+    for (const c of candidates) {
+      const img = typeof c.ref === "string"
+        ? await new Promise((res) => (c.ref.startsWith("g_") ? page.commonObjs : page.objs).get(c.ref, res))
+        : c.ref;
+      const canvas = imageToCanvas(img);
+      if (canvas) return squareJpeg(canvas, canvas.width, canvas.height);
+    }
+  } catch (err) {
+    console.warn("No se pudo leer la foto del PDF:", err);
+  }
+  return null;
+}
+function imageToCanvas(img) {
+  if (!img?.width || !img?.height) return null;
+  const c = document.createElement("canvas");
+  c.width = img.width;
+  c.height = img.height;
+  const ctx = c.getContext("2d");
+  if (img.bitmap) {
+    ctx.drawImage(img.bitmap, 0, 0);
+    return c;
+  }
+  if (!img.data) return null;
+  const out = ctx.createImageData(img.width, img.height);
+  const px = img.width * img.height;
+  if (img.data.length === px * 4) out.data.set(img.data);
+  else if (img.data.length === px * 3) {
+    for (let i = 0, j = 0; i < px; i++, j += 3) {
+      out.data[i * 4] = img.data[j]; out.data[i * 4 + 1] = img.data[j + 1]; out.data[i * 4 + 2] = img.data[j + 2]; out.data[i * 4 + 3] = 255;
+    }
+  } else return null;
+  ctx.putImageData(out, 0, 0);
+  return c;
+}
+function grabPhotoFromCv(job) {
+  if (!/\.pdf$/i.test(job.file.name)) return;
+  extractPhotoFromPdf(job.file).then((p) => {
+    if (!p || job.photo) return;
+    job.photo = p;
+    job.photoFromCv = true;
+    if (job.id === selectedId) { renderPhoto(); renderPreview(); }
+  });
+}
 $("photo-input").addEventListener("change", async (e) => {
   const f = e.target.files[0];
   e.target.value = "";
   const j = currentJob();
   if (!f || !j) return;
-  try { j.photo = await cropSquare(f); showError("pdf-error", ""); renderPhoto(); renderPreview(); }
+  try { j.photo = await cropSquare(f); j.photoFromCv = false; showError("pdf-error", ""); renderPhoto(); renderPreview(); }
   catch (err) { showError("pdf-error", err.message); }
 });
 

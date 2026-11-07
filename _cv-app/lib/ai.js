@@ -40,6 +40,16 @@ const CV_SCHEMA = obj({
     match_after: { type: "integer" },
     keywords_matched: strList,
     keywords_missing: strList,
+    gaps: {
+      type: "array",
+      items: obj({
+        requirement: str,
+        points: { type: "integer" },
+        why: str,
+        question: str,
+        suggestion: str,
+      }),
+    },
     changes: strList,
     tips: strList,
   }),
@@ -67,6 +77,13 @@ Estilo Harvard:
 Análisis (en español, para la persona):
 - match_before / match_after: porcentaje 0–100 estimado de compatibilidad con la oferta antes y después de adaptar (sé realista).
 - keywords_matched: palabras clave de la oferta que el CV adaptado cubre. keywords_missing: requisitos de la oferta que el CV no respalda.
+- gaps: lo que le falta al CV adaptado para llegar al 100%, ordenado de mayor a menor impacto (máximo 6). Cada uno:
+  - requirement: el requisito o aspecto, corto (ej. "SQL", "Métricas de resultados", "Inglés avanzado").
+  - points: cuántos puntos de porcentaje sumaría si el CV lo cubriera. La suma de todos los points debe ser igual a 100 − match_after.
+  - why: por qué resta, en una frase (ej. "La oferta lo pide como requisito excluyente").
+  - question: una pregunta directa a la persona para completarlo, en segunda persona (ej. "¿Usaste SQL? ¿Dónde y para qué?").
+  - suggestion: qué hacer si no lo tiene, de forma honesta (curso, proyecto, portfolio, cómo mencionarlo en la entrevista).
+  Incluí también aspectos de redacción que restan (ej. falta de cifras o resultados medibles) cuando apliquen. Si match_after es 100, gaps va vacío.
 - changes: lista breve de los cambios concretos que hiciste. tips: 2–4 consejos accionables para la postulación.`;
 
 let client;
@@ -85,6 +102,24 @@ const hasGemini = () => Boolean(process.env.GEMINI_API_KEY);
 
 export function isConfigured() {
   return hasGemini() || hasClaude();
+}
+
+/**
+ * Objetivo cuando no hay una oferta concreta: un puesto en general.
+ * Se usa en lugar del texto de la oferta.
+ */
+export function generalTarget(role, details) {
+  const target = role
+    ? `Puesto objetivo: ${role}`
+    : `Puesto objetivo: no fue indicado. Deducilo del propio CV: el rol más coherente con la experiencia, la formación y las herramientas de la persona (con su nivel de seniority real). No elijas un puesto que el CV no respalde.`;
+  return `MODO PUESTO EN GENERAL: no hay una oferta específica.
+${target}
+${details ? `Detalles que indicó la persona (rubro, nivel, país, foco): ${details}\n` : ""}
+Adaptá el CV para postularse a ofertas de ese puesto en general:
+- Usá el vocabulario, las competencias y las herramientas que habitualmente piden las ofertas de ese puesto en el mercado${details ? " y según los detalles indicados" : ""}, siempre respaldado por el CV.
+- Si el idioma pedido es "auto", escribí el CV en el mismo idioma del CV original.
+- El perfil profesional debe presentar a la persona para ese rol, sin mencionar empresas a las que se postula.
+- En el análisis: job_title = el puesto objetivo (el indicado o el que dedujiste del CV), company = "" (vacío). match_before / match_after: compatibilidad estimada con una oferta típica de ese puesto. keywords_matched / keywords_missing: competencias y herramientas típicas de ese puesto que el CV cubre o no. tips: consejos para buscar y postularse a ese tipo de puesto.`;
 }
 
 /** Texto del pedido (igual para cualquier proveedor). */
@@ -106,6 +141,31 @@ export async function adaptCv(input) {
     return adaptCvGemini(input);
   }
   return adaptCvClaude(input);
+}
+
+/**
+ * Aplica correcciones de la persona sobre un CV ya adaptado y recalcula el análisis.
+ * @param {{cv: object, corrections: string, jobText: string, jobUrl?: string, language: string}} input
+ */
+export async function refineCv({ cv, corrections, jobText, jobUrl, language }) {
+  const { analysis, ...cvData } = cv;
+  const cvText = `<cv_adaptado_actual formato="json">
+${JSON.stringify(cvData, null, 2)}
+</cv_adaptado_actual>
+
+<correcciones_de_la_persona>
+${corrections}
+</correcciones_de_la_persona>
+
+INSTRUCCIONES PARA ESTA ETAPA:
+- Partí del CV adaptado actual y aplicá las correcciones de la persona. Son hechos verídicos que ella misma confirma: tienen prioridad sobre la regla de "datos fijos" y podés usarlos aunque no estuvieran en el CV original (puestos, fechas, herramientas, logros, experiencia nueva).
+- Mantené todo lo demás igual salvo lo necesario para integrar bien las correcciones (orden, viñetas, perfil, habilidades).
+- No inventes nada más allá de lo que la persona dice.
+- Recalculá el análisis: match_after, keywords_matched, keywords_missing, gaps y tips según el CV corregido. Lo que la persona ya cubrió con sus respuestas no debe seguir en gaps. En "changes" listá solo los cambios hechos en esta corrección.`;
+  const result = await adaptCv({ cvText, jobText, jobUrl, language: language === "auto" ? cv.language || "auto" : language });
+  // "Antes" se refiere siempre al CV original
+  if (result.analysis && Number.isFinite(analysis?.match_before)) result.analysis.match_before = analysis.match_before;
+  return result;
 }
 
 async function adaptCvClaude({ cvPdfBase64, cvText, jobText, jobUrl, language }) {

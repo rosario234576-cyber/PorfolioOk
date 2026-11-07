@@ -67,10 +67,35 @@
       <div class="step">
         <span class="step-num">02</span>
         <div class="step-body">
-          <h2 class="step-title"><label for="job-url">La oferta laboral</label></h2>
-          <input id="job-url" type="url" placeholder="https://www.linkedin.com/jobs/view/…" autocomplete="off" />
-          <button type="button" id="toggle-text" class="link">¿El link pide iniciar sesión? Pegá la descripción del puesto</button>
-          <textarea id="job-text" class="hidden" rows="7" placeholder="Pegá acá el texto completo de la oferta (requisitos, responsabilidades, etc.)"></textarea>
+          <h2 class="step-title">El objetivo</h2>
+          <div class="seg" role="tablist" aria-label="Tipo de adaptación">
+            <button type="button" class="seg-btn active" role="tab" aria-selected="true" data-mode="offer">Oferta específica</button>
+            <button type="button" class="seg-btn" role="tab" aria-selected="false" data-mode="general">Puesto en general</button>
+          </div>
+
+          <div id="mode-offer">
+            <label for="job-url" class="sr-only">Link de la oferta</label>
+            <input id="job-url" type="url" placeholder="https://www.linkedin.com/jobs/view/…" autocomplete="off" />
+            <button type="button" id="toggle-text" class="link">¿El link pide iniciar sesión? Pegá la descripción del puesto</button>
+            <textarea id="job-text" class="hidden" rows="7" placeholder="Pegá acá el texto completo de la oferta (requisitos, responsabilidades, etc.)"></textarea>
+          </div>
+
+          <div id="mode-general" class="hidden">
+            <label for="role" class="sr-only">Puesto</label>
+            <input id="role" type="text" placeholder="Opcional: el puesto (si lo dejás vacío, la IA lo toma de cada CV)" autocomplete="off" list="role-ideas" />
+            <datalist id="role-ideas">
+              <option value="Diseñador/a gráfico/a"></option>
+              <option value="Director/a de arte"></option>
+              <option value="Community manager"></option>
+              <option value="Analista de marketing digital"></option>
+              <option value="Diseñador/a UX/UI"></option>
+              <option value="Editor/a de video"></option>
+              <option value="Fotógrafo/a"></option>
+              <option value="Ejecutivo/a de cuentas"></option>
+            </datalist>
+            <textarea id="role-details" rows="3" placeholder="Opcional: rubro, nivel, país o lo que quieras destacar. Ej.: agencias de publicidad en Argentina, nivel semi senior, foco en branding."></textarea>
+            <p class="hint-line">Sin oferta concreta: la IA detecta el puesto de cada CV (o usa el que escribas) y lo optimiza con lo que suelen pedir las ofertas de ese rol. Ideal para varios CVs de perfiles distintos.</p>
+          </div>
         </div>
       </div>
 
@@ -80,7 +105,7 @@
           <div>
             <h2 class="step-title"><label for="language">Idioma</label></h2>
             <select id="language">
-              <option value="auto">Igual que la oferta</option>
+              <option value="auto">Automático</option>
               <option value="es">Español</option>
               <option value="en">English</option>
               <option value="pt">Português</option>
@@ -135,12 +160,22 @@
       <aside class="side">
         <div class="panel side-card">
           <p class="side-name" id="side-name"></p>
+          <p class="side-role hidden" id="side-role"></p>
           <div class="score">
             <div><span class="score-num muted" id="score-before">–</span><span class="score-label">Antes</span></div>
             <span class="score-arrow" aria-hidden="true">→</span>
             <div><span class="score-num orange" id="score-after">–</span><span class="score-label">Después</span></div>
           </div>
-          <p class="tiny">Compatibilidad estimada con la oferta</p>
+          <p class="tiny" id="score-caption">Compatibilidad estimada con la oferta</p>
+          <div class="meter" aria-hidden="true"><span id="meter-fill"></span></div>
+
+          <div id="gaps" class="gaps hidden">
+            <h3>Para llegar al 100% <span id="gaps-left" class="gaps-left"></span></h3>
+            <p class="small-hint">Si tenés alguno de estos puntos, tocá «Lo tengo», contalo y actualizá el CV antes de descargarlo.</p>
+            <ul id="gap-list" class="gap-list"></ul>
+            <button type="button" id="gaps-apply" class="btn-cta small-cta full-w hidden"><span id="gaps-apply-label">Actualizar CV</span><span class="cta-arrow small" aria-hidden="true">↻</span></button>
+            <p id="gaps-error" class="error hidden" role="alert"></p>
+          </div>
 
           <div class="photo-row">
             <button type="button" id="photo-btn" class="photo-slot" aria-label="Agregar foto">
@@ -149,6 +184,7 @@
             </button>
             <div class="photo-text">
               <strong>Foto (opcional)</strong>
+              <span id="photo-note" class="photo-note hidden">Tomada de tu CV original</span>
               <div class="photo-actions">
                 <button type="button" id="photo-pick" class="link">Agregar</button>
                 <button type="button" id="photo-remove" class="link hidden">Quitar</button>
@@ -164,9 +200,18 @@
         <div class="panel side-card">
           <h3>Palabras clave cubiertas</h3>
           <div id="kw-matched" class="chips"></div>
-          <h3>Requisitos que el CV no muestra</h3>
-          <div id="kw-missing" class="chips missing"></div>
         </div>
+
+        <form id="refine-form" class="panel side-card refine">
+          <h3><label for="refine-text">Corregir o agregar información</label></h3>
+          <p class="small-hint">Contale a la IA qué está mal o qué falta, y actualiza el CV y la compatibilidad. Para cambios chicos, también podés tocar el texto en la vista previa.</p>
+          <textarea id="refine-text" rows="5" placeholder="Ej.: En Plan Futuro mi puesto era Diseñadora Senior. También uso After Effects hace 2 años para animar piezas de redes."></textarea>
+          <p id="refine-error" class="error hidden" role="alert"></p>
+          <div class="refine-actions">
+            <button type="submit" id="refine-btn" class="btn-cta small-cta"><span id="refine-label">Aplicar con IA</span><span class="cta-arrow small" aria-hidden="true">↻</span></button>
+            <button type="button" id="undo" class="btn-ghost small hidden">Deshacer</button>
+          </div>
+        </form>
 
         <div class="panel side-card">
           <h3>Qué cambió</h3>
