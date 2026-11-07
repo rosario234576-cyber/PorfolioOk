@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CV a Medida · Inkkstudio</title>
+<link rel="icon" type="image/png" href="brand/favicon-gato.png" />
+<link rel="preload" href="brand/RocGroteskCondensedExtraBold.woff2" as="font" type="font/woff2" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css?v=2" />
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="topbar">
+  <a class="brand" href="/" aria-label="Inkkstudio · CV a Medida">
+    <img class="brand-cat" src="brand/gato.webp" alt="" />
+    <img class="brand-word" src="brand/LogoBlanco.webp" alt="Inkkstudio" />
+  </a>
+  <div class="topbar-right">
+    <span class="topbar-tag">CV a Medida <span class="dot"></span> Formato Harvard</span>
+    <button id="logout" class="btn-ghost small hidden" type="button">Salir</button>
+  </div>
+</header>
+
+<main>
+  <!-- INGRESO -->
+  <section id="login-view" class="view hidden">
+    <form id="login-form" class="panel login">
+      <img src="brand/Sello.webp" alt="" class="login-seal" />
+      <div class="kicker"><span class="pill tilt">Privado</span><span>Herramienta interna</span></div>
+      <h1 class="title small center"><span>CV A <span class="orange">MEDIDA</span></span></h1>
+      <label for="login-code" class="sr-only">Clave de acceso</label>
+      <input id="login-code" type="password" placeholder="Clave de acceso" autocomplete="current-password" required />
+      <p id="login-error" class="error hidden" role="alert"></p>
+      <button type="submit" class="btn-cta"><span>Entrar</span><span class="cta-arrow" aria-hidden="true">→</span></button>
+    </form>
+  </section>
+
+  <!-- FORMULARIO -->
+  <section id="form-view" class="view hidden">
+    <div class="hero">
+      <div class="kicker"><span class="pill tilt">2026</span><span>Adaptación de CVs · ATS · Formato Harvard</span></div>
+      <h1 class="title">
+        <span>CV A</span>
+        <span class="orange">MEDIDA</span>
+        <img class="hero-seal" src="brand/Sello.webp" alt="" aria-hidden="true" />
+      </h1>
+      <p class="lead">Soltá uno o varios CVs, pegá el link del puesto y recibí cada uno reescrito con las palabras clave que busca el reclutador. Sin inventar nada.</p>
+    </div>
+
+    <form id="adapt-form" class="panel">
+      <div class="step">
+        <span class="step-num">01</span>
+        <div class="step-body">
+          <h2 class="step-title">Los CVs</h2>
+          <label id="dropzone" class="dropzone">
+            <input type="file" id="cv-input" accept=".pdf,.docx,.txt,.md" multiple hidden />
+            <img src="brand/gato.webp" alt="" class="drop-cat" />
+            <strong>Arrastrá los CVs acá</strong>
+            <span>o hacé clic para elegirlos · PDF, DOCX o TXT · hasta 15</span>
+          </label>
+          <ul id="file-list" class="file-list"></ul>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="step-num">02</span>
+        <div class="step-body">
+          <h2 class="step-title">El objetivo</h2>
+          <div class="seg" role="tablist" aria-label="Tipo de adaptación">
+            <button type="button" class="seg-btn active" role="tab" aria-selected="true" data-mode="offer">Oferta específica</button>
+            <button type="button" class="seg-btn" role="tab" aria-selected="false" data-mode="general">Puesto en general</button>
+          </div>
+
+          <div id="mode-offer">
+            <label for="job-url" class="sr-only">Link de la oferta</label>
+            <input id="job-url" type="url" placeholder="https://www.linkedin.com/jobs/view/…" autocomplete="off" />
+            <button type="button" id="toggle-text" class="link">¿El link pide iniciar sesión? Pegá la descripción del puesto</button>
+            <textarea id="job-text" class="hidden" rows="7" placeholder="Pegá acá el texto completo de la oferta (requisitos, responsabilidades, etc.)"></textarea>
+          </div>
+
+          <div id="mode-general" class="hidden">
+            <label for="role" class="sr-only">Puesto</label>
+            <input id="role" type="text" placeholder="Opcional: el puesto (si lo dejás vacío, la IA lo toma de cada CV)" autocomplete="off" list="role-ideas" />
+            <datalist id="role-ideas">
+              <option value="Diseñador/a gráfico/a"></option>
+              <option value="Director/a de arte"></option>
+              <option value="Community manager"></option>
+              <option value="Analista de marketing digital"></option>
+              <option value="Diseñador/a UX/UI"></option>
+              <option value="Editor/a de video"></option>
+              <option value="Fotógrafo/a"></option>
+              <option value="Ejecutivo/a de cuentas"></option>
+            </datalist>
+            <textarea id="role-details" rows="3" placeholder="Opcional: rubro, nivel, país o lo que quieras destacar. Ej.: agencias de publicidad en Argentina, nivel semi senior, foco en branding."></textarea>
+            <p class="hint-line">Sin oferta concreta: la IA detecta el puesto de cada CV (o usa el que escribas) y lo optimiza con lo que suelen pedir las ofertas de ese rol. Ideal para varios CVs de perfiles distintos.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="step-num">03</span>
+        <div class="step-body options">
+          <div>
+            <h2 class="step-title"><label for="language">Idioma</label></h2>
+            <select id="language">
+              <option value="auto">Automático</option>
+              <option value="es">Español</option>
+              <option value="en">English</option>
+              <option value="pt">Português</option>
+            </select>
+          </div>
+          <div>
+            <h2 class="step-title"><label for="paper">Hoja</label></h2>
+            <select id="paper">
+              <option value="a4">A4</option>
+              <option value="letter">Carta (EE. UU.)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <p id="form-error" class="error hidden" role="alert"></p>
+      <button type="submit" id="submit" class="btn-cta">
+        <span id="submit-label">Adaptar CVs</span>
+        <span class="cta-arrow" aria-hidden="true">↗</span>
+      </button>
+    </form>
+    <p id="key-warning" class="warning hidden">Falta configurar la clave de API: copiá <code>.env.example</code> como <code>.env</code>, pegá tu clave de Gemini y reiniciá la app.</p>
+  </section>
+
+  <!-- RESULTADOS -->
+  <section id="result-view" class="view hidden">
+    <div class="results-head">
+      <div>
+        <div class="kicker"><span class="pill tilt" id="progress-pill">0 / 0</span><span id="job-meta">Analizando la oferta</span></div>
+        <h1 class="title small"><span>RESULTADOS</span></h1>
+      </div>
+      <div class="results-actions">
+        <button id="download-all" class="btn-ghost" disabled>Descargar todos</button>
+        <button id="restart" class="btn-ghost">Nueva búsqueda</button>
+      </div>
+    </div>
+
+    <ul id="cards" class="cards"></ul>
+
+    <div id="detail-empty" class="panel empty-state">
+      <img src="brand/Sello.webp" alt="" class="seal-spin" />
+      <h2>Analizando CVs…</h2>
+      <p>Cada CV tarda entre 30 y 90 segundos. Podés abrir cada uno apenas esté listo.</p>
+    </div>
+
+    <div id="detail" class="detail hidden">
+      <div class="preview-col">
+        <p class="hint">Vista previa · hacé clic en cualquier texto para editarlo</p>
+        <article id="preview" class="paper"></article>
+      </div>
+
+      <aside class="side">
+        <div class="panel side-card">
+          <p class="side-name" id="side-name"></p>
+          <p class="side-role hidden" id="side-role"></p>
+          <div class="score">
+            <div><span class="score-num muted" id="score-before">–</span><span class="score-label">Antes</span></div>
+            <span class="score-arrow" aria-hidden="true">→</span>
+            <div><span class="score-num orange" id="score-after">–</span><span class="score-label">Después</span></div>
+          </div>
+          <p class="tiny" id="score-caption">Compatibilidad estimada con la oferta</p>
+          <div class="meter" aria-hidden="true"><span id="meter-fill"></span></div>
+
+          <div id="gaps" class="gaps hidden">
+            <h3>Para llegar al 100% <span id="gaps-left" class="gaps-left"></span></h3>
+            <p class="small-hint">Si tenés alguno de estos puntos, tocá «Lo tengo», contalo y actualizá el CV antes de descargarlo.</p>
+            <ul id="gap-list" class="gap-list"></ul>
+            <button type="button" id="gaps-apply" class="btn-cta small-cta full-w hidden"><span id="gaps-apply-label">Actualizar CV</span><span class="cta-arrow small" aria-hidden="true">↻</span></button>
+            <p id="gaps-error" class="error hidden" role="alert"></p>
+          </div>
+
+          <div class="photo-row">
+            <button type="button" id="photo-btn" class="photo-slot" aria-label="Agregar foto">
+              <img id="photo-img" class="hidden" alt="Foto" />
+              <svg id="photo-ph" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            </button>
+            <div class="photo-text">
+              <strong>Foto (opcional)</strong>
+              <span id="photo-note" class="photo-note hidden">Tomada de tu CV original</span>
+              <div class="photo-actions">
+                <button type="button" id="photo-pick" class="link">Agregar</button>
+                <button type="button" id="photo-remove" class="link hidden">Quitar</button>
+              </div>
+            </div>
+            <input type="file" id="photo-input" accept="image/jpeg,image/png,image/webp" hidden />
+          </div>
+
+          <button id="download" class="btn-cta full"><span>Descargar PDF</span><span class="cta-arrow" aria-hidden="true">↓</span></button>
+          <p id="pdf-error" class="error hidden" role="alert"></p>
+        </div>
+
+        <div class="panel side-card">
+          <h3>Palabras clave cubiertas</h3>
+          <div id="kw-matched" class="chips"></div>
+        </div>
+
+        <form id="refine-form" class="panel side-card refine">
+          <h3><label for="refine-text">Corregir o agregar información</label></h3>
+          <p class="small-hint">Contale a la IA qué está mal o qué falta, y actualiza el CV y la compatibilidad. Para cambios chicos, también podés tocar el texto en la vista previa.</p>
+          <textarea id="refine-text" rows="5" placeholder="Ej.: En Plan Futuro mi puesto era Diseñadora Senior. También uso After Effects hace 2 años para animar piezas de redes."></textarea>
+          <p id="refine-error" class="error hidden" role="alert"></p>
+          <div class="refine-actions">
+            <button type="submit" id="refine-btn" class="btn-cta small-cta"><span id="refine-label">Aplicar con IA</span><span class="cta-arrow small" aria-hidden="true">↻</span></button>
+            <button type="button" id="undo" class="btn-ghost small hidden">Deshacer</button>
+          </div>
+        </form>
+
+        <div class="panel side-card">
+          <h3>Qué cambió</h3>
+          <ul id="changes" class="list"></ul>
+          <h3>Consejos para postularse</h3>
+          <ul id="tips" class="list"></ul>
+        </div>
+      </aside>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <img src="brand/gato.webp" alt="" /> Hecho por <strong>Inkkstudio</strong>
+</footer>
+
+<script src="app.js?v=2"></script>
+</body>
+</html>
