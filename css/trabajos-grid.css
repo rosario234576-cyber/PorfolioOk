@@ -1,0 +1,44 @@
+/* Galería de trabajos: mosaico único con filtro por marca */
+.tg .tg-filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}
+.tg .tg-filters button{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border:1px solid rgba(241,238,231,.18);border-radius:999px;background:rgba(241,238,231,.04);color:#f1eee7;font:800 12px/1 "Roc Grotesk Condensed ExtraBold",Roc,Impact,sans-serif;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background .25s,border-color .25s,color .25s,transform .2s}
+.tg .tg-filters button span{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:rgba(241,238,231,.1);font-size:11px;color:rgba(241,238,231,.75)}
+.tg .tg-filters button:hover{border-color:#eb5b30;transform:translateY(-1px)}
+.tg .tg-filters button[aria-pressed="true"]{background:#eb5b30;border-color:#eb5b30;color:#101513}
+.tg .tg-filters button[aria-pressed="true"] span{background:rgba(16,21,19,.18);color:#101513}
+.tg .tg-story{max-width:640px;margin:0 0 22px;font-size:14px;line-height:1.6;color:rgba(241,238,231,.72)}
+.tg .tg-story[hidden]{display:none}
+
+.tg .tg-grid{columns:4 230px;column-gap:12px}
+.tg .tg-card{position:relative;display:block;margin:0 0 12px;break-inside:avoid;border-radius:12px;overflow:hidden;background:#1b1f1d;cursor:zoom-in;opacity:0;transform:translateY(18px);transition:opacity .5s ease,transform .5s cubic-bezier(.22,1,.36,1);transition-delay:var(--card-delay,0ms)}
+.tg .tg-grid.is-ready .tg-card{opacity:1;transform:none}
+.tg .tg-card img{display:block;width:100%;height:auto;transition:transform .7s cubic-bezier(.22,1,.36,1)}
+.tg .tg-card:hover img{transform:scale(1.04)}
+.tg .tg-card figcaption{position:absolute;left:0;right:0;bottom:0;display:flex;justify-content:space-between;align-items:flex-end;gap:10px;padding:34px 12px 10px;background:linear-gradient(180deg,rgba(16,21,19,0),rgba(16,21,19,.88));color:#f1eee7;opacity:0;transform:translateY(6px);transition:opacity .3s,transform .3s}
+.tg .tg-card:hover figcaption,.tg .tg-card:focus-within figcaption{opacity:1;transform:none}
+.tg .tg-card figcaption b{font:800 13px/1.1 "Roc Grotesk Condensed ExtraBold",Roc,Impact,sans-serif;text-transform:uppercase}
+.tg .tg-card figcaption span{font:700 10px/1.2 Arial,sans-serif;letter-spacing:.04em;text-transform:uppercase;color:#eb5b30;text-align:right}
+
+.tg .tg-more-wrap{display:flex;justify-content:center;margin-top:18px}
+.tg .tg-more-wrap[hidden]{display:none}
+.tg .tg-more{display:inline-flex;align-items:center;gap:12px;padding:15px 24px;border:1px solid #eb5b30;border-radius:999px;background:rgba(235,91,48,.1);color:#f1eee7;font:800 12px/1 "Roc Grotesk Condensed ExtraBold",Roc,Impact,sans-serif;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .25s,color .25s}
+.tg .tg-more span{color:#eb5b30}
+.tg .tg-more:hover{background:#eb5b30;color:#101513}
+.tg .tg-more:hover span{color:#101513}
+
+@media(hover:none){.tg .tg-card figcaption{opacity:1;transform:none;padding-top:24px}}
+@media(max-width:760px){
+  .tg .tg-filters{flex-wrap:nowrap;overflow-x:auto;margin-left:-17px;margin-right:-17px;padding:0 17px 4px;scrollbar-width:none}
+  .tg .tg-filters::-webkit-scrollbar{display:none}
+  .tg .tg-filters button{flex:0 0 auto}
+  .tg .tg-grid{columns:2;column-gap:8px}
+  .tg .tg-card{margin-bottom:8px;border-radius:10px}
+  .tg .tg-card figcaption b{font-size:11px}
+  .tg .tg-card figcaption span{display:none}
+}
+
+/* Anula estilos de la galería anterior */
+.tg .tg-card{flex:none;border:0;animation:none;scroll-snap-align:none}
+.tg .tg-card:hover{transform:none;border-color:transparent}
+.tg .tg-grid.is-ready .tg-card:hover{transform:translateY(-3px)}
+.tg .tg-card img{max-height:none;object-fit:initial;filter:none}
+.tg .tg-card figcaption{border-radius:0;font-family:inherit;font-size:inherit;white-space:normal}
