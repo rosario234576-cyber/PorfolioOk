@@ -1,0 +1,58 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Concepto C · Pantalla dividida</title><link rel="stylesheet" href="base.css">
+<style>
+body{background:var(--ink);color:var(--paper)}
+.split{display:grid;grid-template-columns:1fr 1fr;height:100vh;min-height:720px}
+.left{position:relative;background:var(--o);color:var(--ink);padding:28px 40px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden}
+.left header{display:flex;justify-content:space-between;align-items:center;font:800 13px/1 var(--d);letter-spacing:.12em;text-transform:uppercase}
+.left header .l{display:flex;align-items:center;gap:10px}.left header img{width:36px;background:var(--ink);border-radius:50%;padding:4px}
+.left header nav{display:flex;gap:22px}
+.left h1{margin:0;font:800 clamp(80px,10.4vw,170px)/.8 var(--d);text-transform:uppercase;letter-spacing:-.02em}
+.left h1 .out{color:transparent;-webkit-text-stroke:2px var(--ink)}
+.left h1 .w{color:var(--paper)}
+.left .foot{display:flex;justify-content:space-between;align-items:flex-end;gap:20px}
+.left .foot p{margin:0;max-width:330px;font-size:16px;font-weight:500}
+.left .btn{display:inline-flex;align-items:center;gap:10px;padding:18px 24px;border-radius:999px;background:var(--ink);color:var(--paper);font:800 13px/1 var(--d);letter-spacing:.1em;text-transform:uppercase}
+.right{position:relative;overflow:hidden;background:#000}
+.right img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.92}
+.right::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,.65))}
+.right .cap{position:absolute;left:30px;right:30px;bottom:28px;z-index:2;display:flex;justify-content:space-between;align-items:flex-end}
+.right .cap b{font:800 12px/1 var(--d);letter-spacing:.16em;text-transform:uppercase;color:var(--o)}
+.right .cap h2{margin:8px 0 0;font:800 46px/.9 var(--d);text-transform:uppercase}
+.right .count{font:800 14px/1 var(--d);letter-spacing:.12em}
+.right .bars{position:absolute;top:24px;left:30px;right:30px;z-index:2;display:flex;gap:6px}
+.right .bars i{flex:1;height:3px;background:rgba(255,255,255,.3);border-radius:3px;overflow:hidden}.right .bars i:first-child{background:var(--paper)}.right .bars i:nth-child(2)::after{content:"";display:block;width:45%;height:100%;background:var(--paper)}
+.cat{position:absolute;left:calc(50% - 75px);top:50%;width:150px;z-index:5;transform:translateY(-50%) rotate(-8deg);filter:drop-shadow(0 20px 30px rgba(0,0,0,.6))}
+.reel{padding:70px 0 80px;overflow:hidden}
+.reel .h{display:flex;justify-content:space-between;align-items:flex-end;padding:0 40px 30px}
+.reel h3{margin:0;font:800 80px/.85 var(--d);text-transform:uppercase}
+.reel h3 em{display:block}
+.reel .h span{font:800 13px/1 var(--d);letter-spacing:.12em;text-transform:uppercase;opacity:.6}
+.strip{display:flex;gap:18px;padding-left:40px}
+.card{flex:0 0 360px;position:relative}
+.card .im{height:450px;border-radius:14px;overflow:hidden}.card img{width:100%;height:100%;object-fit:cover}
+.card b{position:absolute;top:-34px;left:8px;font:800 110px/1 var(--d);color:transparent;-webkit-text-stroke:1.5px var(--o);z-index:2}
+.card h4{margin:14px 0 0;font:800 26px/1 var(--d);text-transform:uppercase}.card small{opacity:.6}
+</style></head><body>
+<section class="split">
+  <div class="left">
+    <header><div class="l"><img src="../assets/opt/gato.webp" alt="">Inkkstudios</div><nav><span>Sobre mí</span><span>Trabajos</span><span>Contacto ↗</span></nav></header>
+    <h1>Diseño<br><span class="out">que se</span><br><span class="w">hace ver.</span></h1>
+    <div class="foot"><p>Rosario Fernández · diseñadora gráfica en Buenos Aires. Piezas, webs, packaging y video para marcas de Latinoamérica.</p><span class="btn">Ver trabajos ↓</span></div>
+  </div>
+  <div class="right">
+    <img class="bg" src="../assets/opt/Trabajos/Fotografia/MaximusGaming/9.webp" alt="">
+    <div class="bars"><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="cap"><div><b>Fotografía de producto</b><h2>Maximus Gaming</h2></div><span class="count">02 / 05</span></div>
+  </div>
+  <img class="cat" src="../assets/opt/Gatoastro.webp" alt="">
+</section>
+<section class="reel">
+  <div class="h"><h3>Trabajo<em>seleccionado</em></h3><span>arrastrá →</span></div>
+  <div class="strip">
+    <div class="card"><b>01</b><div class="im"><img src="../assets/opt/Trabajos/Graficas de redes/ZonaDelVerde/1.webp" alt=""></div><h4>Zona del Verde</h4><small>Diseño de piezas · Ecuador</small></div>
+    <div class="card"><b>02</b><div class="im"><img src="../assets/opt/proyectos/CampanasAds/CampañaPuertoMontt/Post/101.webp" alt=""></div><h4>Invesmar</h4><small>Campaña Meta Ads · Chile</small></div>
+    <div class="card"><b>03</b><div class="im"><img src="../assets/opt/Trabajos/Packaging, Cartelería/Packaging/Packaging1/Mock_Up_Elegido/2.webp" alt=""></div><h4>bmh</h4><small>Packaging · Argentina</small></div>
+    <div class="card"><b>04</b><div class="im"><img src="../assets/opt/Trabajos/Fotografia/ArvelCustom/1.webp" alt=""></div><h4>Arvel Custom</h4><small>Fotografía · Argentina</small></div>
+  </div>
+</section>
+</body></html>

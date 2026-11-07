@@ -1,0 +1,45 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Concepto B · Mesa de trabajo</title><link rel="stylesheet" href="base.css">
+<style>
+body{background:var(--ink);color:var(--paper)}
+.board{position:relative;height:100vh;min-height:760px;overflow:hidden;background:radial-gradient(circle at 50% 45%,#1d2523,#0b0f0e 70%);}
+.board::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(243,239,232,.08) 1px,transparent 1px);background-size:22px 22px}
+.nav{position:absolute;top:22px;left:50%;transform:translateX(-50%);z-index:20;display:flex;gap:6px;padding:6px;border-radius:999px;background:var(--paper);color:var(--ink);font:800 13px/1 var(--d);letter-spacing:.1em;text-transform:uppercase;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.nav span{padding:12px 16px;border-radius:999px}.nav span:first-child{background:var(--ink);color:var(--paper);display:flex;align-items:center;gap:8px}.nav img{width:20px}.nav span:last-child{background:var(--o)}
+.title{position:absolute;inset:0;display:grid;place-items:center;text-align:center;z-index:5;pointer-events:none}
+.title h1{margin:0;font:800 clamp(90px,15vw,240px)/.8 var(--d);text-transform:uppercase;letter-spacing:-.02em}
+.title h1 span{display:block;color:var(--o)}
+.title p{margin:22px auto 0;background:rgba(13,18,17,.6);padding:4px 10px;border-radius:8px;max-width:430px;font-size:17px;color:rgba(243,239,232,.7)}
+.title .hand{font:800 22px/1 var(--d);letter-spacing:.14em;text-transform:uppercase;color:var(--paper);background:var(--o);color:var(--ink);padding:10px 14px;border-radius:999px;transform:rotate(-4deg);display:inline-block;margin-bottom:6px}
+.pol{position:absolute;z-index:3;padding:10px 10px 34px;background:#fbf8f2;border-radius:4px;box-shadow:0 25px 45px -15px rgba(0,0,0,.8);cursor:grab;transition:transform .4s}
+.pol:hover{transform:rotate(0) scale(1.06)!important;z-index:9}
+.pol img{width:100%;height:100%;object-fit:cover}
+.pol i{position:absolute;bottom:9px;left:12px;font:800 12px/1 var(--d);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);font-style:normal}
+.pol::before{content:"";position:absolute;top:-12px;left:50%;width:80px;height:24px;margin-left:-40px;background:rgba(235,91,48,.75);transform:rotate(-4deg)}
+.p1{left:4%;top:16%;width:220px;height:290px;transform:rotate(-9deg)}
+.p2{left:16%;bottom:6%;width:250px;height:230px;transform:rotate(6deg)}
+.p3{right:5%;top:13%;width:230px;height:300px;transform:rotate(8deg)}
+.p4{right:15%;bottom:5%;width:260px;height:220px;transform:rotate(-5deg)}
+.p5{left:2%;top:58%;width:150px;height:190px;transform:rotate(12deg)}
+.st{position:absolute;z-index:6;font:800 13px/1 var(--d);letter-spacing:.1em;text-transform:uppercase;padding:12px 16px;border-radius:999px;box-shadow:0 12px 24px -8px rgba(0,0,0,.6)}
+.s1{left:30%;top:20%;background:var(--o);color:var(--ink);transform:rotate(-8deg)}
+.s2{right:28%;top:24%;background:var(--paper);color:var(--ink);transform:rotate(6deg)}
+.s3{left:36%;bottom:13%;background:var(--paper);color:var(--ink);transform:rotate(4deg)}
+.s4{right:33%;bottom:16%;background:var(--o);color:var(--ink);transform:rotate(-6deg)}
+.cat{position:absolute;z-index:7;right:31%;top:52%;width:120px;transform:rotate(10deg)}
+.stamp{position:absolute;z-index:7;left:31%;top:58%;width:110px;transform:rotate(-14deg);opacity:.95}
+.note{position:absolute;bottom:22px;left:50%;transform:translateX(-50%);z-index:8;font:800 11px/1 var(--d);letter-spacing:.18em;text-transform:uppercase;color:rgba(243,239,232,.5)}
+</style></head><body>
+<section class="board">
+  <div class="nav"><span><img src="../assets/opt/gato.webp" alt="">Inkkstudios</span><span>Sobre mí</span><span>Trabajos</span><span>Servicios</span><span>Contacto ↗</span></div>
+  <div class="title"><div><div class="hand">hola, soy Rosario ✦</div><h1>Portfolio<span>creativo</span></h1><p>Diseño gráfico, webs, packaging y video para marcas que quieren hacerse ver.</p></div></div>
+  <div class="pol p1"><img src="../assets/opt/Trabajos/Graficas de redes/ElectronicGames/10.webp" alt=""><i>Electronic Games</i></div>
+  <div class="pol p2"><img src="../assets/opt/Trabajos/Fotografia/MaximusGaming/6.webp" alt=""><i>Maximus · foto</i></div>
+  <div class="pol p3"><img src="../assets/opt/proyectos/CampanasAds/CampañaPuertoMontt/Post/101.webp" alt=""><i>Invesmar · ads</i></div>
+  <div class="pol p4"><img src="../assets/opt/Trabajos/Packaging, Cartelería/Packaging/Packaging2/MockUp2.webp" alt=""><i>Packaging</i></div>
+  <div class="pol p5"><img src="../assets/opt/Foto.webp" alt=""><i>Yo :)</i></div>
+  <span class="st s1">Diseño de piezas</span><span class="st s2">Webs que venden</span><span class="st s3">Packaging</span><span class="st s4">Video & ads</span>
+  <img class="cat" src="../assets/opt/Gatoposando3.webp" alt="">
+  <img class="stamp" src="../assets/opt/Sello.webp" alt="">
+  <div class="note">arrastrá las piezas ✦ bajá para ver más</div>
+</section>
+</body></html>

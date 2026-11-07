@@ -1,0 +1,6 @@
+@font-face{font-family:"Roc";src:url("../Fuente/RocGroteskCondensedExtraBold.woff2") format("woff2");font-weight:800}
+@font-face{font-family:"Roc";src:url("../Fuente/RocGroteskCondensedMedium.woff2") format("woff2");font-weight:500}
+@font-face{font-family:"Brick";src:url("../Fuente/Brick.woff") format("woff")}
+:root{--o:#eb5b30;--ink:#0d1211;--ink2:#161c1a;--paper:#f3efe8;--paper2:#e8e1d5;--d:"Roc",Impact,sans-serif;--b:"Inter","Segoe UI",system-ui,Arial,sans-serif}
+*{box-sizing:border-box}body{margin:0;font:16px/1.55 var(--b);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}a{color:inherit;text-decoration:none}em{font-style:normal;color:var(--o)}
