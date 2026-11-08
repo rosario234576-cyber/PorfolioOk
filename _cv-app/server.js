@@ -5,7 +5,8 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchJobPosting } from "./lib/job.js";
 import { adaptCv, refineCv, generalTarget, isConfigured } from "./lib/ai.js";
-import { generatePdf } from "./lib/pdf.js";
+import { generatePdf, fitOnePage } from "./lib/pdf.js";
+import { generateDocx } from "./lib/docx.js";
 import { authRequired, isAuthed, login, logout, requireAuth } from "./lib/auth.js";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -90,23 +91,44 @@ app.post("/api/refine", async (req, res) => {
   }
 });
 
-app.post("/api/pdf", async (req, res) => {
+/** Descarga el CV en PDF o Word, con el diseño y la hoja elegidos. */
+async function exportCv(req, res, forced) {
   try {
-    const { cv, paper, photo } = req.body || {};
+    const { cv, paper, photo, design } = req.body || {};
+    const format = forced || (req.body?.format === "docx" ? "docx" : "pdf");
     if (!cv?.name) throw new Error("Faltan los datos del CV.");
     let photoBuf = null;
+    let photoType = "jpg";
     const m = typeof photo === "string" && photo.match(/^data:image\/(jpeg|png);base64,(.+)$/);
-    if (m) photoBuf = Buffer.from(m[2], "base64");
-    const pdf = await generatePdf(cv, paper, photoBuf);
-    const file = `CV ${cv.name}${cv.analysis?.company ? " - " + cv.analysis.company : ""}.pdf`.replace(/[\\/:*?"<>|]/g, "");
-    res.setHeader("Content-Type", "application/pdf");
+    if (m) {
+      photoBuf = Buffer.from(m[2], "base64");
+      photoType = m[1] === "png" ? "png" : "jpg";
+    }
+    const base = `CV ${cv.name}${cv.analysis?.company ? " - " + cv.analysis.company : ""}`.replace(/[\\/:*?"<>|]/g, "");
+    // Se ajusta a una página una sola vez y se usa el mismo recorte para PDF y Word.
+    const fit = fitOnePage(cv, paper, photoBuf, design);
+    res.setHeader("X-Cv-Trimmed", String(fit.trimmed));
+    res.setHeader("Access-Control-Expose-Headers", "X-Cv-Trimmed");
+    let body, type, file;
+    if (format === "docx") {
+      body = await generateDocx(fit.cv, paper, photoBuf ? { data: photoBuf, type: photoType } : null, design);
+      type = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+      file = base + ".docx";
+    } else {
+      body = await generatePdf(fit.cv, paper, photoBuf, design);
+      type = "application/pdf";
+      file = base + ".pdf";
+    }
+    res.setHeader("Content-Type", type);
     res.setHeader("Content-Disposition", `attachment; filename*=UTF-8''${encodeURIComponent(file)}`);
-    res.send(pdf);
+    res.send(body);
   } catch (err) {
-    console.error("[pdf]", err);
+    console.error("[export]", err);
     res.status(400).json({ error: err.message });
   }
-});
+}
+app.post("/api/export", (req, res) => exportCv(req, res));
+app.post("/api/pdf", (req, res) => exportCv(req, res, "pdf"));
 
 function friendly(err) {
   if (err.status === 401) return "La clave de API no es válida. Revisá el archivo .env.";

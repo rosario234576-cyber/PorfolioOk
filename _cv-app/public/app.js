@@ -70,6 +70,8 @@ $("toggle-text").addEventListener("click", () => {
 
 try {
   $("paper").value = localStorage.getItem("cv-a-medida:paper") || "a4";
+  $("design").value = localStorage.getItem("cv-a-medida:design") || "harvard";
+  $("format").value = localStorage.getItem("cv-a-medida:format") || "pdf";
   $("language").value = localStorage.getItem("cv-a-medida:lang") || "auto";
 } catch { /* ignorar */ }
 // ---------- Acceso ----------
@@ -148,7 +150,6 @@ $("adapt-form").addEventListener("submit", async (e) => {
   if (!queue.length) return showError("form-error", "Agregá al menos un CV.");
   if (mode === "offer" && !jobUrl && !jobText) return showError("form-error", "Pegá el link de la oferta o su descripción.");
   try {
-    localStorage.setItem("cv-a-medida:paper", $("paper").value);
     localStorage.setItem("cv-a-medida:lang", $("language").value);
   } catch { /* ignorar */ }
 
@@ -252,7 +253,7 @@ function renderCards() {
   const finished = jobs.filter((j) => j.status === "done" || j.status === "error").length;
   $("progress-pill").textContent = `${done} / ${jobs.length}`;
   $("download-all").disabled = done === 0;
-  $("download-all").textContent = done > 1 ? `Descargar ${done} PDFs` : "Descargar todos";
+  $("download-all").textContent = done > 1 ? `Descargar ${done} CVs` : "Descargar todos";
 
   let rank = 0;
   $("cards").replaceChildren(...sortedJobs().map((job) => {
@@ -317,7 +318,7 @@ function renderDetail() {
   $("side-role").classList.toggle("hidden", !showRole);
   $("score-before").textContent = score(a.match_before) !== null ? `${a.match_before}%` : "–";
   $("score-after").textContent = score(a.match_after) !== null ? `${a.match_after}%` : "–";
-  $("score-caption").textContent = session?.mode === "general" ? "Compatibilidad estimada con una oferta típica del puesto" : "Compatibilidad estimada con la oferta";
+  $("score-caption").textContent = session?.mode === "general" ? "Compatibilidad ATS estimada con una oferta típica del puesto" : "Compatibilidad ATS estimada con la oferta";
   $("meter-fill").style.width = `${Math.max(0, Math.min(100, a.match_after ?? 0))}%`;
   chips("kw-matched", a.keywords_matched, "—");
   list("changes", a.changes);
@@ -649,6 +650,7 @@ function renderPreview() {
   const L = LABELS[cv.language] || LABELS.es;
   const p = $("preview");
   p.replaceChildren();
+  for (const d of ["moderno", "ejecutivo", "minimalista"]) p.classList.toggle(`design-${d}`, $("design").value === d);
   const contact = el("p", "cv-contact");
   for (const k of ["location", "email", "phone", "linkedin", "website"]) if (has(cv.contact?.[k])) contact.append(field("span", "", ["contact", k]));
   const header = el("div", "cv-header", [el("div", "", [field("h2", "cv-name", ["name"]), contact])]);
@@ -690,22 +692,78 @@ function renderPreview() {
   }
 }
 
-// ---------- PDF ----------
-async function downloadPdf(job) {
-  const res = await api("/api/pdf", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ cv: job.result, paper: $("paper").value, photo: job.photo || null }),
-  });
-  if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || "No se pudo generar el PDF.");
-  const blob = await res.blob();
-  const name = decodeURIComponent((res.headers.get("Content-Disposition") || "").split("''")[1] || "CV.pdf");
+// ---------- Descarga (PDF, Word o imagen) ----------
+const FORMAT_LABEL = { pdf: "Descargar PDF", docx: "Descargar Word", png: "Descargar imagen" };
+function syncExportOptions() {
+  $("download-label").textContent = FORMAT_LABEL[$("format").value] || FORMAT_LABEL.pdf;
+  try {
+    localStorage.setItem("cv-a-medida:design", $("design").value);
+    localStorage.setItem("cv-a-medida:format", $("format").value);
+    localStorage.setItem("cv-a-medida:paper", $("paper").value);
+  } catch { /* ignorar */ }
+}
+$("design").addEventListener("change", () => { syncExportOptions(); renderPreview(); });
+$("format").addEventListener("change", syncExportOptions);
+$("paper").addEventListener("change", syncExportOptions);
+syncExportOptions();
+
+function saveBlob(blob, name) {
   const url = URL.createObjectURL(blob);
   const a = Object.assign(document.createElement("a"), { href: url, download: name });
   document.body.append(a);
   a.click();
   a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 5000);
+}
+
+/** Convierte el PDF en una imagen PNG (todas las páginas, una debajo de otra) a ~216 ppp. */
+async function pdfToPng(blob) {
+  const pdfjs = await loadPdfjs();
+  const doc = await pdfjs.getDocument({ data: new Uint8Array(await blob.arrayBuffer()) }).promise;
+  const scale = 3;
+  const pages = [];
+  for (let i = 1; i <= doc.numPages; i++) {
+    const page = await doc.getPage(i);
+    const viewport = page.getViewport({ scale });
+    const canvas = Object.assign(document.createElement("canvas"), { width: Math.ceil(viewport.width), height: Math.ceil(viewport.height) });
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    await page.render({ canvasContext: ctx, viewport }).promise;
+    pages.push(canvas);
+  }
+  const out = Object.assign(document.createElement("canvas"), {
+    width: Math.max(...pages.map((c) => c.width)),
+    height: pages.reduce((h, c) => h + c.height, 0),
+  });
+  const octx = out.getContext("2d");
+  let y = 0;
+  for (const c of pages) { octx.drawImage(c, 0, y); y += c.height; }
+  return new Promise((resolve, reject) => out.toBlob((b) => (b ? resolve(b) : reject(new Error("No se pudo crear la imagen."))), "image/png"));
+}
+
+async function downloadPdf(job) {
+  const format = $("format").value;
+  const res = await api("/api/export", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      cv: job.result,
+      paper: $("paper").value,
+      design: $("design").value,
+      format: format === "docx" ? "docx" : "pdf",
+      photo: job.photo || null,
+    }),
+  });
+  if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || "No se pudo generar el archivo.");
+  const trimmed = Number(res.headers.get("X-Cv-Trimmed") || 0);
+  const note = $("export-note");
+  note.textContent = trimmed ? `Para que entre en 1 página se quitaron ${trimmed} viñeta${trimmed > 1 ? "s" : ""} de lo menos relevante. Si querés elegir vos qué sacar, editá el texto en la vista previa.` : "";
+  note.classList.toggle("hidden", !trimmed);
+  const blob = await res.blob();
+  const name = decodeURIComponent((res.headers.get("Content-Disposition") || "").split("''")[1] || "CV.pdf");
+  if (format === "png") return saveBlob(await pdfToPng(blob), name.replace(/\.pdf$/i, ".png"));
+  saveBlob(blob, name);
 }
 
 $("download").addEventListener("click", async () => {
