@@ -1015,3 +1015,4 @@ html.motion-full .service-note-track{animation:serviceTape 24s linear infinite!i
 .manifesto{background:var(--dark)!important}
 /* Títulos con palabras divididas ([data-split]): aire arriba en la máscara para que no se corten Ñ ni tildes. */
 .split-word{padding-top:.18em;margin-top:-.18em}
+.nav-links>a.nav-cv i{font-style:normal;font-size:.8em;margin-left:2px;filter:grayscale(1) brightness(1.6)}
