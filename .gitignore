@@ -3,3 +3,6 @@ desktop.ini
 _archivo-viejo/
 _backups/
 .agents/
+
+# graphify
+graphify-out/cache/
