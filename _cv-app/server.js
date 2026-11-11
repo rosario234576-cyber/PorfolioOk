@@ -67,7 +67,8 @@ app.post("/api/adapt", upload.single("cv"), async (req, res) => {
     }
     if (!jobText) jobText = await fetchJobPosting(jobUrl);
 
-    const result = await adaptCv({ ...cv, jobText, jobUrl, language: req.body.language });
+    const extraInfo = String(req.body.extraInfo || "").trim().slice(0, 3000);
+    const result = await adaptCv({ ...cv, jobText, jobUrl, extraInfo, language: req.body.language });
     res.json(result);
   } catch (err) {
     console.error("[adapt]", err);
