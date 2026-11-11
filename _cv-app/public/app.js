@@ -7,6 +7,10 @@ let jobs = [];    // { id, file, status: queued|working|done|error, result, erro
 let selectedId = null;
 let result = null; // CV del job seleccionado (lo usa la vista previa editable)
 let session = null; // { jobText, jobUrl, language }
+let docTab = "cv";          // "cv" | "letter"
+let letterView = "page";    // "page" | "edit"
+let letterTimer = null;
+let letterSeq = 0;
 
 const has = (s) => String(s ?? "").trim().length > 0;
 const extOf = (name) => (name.split(".").pop() || "").toUpperCase().slice(0, 4);
@@ -172,7 +176,7 @@ $("adapt-form").addEventListener("submit", async (e) => {
     renderQueue();
   }
 
-  session = { mode, jobText, jobUrl, role, details, extraInfo: $("extra-info").value.trim().slice(0, 3000), language: $("language").value };
+  session = { mode, jobText, jobUrl, role, details, extraInfo: $("extra-info").value.trim().slice(0, 3000), extraImages: [...shots.extra], language: $("language").value };
   jobs = queue.map((file, i) => ({ id: `${Date.now()}-${i}`, file, status: "queued", result: null, error: "", photo: null, includePhoto: true }));
   selectedId = null;
   $("job-meta").textContent = mode === "general" ? (role ? `${role} · Perfil general` : "Perfil general · puesto según cada CV") : "Analizando la oferta";
@@ -207,6 +211,8 @@ async function processJob(job) {
   body.append("details", session.details);
   body.append("language", session.language);
   body.append("extraInfo", session.extraInfo || "");
+  for (const [i, url] of (session.extraImages || []).entries()) body.append("extraImage", dataUrlToBlob(url), `captura-${i + 1}.jpg`);
+  if (linkedin) body.append("linkedin", dataUrlToBlob(linkedin.url), linkedin.name);
   try {
     const res = await api("/api/adapt", { method: "POST", body });
     const data = await res.json().catch(() => ({ error: "Respuesta inválida del servidor." }));
@@ -308,9 +314,12 @@ const currentJob = () => jobs.find((j) => j.id === selectedId);
 function renderDetail() {
   const job = currentJob();
   const ready = job?.status === "done";
-  $("detail").classList.toggle("hidden", !ready);
+  $("detail").classList.toggle("hidden", !ready || docTab !== "cv");
+  $("letter-detail").classList.toggle("hidden", !ready || docTab !== "letter");
+  $("doc-tabs").classList.toggle("hidden", !ready);
   $("detail-empty").classList.toggle("hidden", ready);
   if (!ready) return;
+  if (docTab === "letter") renderLetter();
   result = job.result;
   const a = result.analysis || {};
   $("side-name").textContent = result.name || job.file.name;
@@ -417,7 +426,7 @@ $("gaps-apply").addEventListener("click", async () => {
 $("refine-text").addEventListener("input", (e) => { const j = currentJob(); if (j) j.refineDraft = e.target.value; });
 
 /** Envía correcciones a la IA y reemplaza el CV del job. Devuelve true si salió bien. */
-async function applyRefine(job, corrections, { button, label, errorId }) {
+async function applyRefine(job, corrections, { button, label, errorId, images = [] }) {
   showError(errorId, "");
   const prevLabel = label.textContent;
   button.disabled = true;
@@ -427,7 +436,7 @@ async function applyRefine(job, corrections, { button, label, errorId }) {
     const res = await api("/api/refine", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cv: job.result, corrections, jobText: session.jobText, jobUrl: session.jobUrl, mode: session.mode, role: session.role, details: session.details, language: session.language }),
+      body: JSON.stringify({ cv: job.result, corrections, images, jobText: session.jobText, jobUrl: session.jobUrl, mode: session.mode, role: session.role, details: session.details, language: session.language }),
     });
     const data = await res.json().catch(() => ({ error: "Respuesta inválida del servidor." }));
     if (!res.ok) throw new Error(data.error);
@@ -460,12 +469,14 @@ $("refine-form").addEventListener("submit", async (e) => {
   const corrections = $("refine-text").value.trim();
   showError("refine-error", "");
   if (!job) return;
-  if (!corrections) return showError("refine-error", "Escribí qué querés corregir o agregar.");
+  if (!corrections && !shots.refine.length) return showError("refine-error", "Escribí qué querés corregir o agregar, o pegá una captura.");
   $("refine-form").classList.add("busy");
-  const ok = await applyRefine(job, corrections, { button: $("refine-btn"), label: $("refine-label"), errorId: "refine-error" });
+  const ok = await applyRefine(job, corrections, { button: $("refine-btn"), label: $("refine-label"), errorId: "refine-error", images: [...shots.refine] });
   $("refine-form").classList.remove("busy");
   if (ok) {
     job.refineDraft = "";
+    shots.refine = [];
+    renderShots("refine");
     if (job.id === selectedId) $("refine-text").value = "";
   }
 });
@@ -912,3 +923,329 @@ $("download-all").addEventListener("click", async () => {
     btn.textContent = label;
   }
 });
+
+
+// ---------- Carta de presentación ----------
+
+function setDocTab(t) {
+  docTab = t;
+  $("tab-cv").classList.toggle("on", t === "cv");
+  $("tab-letter").classList.toggle("on", t === "letter");
+  $("tab-cv").setAttribute("aria-selected", String(t === "cv"));
+  $("tab-letter").setAttribute("aria-selected", String(t === "letter"));
+  renderDetail();
+}
+$("tab-cv").addEventListener("click", () => setDocTab("cv"));
+$("tab-letter").addEventListener("click", () => setDocTab("letter"));
+
+function renderLetter() {
+  const job = currentJob();
+  if (!job) return;
+  const o = job.letterOpts || {};
+  $("letter-tone").value = o.tone || "formal";
+  $("letter-length").value = o.length || "media";
+  $("letter-company").value = o.company ?? (job.result.analysis?.company || "");
+  $("letter-recipient").value = o.recipient || "";
+  $("letter-notes").value = o.notes || "";
+  const has = Boolean(job.letter?.paragraphs?.length);
+  $("letter-empty").classList.toggle("hidden", has);
+  $("letter-ready").classList.toggle("hidden", !has);
+  $("letter-actions").classList.toggle("hidden", !has);
+  $("letter-label").textContent = has ? "Reescribir carta" : "Escribir carta";
+  showError("letter-error", "");
+  showError("letter-dl-error", "");
+  if (!has) return;
+  $("letter-subject").textContent = job.letter.subject || "—";
+  renderLetterEdit();
+  setLetterView(letterView);
+}
+
+function letterField(tag, cls, get, set) {
+  const n = el(tag, cls);
+  n.textContent = get() ?? "";
+  n.contentEditable = "true";
+  n.spellcheck = true;
+  n.addEventListener("input", () => { set(n.textContent); scheduleLetterPage(900); });
+  return n;
+}
+function renderLetterEdit() {
+  const job = currentJob();
+  const L = job.letter;
+  const cv = job.result;
+  const c = cv.contact || {};
+  const contact = [c.location, c.email, c.phone, c.linkedin, c.website].filter(has).join("  •  ");
+  const box = $("letter-edit");
+  box.className = "paper letter-paper hidden";
+  for (const d of ["moderno", "ejecutivo", "minimalista"]) box.classList.toggle(`design-${d}`, $("design").value === d);
+  box.replaceChildren(
+    el("div", "lt-head", [el("div", "lt-name", cv.name || ""), el("div", "cv-contact", contact)]),
+    letterField("p", "", () => L.greeting, (v) => (L.greeting = v)),
+    ...L.paragraphs.map((_, i) => letterField("p", "", () => L.paragraphs[i], (v) => (L.paragraphs[i] = v))),
+    letterField("p", "", () => L.closing, (v) => (L.closing = v)),
+    el("p", "lt-sign", cv.name || ""),
+  );
+  box.classList.toggle("hidden", letterView !== "edit");
+}
+
+function setLetterView(m) {
+  letterView = m;
+  $("letter-view-page").classList.toggle("on", m === "page");
+  $("letter-view-edit").classList.toggle("on", m === "edit");
+  $("letter-view-page").setAttribute("aria-selected", String(m === "page"));
+  $("letter-view-edit").setAttribute("aria-selected", String(m === "edit"));
+  $("letter-page").classList.toggle("hidden", m !== "page");
+  $("letter-edit").classList.toggle("hidden", m !== "edit");
+  $("letter-hint").textContent = m === "page"
+    ? "Así queda tu carta, tal cual se descarga. Usa el mismo diseño y hoja que tu CV."
+    : "Hacé clic en cualquier párrafo para editarlo. Volvé a «Hoja completa» para ver cómo queda.";
+  if (m === "page") scheduleLetterPage(0);
+}
+$("letter-view-page").addEventListener("click", () => setLetterView("page"));
+$("letter-view-edit").addEventListener("click", () => setLetterView("edit"));
+
+function scheduleLetterPage(delay = 300) {
+  clearTimeout(letterTimer);
+  letterTimer = setTimeout(refreshLetterPage, delay);
+}
+
+async function exportLetter(job, format = "pdf") {
+  const res = await api("/api/letter/export", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ letter: job.letter, cv: job.result, paper: $("paper").value, design: $("design").value, format }),
+  });
+  if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || "No se pudo generar la carta.");
+  return { res, blob: await res.blob() };
+}
+
+async function refreshLetterPage() {
+  const job = currentJob();
+  if (!job?.letter?.paragraphs?.length || docTab !== "letter" || letterView !== "page") return;
+  const seq = ++letterSeq;
+  const view = $("letter-page");
+  view.classList.toggle("letter", $("paper").value === "letter");
+  view.classList.add("loading");
+  try {
+    const { blob } = await exportLetter(job);
+    if (seq !== letterSeq) return;
+    await drawPdf(blob, $("letter-canvas"));
+  } catch (err) {
+    showError("letter-dl-error", err.message);
+  } finally {
+    if (seq === letterSeq) view.classList.remove("loading");
+  }
+}
+
+function saveLetterOpts(job) {
+  job.letterOpts = {
+    tone: $("letter-tone").value,
+    length: $("letter-length").value,
+    company: $("letter-company").value.trim(),
+    recipient: $("letter-recipient").value.trim(),
+    notes: $("letter-notes").value.trim(),
+  };
+}
+for (const id of ["letter-tone", "letter-length", "letter-company", "letter-recipient", "letter-notes"]) {
+  $(id).addEventListener("input", () => { const j = currentJob(); if (j) saveLetterOpts(j); });
+}
+
+$("letter-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const job = currentJob();
+  if (!job || job.status !== "done") return;
+  saveLetterOpts(job);
+  const btn = $("letter-btn");
+  const label = $("letter-label");
+  const prev = label.textContent;
+  btn.disabled = true;
+  label.textContent = "Escribiendo… (20–40 s)";
+  showError("letter-error", "");
+  try {
+    const res = await api("/api/letter", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        cv: job.result, jobText: session.jobText, jobUrl: session.jobUrl, mode: session.mode,
+        role: session.role, details: session.details, ...job.letterOpts,
+      }),
+    });
+    const data = await res.json().catch(() => ({ error: "Respuesta inválida del servidor." }));
+    if (!res.ok) throw new Error(data.error);
+    if (!data.paragraphs?.length) throw new Error("La IA no devolvió la carta. Probá de nuevo.");
+    job.letter = data;
+    if (job.id === selectedId) renderLetter();
+  } catch (err) {
+    showError("letter-error", err.message || "No se pudo escribir la carta.");
+    label.textContent = prev;
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+function letterPlainText(job) {
+  const L = job.letter;
+  return [L.greeting, "", ...L.paragraphs.flatMap((p) => [p, ""]), L.closing, job.result.name].join("\n");
+}
+$("letter-copy").addEventListener("click", async () => {
+  const job = currentJob();
+  if (!job?.letter) return;
+  const btn = $("letter-copy");
+  try {
+    await navigator.clipboard.writeText(letterPlainText(job));
+    btn.textContent = "¡Copiado!";
+  } catch {
+    btn.textContent = "No se pudo copiar";
+  }
+  setTimeout(() => (btn.textContent = "Copiar texto"), 1800);
+});
+
+$("letter-download").addEventListener("click", async () => {
+  const job = currentJob();
+  if (!job?.letter) return;
+  const btn = $("letter-download");
+  btn.disabled = true;
+  showError("letter-dl-error", "");
+  try {
+    const format = $("letter-format").value === "docx" ? "docx" : "pdf";
+    const { res, blob } = await exportLetter(job, format);
+    const name = decodeURIComponent((res.headers.get("Content-Disposition") || "").split("''")[1] || `Carta.${format}`);
+    saveBlob(blob, name);
+  } catch (err) {
+    showError("letter-dl-error", err.message);
+  } finally {
+    btn.disabled = false;
+  }
+});
+// Si cambian el diseño o la hoja, la carta se vuelve a dibujar con ellos.
+$("design").addEventListener("change", () => { if (docTab === "letter" && currentJob()?.letter) { renderLetterEdit(); scheduleLetterPage(); } });
+$("paper").addEventListener("change", () => { if (docTab === "letter") scheduleLetterPage(); });
+
+
+// ---------- Capturas: arrastrar, pegar o elegir (información extra y correcciones) ----------
+const shots = { extra: [], refine: [] };
+const MAX_SHOTS = 6;
+
+function dataUrlToBlob(url) {
+  const [head, b64] = url.split(",");
+  const mime = head.match(/data:([^;]+)/)?.[1] || "image/jpeg";
+  const bin = atob(b64);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new Blob([bytes], { type: mime });
+}
+
+/** Achica la captura (lado mayor 1800 px) y la pasa a JPEG para que el envío sea liviano. */
+function shrinkImage(file) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      const k = Math.min(1, 1800 / Math.max(img.naturalWidth, img.naturalHeight));
+      const c = Object.assign(document.createElement("canvas"), { width: Math.round(img.naturalWidth * k), height: Math.round(img.naturalHeight * k) });
+      const ctx = c.getContext("2d");
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(0, 0, c.width, c.height);
+      ctx.drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      resolve(c.toDataURL("image/jpeg", 0.88));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("No pude leer esa imagen.")); };
+    img.src = url;
+  });
+}
+
+async function addShots(kind, files) {
+  const errorId = kind === "extra" ? "form-error" : "refine-error";
+  const imgs = [...files].filter((f) => /^image\/(png|jpe?g|webp)$/i.test(f.type));
+  if (!imgs.length) return;
+  showError(errorId, "");
+  for (const f of imgs) {
+    if (shots[kind].length >= MAX_SHOTS) { showError(errorId, `Podés sumar hasta ${MAX_SHOTS} capturas.`); break; }
+    try { shots[kind].push(await shrinkImage(f)); } catch (err) { showError(errorId, err.message); }
+  }
+  renderShots(kind);
+}
+
+function renderShots(kind) {
+  const list = document.querySelector(`[data-shots="${kind}"] .shots-list`);
+  list.replaceChildren(...shots[kind].map((url, i) => {
+    const img = el("img");
+    img.src = url;
+    img.alt = `Captura ${i + 1}`;
+    const rm = el("button", "", "×");
+    rm.type = "button";
+    rm.setAttribute("aria-label", `Quitar captura ${i + 1}`);
+    rm.addEventListener("click", () => { shots[kind].splice(i, 1); renderShots(kind); });
+    return el("li", "", [img, rm]);
+  }));
+}
+
+for (const kind of ["extra", "refine"]) {
+  const box = document.querySelector(`[data-shots="${kind}"]`);
+  const input = box.querySelector("input[type=file]");
+  input.addEventListener("change", () => { addShots(kind, input.files); input.value = ""; });
+  box.querySelector(".shots-drop").addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); input.click(); }
+  });
+  box.addEventListener("dragover", (e) => { e.preventDefault(); box.classList.add("drag"); });
+  box.addEventListener("dragleave", () => box.classList.remove("drag"));
+  box.addEventListener("drop", (e) => { e.preventDefault(); box.classList.remove("drag"); addShots(kind, e.dataTransfer.files); });
+}
+
+// Pegar con Ctrl+V: va al campo que se está usando (formulario o panel de correcciones).
+document.addEventListener("paste", (e) => {
+  const files = [...(e.clipboardData?.files || [])].filter((f) => f.type.startsWith("image/"));
+  if (!files.length) return;
+  const inResults = !$("result-view").classList.contains("hidden");
+  if (inResults && docTab !== "cv") return;
+  e.preventDefault();
+  addShots(inResults ? "refine" : "extra", files);
+});
+
+
+// ---------- Perfil de LinkedIn (PDF que exporta LinkedIn) ----------
+let linkedin = null; // { name, url (data URL), size }
+const LI_KEY = "cv-a-medida:linkedin";
+
+function renderLinkedin() {
+  const on = Boolean(linkedin);
+  $("li-box").classList.toggle("on", on);
+  $("li-remove").classList.toggle("hidden", !on);
+  $("li-pick").firstChild.textContent = on ? "Cambiar" : "Subir PDF";
+  $("li-status").textContent = on
+    ? `✓ ${linkedin.name} · ${Math.max(1, Math.round(linkedin.size / 1024))} KB · se usa en cada adaptación`
+    : "Subí el PDF de tu perfil y la IA analiza todas tus experiencias y tareas, sin cargarlas una por una.";
+}
+
+function setLinkedin(file) {
+  showError("form-error", "");
+  if (!file) return;
+  if (!/\.pdf$/i.test(file.name) && file.type !== "application/pdf") {
+    return showError("form-error", "El perfil de LinkedIn tiene que ser un PDF (en LinkedIn: Más → Guardar en PDF).");
+  }
+  if (file.size > 8 * 1024 * 1024) return showError("form-error", "Ese PDF es muy pesado (máximo 8 MB).");
+  const reader = new FileReader();
+  reader.onload = () => {
+    linkedin = { name: file.name, url: String(reader.result), size: file.size };
+    try { localStorage.setItem(LI_KEY, JSON.stringify(linkedin)); } catch { /* sin espacio: queda solo en esta sesión */ }
+    renderLinkedin();
+  };
+  reader.onerror = () => showError("form-error", "No pude leer ese archivo.");
+  reader.readAsDataURL(file);
+}
+
+$("li-input").addEventListener("change", () => { setLinkedin($("li-input").files[0]); $("li-input").value = ""; });
+$("li-remove").addEventListener("click", () => {
+  linkedin = null;
+  try { localStorage.removeItem(LI_KEY); } catch { /* ignorar */ }
+  renderLinkedin();
+});
+$("li-box").addEventListener("dragover", (e) => { e.preventDefault(); $("li-box").classList.add("drag"); });
+$("li-box").addEventListener("dragleave", () => $("li-box").classList.remove("drag"));
+$("li-box").addEventListener("drop", (e) => { e.preventDefault(); $("li-box").classList.remove("drag"); setLinkedin(e.dataTransfer.files[0]); });
+
+try {
+  const saved = JSON.parse(localStorage.getItem(LI_KEY) || "null");
+  if (saved?.url?.startsWith("data:")) linkedin = saved;
+} catch { /* ignorar */ }
+renderLinkedin();

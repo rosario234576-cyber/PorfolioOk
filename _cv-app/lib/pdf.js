@@ -9,7 +9,7 @@ export const LABELS = {
   pt: { summary: "Perfil Profissional", experience: "Experiência", education: "Formação Acadêmica", skills: "Competências e Interesses" },
 };
 
-const PAPER = { a4: "A4", letter: "LETTER" };
+export const PAPER = { a4: "A4", letter: "LETTER" };
 
 // Tinos: libre (Apache 2.0) y con las mismas medidas que Times New Roman.
 // Viene en el paquete npm, así que el PDF sale igual en Windows y en el servidor.
@@ -31,7 +31,7 @@ const DESIGNS = {
 };
 export const designOf = (d) => DESIGNS[d] || DESIGNS.harvard;
 
-function registerFonts(doc, design) {
+export function registerFonts(doc, design) {
   if (!design.serif) {
     doc.registerFont("regular", "Helvetica");
     doc.registerFont("bold", "Helvetica-Bold");
@@ -222,7 +222,7 @@ function build(cv, paper, size, photo, D) {
   return doc;
 }
 
-const toBuffer = (doc) =>
+export const toBuffer = (doc) =>
   new Promise((resolve, reject) => {
     const chunks = [];
     doc.on("data", (c) => chunks.push(c));

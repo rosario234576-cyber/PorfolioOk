@@ -7,6 +7,7 @@ import { fetchJobPosting } from "./lib/job.js";
 import { adaptCv, refineCv, generalTarget, isConfigured } from "./lib/ai.js";
 import { generatePdf, fitOnePage } from "./lib/pdf.js";
 import { generateDocx } from "./lib/docx.js";
+import { writeLetter, letterPdf, letterDocx } from "./lib/letter.js";
 import { authRequired, isAuthed, login, logout, requireAuth } from "./lib/auth.js";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -15,7 +16,7 @@ const app = express();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 15 * 1024 * 1024 } });
 
 app.set("trust proxy", 1); // detrás del proxy HTTPS del hosting
-app.use(express.json({ limit: "4mb" }));
+app.use(express.json({ limit: "25mb" })); // las correcciones pueden traer capturas
 app.use(express.static(path.join(here, "public")));
 
 app.get("/api/status", (req, res) =>
@@ -41,6 +42,12 @@ async function readCv(file) {
   throw new Error("Formato no soportado. Subí tu CV en PDF, DOCX o TXT.");
 }
 
+/** Capturas enviadas como data URL (png, jpeg o webp), máximo 6. */
+function imagesFrom(list) {
+  return (Array.isArray(list) ? list : []).slice(0, 6).map((u) => String(u).match(/^data:(image\/(?:png|jpeg|webp));base64,(.+)$/))
+    .filter(Boolean).map((m) => ({ mime: m[1], data: m[2] }));
+}
+
 /** Lee la oferta una sola vez; el navegador reutiliza el texto para cada CV. */
 app.post("/api/job", async (req, res) => {
   try {
@@ -52,23 +59,30 @@ app.post("/api/job", async (req, res) => {
   }
 });
 
-app.post("/api/adapt", upload.single("cv"), async (req, res) => {
+app.post("/api/adapt", upload.fields([{ name: "cv", maxCount: 1 }, { name: "extraImage", maxCount: 6 }, { name: "linkedin", maxCount: 1 }]), async (req, res) => {
   try {
-    if (!req.file) throw new Error("Subí tu CV.");
+    const cvFile = req.files?.cv?.[0];
+    if (!cvFile) throw new Error("Subí tu CV.");
     const jobUrl = String(req.body.jobUrl || "").trim();
     let jobText = String(req.body.jobText || "").trim();
     const role = String(req.body.role || "").trim().slice(0, 200);
     if (!jobText && req.body.mode === "general") jobText = generalTarget(role, String(req.body.details || "").trim().slice(0, 1500));
     if (!jobText && !jobUrl) throw new Error("Pegá el link de la oferta o escribí el puesto.");
 
-    const cv = await readCv(req.file);
+    const cv = await readCv(cvFile);
+    const extraImages = (req.files?.extraImage || [])
+      .filter((f) => /^image\/(png|jpeg|webp)$/.test(f.mimetype))
+      .map((f) => ({ mime: f.mimetype, data: f.buffer.toString("base64") }));
     if (cv.cvText !== undefined && cv.cvText.trim().length < 50) {
       throw new Error("No pude leer texto en tu CV. Probá con otro formato.");
     }
     if (!jobText) jobText = await fetchJobPosting(jobUrl);
 
     const extraInfo = String(req.body.extraInfo || "").trim().slice(0, 3000);
-    const result = await adaptCv({ ...cv, jobText, jobUrl, extraInfo, language: req.body.language });
+    const li = req.files?.linkedin?.[0];
+    if (li && !(li.mimetype === "application/pdf" || /\.pdf$/i.test(li.originalname))) throw new Error("El perfil de LinkedIn tiene que ser el PDF que descarga LinkedIn (Más → Guardar en PDF).");
+    const linkedinPdfBase64 = li ? li.buffer.toString("base64") : "";
+    const result = await adaptCv({ ...cv, jobText, jobUrl, extraInfo, extraImages, linkedinPdfBase64, language: req.body.language });
     res.json(result);
   } catch (err) {
     console.error("[adapt]", err);
@@ -83,9 +97,9 @@ app.post("/api/refine", async (req, res) => {
     let jobText = String(req.body?.jobText || "").trim();
     if (!jobText && req.body?.mode === "general") jobText = generalTarget(String(role).trim().slice(0, 200), String(details || "").trim().slice(0, 1500));
     if (!cv?.name) throw new Error("Faltan los datos del CV.");
-    if (!String(corrections || "").trim()) throw new Error("Escribí qué querés corregir o agregar.");
+    if (!String(corrections || "").trim() && !imagesFrom(req.body?.images).length) throw new Error("Escribí qué querés corregir o agregar, o pegá una captura.");
     if (!String(jobText || "").trim()) throw new Error("Falta la descripción de la oferta.");
-    res.json(await refineCv({ cv, corrections: String(corrections).slice(0, 4000), jobText, jobUrl, language }));
+    res.json(await refineCv({ cv, corrections: String(corrections).slice(0, 4000), images: imagesFrom(req.body?.images), jobText, jobUrl, language }));
   } catch (err) {
     console.error("[refine]", err);
     res.status(400).json({ error: friendly(err) });
@@ -130,6 +144,43 @@ async function exportCv(req, res, forced) {
 }
 app.post("/api/export", (req, res) => exportCv(req, res));
 app.post("/api/pdf", (req, res) => exportCv(req, res, "pdf"));
+
+/** Escribe la carta de presentación a partir del CV adaptado y la oferta. */
+app.post("/api/letter", async (req, res) => {
+  try {
+    const { cv, jobUrl, mode, role, details, tone, length, recipient, company, notes } = req.body || {};
+    let jobText = String(req.body?.jobText || "").trim();
+    if (!jobText && mode === "general") jobText = generalTarget(String(role || "").trim().slice(0, 200), String(details || "").trim().slice(0, 1500));
+    if (!cv?.name) throw new Error("Faltan los datos del CV.");
+    if (!jobText) throw new Error("Falta la descripción de la oferta.");
+    const clip = (v, n) => String(v || "").trim().slice(0, n);
+    res.json(await writeLetter({
+      cv, jobText, jobUrl,
+      tone: clip(tone, 20), length: clip(length, 20), recipient: clip(recipient, 120),
+      company: clip(company, 120), notes: clip(notes, 2000),
+    }));
+  } catch (err) {
+    console.error("[letter]", err);
+    res.status(400).json({ error: friendly(err) });
+  }
+});
+
+/** Descarga la carta en PDF o Word, con el mismo diseño que el CV. */
+app.post("/api/letter/export", async (req, res) => {
+  try {
+    const { letter, cv, paper, design } = req.body || {};
+    if (!cv?.name || !letter?.paragraphs?.length) throw new Error("Primero generá la carta.");
+    const docx = req.body?.format === "docx";
+    const body = docx ? await letterDocx(letter, cv, paper, design) : await letterPdf(letter, cv, paper, design);
+    const file = `Carta de presentación ${cv.name}${cv.analysis?.company ? " - " + cv.analysis.company : ""}.${docx ? "docx" : "pdf"}`.replace(/[\\/:*?"<>|]/g, "");
+    res.setHeader("Content-Type", docx ? "application/vnd.openxmlformats-officedocument.wordprocessingml.document" : "application/pdf");
+    res.setHeader("Content-Disposition", `attachment; filename*=UTF-8''${encodeURIComponent(file)}`);
+    res.send(body);
+  } catch (err) {
+    console.error("[letter-export]", err);
+    res.status(400).json({ error: err.message });
+  }
+});
 
 function friendly(err) {
   if (err.status === 401) return "La clave de API no es válida. Revisá el archivo .env.";

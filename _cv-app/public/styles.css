@@ -389,3 +389,56 @@ input:focus, textarea:focus, select:focus { border-color: var(--orange); box-sha
 .paper.as-page { aspect-ratio: 210 / 297; overflow: auto; }
 .paper.as-page.letter { aspect-ratio: 8.5 / 11; }
 @media (max-width: 760px) { .design-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Pestañas CV / Carta */
+.doc-tabs { display: inline-flex; gap: 6px; padding: 6px; margin: 4px 0 22px; border: 1px solid var(--line); border-radius: 999px; background: var(--dark-2); }
+.doc-tab { padding: 12px 22px; border: 0; border-radius: 999px; background: transparent; color: var(--muted); font: 800 15px/1 inherit; letter-spacing: .05em; text-transform: uppercase; cursor: pointer; transition: background .2s, color .2s; }
+.doc-tab.on { background: var(--orange); color: var(--dark, #101513); }
+.doc-tab:not(.on):hover { color: var(--paper, #f1eee7); }
+
+/* Carta de presentación */
+.letter-empty img { width: 90px; }
+.letter-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-items: end; margin-bottom: 12px; }
+.letter-opts label, .letter-field { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.letter-field { margin-bottom: 12px; }
+.letter-opts label > span, .letter-field > span { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+.letter-field em { font-style: normal; opacity: .7; text-transform: none; letter-spacing: 0; }
+.letter-opts select { padding: 10px 26px 10px 10px; font-size: 13px; background-position: calc(100% - 13px) 50%, calc(100% - 8px) 50%; }
+.letter-field input, .letter-field textarea { width: 100%; }
+.letter-subject-line { display: flex; flex-direction: column; gap: 4px; margin: 0 0 14px; }
+.letter-subject-line span { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+.letter-paper p { margin: 0 0 14px; text-align: justify; }
+.letter-paper .lt-head { text-align: center; margin-bottom: 22px; }
+.letter-paper .lt-name { font-weight: 700; font-size: 24px; }
+.letter-paper .lt-date { text-align: right; }
+.letter-paper .lt-sign { font-weight: 700; margin-top: 18px; }
+
+/* Capturas: arrastrar, pegar o elegir */
+.shots { margin-top: 10px; }
+.shots-drop { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border: 1.5px dashed rgba(241,238,231,.22); border-radius: 14px; color: var(--muted); font-size: 14px; line-height: 1.35; cursor: pointer; transition: border-color .2s, background .2s, color .2s; }
+.shots-drop strong { color: var(--paper, #f1eee7); }
+.shots-drop:hover, .shots-drop:focus-visible, .shots.drag .shots-drop { border-color: var(--orange); background: rgba(235,91,48,.08); color: var(--paper, #f1eee7); outline: none; }
+.shots-icon { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; background: rgba(235,91,48,.14); color: var(--orange); font-size: 18px; }
+.shots.compact .shots-drop { padding: 10px 12px; font-size: 13px; }
+.shots.compact .shots-icon { width: 28px; height: 28px; font-size: 15px; }
+.shots-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 0; padding: 0; list-style: none; }
+.shots-list:empty { display: none; }
+.shots-list li { position: relative; width: 72px; height: 72px; border-radius: 10px; overflow: hidden; border: 1px solid var(--line); background: #000; }
+.shots-list img { width: 100%; height: 100%; object-fit: cover; }
+.shots-list button { position: absolute; top: 3px; right: 3px; width: 22px; height: 22px; border: 0; border-radius: 50%; background: rgba(16,21,19,.85); color: #fff; font-size: 13px; line-height: 22px; cursor: pointer; }
+.shots-list button:hover { background: var(--orange); color: var(--dark, #101513); }
+
+/* Perfil de LinkedIn */
+.li-box { margin-top: 12px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 14px; background: rgba(10,102,194,.07); }
+.li-box.drag, .li-box.on { border-color: #0a66c2; background: rgba(10,102,194,.14); }
+.li-row { display: flex; align-items: center; gap: 12px; }
+.li-badge { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 8px; background: #0a66c2; color: #fff; font: 800 17px/1 Arial, sans-serif; }
+.li-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; font-size: 14px; line-height: 1.35; color: var(--muted); }
+.li-text strong { color: var(--paper, #f1eee7); }
+.li-box.on .li-text span { color: #8fc1f0; }
+.li-pick { flex: none; cursor: pointer; }
+.li-how { margin-top: 10px; font-size: 13px; color: var(--muted); }
+.li-how summary { cursor: pointer; color: var(--paper, #f1eee7); text-decoration: underline; text-underline-offset: 3px; }
+.li-how ol { margin: 8px 0 6px; padding-left: 20px; line-height: 1.5; }
+.li-how p { margin: 0; }
+@media (max-width: 560px) { .li-row { flex-wrap: wrap; } .li-text { flex-basis: calc(100% - 46px); } }

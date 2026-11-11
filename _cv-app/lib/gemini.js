@@ -1,5 +1,5 @@
 import { GoogleGenAI } from "@google/genai";
-import { CV_SCHEMA, SYSTEM, EDIT_SCHEMA, EDIT_SYSTEM, userPrompt } from "./ai.js";
+import { CV_SCHEMA, SYSTEM, userPrompt } from "./ai.js";
 
 // Cadena de modelos: principal y respaldos (cada uno con su propio cupo gratis diario).
 // Configurable con GEMINI_MODEL y GEMINI_FALLBACK_MODEL (lista separada por comas).
@@ -36,7 +36,6 @@ function geminiSchema(node) {
   return out;
 }
 const SCHEMA = geminiSchema(CV_SCHEMA);
-const EDIT = geminiSchema(EDIT_SCHEMA);
 
 /** Código HTTP y detalle de un error de la API de Google (o null si no es un error de la API). */
 function apiInfo(err) {
@@ -64,7 +63,7 @@ async function run(model, input, system = SYSTEM, schema = SCHEMA) {
   return res;
 }
 
-export async function adaptCvGemini({ cvPdfBase64, cvText, jobText, jobUrl, language, extraInfo }) {
+export async function adaptCvGemini({ cvPdfBase64, cvText, jobText, jobUrl, language, extraInfo, extraImages, linkedinPdfBase64 }) {
   const input = [];
   if (cvPdfBase64) {
     input.push({ type: "text", text: "Este es el CV actual de la persona:" });
@@ -72,13 +71,20 @@ export async function adaptCvGemini({ cvPdfBase64, cvText, jobText, jobUrl, lang
   } else {
     input.push({ type: "text", text: `<cv_actual>\n${cvText}\n</cv_actual>` });
   }
-  input.push({ type: "text", text: userPrompt({ jobText, jobUrl, language, extraInfo }) });
+  if (linkedinPdfBase64) {
+    input.push({ type: "text", text: "Este es el perfil completo de LinkedIn de la persona:" });
+    input.push({ type: "document", data: linkedinPdfBase64, mime_type: "application/pdf" });
+  }
+  for (const im of extraImages || []) input.push({ type: "image", data: im.data, mime_type: im.mime });
+  input.push({ type: "text", text: userPrompt({ jobText, jobUrl, language, extraInfo, extraImages, linkedinPdfBase64 }) });
   return callGemini(input, SYSTEM, SCHEMA);
 }
 
-/** Pide ediciones puntuales sobre un CV ya adaptado (no lo vuelve a adaptar entero). */
-export async function editCvGemini(text) {
-  return callGemini([{ type: "text", text }], EDIT_SYSTEM, EDIT);
+/** Pedido genérico de texto → JSON con el sistema y esquema indicados (ej. carta de presentación). */
+export async function jsonGemini(text, system, schema, images = []) {
+  const input = images.map((im) => ({ type: "image", data: im.data, mime_type: im.mime }));
+  input.push({ type: "text", text });
+  return callGemini(input, system, geminiSchema(schema));
 }
 
 async function callGemini(input, system, schema) {
