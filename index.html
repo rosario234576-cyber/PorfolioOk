@@ -4,9 +4,29 @@
   <meta charset="UTF-8">
   <!-- Animaciones activas por defecto (aunque el sistema pida reducir movimiento). ?motion=reduced las apaga en este navegador; ?motion=full las vuelve a activar. -->
   <script>(function(){var reduced=false;try{var m=new URLSearchParams(location.search).get("motion");if(m==="reduced")localStorage.setItem("inkk-motion","reduced");if(m==="full"||m==="auto")localStorage.removeItem("inkk-motion");reduced=localStorage.getItem("inkk-motion")==="reduced"}catch(e){}if(reduced)return;document.documentElement.classList.add("motion-full");var native=window.matchMedia.bind(window);window.matchMedia=function(q){if(String(q).indexOf("prefers-reduced-motion")>-1){var noop=function(){};return{matches:false,media:q,onchange:null,addEventListener:noop,removeEventListener:noop,addListener:noop,removeListener:noop,dispatchEvent:function(){return false}}}return native(q)}})();</script>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <meta name="description" content="Inkkstudios: diseño gráfico, branding, campañas, fotografía y video para marcas de Argentina y Latinoamérica.">
-  <title>Inkkstudios — Portfolio creativo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rosario Fernández · Diseñadora gráfica en Buenos Aires | Inkkstudio</title>
+  <!-- SEO -->
+  <meta name="description" content="Portfolio de Rosario Fernández (Inkkstudio): diseño gráfico, gestión de redes, diseño web, packaging, campañas en Meta Ads, fotografía y video para marcas de Argentina y Latinoamérica.">
+  <link rel="canonical" href="https://www.inkkstudio.art/">
+  <meta name="author" content="Rosario Fernández">
+  <meta name="theme-color" content="#101513">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Inkkstudio">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:title" content="Rosario Fernández · Diseñadora gráfica en Buenos Aires | Inkkstudio">
+  <meta property="og:description" content="Portfolio de Rosario Fernández (Inkkstudio): diseño gráfico, gestión de redes, diseño web, packaging, campañas en Meta Ads, fotografía y video para marcas de Argentina y Latinoamérica.">
+  <meta property="og:url" content="https://www.inkkstudio.art/">
+  <meta property="og:image" content="https://www.inkkstudio.art/assets/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Inkkstudio · Rosario Fernández, diseñadora gráfica">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Rosario Fernández · Diseñadora gráfica en Buenos Aires | Inkkstudio">
+  <meta name="twitter:description" content="Portfolio de Rosario Fernández (Inkkstudio): diseño gráfico, gestión de redes, diseño web, packaging, campañas en Meta Ads, fotografía y video para marcas de Argentina y Latinoamérica.">
+  <meta name="twitter:image" content="https://www.inkkstudio.art/assets/og-image.jpg">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Person", "@id": "https://www.inkkstudio.art/#rosario", "name": "Rosario Fernández", "jobTitle": "Diseñadora gráfica", "url": "https://www.inkkstudio.art/", "image": "https://www.inkkstudio.art/assets/opt/Foto.webp", "address": {"@type": "PostalAddress", "addressLocality": "Buenos Aires", "addressCountry": "AR"}, "sameAs": ["https://www.linkedin.com/in/rosariofernandezarg/", "https://www.instagram.com/inkkstudios_/"], "knowsAbout": ["Diseño gráfico", "Gestión de redes sociales", "Diseño web", "Packaging", "Meta Ads", "Fotografía de producto", "Edición de video"]}, {"@type": "ProfessionalService", "@id": "https://www.inkkstudio.art/#inkkstudio", "name": "Inkkstudio", "url": "https://www.inkkstudio.art/", "logo": "https://www.inkkstudio.art/assets/favicon-gato.png", "image": "https://www.inkkstudio.art/assets/og-image.jpg", "founder": {"@id": "https://www.inkkstudio.art/#rosario"}, "areaServed": ["Argentina", "Chile", "Ecuador", "México"], "address": {"@type": "PostalAddress", "addressLocality": "Buenos Aires", "addressCountry": "AR"}, "sameAs": ["https://www.instagram.com/inkkstudios_/"]}]}</script>
+  <!-- /SEO -->
   <link rel="icon" type="image/png" href="assets/favicon-gato.png">
   <link rel="preload" href="Fuente/RocGroteskCondensedExtraBold.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>

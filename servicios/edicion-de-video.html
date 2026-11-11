@@ -4,8 +4,28 @@
   <meta charset="UTF-8">
   <!-- Animaciones activas por defecto (aunque el sistema pida reducir movimiento). ?motion=reduced las apaga en este navegador; ?motion=full las vuelve a activar. -->
   <script>(function(){var reduced=false;try{var m=new URLSearchParams(location.search).get("motion");if(m==="reduced")localStorage.setItem("inkk-motion","reduced");if(m==="full"||m==="auto")localStorage.removeItem("inkk-motion");reduced=localStorage.getItem("inkk-motion")==="reduced"}catch(e){}if(reduced)return;document.documentElement.classList.add("motion-full");var native=window.matchMedia.bind(window);window.matchMedia=function(q){if(String(q).indexOf("prefers-reduced-motion")>-1){var noop=function(){};return{matches:false,media:q,onchange:null,addEventListener:noop,removeEventListener:noop,addListener:noop,removeListener:noop,dispatchEvent:function(){return false}}}return native(q)}})();</script>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
-  <title>Inkkstudio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Edición de video: reels y anuncios | Inkkstudio</title>
+  <!-- SEO -->
+  <meta name="description" content="Edición de reels, anuncios verticales y video para redes sociales con ritmo y motion. Trabajos para marcas de gaming, tecnología e inmobiliarias.">
+  <link rel="canonical" href="https://www.inkkstudio.art/servicios/edicion-de-video.html">
+  <meta name="author" content="Rosario Fernández">
+  <meta name="theme-color" content="#101513">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Inkkstudio">
+  <meta property="og:locale" content="es_AR">
+  <meta property="og:title" content="Edición de video: reels y anuncios | Inkkstudio">
+  <meta property="og:description" content="Edición de reels, anuncios verticales y video para redes sociales con ritmo y motion. Trabajos para marcas de gaming, tecnología e inmobiliarias.">
+  <meta property="og:url" content="https://www.inkkstudio.art/servicios/edicion-de-video.html">
+  <meta property="og:image" content="https://www.inkkstudio.art/assets/og-image.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Inkkstudio · Rosario Fernández, diseñadora gráfica">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Edición de video: reels y anuncios | Inkkstudio">
+  <meta name="twitter:description" content="Edición de reels, anuncios verticales y video para redes sociales con ritmo y motion. Trabajos para marcas de gaming, tecnología e inmobiliarias.">
+  <meta name="twitter:image" content="https://www.inkkstudio.art/assets/og-image.jpg">
+  <!-- /SEO -->
   <link rel="icon" type="image/png" href="../assets/favicon-gato.png">
   <link rel="apple-touch-icon" href="../assets/favicon-gato.png">
   <link rel="preload" href="../Fuente/RocGroteskCondensedExtraBold.woff2" as="font" type="font/woff2" crossorigin>

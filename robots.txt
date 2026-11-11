@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /_cv-app/
+
+Sitemap: https://www.inkkstudio.art/sitemap.xml
