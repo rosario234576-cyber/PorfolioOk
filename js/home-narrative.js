@@ -394,7 +394,7 @@
 
     // Reseñas: las tarjetas llegan desde la derecha, una detrás de otra.
     if (testimonials) {
-      gsap.fromTo($(".testimonial-track article", testimonials).slice(0, 3), { x: 140, rotate: 2.5, opacity: 0 }, { x: 0, rotate: 0, opacity: 1, stagger: 0.15, ease: "power3.out", scrollTrigger: { trigger: testimonials, start: "top 75%", end: "top 10%", scrub: 1.2 } });
+      gsap.fromTo($$(".testimonial-track article", testimonials).slice(0, 3), { x: 140, rotate: 2.5, opacity: 0 }, { x: 0, rotate: 0, opacity: 1, stagger: 0.15, ease: "power3.out", scrollTrigger: { trigger: testimonials, start: "top 75%", end: "top 10%", scrub: 1.2 } });
     }
 
     // Reseñas → Contacto: el contacto sube como hoja y su panel crece hasta su tamaño real.
