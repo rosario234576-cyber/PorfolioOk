@@ -1,0 +1,27 @@
+/* Bloque de texto por servicio: qué incluye, para quién y preguntas frecuentes. */
+main .service-seo{position:relative;padding:clamp(64px,9vw,120px) 0;background:var(--dark,#101513);color:var(--paper,#f1eee7)}
+.service-seo-shell{width:min(92vw,1280px);margin-inline:auto;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(32px,6vw,90px);align-items:start}
+main .service-seo-eyebrow{color:var(--paper,#f1eee7);display:inline-flex;align-items:center;gap:10px;margin:0 0 18px;font:700 11px/1 Arial,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.service-seo-eyebrow::before{content:"✦";color:var(--orange,#eb5b30);font-size:20px}
+main .service-seo h2{margin:0 0 24px;font:800 clamp(2.2rem,4.6vw,4.4rem)/.9 Roc,Impact,sans-serif;letter-spacing:-.03em;text-transform:uppercase;color:var(--paper,#f1eee7)}
+main .service-seo p{margin:0 0 16px;max-width:62ch;font:400 clamp(15px,1.15vw,17px)/1.65 Arial,sans-serif;color:rgba(241,238,231,.78)}
+main .service-seo h3{margin:30px 0 14px;font:800 clamp(1.3rem,2vw,1.7rem)/1 Roc,Impact,sans-serif;letter-spacing:-.01em;text-transform:uppercase;color:var(--orange,#eb5b30)}
+.service-seo ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+main .service-seo li{position:relative;padding-left:26px;font:400 15px/1.5 Arial,sans-serif;color:rgba(241,238,231,.86)}
+.service-seo li::before{content:"";position:absolute;left:0;top:.55em;width:12px;height:12px;border-radius:50%;background:var(--orange,#eb5b30)}
+.service-seo-faq{display:grid;gap:12px}
+main .service-seo-faq h3{margin-top:0}
+main .service-seo details{border:1px solid var(--white-line,rgba(241,238,231,.17));border-radius:16px;background:rgba(241,238,231,.05);overflow:hidden}
+.service-seo summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:16px;padding:18px 20px;font:700 15px/1.35 Arial,sans-serif;color:var(--paper,#f1eee7)}
+.service-seo summary::-webkit-details-marker{display:none}
+.service-seo summary::after{content:"+";flex:none;color:var(--orange,#eb5b30);font-size:22px;line-height:.9;transition:transform .25s}
+.service-seo details[open] summary::after{transform:rotate(45deg)}
+.service-seo details p{color:rgba(241,238,231,.72)!important;margin:0;padding:0 20px 18px;font-size:15px}
+.service-seo a{color:var(--orange,#eb5b30);font-weight:700}
+@media(max-width:860px){
+  .service-seo-shell{grid-template-columns:1fr}
+}
+@media(max-width:760px){
+  .service-seo{text-align:left}
+  .service-seo-shell{width:calc(100vw - 32px)}
+}
