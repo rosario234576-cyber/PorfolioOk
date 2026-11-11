@@ -7,6 +7,7 @@ import { fetchJobPosting } from "./lib/job.js";
 import { adaptCv, refineCv, generalTarget, isConfigured } from "./lib/ai.js";
 import { generatePdf, fitOnePage } from "./lib/pdf.js";
 import { generateDocx } from "./lib/docx.js";
+import { writeLetter, letterPdf, letterDocx } from "./lib/letter.js";
 import { authRequired, isAuthed, login, logout, requireAuth } from "./lib/auth.js";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -130,6 +131,43 @@ async function exportCv(req, res, forced) {
 }
 app.post("/api/export", (req, res) => exportCv(req, res));
 app.post("/api/pdf", (req, res) => exportCv(req, res, "pdf"));
+
+/** Escribe la carta de presentación a partir del CV adaptado y la oferta. */
+app.post("/api/letter", async (req, res) => {
+  try {
+    const { cv, jobUrl, mode, role, details, tone, length, recipient, company, notes } = req.body || {};
+    let jobText = String(req.body?.jobText || "").trim();
+    if (!jobText && mode === "general") jobText = generalTarget(String(role || "").trim().slice(0, 200), String(details || "").trim().slice(0, 1500));
+    if (!cv?.name) throw new Error("Faltan los datos del CV.");
+    if (!jobText) throw new Error("Falta la descripción de la oferta.");
+    const clip = (v, n) => String(v || "").trim().slice(0, n);
+    res.json(await writeLetter({
+      cv, jobText, jobUrl,
+      tone: clip(tone, 20), length: clip(length, 20), recipient: clip(recipient, 120),
+      company: clip(company, 120), notes: clip(notes, 2000),
+    }));
+  } catch (err) {
+    console.error("[letter]", err);
+    res.status(400).json({ error: friendly(err) });
+  }
+});
+
+/** Descarga la carta en PDF o Word, con el mismo diseño que el CV. */
+app.post("/api/letter/export", async (req, res) => {
+  try {
+    const { letter, cv, paper, design } = req.body || {};
+    if (!cv?.name || !letter?.paragraphs?.length) throw new Error("Primero generá la carta.");
+    const docx = req.body?.format === "docx";
+    const body = docx ? await letterDocx(letter, cv, paper, design) : await letterPdf(letter, cv, paper, design);
+    const file = `Carta de presentación ${cv.name}${cv.analysis?.company ? " - " + cv.analysis.company : ""}.${docx ? "docx" : "pdf"}`.replace(/[\\/:*?"<>|]/g, "");
+    res.setHeader("Content-Type", docx ? "application/vnd.openxmlformats-officedocument.wordprocessingml.document" : "application/pdf");
+    res.setHeader("Content-Disposition", `attachment; filename*=UTF-8''${encodeURIComponent(file)}`);
+    res.send(body);
+  } catch (err) {
+    console.error("[letter-export]", err);
+    res.status(400).json({ error: err.message });
+  }
+});
 
 function friendly(err) {
   if (err.status === 401) return "La clave de API no es válida. Revisá el archivo .env.";

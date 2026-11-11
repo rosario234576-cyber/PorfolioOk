@@ -76,6 +76,11 @@ export async function adaptCvGemini({ cvPdfBase64, cvText, jobText, jobUrl, lang
   return callGemini(input, SYSTEM, SCHEMA);
 }
 
+/** Pedido genérico de texto → JSON con el sistema y esquema indicados (ej. carta de presentación). */
+export async function jsonGemini(text, system, schema) {
+  return callGemini([{ type: "text", text }], system, geminiSchema(schema));
+}
+
 /** Pide ediciones puntuales sobre un CV ya adaptado (no lo vuelve a adaptar entero). */
 export async function editCvGemini(text) {
   return callGemini([{ type: "text", text }], EDIT_SYSTEM, EDIT);

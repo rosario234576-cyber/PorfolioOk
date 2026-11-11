@@ -7,7 +7,7 @@
 <link rel="icon" type="image/png" href="brand/favicon-gato.png" />
 <link rel="preload" href="brand/RocGroteskCondensedExtraBold.woff2" as="font" type="font/woff2" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=4" />
+<link rel="stylesheet" href="styles.css?v=5" />
 </head>
 <body>
 <div class="grain" aria-hidden="true"></div>
@@ -147,6 +147,11 @@
 
     <ul id="cards" class="cards"></ul>
 
+    <div id="doc-tabs" class="doc-tabs hidden" role="tablist" aria-label="Documento">
+      <button type="button" id="tab-cv" class="doc-tab on" role="tab" aria-selected="true">CV adaptado</button>
+      <button type="button" id="tab-letter" class="doc-tab" role="tab" aria-selected="false">Carta de presentación</button>
+    </div>
+
     <div id="detail-empty" class="panel empty-state">
       <img src="brand/Sello.webp" alt="" class="seal-spin" />
       <h2>Analizando CVs…</h2>
@@ -260,6 +265,60 @@
         </div>
       </aside>
     </div>
+    <div id="letter-detail" class="detail hidden">
+      <div class="preview-col">
+        <div id="letter-empty" class="panel empty-state letter-empty">
+          <img src="brand/Sello.webp" alt="" />
+          <h2>Tu carta, a medida</h2>
+          <p>Se escribe a partir de tu CV adaptado y de la oferta, con tus logros reales. Elegí el tono y el largo a la derecha y tocá «Escribir carta».</p>
+        </div>
+        <div id="letter-ready" class="hidden">
+          <div class="preview-tabs" role="tablist" aria-label="Vista de la carta">
+            <button type="button" id="letter-view-page" class="preview-tab on" role="tab" aria-selected="true">Hoja completa</button>
+            <button type="button" id="letter-view-edit" class="preview-tab" role="tab" aria-selected="false">Editar texto</button>
+          </div>
+          <p class="hint" id="letter-hint">Así queda tu carta, tal cual se descarga. Usa el mismo diseño y hoja que tu CV.</p>
+          <div id="letter-page" class="page-view a4">
+            <canvas id="letter-canvas" aria-label="Vista previa de la carta"></canvas>
+            <span class="page-loading">Generando vista previa…</span>
+          </div>
+          <article id="letter-edit" class="paper letter-paper hidden"></article>
+        </div>
+      </div>
+
+      <aside class="side">
+        <form id="letter-form" class="panel side-card">
+          <h3>Carta de presentación</h3>
+          <p class="small-hint">Usa tu CV adaptado y la oferta. No inventa nada que no esté en tu CV o que no le cuentes.</p>
+          <div class="letter-opts">
+            <label><span>Tono</span>
+              <select id="letter-tone"><option value="formal">Formal</option><option value="cercano">Cercano</option></select>
+            </label>
+            <label><span>Largo</span>
+              <select id="letter-length"><option value="media">Media (≈ 250 palabras)</option><option value="corta">Corta (≈ 170 palabras)</option></select>
+            </label>
+          </div>
+          <label class="letter-field"><span>Empresa <em>opcional</em></span><input id="letter-company" type="text" placeholder="Si la oferta no la dice" autocomplete="off" /></label>
+          <label class="letter-field"><span>Destinatario <em>opcional</em></span><input id="letter-recipient" type="text" placeholder="Ej.: Laura Pérez, Gerente de Marketing" autocomplete="off" /></label>
+          <label class="letter-field"><span>Qué querés destacar <em>opcional</em></span><textarea id="letter-notes" rows="3" placeholder="Ej.: que me encanta su marca, que puedo empezar ya, que trabajé con clientes de su rubro…"></textarea></label>
+          <p id="letter-error" class="error hidden" role="alert"></p>
+          <button type="submit" id="letter-btn" class="btn-cta small-cta full-w"><span id="letter-label">Escribir carta</span><span class="cta-arrow small" aria-hidden="true">✎</span></button>
+        </form>
+
+        <div id="letter-actions" class="panel side-card hidden">
+          <h3>Enviar</h3>
+          <p class="letter-subject-line"><span>Asunto del mail</span><strong id="letter-subject"></strong></p>
+          <div class="letter-opts">
+            <label><span>Archivo</span>
+              <select id="letter-format"><option value="pdf">PDF</option><option value="docx">Word (.docx)</option></select>
+            </label>
+            <button type="button" id="letter-copy" class="btn-ghost small">Copiar texto</button>
+          </div>
+          <button type="button" id="letter-download" class="btn-cta full"><span id="letter-download-label">Descargar carta</span><span class="cta-arrow" aria-hidden="true">↓</span></button>
+          <p id="letter-dl-error" class="error hidden" role="alert"></p>
+        </div>
+      </aside>
+    </div>
   </section>
 </main>
 
@@ -267,6 +326,6 @@
   <img src="brand/gato.webp" alt="" /> Hecho por <strong>Inkkstudio</strong>
 </footer>
 
-<script src="app.js?v=4"></script>
+<script src="app.js?v=5"></script>
 </body>
 </html>

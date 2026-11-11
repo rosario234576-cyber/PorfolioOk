@@ -133,7 +133,7 @@ ${extra}
 Idioma del CV final: ${language || "auto"}.
 Adaptá el CV a esta oferta siguiendo las reglas y devolvé el resultado con la estructura indicada.`;
 }
-export { CV_SCHEMA, SYSTEM, EDIT_SCHEMA, EDIT_SYSTEM };
+export { CV_SCHEMA, SYSTEM, EDIT_SCHEMA, EDIT_SYSTEM, obj, str, strList };
 
 /**
  * Usa Gemini si hay GEMINI_API_KEY; si no, Claude.
@@ -180,6 +180,15 @@ Reglas:
 - No inventes nada más allá de lo que la persona dice.
 
 Análisis: devolvé el análisis completo recalculado. Partí del análisis anterior: mantené match_before igual; subí match_after según lo que la nueva información cubre; sacá de gaps y de keywords_missing lo que quedó cubierto y pasalo a keywords_matched; no agregues gaps nuevos que antes no estaban salvo que la información revele algo relevante. La suma de points de gaps = 100 − match_after. En "changes" listá solo los cambios de esta edición, en español. tips: dejalos como estaban salvo que dejen de aplicar.`;
+
+/** Pedido genérico a la IA (Gemini si hay clave; si no, Claude) que devuelve JSON con el esquema dado. */
+export async function generateJson(system, schema, text) {
+  if (hasGemini()) {
+    const { jsonGemini } = await import("./gemini.js");
+    return jsonGemini(text, system, schema);
+  }
+  return callClaude(system, schema, [{ type: "text", text }]);
+}
 
 /** Aplica una lista de ediciones sobre una copia del CV. Devuelve el CV nuevo y cuántas se aplicaron. */
 export function applyEdits(cv, edits) {

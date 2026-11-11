@@ -7,6 +7,10 @@ let jobs = [];    // { id, file, status: queued|working|done|error, result, erro
 let selectedId = null;
 let result = null; // CV del job seleccionado (lo usa la vista previa editable)
 let session = null; // { jobText, jobUrl, language }
+let docTab = "cv";          // "cv" | "letter"
+let letterView = "page";    // "page" | "edit"
+let letterTimer = null;
+let letterSeq = 0;
 
 const has = (s) => String(s ?? "").trim().length > 0;
 const extOf = (name) => (name.split(".").pop() || "").toUpperCase().slice(0, 4);
@@ -308,9 +312,12 @@ const currentJob = () => jobs.find((j) => j.id === selectedId);
 function renderDetail() {
   const job = currentJob();
   const ready = job?.status === "done";
-  $("detail").classList.toggle("hidden", !ready);
+  $("detail").classList.toggle("hidden", !ready || docTab !== "cv");
+  $("letter-detail").classList.toggle("hidden", !ready || docTab !== "letter");
+  $("doc-tabs").classList.toggle("hidden", !ready);
   $("detail-empty").classList.toggle("hidden", ready);
   if (!ready) return;
+  if (docTab === "letter") renderLetter();
   result = job.result;
   const a = result.analysis || {};
   $("side-name").textContent = result.name || job.file.name;
@@ -912,3 +919,199 @@ $("download-all").addEventListener("click", async () => {
     btn.textContent = label;
   }
 });
+
+
+// ---------- Carta de presentación ----------
+
+function setDocTab(t) {
+  docTab = t;
+  $("tab-cv").classList.toggle("on", t === "cv");
+  $("tab-letter").classList.toggle("on", t === "letter");
+  $("tab-cv").setAttribute("aria-selected", String(t === "cv"));
+  $("tab-letter").setAttribute("aria-selected", String(t === "letter"));
+  renderDetail();
+}
+$("tab-cv").addEventListener("click", () => setDocTab("cv"));
+$("tab-letter").addEventListener("click", () => setDocTab("letter"));
+
+function renderLetter() {
+  const job = currentJob();
+  if (!job) return;
+  const o = job.letterOpts || {};
+  $("letter-tone").value = o.tone || "formal";
+  $("letter-length").value = o.length || "media";
+  $("letter-company").value = o.company ?? (job.result.analysis?.company || "");
+  $("letter-recipient").value = o.recipient || "";
+  $("letter-notes").value = o.notes || "";
+  const has = Boolean(job.letter?.paragraphs?.length);
+  $("letter-empty").classList.toggle("hidden", has);
+  $("letter-ready").classList.toggle("hidden", !has);
+  $("letter-actions").classList.toggle("hidden", !has);
+  $("letter-label").textContent = has ? "Reescribir carta" : "Escribir carta";
+  showError("letter-error", "");
+  showError("letter-dl-error", "");
+  if (!has) return;
+  $("letter-subject").textContent = job.letter.subject || "—";
+  renderLetterEdit();
+  setLetterView(letterView);
+}
+
+function letterField(tag, cls, get, set) {
+  const n = el(tag, cls);
+  n.textContent = get() ?? "";
+  n.contentEditable = "true";
+  n.spellcheck = true;
+  n.addEventListener("input", () => { set(n.textContent); scheduleLetterPage(900); });
+  return n;
+}
+function renderLetterEdit() {
+  const job = currentJob();
+  const L = job.letter;
+  const cv = job.result;
+  const c = cv.contact || {};
+  const contact = [c.location, c.email, c.phone, c.linkedin, c.website].filter(has).join("  •  ");
+  const box = $("letter-edit");
+  box.className = "paper letter-paper hidden";
+  for (const d of ["moderno", "ejecutivo", "minimalista"]) box.classList.toggle(`design-${d}`, $("design").value === d);
+  box.replaceChildren(
+    el("div", "lt-head", [el("div", "lt-name", cv.name || ""), el("div", "cv-contact", contact)]),
+    letterField("p", "", () => L.greeting, (v) => (L.greeting = v)),
+    ...L.paragraphs.map((_, i) => letterField("p", "", () => L.paragraphs[i], (v) => (L.paragraphs[i] = v))),
+    letterField("p", "", () => L.closing, (v) => (L.closing = v)),
+    el("p", "lt-sign", cv.name || ""),
+  );
+  box.classList.toggle("hidden", letterView !== "edit");
+}
+
+function setLetterView(m) {
+  letterView = m;
+  $("letter-view-page").classList.toggle("on", m === "page");
+  $("letter-view-edit").classList.toggle("on", m === "edit");
+  $("letter-view-page").setAttribute("aria-selected", String(m === "page"));
+  $("letter-view-edit").setAttribute("aria-selected", String(m === "edit"));
+  $("letter-page").classList.toggle("hidden", m !== "page");
+  $("letter-edit").classList.toggle("hidden", m !== "edit");
+  $("letter-hint").textContent = m === "page"
+    ? "Así queda tu carta, tal cual se descarga. Usa el mismo diseño y hoja que tu CV."
+    : "Hacé clic en cualquier párrafo para editarlo. Volvé a «Hoja completa» para ver cómo queda.";
+  if (m === "page") scheduleLetterPage(0);
+}
+$("letter-view-page").addEventListener("click", () => setLetterView("page"));
+$("letter-view-edit").addEventListener("click", () => setLetterView("edit"));
+
+function scheduleLetterPage(delay = 300) {
+  clearTimeout(letterTimer);
+  letterTimer = setTimeout(refreshLetterPage, delay);
+}
+
+async function exportLetter(job, format = "pdf") {
+  const res = await api("/api/letter/export", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ letter: job.letter, cv: job.result, paper: $("paper").value, design: $("design").value, format }),
+  });
+  if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || "No se pudo generar la carta.");
+  return { res, blob: await res.blob() };
+}
+
+async function refreshLetterPage() {
+  const job = currentJob();
+  if (!job?.letter?.paragraphs?.length || docTab !== "letter" || letterView !== "page") return;
+  const seq = ++letterSeq;
+  const view = $("letter-page");
+  view.classList.toggle("letter", $("paper").value === "letter");
+  view.classList.add("loading");
+  try {
+    const { blob } = await exportLetter(job);
+    if (seq !== letterSeq) return;
+    await drawPdf(blob, $("letter-canvas"));
+  } catch (err) {
+    showError("letter-dl-error", err.message);
+  } finally {
+    if (seq === letterSeq) view.classList.remove("loading");
+  }
+}
+
+function saveLetterOpts(job) {
+  job.letterOpts = {
+    tone: $("letter-tone").value,
+    length: $("letter-length").value,
+    company: $("letter-company").value.trim(),
+    recipient: $("letter-recipient").value.trim(),
+    notes: $("letter-notes").value.trim(),
+  };
+}
+for (const id of ["letter-tone", "letter-length", "letter-company", "letter-recipient", "letter-notes"]) {
+  $(id).addEventListener("input", () => { const j = currentJob(); if (j) saveLetterOpts(j); });
+}
+
+$("letter-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const job = currentJob();
+  if (!job || job.status !== "done") return;
+  saveLetterOpts(job);
+  const btn = $("letter-btn");
+  const label = $("letter-label");
+  const prev = label.textContent;
+  btn.disabled = true;
+  label.textContent = "Escribiendo… (20–40 s)";
+  showError("letter-error", "");
+  try {
+    const res = await api("/api/letter", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        cv: job.result, jobText: session.jobText, jobUrl: session.jobUrl, mode: session.mode,
+        role: session.role, details: session.details, ...job.letterOpts,
+      }),
+    });
+    const data = await res.json().catch(() => ({ error: "Respuesta inválida del servidor." }));
+    if (!res.ok) throw new Error(data.error);
+    if (!data.paragraphs?.length) throw new Error("La IA no devolvió la carta. Probá de nuevo.");
+    job.letter = data;
+    if (job.id === selectedId) renderLetter();
+  } catch (err) {
+    showError("letter-error", err.message || "No se pudo escribir la carta.");
+    label.textContent = prev;
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+function letterPlainText(job) {
+  const L = job.letter;
+  return [L.greeting, "", ...L.paragraphs.flatMap((p) => [p, ""]), L.closing, job.result.name].join("\n");
+}
+$("letter-copy").addEventListener("click", async () => {
+  const job = currentJob();
+  if (!job?.letter) return;
+  const btn = $("letter-copy");
+  try {
+    await navigator.clipboard.writeText(letterPlainText(job));
+    btn.textContent = "¡Copiado!";
+  } catch {
+    btn.textContent = "No se pudo copiar";
+  }
+  setTimeout(() => (btn.textContent = "Copiar texto"), 1800);
+});
+
+$("letter-download").addEventListener("click", async () => {
+  const job = currentJob();
+  if (!job?.letter) return;
+  const btn = $("letter-download");
+  btn.disabled = true;
+  showError("letter-dl-error", "");
+  try {
+    const format = $("letter-format").value === "docx" ? "docx" : "pdf";
+    const { res, blob } = await exportLetter(job, format);
+    const name = decodeURIComponent((res.headers.get("Content-Disposition") || "").split("''")[1] || `Carta.${format}`);
+    saveBlob(blob, name);
+  } catch (err) {
+    showError("letter-dl-error", err.message);
+  } finally {
+    btn.disabled = false;
+  }
+});
+// Si cambian el diseño o la hoja, la carta se vuelve a dibujar con ellos.
+$("design").addEventListener("change", () => { if (docTab === "letter" && currentJob()?.letter) { renderLetterEdit(); scheduleLetterPage(); } });
+$("paper").addEventListener("change", () => { if (docTab === "letter") scheduleLetterPage(); });
