@@ -7,7 +7,7 @@
 <link rel="icon" type="image/png" href="brand/favicon-gato.png" />
 <link rel="preload" href="brand/RocGroteskCondensedExtraBold.woff2" as="font" type="font/woff2" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=6" />
+<link rel="stylesheet" href="styles.css?v=7" />
 </head>
 <body>
 <div class="grain" aria-hidden="true"></div>
@@ -104,6 +104,27 @@
         <div class="step-body">
           <h2 class="step-title"><label for="extra-info">Información extra <span class="opt-tag">opcional</span></label></h2>
           <textarea id="extra-info" rows="4" placeholder="Lo que tu CV no dice y querés que se tenga en cuenta. Ej.: Uso After Effects hace 2 años para animar piezas de redes. En Tu Plan Futuro también manejé las campañas de Meta Ads. Hice el curso de Google de UX en 2025."></textarea>
+          <div class="li-box" id="li-box">
+            <div class="li-row">
+              <span class="li-badge" aria-hidden="true">in</span>
+              <div class="li-text">
+                <strong>Tu perfil de LinkedIn completo</strong>
+                <span id="li-status">Subí el PDF de tu perfil y la IA analiza todas tus experiencias y tareas, sin cargarlas una por una.</span>
+              </div>
+              <label class="btn-ghost small li-pick" id="li-pick">Subir PDF<input type="file" id="li-input" accept=".pdf,application/pdf" hidden /></label>
+              <button type="button" id="li-remove" class="link hidden">Quitar</button>
+            </div>
+            <details class="li-how">
+              <summary>¿Cómo descargo mi perfil en PDF?</summary>
+              <ol>
+                <li>En una computadora, entrá a tu perfil de LinkedIn.</li>
+                <li>Debajo de tu nombre tocá <strong>«Más»</strong> (o «Recursos»).</li>
+                <li>Elegí <strong>«Guardar en PDF»</strong>: se descarga un archivo «Profile.pdf».</li>
+                <li>Subilo acá. Queda guardado en este navegador para las próximas veces.</li>
+              </ol>
+              <p>Usalo solo si estás adaptando tu propio CV: se aplica a todos los CVs que subas.</p>
+            </details>
+          </div>
           <div class="shots" data-shots="extra">
             <label class="shots-drop" tabindex="0">
               <input type="file" accept="image/png,image/jpeg,image/webp" multiple hidden />
@@ -342,6 +363,6 @@
   <img src="brand/gato.webp" alt="" /> Hecho por <strong>Inkkstudio</strong>
 </footer>
 
-<script src="app.js?v=6"></script>
+<script src="app.js?v=7"></script>
 </body>
 </html>

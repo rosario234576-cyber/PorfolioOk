@@ -61,6 +61,7 @@ Reglas innegociables:
 - DATOS FIJOS: copiá exactamente del CV original los nombres de los puestos (role), empresas, instituciones, títulos académicos y fechas. No les agregues palabras ni los "mejores" (por ejemplo, no conviertas "Community Manager" en "Community Manager & Performance Analyst"). Solo podés unificar el formato de las fechas y corregir mayúsculas u ortografía. Si un dato no figura en el CV (por ejemplo, la ubicación de un trabajo), dejá ese campo vacío en lugar de suponerlo.
 - VERACIDAD: nunca inventes empleos, títulos, fechas, empresas, cifras, certificaciones ni herramientas que el CV no respalde. Podés reformular, reordenar, priorizar, condensar y usar el vocabulario de la oferta para describir lo que la persona realmente hizo. Si una métrica no existe, no la crees.
 - La "información extra de la persona" (si viene) cuenta como parte del CV: está respaldada y la podés usar.
+- PERFIL DE LINKEDIN (si viene): es el perfil completo de la misma persona, exportado de LinkedIn. Es una fuente tan válida como el CV y suele tener más detalle: TODAS las experiencias con sus tareas y logros, educación, cursos, certificaciones, aptitudes e idiomas. Analizalo completo y usalo para elegir, de todo lo que la persona hizo, lo más relevante para la oferta (tareas, logros, herramientas o experiencias que el CV no menciona). Los "datos fijos" (puestos, empresas, fechas, títulos) pueden venir del CV o de LinkedIn; si se contradicen, preferí el CV. Si el perfil es de otra persona distinta a la del CV, ignoralo por completo. Aunque LinkedIn tenga mucho contenido, el CV sigue siendo de UNA página: seleccioná, no acumules.
 - Si la oferta pide algo que el CV no muestra, NO lo agregues al CV: listalo en analysis.keywords_missing y, si corresponde, sugerí en analysis.tips cómo podría cubrirlo honestamente.
 - Idioma: escribí el CV en el idioma indicado por el usuario; si es "auto", usá el idioma de la oferta. "language" debe reflejar el idioma final.
 
@@ -124,7 +125,10 @@ Adaptá el CV para postularse a ofertas de ese puesto en general:
 }
 
 /** Texto del pedido (igual para cualquier proveedor). */
-export function userPrompt({ jobText, jobUrl, language, extraInfo, extraImages }) {
+export function userPrompt({ jobText, jobUrl, language, extraInfo, extraImages, linkedinPdfBase64 }) {
+  const li = linkedinPdfBase64
+    ? "\nTambién se adjunta el perfil completo de LinkedIn de la persona (PDF). Analizá todas sus experiencias y tareas y sumá al CV lo que mejor responda a la oferta.\n"
+    : "";
   const imgs = extraImages?.length
     ? `\nLa persona adjuntó ${extraImages.length} captura(s) con información extra sobre ella (certificados, cursos, logros, su LinkedIn, etc.). Leé el texto de las imágenes y tratalo igual que la información extra: es verdadero y lo podés integrar al CV. Ignorá lo que no sea sobre ella.\n`
     : "";
@@ -132,7 +136,7 @@ export function userPrompt({ jobText, jobUrl, language, extraInfo, extraImages }
     ? `\n<informacion_extra_de_la_persona>\n${extraInfo}\n</informacion_extra_de_la_persona>\nEsta información la confirma la propia persona como verdadera y no figura (o figura incompleta) en su CV: integrala donde corresponda (en la experiencia, educación, habilidades o perfil al que pertenece), con la misma prioridad que el CV original. No inventes nada más allá de lo que dice.\n`
     : "";
   return `<oferta_laboral${jobUrl ? ` url="${jobUrl}"` : ""}>\n${jobText}\n</oferta_laboral>
-${extra}${imgs}
+${extra}${imgs}${li}
 Idioma del CV final: ${language || "auto"}.
 Adaptá el CV a esta oferta siguiendo las reglas y devolvé el resultado con la estructura indicada.`;
 }
@@ -280,7 +284,7 @@ Devolvé solo las ediciones mínimas para integrar la información nueva y el an
   return { ...updated, analysis: newAnalysis };
 }
 
-async function adaptCvClaude({ cvPdfBase64, cvText, jobText, jobUrl, language, extraInfo, extraImages }) {
+async function adaptCvClaude({ cvPdfBase64, cvText, jobText, jobUrl, language, extraInfo, extraImages, linkedinPdfBase64 }) {
   const content = [];
   if (cvPdfBase64) {
     content.push({
@@ -291,8 +295,11 @@ async function adaptCvClaude({ cvPdfBase64, cvText, jobText, jobUrl, language, e
   } else {
     content.push({ type: "text", text: `<cv_actual>\n${cvText}\n</cv_actual>` });
   }
+  if (linkedinPdfBase64) {
+    content.push({ type: "document", source: { type: "base64", media_type: "application/pdf", data: linkedinPdfBase64 }, title: "Perfil de LinkedIn" });
+  }
   for (const im of extraImages || []) content.push({ type: "image", source: { type: "base64", media_type: im.mime, data: im.data } });
-  content.push({ type: "text", text: userPrompt({ jobText, jobUrl, language, extraInfo, extraImages }) });
+  content.push({ type: "text", text: userPrompt({ jobText, jobUrl, language, extraInfo, extraImages, linkedinPdfBase64 }) });
   return callClaude(SYSTEM, CV_SCHEMA, content);
 }
 

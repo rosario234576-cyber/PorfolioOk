@@ -63,7 +63,7 @@ async function run(model, input, system = SYSTEM, schema = SCHEMA) {
   return res;
 }
 
-export async function adaptCvGemini({ cvPdfBase64, cvText, jobText, jobUrl, language, extraInfo, extraImages }) {
+export async function adaptCvGemini({ cvPdfBase64, cvText, jobText, jobUrl, language, extraInfo, extraImages, linkedinPdfBase64 }) {
   const input = [];
   if (cvPdfBase64) {
     input.push({ type: "text", text: "Este es el CV actual de la persona:" });
@@ -71,8 +71,12 @@ export async function adaptCvGemini({ cvPdfBase64, cvText, jobText, jobUrl, lang
   } else {
     input.push({ type: "text", text: `<cv_actual>\n${cvText}\n</cv_actual>` });
   }
+  if (linkedinPdfBase64) {
+    input.push({ type: "text", text: "Este es el perfil completo de LinkedIn de la persona:" });
+    input.push({ type: "document", data: linkedinPdfBase64, mime_type: "application/pdf" });
+  }
   for (const im of extraImages || []) input.push({ type: "image", data: im.data, mime_type: im.mime });
-  input.push({ type: "text", text: userPrompt({ jobText, jobUrl, language, extraInfo, extraImages }) });
+  input.push({ type: "text", text: userPrompt({ jobText, jobUrl, language, extraInfo, extraImages, linkedinPdfBase64 }) });
   return callGemini(input, SYSTEM, SCHEMA);
 }
 

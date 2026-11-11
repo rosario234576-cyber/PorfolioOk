@@ -59,7 +59,7 @@ app.post("/api/job", async (req, res) => {
   }
 });
 
-app.post("/api/adapt", upload.fields([{ name: "cv", maxCount: 1 }, { name: "extraImage", maxCount: 6 }]), async (req, res) => {
+app.post("/api/adapt", upload.fields([{ name: "cv", maxCount: 1 }, { name: "extraImage", maxCount: 6 }, { name: "linkedin", maxCount: 1 }]), async (req, res) => {
   try {
     const cvFile = req.files?.cv?.[0];
     if (!cvFile) throw new Error("Subí tu CV.");
@@ -79,7 +79,10 @@ app.post("/api/adapt", upload.fields([{ name: "cv", maxCount: 1 }, { name: "extr
     if (!jobText) jobText = await fetchJobPosting(jobUrl);
 
     const extraInfo = String(req.body.extraInfo || "").trim().slice(0, 3000);
-    const result = await adaptCv({ ...cv, jobText, jobUrl, extraInfo, extraImages, language: req.body.language });
+    const li = req.files?.linkedin?.[0];
+    if (li && !(li.mimetype === "application/pdf" || /\.pdf$/i.test(li.originalname))) throw new Error("El perfil de LinkedIn tiene que ser el PDF que descarga LinkedIn (Más → Guardar en PDF).");
+    const linkedinPdfBase64 = li ? li.buffer.toString("base64") : "";
+    const result = await adaptCv({ ...cv, jobText, jobUrl, extraInfo, extraImages, linkedinPdfBase64, language: req.body.language });
     res.json(result);
   } catch (err) {
     console.error("[adapt]", err);

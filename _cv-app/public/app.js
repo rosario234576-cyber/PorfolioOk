@@ -212,6 +212,7 @@ async function processJob(job) {
   body.append("language", session.language);
   body.append("extraInfo", session.extraInfo || "");
   for (const [i, url] of (session.extraImages || []).entries()) body.append("extraImage", dataUrlToBlob(url), `captura-${i + 1}.jpg`);
+  if (linkedin) body.append("linkedin", dataUrlToBlob(linkedin.url), linkedin.name);
   try {
     const res = await api("/api/adapt", { method: "POST", body });
     const data = await res.json().catch(() => ({ error: "Respuesta inválida del servidor." }));
@@ -1200,3 +1201,51 @@ document.addEventListener("paste", (e) => {
   e.preventDefault();
   addShots(inResults ? "refine" : "extra", files);
 });
+
+
+// ---------- Perfil de LinkedIn (PDF que exporta LinkedIn) ----------
+let linkedin = null; // { name, url (data URL), size }
+const LI_KEY = "cv-a-medida:linkedin";
+
+function renderLinkedin() {
+  const on = Boolean(linkedin);
+  $("li-box").classList.toggle("on", on);
+  $("li-remove").classList.toggle("hidden", !on);
+  $("li-pick").firstChild.textContent = on ? "Cambiar" : "Subir PDF";
+  $("li-status").textContent = on
+    ? `✓ ${linkedin.name} · ${Math.max(1, Math.round(linkedin.size / 1024))} KB · se usa en cada adaptación`
+    : "Subí el PDF de tu perfil y la IA analiza todas tus experiencias y tareas, sin cargarlas una por una.";
+}
+
+function setLinkedin(file) {
+  showError("form-error", "");
+  if (!file) return;
+  if (!/\.pdf$/i.test(file.name) && file.type !== "application/pdf") {
+    return showError("form-error", "El perfil de LinkedIn tiene que ser un PDF (en LinkedIn: Más → Guardar en PDF).");
+  }
+  if (file.size > 8 * 1024 * 1024) return showError("form-error", "Ese PDF es muy pesado (máximo 8 MB).");
+  const reader = new FileReader();
+  reader.onload = () => {
+    linkedin = { name: file.name, url: String(reader.result), size: file.size };
+    try { localStorage.setItem(LI_KEY, JSON.stringify(linkedin)); } catch { /* sin espacio: queda solo en esta sesión */ }
+    renderLinkedin();
+  };
+  reader.onerror = () => showError("form-error", "No pude leer ese archivo.");
+  reader.readAsDataURL(file);
+}
+
+$("li-input").addEventListener("change", () => { setLinkedin($("li-input").files[0]); $("li-input").value = ""; });
+$("li-remove").addEventListener("click", () => {
+  linkedin = null;
+  try { localStorage.removeItem(LI_KEY); } catch { /* ignorar */ }
+  renderLinkedin();
+});
+$("li-box").addEventListener("dragover", (e) => { e.preventDefault(); $("li-box").classList.add("drag"); });
+$("li-box").addEventListener("dragleave", () => $("li-box").classList.remove("drag"));
+$("li-box").addEventListener("drop", (e) => { e.preventDefault(); $("li-box").classList.remove("drag"); setLinkedin(e.dataTransfer.files[0]); });
+
+try {
+  const saved = JSON.parse(localStorage.getItem(LI_KEY) || "null");
+  if (saved?.url?.startsWith("data:")) linkedin = saved;
+} catch { /* ignorar */ }
+renderLinkedin();

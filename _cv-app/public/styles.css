@@ -427,3 +427,18 @@ input:focus, textarea:focus, select:focus { border-color: var(--orange); box-sha
 .shots-list img { width: 100%; height: 100%; object-fit: cover; }
 .shots-list button { position: absolute; top: 3px; right: 3px; width: 22px; height: 22px; border: 0; border-radius: 50%; background: rgba(16,21,19,.85); color: #fff; font-size: 13px; line-height: 22px; cursor: pointer; }
 .shots-list button:hover { background: var(--orange); color: var(--dark, #101513); }
+
+/* Perfil de LinkedIn */
+.li-box { margin-top: 12px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 14px; background: rgba(10,102,194,.07); }
+.li-box.drag, .li-box.on { border-color: #0a66c2; background: rgba(10,102,194,.14); }
+.li-row { display: flex; align-items: center; gap: 12px; }
+.li-badge { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 8px; background: #0a66c2; color: #fff; font: 800 17px/1 Arial, sans-serif; }
+.li-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; font-size: 14px; line-height: 1.35; color: var(--muted); }
+.li-text strong { color: var(--paper, #f1eee7); }
+.li-box.on .li-text span { color: #8fc1f0; }
+.li-pick { flex: none; cursor: pointer; }
+.li-how { margin-top: 10px; font-size: 13px; color: var(--muted); }
+.li-how summary { cursor: pointer; color: var(--paper, #f1eee7); text-decoration: underline; text-underline-offset: 3px; }
+.li-how ol { margin: 8px 0 6px; padding-left: 20px; line-height: 1.5; }
+.li-how p { margin: 0; }
+@media (max-width: 560px) { .li-row { flex-wrap: wrap; } .li-text { flex-basis: calc(100% - 46px); } }
