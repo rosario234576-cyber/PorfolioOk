@@ -7,7 +7,7 @@
 <link rel="icon" type="image/png" href="brand/favicon-gato.png" />
 <link rel="preload" href="brand/RocGroteskCondensedExtraBold.woff2" as="font" type="font/woff2" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=3" />
+<link rel="stylesheet" href="styles.css?v=4" />
 </head>
 <body>
 <div class="grain" aria-hidden="true"></div>
@@ -101,6 +101,15 @@
 
       <div class="step">
         <span class="step-num">03</span>
+        <div class="step-body">
+          <h2 class="step-title"><label for="extra-info">Información extra <span class="opt-tag">opcional</span></label></h2>
+          <textarea id="extra-info" rows="4" placeholder="Lo que tu CV no dice y querés que se tenga en cuenta. Ej.: Uso After Effects hace 2 años para animar piezas de redes. En Tu Plan Futuro también manejé las campañas de Meta Ads. Hice el curso de Google de UX en 2025."></textarea>
+          <p class="hint-line">La IA lo suma al CV como información verdadera tuya, en el lugar que corresponde. Si tenés varios CVs, se aplica a todos.</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="step-num">04</span>
         <div class="step-body options">
           <div>
             <h2 class="step-title"><label for="language">Idioma</label></h2>
@@ -146,8 +155,20 @@
 
     <div id="detail" class="detail hidden">
       <div class="preview-col">
-        <p class="hint">Vista previa · hacé clic en cualquier texto para editarlo</p>
-        <article id="preview" class="paper"></article>
+        <div class="design-picker">
+          <p class="hint">Elegí el diseño <span class="hint-soft">· todos aptos para ATS y en 1 página</span></p>
+          <div id="design-gallery" class="design-gallery" role="radiogroup" aria-label="Diseño del CV"></div>
+        </div>
+        <div class="preview-tabs" role="tablist" aria-label="Vista">
+          <button type="button" id="view-page" class="preview-tab on" role="tab" aria-selected="true">Hoja completa</button>
+          <button type="button" id="view-edit" class="preview-tab" role="tab" aria-selected="false">Editar texto</button>
+        </div>
+        <p class="hint" id="preview-hint">Así queda tu CV, tal cual se descarga.</p>
+        <div id="page-view" class="page-view a4">
+          <canvas id="page-canvas" aria-label="Vista previa del CV"></canvas>
+          <span class="page-loading" id="page-loading">Generando vista previa…</span>
+        </div>
+        <article id="preview" class="paper hidden"></article>
       </div>
 
       <aside class="side">
@@ -222,7 +243,7 @@
 
         <form id="refine-form" class="panel side-card refine">
           <h3><label for="refine-text">Corregir o agregar información</label></h3>
-          <p class="small-hint">Contale a la IA qué está mal o qué falta, y actualiza el CV y la compatibilidad. Para cambios chicos, también podés tocar el texto en la vista previa.</p>
+          <p class="small-hint">Contale a la IA qué está mal o qué falta: lo suma al CV sin tocar lo que ya está bien, y actualiza la compatibilidad. Para cambios chicos usá «Editar texto».</p>
           <textarea id="refine-text" rows="5" placeholder="Ej.: En Plan Futuro mi puesto era Diseñadora Senior. También uso After Effects hace 2 años para animar piezas de redes."></textarea>
           <p id="refine-error" class="error hidden" role="alert"></p>
           <div class="refine-actions">
@@ -246,6 +267,6 @@
   <img src="brand/gato.webp" alt="" /> Hecho por <strong>Inkkstudio</strong>
 </footer>
 
-<script src="app.js?v=3"></script>
+<script src="app.js?v=4"></script>
 </body>
 </html>

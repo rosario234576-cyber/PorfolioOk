@@ -360,3 +360,32 @@ input:focus, textarea:focus, select:focus { border-color: var(--orange); box-sha
 .paper.design-moderno .cv-h { text-align: left; color: #1d3557; border-bottom: 2px solid #1d3557; font-size: 15px; letter-spacing: .07em; }
 .export-hint { margin: 10px 0 0; text-align: center; }
 .export-note { margin: 6px 0 0; text-align: center; color: var(--orange); }
+.opt-tag { margin-left: 6px; padding: 3px 8px; border-radius: 999px; background: rgba(241,238,231,.08); color: var(--muted); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; vertical-align: middle; }
+#extra-info { width: 100%; }
+
+/* Selector de diseño con miniaturas reales */
+.design-picker { margin-bottom: 18px; }
+.hint-soft { opacity: .7; }
+.design-gallery { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.design-card { display: flex; flex-direction: column; gap: 8px; padding: 8px; border: 1px solid var(--line, rgba(241,238,231,.14)); border-radius: 12px; background: rgba(241,238,231,.03); color: inherit; font: inherit; cursor: pointer; text-align: left; transition: border-color .2s, transform .2s, background .2s; }
+.design-card:hover { transform: translateY(-2px); border-color: rgba(235,91,48,.6); }
+.design-card.on { border-color: var(--orange); background: rgba(235,91,48,.1); box-shadow: 0 0 0 1px var(--orange); }
+.design-thumb { position: relative; width: 100%; aspect-ratio: 210 / 297; border-radius: 4px; background: #fff; overflow: hidden; }
+.letter .design-thumb, .design-gallery.letter .design-thumb { aspect-ratio: 8.5 / 11; }
+.design-thumb canvas { display: block; width: 100%; height: 100%; }
+.design-thumb.loading::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #f3f3f3 25%, #e6e6e6 50%, #f3f3f3 75%); background-size: 200% 100%; animation: shimmer 1.2s infinite; }
+@keyframes shimmer { to { background-position: -200% 0; } }
+.design-name { font-weight: 800; font-size: 14px; text-transform: uppercase; letter-spacing: .04em; }
+
+/* Vista de hoja completa */
+.preview-tabs { display: inline-flex; gap: 4px; padding: 4px; margin-bottom: 10px; border: 1px solid var(--line, rgba(241,238,231,.14)); border-radius: 999px; }
+.preview-tab { padding: 8px 16px; border: 0; border-radius: 999px; background: transparent; color: var(--muted); font: 800 13px/1 inherit; text-transform: uppercase; letter-spacing: .05em; cursor: pointer; }
+.preview-tab.on { background: var(--orange); color: var(--dark, #101513); }
+.page-view { position: relative; width: 100%; aspect-ratio: 210 / 297; background: #fff; border-radius: 6px; box-shadow: 0 30px 70px rgba(0, 0, 0, .5); overflow: hidden; }
+.page-view.letter { aspect-ratio: 8.5 / 11; }
+.page-view canvas { display: block; width: 100%; height: 100%; }
+.page-loading { position: absolute; left: 50%; top: 14px; transform: translateX(-50%); padding: 6px 12px; border-radius: 999px; background: rgba(16,21,19,.75); color: #fff; font-size: 12px; opacity: 0; transition: opacity .2s; pointer-events: none; }
+.page-view.loading .page-loading { opacity: 1; }
+.paper.as-page { aspect-ratio: 210 / 297; overflow: auto; }
+.paper.as-page.letter { aspect-ratio: 8.5 / 11; }
+@media (max-width: 760px) { .design-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

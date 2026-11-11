@@ -1,5 +1,5 @@
 import { GoogleGenAI } from "@google/genai";
-import { CV_SCHEMA, SYSTEM, userPrompt } from "./ai.js";
+import { CV_SCHEMA, SYSTEM, EDIT_SCHEMA, EDIT_SYSTEM, userPrompt } from "./ai.js";
 
 // Cadena de modelos: principal y respaldos (cada uno con su propio cupo gratis diario).
 // Configurable con GEMINI_MODEL y GEMINI_FALLBACK_MODEL (lista separada por comas).
@@ -36,6 +36,7 @@ function geminiSchema(node) {
   return out;
 }
 const SCHEMA = geminiSchema(CV_SCHEMA);
+const EDIT = geminiSchema(EDIT_SCHEMA);
 
 /** Código HTTP y detalle de un error de la API de Google (o null si no es un error de la API). */
 function apiInfo(err) {
@@ -49,21 +50,21 @@ function apiInfo(err) {
   return { status, detail: detail || err.message || "" };
 }
 
-async function run(model, input) {
+async function run(model, input, system = SYSTEM, schema = SCHEMA) {
   const t0 = Date.now();
   const res = await getClient().interactions.create({
     model,
-    system_instruction: SYSTEM,
+    system_instruction: system,
     // API v1: las partes del mensaje van dentro de un paso "user_input"
     input: [{ type: "user_input", content: input }],
-    response_format: { type: "text", mime_type: "application/json", schema: SCHEMA },
+    response_format: { type: "text", mime_type: "application/json", schema },
     generation_config: { thinking_level: process.env.GEMINI_THINKING || "low", max_output_tokens: 32000 },
   });
   console.log(`[gemini] ${model} · ${((Date.now() - t0) / 1000).toFixed(0)} s · ${res.status}`);
   return res;
 }
 
-export async function adaptCvGemini({ cvPdfBase64, cvText, jobText, jobUrl, language }) {
+export async function adaptCvGemini({ cvPdfBase64, cvText, jobText, jobUrl, language, extraInfo }) {
   const input = [];
   if (cvPdfBase64) {
     input.push({ type: "text", text: "Este es el CV actual de la persona:" });
@@ -71,8 +72,16 @@ export async function adaptCvGemini({ cvPdfBase64, cvText, jobText, jobUrl, lang
   } else {
     input.push({ type: "text", text: `<cv_actual>\n${cvText}\n</cv_actual>` });
   }
-  input.push({ type: "text", text: userPrompt({ jobText, jobUrl, language }) });
+  input.push({ type: "text", text: userPrompt({ jobText, jobUrl, language, extraInfo }) });
+  return callGemini(input, SYSTEM, SCHEMA);
+}
 
+/** Pide ediciones puntuales sobre un CV ya adaptado (no lo vuelve a adaptar entero). */
+export async function editCvGemini(text) {
+  return callGemini([{ type: "text", text }], EDIT_SYSTEM, EDIT);
+}
+
+async function callGemini(input, system, schema) {
   let interaction;
   // Recorre la cadena de modelos. Cada modelo tiene su propio cupo gratis:
   // - límite alcanzado (429) o modelo no disponible → pasa directo al siguiente
@@ -88,7 +97,7 @@ export async function adaptCvGemini({ cvPdfBase64, cvText, jobText, jobUrl, lang
   outer: for (const model of available) {
     for (let attempt = 0; attempt < 2; attempt++) {
       try {
-        interaction = await run(model, input);
+        interaction = await run(model, input, system, schema);
         lastErr = null;
         break outer;
       } catch (err) {

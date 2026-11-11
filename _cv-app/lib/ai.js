@@ -60,6 +60,7 @@ const SYSTEM = `Sos un reclutador senior y redactor experto de CVs. Adaptás el 
 Reglas innegociables:
 - DATOS FIJOS: copiá exactamente del CV original los nombres de los puestos (role), empresas, instituciones, títulos académicos y fechas. No les agregues palabras ni los "mejores" (por ejemplo, no conviertas "Community Manager" en "Community Manager & Performance Analyst"). Solo podés unificar el formato de las fechas y corregir mayúsculas u ortografía. Si un dato no figura en el CV (por ejemplo, la ubicación de un trabajo), dejá ese campo vacío en lugar de suponerlo.
 - VERACIDAD: nunca inventes empleos, títulos, fechas, empresas, cifras, certificaciones ni herramientas que el CV no respalde. Podés reformular, reordenar, priorizar, condensar y usar el vocabulario de la oferta para describir lo que la persona realmente hizo. Si una métrica no existe, no la crees.
+- La "información extra de la persona" (si viene) cuenta como parte del CV: está respaldada y la podés usar.
 - Si la oferta pide algo que el CV no muestra, NO lo agregues al CV: listalo en analysis.keywords_missing y, si corresponde, sugerí en analysis.tips cómo podría cubrirlo honestamente.
 - Idioma: escribí el CV en el idioma indicado por el usuario; si es "auto", usá el idioma de la oferta. "language" debe reflejar el idioma final.
 
@@ -123,13 +124,16 @@ Adaptá el CV para postularse a ofertas de ese puesto en general:
 }
 
 /** Texto del pedido (igual para cualquier proveedor). */
-export function userPrompt({ jobText, jobUrl, language }) {
+export function userPrompt({ jobText, jobUrl, language, extraInfo }) {
+  const extra = extraInfo
+    ? `\n<informacion_extra_de_la_persona>\n${extraInfo}\n</informacion_extra_de_la_persona>\nEsta información la confirma la propia persona como verdadera y no figura (o figura incompleta) en su CV: integrala donde corresponda (en la experiencia, educación, habilidades o perfil al que pertenece), con la misma prioridad que el CV original. No inventes nada más allá de lo que dice.\n`
+    : "";
   return `<oferta_laboral${jobUrl ? ` url="${jobUrl}"` : ""}>\n${jobText}\n</oferta_laboral>
-
+${extra}
 Idioma del CV final: ${language || "auto"}.
 Adaptá el CV a esta oferta siguiendo las reglas y devolvé el resultado con la estructura indicada.`;
 }
-export { CV_SCHEMA, SYSTEM };
+export { CV_SCHEMA, SYSTEM, EDIT_SCHEMA, EDIT_SYSTEM };
 
 /**
  * Usa Gemini si hay GEMINI_API_KEY; si no, Claude.
@@ -143,32 +147,131 @@ export async function adaptCv(input) {
   return adaptCvClaude(input);
 }
 
+// ---------- Correcciones: ediciones puntuales, sin volver a adaptar todo ----------
+
+const ANALYSIS_SCHEMA = CV_SCHEMA.properties.analysis;
+
+/** La IA devuelve solo las ediciones a aplicar y el análisis recalculado. */
+const EDIT_SCHEMA = obj({
+  edits: {
+    type: "array",
+    items: obj({
+      action: { type: "string", enum: ["set", "add", "remove"] },
+      path: str,
+      index: { type: "integer" },
+      value: str,
+    }),
+  },
+  analysis: ANALYSIS_SCHEMA,
+});
+
+const EDIT_SYSTEM = `Sos un editor de CVs. Recibís un CV YA ADAPTADO a una oferta (en JSON) y nueva información que la persona confirma como verdadera. Tu trabajo es INTEGRAR esa información con la menor cantidad de ediciones posible. NO vuelvas a adaptar ni a reescribir el CV.
+
+Reglas:
+- Todo lo que la nueva información no toca debe quedar EXACTAMENTE igual: no reformules, no reordenes, no "mejores" otras viñetas, el perfil ni las habilidades.
+- Cada edición es una de estas acciones sobre una ruta del JSON (segmentos separados por punto; los números son posiciones empezando en 0):
+  - "set": reemplaza el valor de la ruta. Ej.: path "experience.0.role", value "Diseñadora Senior". Ej.: path "skills.1.items", value con la línea completa actualizada.
+  - "add": inserta "value" en la lista de la ruta, en la posición "index" (-1 = al final). Ej.: path "experience.1.bullets", index -1, value "Animé piezas para redes en After Effects". Ej.: path "skills", index -1, value {"label":"Software","items":"After Effects"} escrito como JSON.
+  - "remove": quita el elemento "index" de la lista de la ruta (value ""). Usalo solo si hace falta espacio para que el CV siga entrando en una página, y sobre lo menos relevante para la oferta.
+- "value" siempre es texto. Para objetos (una experiencia o una habilidad nueva) escribí el objeto como JSON válido. Para "remove" usá "" e index la posición.
+- Si la información ya está en el CV, no la dupliques: no hagas ninguna edición para eso.
+- Agregá la información donde corresponde (en la experiencia, educación o habilidad a la que pertenece). Viñetas con verbo de acción conjugado, concisas, sin punto final, en el idioma del CV.
+- Si la información cambia el enfoque del perfil, podés editar "summary" con un cambio mínimo (agregar o ajustar una frase), no reescribirlo.
+- No inventes nada más allá de lo que la persona dice.
+
+Análisis: devolvé el análisis completo recalculado. Partí del análisis anterior: mantené match_before igual; subí match_after según lo que la nueva información cubre; sacá de gaps y de keywords_missing lo que quedó cubierto y pasalo a keywords_matched; no agregues gaps nuevos que antes no estaban salvo que la información revele algo relevante. La suma de points de gaps = 100 − match_after. En "changes" listá solo los cambios de esta edición, en español. tips: dejalos como estaban salvo que dejen de aplicar.`;
+
+/** Aplica una lista de ediciones sobre una copia del CV. Devuelve el CV nuevo y cuántas se aplicaron. */
+export function applyEdits(cv, edits) {
+  const out = structuredClone(cv);
+  let applied = 0;
+  const parseValue = (v) => {
+    const t = String(v ?? "").trim();
+    if (/^[\[{]/.test(t)) { try { return JSON.parse(t); } catch { /* texto */ } }
+    return String(v ?? "");
+  };
+  // Las eliminaciones van de atrás hacia adelante para que no se corran las posiciones.
+  const ordered = [...(edits || [])].sort((a, b) =>
+    a.action === "remove" && b.action === "remove" && a.path === b.path ? b.index - a.index : 0
+  );
+  for (const e of ordered) {
+    const segs = String(e.path || "").split(".").filter(Boolean).map((k) => (/^\d+$/.test(k) ? Number(k) : k));
+    if (!segs.length || segs[0] === "analysis") continue;
+    let parent = out;
+    for (const k of segs.slice(0, -1)) {
+      parent = parent?.[k];
+      if (parent == null || typeof parent !== "object") break;
+    }
+    if (parent == null || typeof parent !== "object") continue;
+    const last = segs.at(-1);
+    if (e.action === "set") {
+      if (!(last in parent)) continue;
+      const v = parseValue(e.value);
+      if (typeof parent[last] === "string" && typeof v !== "string") continue;
+      parent[last] = v;
+      applied++;
+    } else if (e.action === "add" || e.action === "remove") {
+      const list = parent[last];
+      if (!Array.isArray(list)) continue;
+      if (e.action === "add") {
+        const v = parseValue(e.value);
+        const dup = typeof v === "string" && list.some((x) => typeof x === "string" && x.trim().toLowerCase() === v.trim().toLowerCase());
+        if (dup || (typeof v === "string" && !v.trim())) continue;
+        const i = Number.isInteger(e.index) && e.index >= 0 && e.index <= list.length ? e.index : list.length;
+        list.splice(i, 0, v);
+        applied++;
+      } else if (Number.isInteger(e.index) && e.index >= 0 && e.index < list.length) {
+        list.splice(e.index, 1);
+        applied++;
+      }
+    }
+  }
+  return { cv: out, applied };
+}
+
 /**
- * Aplica correcciones de la persona sobre un CV ya adaptado y recalcula el análisis.
+ * Integra información nueva de la persona en un CV ya adaptado, con ediciones puntuales:
+ * lo que no se toca queda idéntico. Recalcula el análisis.
  * @param {{cv: object, corrections: string, jobText: string, jobUrl?: string, language: string}} input
  */
-export async function refineCv({ cv, corrections, jobText, jobUrl, language }) {
+export async function refineCv({ cv, corrections, jobText, jobUrl }) {
   const { analysis, ...cvData } = cv;
-  const cvText = `<cv_adaptado_actual formato="json">
+  const text = `<oferta_laboral${jobUrl ? ` url="${jobUrl}"` : ""}>
+${jobText}
+</oferta_laboral>
+
+<cv_adaptado_actual formato="json">
 ${JSON.stringify(cvData, null, 2)}
 </cv_adaptado_actual>
 
-<correcciones_de_la_persona>
-${corrections}
-</correcciones_de_la_persona>
+<analisis_anterior formato="json">
+${JSON.stringify(analysis || {}, null, 2)}
+</analisis_anterior>
 
-INSTRUCCIONES PARA ESTA ETAPA:
-- Partí del CV adaptado actual y aplicá las correcciones de la persona. Son hechos verídicos que ella misma confirma: tienen prioridad sobre la regla de "datos fijos" y podés usarlos aunque no estuvieran en el CV original (puestos, fechas, herramientas, logros, experiencia nueva).
-- Mantené todo lo demás igual salvo lo necesario para integrar bien las correcciones (orden, viñetas, perfil, habilidades). El CV tiene que seguir entrando en UNA página: si agregás información, condensá o quitá lo menos relevante para la oferta.
-- No inventes nada más allá de lo que la persona dice.
-- Recalculá el análisis: match_after, keywords_matched, keywords_missing, gaps y tips según el CV corregido. Lo que la persona ya cubrió con sus respuestas no debe seguir en gaps. En "changes" listá solo los cambios hechos en esta corrección.`;
-  const result = await adaptCv({ cvText, jobText, jobUrl, language: language === "auto" ? cv.language || "auto" : language });
+<informacion_nueva_de_la_persona>
+${corrections}
+</informacion_nueva_de_la_persona>
+
+Devolvé solo las ediciones mínimas para integrar la información nueva y el análisis recalculado.`;
+
+  let res;
+  if (hasGemini()) {
+    const { editCvGemini } = await import("./gemini.js");
+    res = await editCvGemini(text);
+  } else {
+    res = await callClaude(EDIT_SYSTEM, EDIT_SCHEMA, [{ type: "text", text }]);
+  }
+  const { cv: updated, applied } = applyEdits(cvData, res.edits);
+  const newAnalysis = { ...(analysis || {}), ...(res.analysis || {}) };
   // "Antes" se refiere siempre al CV original
-  if (result.analysis && Number.isFinite(analysis?.match_before)) result.analysis.match_before = analysis.match_before;
-  return result;
+  if (Number.isFinite(analysis?.match_before)) newAnalysis.match_before = analysis.match_before;
+  if (!applied) {
+    newAnalysis.changes = ["No hizo falta cambiar el CV: esa información ya estaba incluida."];
+  }
+  return { ...updated, analysis: newAnalysis };
 }
 
-async function adaptCvClaude({ cvPdfBase64, cvText, jobText, jobUrl, language }) {
+async function adaptCvClaude({ cvPdfBase64, cvText, jobText, jobUrl, language, extraInfo }) {
   const content = [];
   if (cvPdfBase64) {
     content.push({
@@ -179,8 +282,11 @@ async function adaptCvClaude({ cvPdfBase64, cvText, jobText, jobUrl, language })
   } else {
     content.push({ type: "text", text: `<cv_actual>\n${cvText}\n</cv_actual>` });
   }
-  content.push({ type: "text", text: userPrompt({ jobText, jobUrl, language }) });
+  content.push({ type: "text", text: userPrompt({ jobText, jobUrl, language, extraInfo }) });
+  return callClaude(SYSTEM, CV_SCHEMA, content);
+}
 
+async function callClaude(system, schema, content) {
   const stream = getClient().beta.messages.stream({
     model: MODEL,
     max_tokens: 32000,
@@ -188,9 +294,9 @@ async function adaptCvClaude({ cvPdfBase64, cvText, jobText, jobUrl, language })
     fallbacks: "default",
     output_config: {
       effort: "high",
-      format: { type: "json_schema", schema: CV_SCHEMA },
+      format: { type: "json_schema", schema },
     },
-    system: SYSTEM,
+    system,
     messages: [{ role: "user", content }],
   });
   const message = await stream.finalMessage();

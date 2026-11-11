@@ -172,7 +172,7 @@ $("adapt-form").addEventListener("submit", async (e) => {
     renderQueue();
   }
 
-  session = { mode, jobText, jobUrl, role, details, language: $("language").value };
+  session = { mode, jobText, jobUrl, role, details, extraInfo: $("extra-info").value.trim().slice(0, 3000), language: $("language").value };
   jobs = queue.map((file, i) => ({ id: `${Date.now()}-${i}`, file, status: "queued", result: null, error: "", photo: null, includePhoto: true }));
   selectedId = null;
   $("job-meta").textContent = mode === "general" ? (role ? `${role} · Perfil general` : "Perfil general · puesto según cada CV") : "Analizando la oferta";
@@ -206,6 +206,7 @@ async function processJob(job) {
   body.append("role", session.role);
   body.append("details", session.details);
   body.append("language", session.language);
+  body.append("extraInfo", session.extraInfo || "");
   try {
     const res = await api("/api/adapt", { method: "POST", body });
     const data = await res.json().catch(() => ({ error: "Respuesta inválida del servidor." }));
@@ -330,6 +331,8 @@ function renderDetail() {
   $("undo").classList.toggle("hidden", !job.history?.length);
   renderGaps();
   renderPhoto();
+  buildGallery();
+  setViewMode(viewMode);
   renderPreview();
 }
 
@@ -690,6 +693,7 @@ function renderPreview() {
       p.append(line);
     }
   }
+  schedulePages();
 }
 
 // ---------- Descarga (PDF, Word o imagen) ----------
@@ -702,10 +706,139 @@ function syncExportOptions() {
     localStorage.setItem("cv-a-medida:paper", $("paper").value);
   } catch { /* ignorar */ }
 }
-$("design").addEventListener("change", () => { syncExportOptions(); renderPreview(); });
+$("design").addEventListener("change", () => { syncExportOptions(); renderPreview(); markDesign(); });
 $("format").addEventListener("change", syncExportOptions);
-$("paper").addEventListener("change", syncExportOptions);
+$("paper").addEventListener("change", () => { syncExportOptions(); thumbKeys = {}; renderPreview(); });
 syncExportOptions();
+
+// ---------- Vista de hoja completa y miniaturas de cada diseño (generadas desde el PDF real) ----------
+const DESIGNS = [["harvard", "Harvard clásico"], ["ejecutivo", "Ejecutivo"], ["moderno", "Moderno"], ["minimalista", "Minimalista"]];
+let viewMode = "page";
+let thumbKeys = {};   // diseño → clave del contenido con el que se dibujó su miniatura
+let pageTimer = null;
+let pageSeq = 0;
+
+/** Pide el archivo al servidor con el diseño y la hoja indicados. */
+async function exportFile(job, { design = $("design").value, format = "pdf" } = {}) {
+  const res = await api("/api/export", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ cv: job.result, paper: $("paper").value, design, format, photo: job.photo || null }),
+  });
+  if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || "No se pudo generar el archivo.");
+  return { res, blob: await res.blob() };
+}
+
+/** Dibuja la primera página de un PDF en un canvas, al ancho en pantalla del canvas. */
+async function drawPdf(blob, canvas) {
+  const pdfjs = await loadPdfjs();
+  const doc = await pdfjs.getDocument({ data: new Uint8Array(await blob.arrayBuffer()) }).promise;
+  const page = await doc.getPage(1);
+  const base = page.getViewport({ scale: 1 });
+  const cssWidth = canvas.getBoundingClientRect().width || 300;
+  const scale = (cssWidth * Math.min(2, window.devicePixelRatio || 1)) / base.width;
+  const viewport = page.getViewport({ scale });
+  canvas.width = Math.ceil(viewport.width);
+  canvas.height = Math.ceil(viewport.height);
+  const ctx = canvas.getContext("2d");
+  ctx.fillStyle = "#fff";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  await page.render({ canvasContext: ctx, viewport }).promise;
+  doc.destroy?.();
+}
+
+function showTrimNote(res) {
+  const trimmed = Number(res.headers.get("X-Cv-Trimmed") || 0);
+  const note = $("export-note");
+  note.textContent = trimmed ? `Para que entre en 1 página se quitaron ${trimmed} viñeta${trimmed > 1 ? "s" : ""} de lo menos relevante. Si querés elegir vos qué sacar, usá «Editar texto».` : "";
+  note.classList.toggle("hidden", !trimmed);
+}
+
+function buildGallery() {
+  const g = $("design-gallery");
+  if (g.childElementCount) return markDesign();
+  for (const [id, name] of DESIGNS) {
+    const btn = el("button", "design-card", [el("div", "design-thumb loading", [el("canvas")]), el("span", "design-name", name)]);
+    btn.type = "button";
+    btn.dataset.design = id;
+    btn.setAttribute("role", "radio");
+    btn.addEventListener("click", () => {
+      $("design").value = id;
+      $("design").dispatchEvent(new Event("change"));
+    });
+    g.append(btn);
+  }
+  markDesign();
+}
+function markDesign() {
+  for (const b of $("design-gallery").children) {
+    const on = b.dataset.design === $("design").value;
+    b.classList.toggle("on", on);
+    b.setAttribute("aria-checked", String(on));
+  }
+}
+
+function setViewMode(m) {
+  viewMode = m;
+  $("view-page").classList.toggle("on", m === "page");
+  $("view-edit").classList.toggle("on", m === "edit");
+  $("view-page").setAttribute("aria-selected", String(m === "page"));
+  $("view-edit").setAttribute("aria-selected", String(m === "edit"));
+  $("page-view").classList.toggle("hidden", m !== "page");
+  $("preview").classList.toggle("hidden", m !== "edit");
+  $("preview-hint").textContent = m === "page"
+    ? "Así queda tu CV, tal cual se descarga."
+    : "Hacé clic en cualquier texto para editarlo. Volvé a «Hoja completa» para ver cómo queda.";
+  if (m === "page") schedulePages(0);
+}
+$("view-page").addEventListener("click", () => setViewMode("page"));
+$("view-edit").addEventListener("click", () => setViewMode("edit"));
+$("preview").addEventListener("input", () => schedulePages(900));
+
+function schedulePages(delay = 400) {
+  clearTimeout(pageTimer);
+  pageTimer = setTimeout(refreshPages, delay);
+}
+
+async function refreshPages() {
+  const job = currentJob();
+  if (!job || job.status !== "done") return;
+  const seq = ++pageSeq;
+  const paper = $("paper").value;
+  const key = JSON.stringify([job.id, job.result, paper, job.photo ? job.photo.length : 0]);
+  $("page-view").classList.toggle("letter", paper === "letter");
+  $("design-gallery").classList.toggle("letter", paper === "letter");
+
+  if (viewMode === "page") {
+    const view = $("page-view");
+    view.classList.add("loading");
+    try {
+      const { res, blob } = await exportFile(job);
+      if (seq !== pageSeq) return;
+      showTrimNote(res);
+      await drawPdf(blob, $("page-canvas"));
+    } catch (err) {
+      showError("pdf-error", err.message);
+    } finally {
+      if (seq === pageSeq) view.classList.remove("loading");
+    }
+  }
+
+  // Miniaturas: solo se regeneran si cambió el contenido, la hoja o la foto.
+  for (const card of $("design-gallery").children) {
+    const d = card.dataset.design;
+    if (thumbKeys[d] === key) continue;
+    const thumb = card.querySelector(".design-thumb");
+    thumb.classList.add("loading");
+    try {
+      const { blob } = await exportFile(job, { design: d });
+      if (seq !== pageSeq) return;
+      await drawPdf(blob, thumb.querySelector("canvas"));
+      thumbKeys[d] = key;
+      thumb.classList.remove("loading");
+    } catch { /* la miniatura queda en gris; no bloquea */ }
+  }
+}
 
 function saveBlob(blob, name) {
   const url = URL.createObjectURL(blob);
@@ -744,23 +877,8 @@ async function pdfToPng(blob) {
 
 async function downloadPdf(job) {
   const format = $("format").value;
-  const res = await api("/api/export", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      cv: job.result,
-      paper: $("paper").value,
-      design: $("design").value,
-      format: format === "docx" ? "docx" : "pdf",
-      photo: job.photo || null,
-    }),
-  });
-  if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || "No se pudo generar el archivo.");
-  const trimmed = Number(res.headers.get("X-Cv-Trimmed") || 0);
-  const note = $("export-note");
-  note.textContent = trimmed ? `Para que entre en 1 página se quitaron ${trimmed} viñeta${trimmed > 1 ? "s" : ""} de lo menos relevante. Si querés elegir vos qué sacar, editá el texto en la vista previa.` : "";
-  note.classList.toggle("hidden", !trimmed);
-  const blob = await res.blob();
+  const { res, blob } = await exportFile(job, { format: format === "docx" ? "docx" : "pdf" });
+  showTrimNote(res);
   const name = decodeURIComponent((res.headers.get("Content-Disposition") || "").split("''")[1] || "CV.pdf");
   if (format === "png") return saveBlob(await pdfToPng(blob), name.replace(/\.pdf$/i, ".png"));
   saveBlob(blob, name);

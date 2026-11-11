@@ -18,7 +18,9 @@ Subís tu CV y el link de una oferta laboral: la app lee el puesto, adapta tu CV
 4. Podés **editar cualquier texto** haciendo clic en la vista previa.
 - **Foto:** si el CV en PDF trae una foto, se copia sola al CV adaptado (dice «Tomada de tu CV original»). Podés cambiarla o quitarla desde el panel.
 - **Para llegar al 100%:** debajo del porcentaje ves qué falta, cuántos puntos suma cada cosa y por qué. Tocá «Lo tengo», contalo y «Actualizar CV»; o «No lo tengo» para ver una sugerencia.
-- **Corregir o agregar información:** en el panel derecho escribís qué está mal o qué falta (o tocás un requisito faltante) y la IA actualiza el CV y la compatibilidad. Tiene botón **Deshacer**.
+- **Corregir o agregar información:** en el panel derecho escribís qué está mal o qué falta (o tocás un requisito faltante). La IA devuelve solo las ediciones puntuales (agregar una viñeta, cambiar un dato) y la app las aplica: lo que ya estaba bien queda idéntico. Actualiza la compatibilidad. Tiene botón **Deshacer**.
+- **Información extra (opcional, antes de adaptar):** lo que tu CV no dice y querés que se tenga en cuenta; la IA lo integra desde la primera adaptación.
+- **Elegir diseño:** arriba de la vista previa ves los 4 diseños en miniatura con tu CV real; la vista «Hoja completa» muestra la página A4 o Carta tal cual se descarga, y «Editar texto» permite tocar cualquier texto.
 5. **Descargar**: elegí **Diseño** (Harvard clásico, Ejecutivo, Moderno o Minimalista; todos de una columna, aptos para ATS), **Archivo** (PDF, Word .docx o imagen PNG) y **Hoja** (A4 o Carta).
    - El CV sale **siempre en 1 página**, aunque el original tenga varias: la IA ya lo escribe corto y, si igual no entra, la app achica la letra (hasta 9 pt) y quita las viñetas menos relevantes. Si quitó algo, te avisa debajo del botón.
 
