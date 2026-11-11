@@ -124,12 +124,15 @@ Adaptá el CV para postularse a ofertas de ese puesto en general:
 }
 
 /** Texto del pedido (igual para cualquier proveedor). */
-export function userPrompt({ jobText, jobUrl, language, extraInfo }) {
+export function userPrompt({ jobText, jobUrl, language, extraInfo, extraImages }) {
+  const imgs = extraImages?.length
+    ? `\nLa persona adjuntó ${extraImages.length} captura(s) con información extra sobre ella (certificados, cursos, logros, su LinkedIn, etc.). Leé el texto de las imágenes y tratalo igual que la información extra: es verdadero y lo podés integrar al CV. Ignorá lo que no sea sobre ella.\n`
+    : "";
   const extra = extraInfo
     ? `\n<informacion_extra_de_la_persona>\n${extraInfo}\n</informacion_extra_de_la_persona>\nEsta información la confirma la propia persona como verdadera y no figura (o figura incompleta) en su CV: integrala donde corresponda (en la experiencia, educación, habilidades o perfil al que pertenece), con la misma prioridad que el CV original. No inventes nada más allá de lo que dice.\n`
     : "";
   return `<oferta_laboral${jobUrl ? ` url="${jobUrl}"` : ""}>\n${jobText}\n</oferta_laboral>
-${extra}
+${extra}${imgs}
 Idioma del CV final: ${language || "auto"}.
 Adaptá el CV a esta oferta siguiendo las reglas y devolvé el resultado con la estructura indicada.`;
 }
@@ -182,12 +185,15 @@ Reglas:
 Análisis: devolvé el análisis completo recalculado. Partí del análisis anterior: mantené match_before igual; subí match_after según lo que la nueva información cubre; sacá de gaps y de keywords_missing lo que quedó cubierto y pasalo a keywords_matched; no agregues gaps nuevos que antes no estaban salvo que la información revele algo relevante. La suma de points de gaps = 100 − match_after. En "changes" listá solo los cambios de esta edición, en español. tips: dejalos como estaban salvo que dejen de aplicar.`;
 
 /** Pedido genérico a la IA (Gemini si hay clave; si no, Claude) que devuelve JSON con el esquema dado. */
-export async function generateJson(system, schema, text) {
+export async function generateJson(system, schema, text, images = []) {
   if (hasGemini()) {
     const { jsonGemini } = await import("./gemini.js");
-    return jsonGemini(text, system, schema);
+    return jsonGemini(text, system, schema, images);
   }
-  return callClaude(system, schema, [{ type: "text", text }]);
+  return callClaude(system, schema, [
+    ...images.map((im) => ({ type: "image", source: { type: "base64", media_type: im.mime, data: im.data } })),
+    { type: "text", text },
+  ]);
 }
 
 /** Aplica una lista de ediciones sobre una copia del CV. Devuelve el CV nuevo y cuántas se aplicaron. */
@@ -243,7 +249,7 @@ export function applyEdits(cv, edits) {
  * lo que no se toca queda idéntico. Recalcula el análisis.
  * @param {{cv: object, corrections: string, jobText: string, jobUrl?: string, language: string}} input
  */
-export async function refineCv({ cv, corrections, jobText, jobUrl }) {
+export async function refineCv({ cv, corrections, images = [], jobText, jobUrl }) {
   const { analysis, ...cvData } = cv;
   const text = `<oferta_laboral${jobUrl ? ` url="${jobUrl}"` : ""}>
 ${jobText}
@@ -258,18 +264,12 @@ ${JSON.stringify(analysis || {}, null, 2)}
 </analisis_anterior>
 
 <informacion_nueva_de_la_persona>
-${corrections}
+${corrections || "(ver capturas adjuntas)"}
 </informacion_nueva_de_la_persona>
-
+${images.length ? `\nLa persona adjuntó ${images.length} captura(s) con información nueva sobre ella: leé el texto de las imágenes y tratalo como parte de la información nueva (es verdadera). Ignorá lo que no sea sobre ella.\n` : ""}
 Devolvé solo las ediciones mínimas para integrar la información nueva y el análisis recalculado.`;
 
-  let res;
-  if (hasGemini()) {
-    const { editCvGemini } = await import("./gemini.js");
-    res = await editCvGemini(text);
-  } else {
-    res = await callClaude(EDIT_SYSTEM, EDIT_SCHEMA, [{ type: "text", text }]);
-  }
+  const res = await generateJson(EDIT_SYSTEM, EDIT_SCHEMA, text, images);
   const { cv: updated, applied } = applyEdits(cvData, res.edits);
   const newAnalysis = { ...(analysis || {}), ...(res.analysis || {}) };
   // "Antes" se refiere siempre al CV original
@@ -280,7 +280,7 @@ Devolvé solo las ediciones mínimas para integrar la información nueva y el an
   return { ...updated, analysis: newAnalysis };
 }
 
-async function adaptCvClaude({ cvPdfBase64, cvText, jobText, jobUrl, language, extraInfo }) {
+async function adaptCvClaude({ cvPdfBase64, cvText, jobText, jobUrl, language, extraInfo, extraImages }) {
   const content = [];
   if (cvPdfBase64) {
     content.push({
@@ -291,7 +291,8 @@ async function adaptCvClaude({ cvPdfBase64, cvText, jobText, jobUrl, language, e
   } else {
     content.push({ type: "text", text: `<cv_actual>\n${cvText}\n</cv_actual>` });
   }
-  content.push({ type: "text", text: userPrompt({ jobText, jobUrl, language, extraInfo }) });
+  for (const im of extraImages || []) content.push({ type: "image", source: { type: "base64", media_type: im.mime, data: im.data } });
+  content.push({ type: "text", text: userPrompt({ jobText, jobUrl, language, extraInfo, extraImages }) });
   return callClaude(SYSTEM, CV_SCHEMA, content);
 }
 

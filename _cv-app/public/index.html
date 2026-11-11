@@ -7,7 +7,7 @@
 <link rel="icon" type="image/png" href="brand/favicon-gato.png" />
 <link rel="preload" href="brand/RocGroteskCondensedExtraBold.woff2" as="font" type="font/woff2" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Tinos:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=5" />
+<link rel="stylesheet" href="styles.css?v=6" />
 </head>
 <body>
 <div class="grain" aria-hidden="true"></div>
@@ -104,6 +104,14 @@
         <div class="step-body">
           <h2 class="step-title"><label for="extra-info">Información extra <span class="opt-tag">opcional</span></label></h2>
           <textarea id="extra-info" rows="4" placeholder="Lo que tu CV no dice y querés que se tenga en cuenta. Ej.: Uso After Effects hace 2 años para animar piezas de redes. En Tu Plan Futuro también manejé las campañas de Meta Ads. Hice el curso de Google de UX en 2025."></textarea>
+          <div class="shots" data-shots="extra">
+            <label class="shots-drop" tabindex="0">
+              <input type="file" accept="image/png,image/jpeg,image/webp" multiple hidden />
+              <span class="shots-icon" aria-hidden="true">⧉</span>
+              <span><strong>Arrastrá capturas acá</strong>, pegalas con Ctrl+V o hacé clic. Certificados, cursos, tu LinkedIn, un logro… La IA lee el texto de la imagen.</span>
+            </label>
+            <ul class="shots-list"></ul>
+          </div>
           <p class="hint-line">La IA lo suma al CV como información verdadera tuya, en el lugar que corresponde. Si tenés varios CVs, se aplica a todos.</p>
         </div>
       </div>
@@ -250,6 +258,14 @@
           <h3><label for="refine-text">Corregir o agregar información</label></h3>
           <p class="small-hint">Contale a la IA qué está mal o qué falta: lo suma al CV sin tocar lo que ya está bien, y actualiza la compatibilidad. Para cambios chicos usá «Editar texto».</p>
           <textarea id="refine-text" rows="5" placeholder="Ej.: En Plan Futuro mi puesto era Diseñadora Senior. También uso After Effects hace 2 años para animar piezas de redes."></textarea>
+          <div class="shots compact" data-shots="refine">
+            <label class="shots-drop" tabindex="0">
+              <input type="file" accept="image/png,image/jpeg,image/webp" multiple hidden />
+              <span class="shots-icon" aria-hidden="true">⧉</span>
+              <span><strong>Soltá o pegá capturas</strong> (Ctrl+V) con lo que querés sumar</span>
+            </label>
+            <ul class="shots-list"></ul>
+          </div>
           <p id="refine-error" class="error hidden" role="alert"></p>
           <div class="refine-actions">
             <button type="submit" id="refine-btn" class="btn-cta small-cta"><span id="refine-label">Aplicar con IA</span><span class="cta-arrow small" aria-hidden="true">↻</span></button>
@@ -326,6 +342,6 @@
   <img src="brand/gato.webp" alt="" /> Hecho por <strong>Inkkstudio</strong>
 </footer>
 
-<script src="app.js?v=5"></script>
+<script src="app.js?v=6"></script>
 </body>
 </html>

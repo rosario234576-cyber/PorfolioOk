@@ -176,7 +176,7 @@ $("adapt-form").addEventListener("submit", async (e) => {
     renderQueue();
   }
 
-  session = { mode, jobText, jobUrl, role, details, extraInfo: $("extra-info").value.trim().slice(0, 3000), language: $("language").value };
+  session = { mode, jobText, jobUrl, role, details, extraInfo: $("extra-info").value.trim().slice(0, 3000), extraImages: [...shots.extra], language: $("language").value };
   jobs = queue.map((file, i) => ({ id: `${Date.now()}-${i}`, file, status: "queued", result: null, error: "", photo: null, includePhoto: true }));
   selectedId = null;
   $("job-meta").textContent = mode === "general" ? (role ? `${role} · Perfil general` : "Perfil general · puesto según cada CV") : "Analizando la oferta";
@@ -211,6 +211,7 @@ async function processJob(job) {
   body.append("details", session.details);
   body.append("language", session.language);
   body.append("extraInfo", session.extraInfo || "");
+  for (const [i, url] of (session.extraImages || []).entries()) body.append("extraImage", dataUrlToBlob(url), `captura-${i + 1}.jpg`);
   try {
     const res = await api("/api/adapt", { method: "POST", body });
     const data = await res.json().catch(() => ({ error: "Respuesta inválida del servidor." }));
@@ -424,7 +425,7 @@ $("gaps-apply").addEventListener("click", async () => {
 $("refine-text").addEventListener("input", (e) => { const j = currentJob(); if (j) j.refineDraft = e.target.value; });
 
 /** Envía correcciones a la IA y reemplaza el CV del job. Devuelve true si salió bien. */
-async function applyRefine(job, corrections, { button, label, errorId }) {
+async function applyRefine(job, corrections, { button, label, errorId, images = [] }) {
   showError(errorId, "");
   const prevLabel = label.textContent;
   button.disabled = true;
@@ -434,7 +435,7 @@ async function applyRefine(job, corrections, { button, label, errorId }) {
     const res = await api("/api/refine", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cv: job.result, corrections, jobText: session.jobText, jobUrl: session.jobUrl, mode: session.mode, role: session.role, details: session.details, language: session.language }),
+      body: JSON.stringify({ cv: job.result, corrections, images, jobText: session.jobText, jobUrl: session.jobUrl, mode: session.mode, role: session.role, details: session.details, language: session.language }),
     });
     const data = await res.json().catch(() => ({ error: "Respuesta inválida del servidor." }));
     if (!res.ok) throw new Error(data.error);
@@ -467,12 +468,14 @@ $("refine-form").addEventListener("submit", async (e) => {
   const corrections = $("refine-text").value.trim();
   showError("refine-error", "");
   if (!job) return;
-  if (!corrections) return showError("refine-error", "Escribí qué querés corregir o agregar.");
+  if (!corrections && !shots.refine.length) return showError("refine-error", "Escribí qué querés corregir o agregar, o pegá una captura.");
   $("refine-form").classList.add("busy");
-  const ok = await applyRefine(job, corrections, { button: $("refine-btn"), label: $("refine-label"), errorId: "refine-error" });
+  const ok = await applyRefine(job, corrections, { button: $("refine-btn"), label: $("refine-label"), errorId: "refine-error", images: [...shots.refine] });
   $("refine-form").classList.remove("busy");
   if (ok) {
     job.refineDraft = "";
+    shots.refine = [];
+    renderShots("refine");
     if (job.id === selectedId) $("refine-text").value = "";
   }
 });
@@ -1115,3 +1118,85 @@ $("letter-download").addEventListener("click", async () => {
 // Si cambian el diseño o la hoja, la carta se vuelve a dibujar con ellos.
 $("design").addEventListener("change", () => { if (docTab === "letter" && currentJob()?.letter) { renderLetterEdit(); scheduleLetterPage(); } });
 $("paper").addEventListener("change", () => { if (docTab === "letter") scheduleLetterPage(); });
+
+
+// ---------- Capturas: arrastrar, pegar o elegir (información extra y correcciones) ----------
+const shots = { extra: [], refine: [] };
+const MAX_SHOTS = 6;
+
+function dataUrlToBlob(url) {
+  const [head, b64] = url.split(",");
+  const mime = head.match(/data:([^;]+)/)?.[1] || "image/jpeg";
+  const bin = atob(b64);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new Blob([bytes], { type: mime });
+}
+
+/** Achica la captura (lado mayor 1800 px) y la pasa a JPEG para que el envío sea liviano. */
+function shrinkImage(file) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      const k = Math.min(1, 1800 / Math.max(img.naturalWidth, img.naturalHeight));
+      const c = Object.assign(document.createElement("canvas"), { width: Math.round(img.naturalWidth * k), height: Math.round(img.naturalHeight * k) });
+      const ctx = c.getContext("2d");
+      ctx.fillStyle = "#fff";
+      ctx.fillRect(0, 0, c.width, c.height);
+      ctx.drawImage(img, 0, 0, c.width, c.height);
+      URL.revokeObjectURL(url);
+      resolve(c.toDataURL("image/jpeg", 0.88));
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(new Error("No pude leer esa imagen.")); };
+    img.src = url;
+  });
+}
+
+async function addShots(kind, files) {
+  const errorId = kind === "extra" ? "form-error" : "refine-error";
+  const imgs = [...files].filter((f) => /^image\/(png|jpe?g|webp)$/i.test(f.type));
+  if (!imgs.length) return;
+  showError(errorId, "");
+  for (const f of imgs) {
+    if (shots[kind].length >= MAX_SHOTS) { showError(errorId, `Podés sumar hasta ${MAX_SHOTS} capturas.`); break; }
+    try { shots[kind].push(await shrinkImage(f)); } catch (err) { showError(errorId, err.message); }
+  }
+  renderShots(kind);
+}
+
+function renderShots(kind) {
+  const list = document.querySelector(`[data-shots="${kind}"] .shots-list`);
+  list.replaceChildren(...shots[kind].map((url, i) => {
+    const img = el("img");
+    img.src = url;
+    img.alt = `Captura ${i + 1}`;
+    const rm = el("button", "", "×");
+    rm.type = "button";
+    rm.setAttribute("aria-label", `Quitar captura ${i + 1}`);
+    rm.addEventListener("click", () => { shots[kind].splice(i, 1); renderShots(kind); });
+    return el("li", "", [img, rm]);
+  }));
+}
+
+for (const kind of ["extra", "refine"]) {
+  const box = document.querySelector(`[data-shots="${kind}"]`);
+  const input = box.querySelector("input[type=file]");
+  input.addEventListener("change", () => { addShots(kind, input.files); input.value = ""; });
+  box.querySelector(".shots-drop").addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); input.click(); }
+  });
+  box.addEventListener("dragover", (e) => { e.preventDefault(); box.classList.add("drag"); });
+  box.addEventListener("dragleave", () => box.classList.remove("drag"));
+  box.addEventListener("drop", (e) => { e.preventDefault(); box.classList.remove("drag"); addShots(kind, e.dataTransfer.files); });
+}
+
+// Pegar con Ctrl+V: va al campo que se está usando (formulario o panel de correcciones).
+document.addEventListener("paste", (e) => {
+  const files = [...(e.clipboardData?.files || [])].filter((f) => f.type.startsWith("image/"));
+  if (!files.length) return;
+  const inResults = !$("result-view").classList.contains("hidden");
+  if (inResults && docTab !== "cv") return;
+  e.preventDefault();
+  addShots(inResults ? "refine" : "extra", files);
+});

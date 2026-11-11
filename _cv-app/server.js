@@ -16,7 +16,7 @@ const app = express();
 const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 15 * 1024 * 1024 } });
 
 app.set("trust proxy", 1); // detrás del proxy HTTPS del hosting
-app.use(express.json({ limit: "4mb" }));
+app.use(express.json({ limit: "25mb" })); // las correcciones pueden traer capturas
 app.use(express.static(path.join(here, "public")));
 
 app.get("/api/status", (req, res) =>
@@ -42,6 +42,12 @@ async function readCv(file) {
   throw new Error("Formato no soportado. Subí tu CV en PDF, DOCX o TXT.");
 }
 
+/** Capturas enviadas como data URL (png, jpeg o webp), máximo 6. */
+function imagesFrom(list) {
+  return (Array.isArray(list) ? list : []).slice(0, 6).map((u) => String(u).match(/^data:(image\/(?:png|jpeg|webp));base64,(.+)$/))
+    .filter(Boolean).map((m) => ({ mime: m[1], data: m[2] }));
+}
+
 /** Lee la oferta una sola vez; el navegador reutiliza el texto para cada CV. */
 app.post("/api/job", async (req, res) => {
   try {
@@ -53,23 +59,27 @@ app.post("/api/job", async (req, res) => {
   }
 });
 
-app.post("/api/adapt", upload.single("cv"), async (req, res) => {
+app.post("/api/adapt", upload.fields([{ name: "cv", maxCount: 1 }, { name: "extraImage", maxCount: 6 }]), async (req, res) => {
   try {
-    if (!req.file) throw new Error("Subí tu CV.");
+    const cvFile = req.files?.cv?.[0];
+    if (!cvFile) throw new Error("Subí tu CV.");
     const jobUrl = String(req.body.jobUrl || "").trim();
     let jobText = String(req.body.jobText || "").trim();
     const role = String(req.body.role || "").trim().slice(0, 200);
     if (!jobText && req.body.mode === "general") jobText = generalTarget(role, String(req.body.details || "").trim().slice(0, 1500));
     if (!jobText && !jobUrl) throw new Error("Pegá el link de la oferta o escribí el puesto.");
 
-    const cv = await readCv(req.file);
+    const cv = await readCv(cvFile);
+    const extraImages = (req.files?.extraImage || [])
+      .filter((f) => /^image\/(png|jpeg|webp)$/.test(f.mimetype))
+      .map((f) => ({ mime: f.mimetype, data: f.buffer.toString("base64") }));
     if (cv.cvText !== undefined && cv.cvText.trim().length < 50) {
       throw new Error("No pude leer texto en tu CV. Probá con otro formato.");
     }
     if (!jobText) jobText = await fetchJobPosting(jobUrl);
 
     const extraInfo = String(req.body.extraInfo || "").trim().slice(0, 3000);
-    const result = await adaptCv({ ...cv, jobText, jobUrl, extraInfo, language: req.body.language });
+    const result = await adaptCv({ ...cv, jobText, jobUrl, extraInfo, extraImages, language: req.body.language });
     res.json(result);
   } catch (err) {
     console.error("[adapt]", err);
@@ -84,9 +94,9 @@ app.post("/api/refine", async (req, res) => {
     let jobText = String(req.body?.jobText || "").trim();
     if (!jobText && req.body?.mode === "general") jobText = generalTarget(String(role).trim().slice(0, 200), String(details || "").trim().slice(0, 1500));
     if (!cv?.name) throw new Error("Faltan los datos del CV.");
-    if (!String(corrections || "").trim()) throw new Error("Escribí qué querés corregir o agregar.");
+    if (!String(corrections || "").trim() && !imagesFrom(req.body?.images).length) throw new Error("Escribí qué querés corregir o agregar, o pegá una captura.");
     if (!String(jobText || "").trim()) throw new Error("Falta la descripción de la oferta.");
-    res.json(await refineCv({ cv, corrections: String(corrections).slice(0, 4000), jobText, jobUrl, language }));
+    res.json(await refineCv({ cv, corrections: String(corrections).slice(0, 4000), images: imagesFrom(req.body?.images), jobText, jobUrl, language }));
   } catch (err) {
     console.error("[refine]", err);
     res.status(400).json({ error: friendly(err) });
