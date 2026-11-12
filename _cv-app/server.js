@@ -8,7 +8,7 @@ import { adaptCv, refineCv, generalTarget, isConfigured } from "./lib/ai.js";
 import { generatePdf, fitOnePage } from "./lib/pdf.js";
 import { generateDocx } from "./lib/docx.js";
 import { writeLetter, letterPdf, letterDocx } from "./lib/letter.js";
-import { authRequired, isAuthed, login, logout, requireAuth } from "./lib/auth.js";
+import { authRequired, isAuthed, currentUser, login, logout, requireAuth } from "./lib/auth.js";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.env.PORT) || 3000;
@@ -20,7 +20,7 @@ app.use(express.json({ limit: "25mb" })); // las correcciones pueden traer captu
 app.use(express.static(path.join(here, "public")));
 
 app.get("/api/status", (req, res) =>
-  res.json({ configured: isConfigured(), authRequired: authRequired(), authed: isAuthed(req) })
+  { const user = currentUser(req); res.json({ configured: isConfigured(), authRequired: authRequired(), authed: user !== null, user: user || "" }); }
 );
 app.post("/api/login", login);
 app.post("/api/logout", logout);
@@ -60,6 +60,7 @@ app.post("/api/job", async (req, res) => {
 });
 
 app.post("/api/adapt", upload.fields([{ name: "cv", maxCount: 1 }, { name: "extraImage", maxCount: 6 }, { name: "linkedin", maxCount: 1 }]), async (req, res) => {
+  if (req.user) console.log(`[uso] ${req.user} adapta un CV`);
   try {
     const cvFile = req.files?.cv?.[0];
     if (!cvFile) throw new Error("Subí tu CV.");
@@ -92,6 +93,7 @@ app.post("/api/adapt", upload.fields([{ name: "cv", maxCount: 1 }, { name: "extr
 
 /** Corrige un CV ya adaptado con información que aporta la persona. */
 app.post("/api/refine", async (req, res) => {
+  if (req.user) console.log(`[uso] ${req.user} corrige un CV`);
   try {
     const { cv, corrections, jobUrl, language, role, details } = req.body || {};
     let jobText = String(req.body?.jobText || "").trim();
@@ -194,5 +196,5 @@ function friendly(err) {
 
 app.listen(PORT, () => {
   console.log(`\n  CV Adapter listo en  http://localhost:${PORT}\n`);
-  if (!isConfigured()) console.log("  ⚠  Falta ANTHROPIC_API_KEY en el archivo .env\n");
+  if (!isConfigured()) console.log("  ⚠  Falta GEMINI_API_KEY en el archivo .env\n");
 });

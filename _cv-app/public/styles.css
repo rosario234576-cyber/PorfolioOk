@@ -442,3 +442,6 @@ input:focus, textarea:focus, select:focus { border-color: var(--orange); box-sha
 .li-how ol { margin: 8px 0 6px; padding-left: 20px; line-height: 1.5; }
 .li-how p { margin: 0; }
 @media (max-width: 560px) { .li-row { flex-wrap: wrap; } .li-text { flex-basis: calc(100% - 46px); } }
+
+.topbar-who{font-size:.85rem;opacity:.8;white-space:nowrap}
+@media (max-width:600px){.topbar-who{display:none}}

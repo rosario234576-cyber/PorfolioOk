@@ -83,6 +83,7 @@ let authRequiredFlag = false;
 function needLogin() {
   show("login-view");
   $("logout").classList.add("hidden");
+  setWho("");
   setTimeout(() => $("login-code").focus(), 50);
 }
 /** fetch que manda a la pantalla de ingreso si la sesión expiró. */
@@ -94,11 +95,16 @@ async function api(url, opts) {
   }
   return res;
 }
+function setWho(name) {
+  $("who").textContent = name && name !== "Admin" ? `Hola, ${name}` : "";
+  $("who").classList.toggle("hidden", !$("who").textContent);
+}
 fetch("/api/status").then((r) => r.json()).then((s) => {
   authRequiredFlag = s.authRequired;
   if (!s.configured) $("key-warning").classList.remove("hidden");
   if (s.authRequired && !s.authed) return needLogin();
   $("logout").classList.toggle("hidden", !s.authRequired);
+  setWho(s.user);
   show("form-view");
 }).catch(() => show("form-view"));
 
@@ -113,6 +119,7 @@ $("login-form").addEventListener("submit", async (e) => {
     if (!res.ok) throw new Error(data.error || "No se pudo ingresar.");
     $("login-code").value = "";
     $("logout").classList.remove("hidden");
+    setWho(data.user);
     show(jobs.length ? "result-view" : "form-view");
   } catch (err) {
     showError("login-error", err.message);

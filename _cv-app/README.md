@@ -43,10 +43,15 @@ Esta carpeta vive dentro del repositorio del portfolio. Empieza con «_», así 
    - **Instance type:** Free
 3. En **Environment** agregá:
    - `GEMINI_API_KEY` = tu clave de Gemini
-   - `ACCESS_CODE` = la clave para entrar a la app (elegí una larga)
+   - `ACCESS_CODE` = tu clave para entrar a la app (elegí una larga)
+   - `ACCESS_CODES` = (opcional) una clave por amigo: `Juan:mate-azul-77, Sofi:luna-verde-12`
 4. Opcional: en *Settings → Custom Domain* agregá `cv.inkkstudio.art` y creá el registro CNAME que te indique Render en tu proveedor de dominio.
 
-Nunca subas el archivo `.env` (ya está excluido en `.gitignore`). Con `ACCESS_CODE` definida la app pide la clave al entrar: la sesión dura 30 días y se bloquea tras 8 intentos fallidos en 15 minutos.
+Nunca subas el archivo `.env` (ya está excluido en `.gitignore`). Con `ACCESS_CODE` o `ACCESS_CODES` definidas la app pide la clave al entrar: la sesión dura 30 días y se bloquea tras 8 intentos fallidos en 15 minutos.
+
+### Acceso para amigos
+
+Cada amigo tiene su propia clave (`ACCESS_CODES`). Al entrar ve «Hola, Nombre» y en los logs de Render queda quién entró y cuántos CVs adaptó (`[acceso]` y `[uso]`). Para sacarle el acceso a alguien, borrá su clave en *Environment*: Render reinicia la app y su sesión deja de valer al instante. Ojo: todos comparten el cupo gratis de Gemini (unos 60 pedidos por día entre los 3 modelos).
 
 ## Técnico
 
