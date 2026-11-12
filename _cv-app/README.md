@@ -12,7 +12,7 @@ Subís tu CV y el link de una oferta laboral: la app lee el puesto, adapta tu CV
 
 1. **Tu CV**: arrastralo (PDF, DOCX o TXT). Queda guardado en el navegador para la próxima vez.
 2. **El objetivo**, en uno de dos modos:
-   - **Oferta específica:** pegá el link. Si el sitio pide iniciar sesión (por ejemplo, LinkedIn), pegá el texto de la oferta.
+   - **Oferta específica:** pegá el link. Si el sitio pide iniciar sesión (por ejemplo, LinkedIn), pegá el texto de la oferta. Si no tenés el link, subí o pegá (Ctrl+V) **capturas de la oferta**: la IA las transcribe y el texto queda a la vista para revisarlo.
    - **Puesto en general:** sin oferta concreta. Podés escribir el puesto o dejarlo vacío para que la IA lo deduzca de cada CV.
 3. **Adaptar mi CV**: en 30–90 segundos ves la vista previa, el % de compatibilidad, las palabras clave cubiertas y las faltantes.
 4. Podés **editar cualquier texto** haciendo clic en la vista previa.

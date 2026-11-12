@@ -4,7 +4,7 @@ import mammoth from "mammoth";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchJobPosting } from "./lib/job.js";
-import { adaptCv, refineCv, generalTarget, isConfigured } from "./lib/ai.js";
+import { adaptCv, refineCv, generalTarget, isConfigured, transcribeJob } from "./lib/ai.js";
 import { generatePdf, fitOnePage } from "./lib/pdf.js";
 import { generateDocx } from "./lib/docx.js";
 import { writeLetter, letterPdf, letterDocx } from "./lib/letter.js";
@@ -56,6 +56,18 @@ app.post("/api/job", async (req, res) => {
     res.json({ text: await fetchJobPosting(url) });
   } catch (err) {
     res.status(400).json({ error: err.message });
+  }
+});
+
+/** Lee capturas de la oferta (cuando no hay link a mano) y devuelve su texto. */
+app.post("/api/job-image", async (req, res) => {
+  try {
+    const images = imagesFrom(req.body?.images);
+    if (!images.length) throw new Error("Subí al menos una captura de la oferta.");
+    res.json({ text: await transcribeJob(images) });
+  } catch (err) {
+    console.error("[job-image]", err);
+    res.status(400).json({ error: friendly(err) });
   }
 });
 
