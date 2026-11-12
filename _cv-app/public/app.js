@@ -159,7 +159,7 @@ $("adapt-form").addEventListener("submit", async (e) => {
   const role = mode === "general" ? $("role").value.trim() : "";
   const details = mode === "general" ? $("role-details").value.trim() : "";
   if (!queue.length) return showError("form-error", "Agregá al menos un CV.");
-  if (mode === "offer" && !jobUrl && !jobText) return showError("form-error", "Pegá el link de la oferta o su descripción.");
+  if (mode === "offer" && !jobUrl && !jobText && !shots.job.length) return showError("form-error", "Pegá el link de la oferta, su descripción o subí capturas.");
   try {
     localStorage.setItem("cv-a-medida:lang", $("language").value);
   } catch { /* ignorar */ }
@@ -168,7 +168,15 @@ $("adapt-form").addEventListener("submit", async (e) => {
   btn.disabled = true;
   $("submit-label").textContent = "Leyendo la oferta…";
   try {
-    if (mode === "offer" && !jobText) {
+    if (mode === "offer" && !jobText && !jobUrl && shots.job.length) {
+      $("submit-label").textContent = "Leyendo las capturas…";
+      const res = await api("/api/job-image", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ images: shots.job }) });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "No pude leer las capturas de la oferta.");
+      jobText = data.text;
+      // Queda a la vista por si querés revisar o corregir la transcripción.
+      $("job-text").value = jobText;
+    } else if (mode === "offer" && !jobText) {
       const res = await api("/api/job", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ url: jobUrl }) });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || "No pude leer la oferta.");
@@ -1129,7 +1137,8 @@ $("paper").addEventListener("change", () => { if (docTab === "letter") scheduleL
 
 
 // ---------- Capturas: arrastrar, pegar o elegir (información extra y correcciones) ----------
-const shots = { extra: [], refine: [] };
+const shots = { job: [], extra: [], refine: [] };
+let pasteTarget = "extra"; // a qué recuadro va Ctrl+V en el formulario
 const MAX_SHOTS = 6;
 
 function dataUrlToBlob(url) {
@@ -1162,7 +1171,7 @@ function shrinkImage(file) {
 }
 
 async function addShots(kind, files) {
-  const errorId = kind === "extra" ? "form-error" : "refine-error";
+  const errorId = kind === "refine" ? "refine-error" : "form-error";
   const imgs = [...files].filter((f) => /^image\/(png|jpe?g|webp)$/i.test(f.type));
   if (!imgs.length) return;
   showError(errorId, "");
@@ -1187,8 +1196,9 @@ function renderShots(kind) {
   }));
 }
 
-for (const kind of ["extra", "refine"]) {
+for (const kind of ["job", "extra", "refine"]) {
   const box = document.querySelector(`[data-shots="${kind}"]`);
+  if (kind !== "refine") box.addEventListener("pointerdown", () => (pasteTarget = kind));
   const input = box.querySelector("input[type=file]");
   input.addEventListener("change", () => { addShots(kind, input.files); input.value = ""; });
   box.querySelector(".shots-drop").addEventListener("keydown", (e) => {
@@ -1206,7 +1216,7 @@ document.addEventListener("paste", (e) => {
   const inResults = !$("result-view").classList.contains("hidden");
   if (inResults && docTab !== "cv") return;
   e.preventDefault();
-  addShots(inResults ? "refine" : "extra", files);
+  addShots(inResults ? "refine" : pasteTarget, files);
 });
 
 
@@ -1256,3 +1266,6 @@ try {
   if (saved?.url?.startsWith("data:")) linkedin = saved;
 } catch { /* ignorar */ }
 renderLinkedin();
+
+for (const id of ["job-url", "job-text"]) $(id).addEventListener("focus", () => (pasteTarget = "job"));
+$("extra-info").addEventListener("focus", () => (pasteTarget = "extra"));

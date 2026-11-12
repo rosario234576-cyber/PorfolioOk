@@ -79,6 +79,14 @@
             <input id="job-url" type="url" placeholder="https://www.linkedin.com/jobs/view/…" autocomplete="off" />
             <button type="button" id="toggle-text" class="link">¿El link pide iniciar sesión? Pegá la descripción del puesto</button>
             <textarea id="job-text" class="hidden" rows="7" placeholder="Pegá acá el texto completo de la oferta (requisitos, responsabilidades, etc.)"></textarea>
+            <div class="shots" data-shots="job">
+              <label class="shots-drop" tabindex="0">
+                <input type="file" accept="image/png,image/jpeg,image/webp" multiple hidden />
+                <span class="shots-icon" aria-hidden="true">⧉</span>
+                <span><strong>¿No tenés el link? Subí capturas de la oferta</strong>: arrastralas, pegalas con Ctrl+V o hacé clic. Si es larga, podés subir varias partes.</span>
+              </label>
+              <ul class="shots-list"></ul>
+            </div>
           </div>
 
           <div id="mode-general" class="hidden">
@@ -364,6 +372,6 @@
   <img src="brand/gato.webp" alt="" /> Hecho por <strong>Inkkstudio</strong>
 </footer>
 
-<script src="app.js?v=7"></script>
+<script src="app.js?v=8"></script>
 </body>
 </html>

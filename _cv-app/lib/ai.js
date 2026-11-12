@@ -200,6 +200,19 @@ export async function generateJson(system, schema, text, images = []) {
   ]);
 }
 
+/** Lee capturas de una oferta laboral y devuelve su texto, para usarlo igual que si se hubiera pegado. */
+export async function transcribeJob(images) {
+  const system = `Transcribís ofertas laborales a partir de capturas de pantalla (LinkedIn, Computrabajo, Bumeran, Instagram, un PDF, un mail, etc.).
+- Copiá fielmente el texto de la oferta: puesto, empresa, ubicación, modalidad, responsabilidades, requisitos, deseables, beneficios. No resumas ni inventes.
+- Si hay varias capturas, son partes de la misma oferta: unilas en orden y sin repetir lo que se superpone.
+- Ignorá menús, botones, publicidad, comentarios y cualquier cosa que no sea parte de la oferta.
+- Si las imágenes no contienen una oferta laboral, devolvé "text" vacío.`;
+  const res = await generateJson(system, obj({ title: str, company: str, text: str }), "Transcribí la oferta laboral de estas capturas.", images);
+  const text = String(res.text || "").trim();
+  if (text.length < 40) throw new Error("No encontré una oferta laboral en esas capturas. Probá con una imagen más nítida o pegá el texto.");
+  return text;
+}
+
 /** Aplica una lista de ediciones sobre una copia del CV. Devuelve el CV nuevo y cuántas se aplicaron. */
 export function applyEdits(cv, edits) {
   const out = structuredClone(cv);
