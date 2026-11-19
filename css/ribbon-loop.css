@@ -1,10 +1,10 @@
 /* Tira de servicios "Text Loop" (preset ribbon): cinta ondulada con el texto corriendo encima. */
-.ticker.ticker--ribbon{position:relative;z-index:8;display:block;width:100%;height:4.6em;margin:-2.1em 0 -2.1em;padding:0;overflow:visible;background:none;border:0;transform:none;rotate:none;font:800 clamp(25px,2.6vw,42px)/1 Roc,Impact,sans-serif;pointer-events:none}
+.ticker.ticker--ribbon{position:relative;z-index:8;display:block;width:100%;height:4.6em;margin:-2.9em 0 -1.3em;padding:0;overflow:visible;background:none;border:0;transform:none;rotate:none;font:800 clamp(25px,2.6vw,42px)/1 Roc,Impact,sans-serif;pointer-events:none}
 .ticker--ribbon .ribbon-svg{display:block;width:100%;height:100%;overflow:visible}
 .ticker--ribbon .ribbon-edge,.ticker--ribbon .ribbon-band{fill:none;stroke-linecap:butt}
 .ticker--ribbon .ribbon-edge{stroke:var(--dark);stroke-width:calc(var(--ribbon-band,60px) + 4px);filter:drop-shadow(0 10px 18px rgba(0,0,0,.22))}
 .ticker--ribbon .ribbon-band{stroke:var(--orange);stroke-width:var(--ribbon-band,60px)}
 .ticker--ribbon .ribbon-text{font:inherit;fill:var(--dark);letter-spacing:.01em}
 .ticker--ribbon .ribbon-star{fill:var(--paper)}
-@media(max-width:760px){.ticker.ticker--ribbon{margin:-2.9em 0 -1.6em}}
+@media(max-width:760px){.ticker.ticker--ribbon{margin:-3.5em 0 -1em}}
 .ticker--ribbon .ribbon-fill{fill:var(--dark);stroke:none}
