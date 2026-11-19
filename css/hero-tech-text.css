@@ -1,0 +1,12 @@
+/* Titulo del hero "Tech Text": las letras se vuelven trazos punteados bajo el cursor. */
+.hero-title .tt-char{position:relative;display:inline-block;--tt:0}
+.hero-title .tt-glyph{opacity:clamp(0,calc(1 - var(--tt) * 1.25),1)}
+.hero-title .tt-probe{display:inline-block;width:0;height:0;vertical-align:baseline}
+.hero-title .tt-vector{position:absolute;left:0;top:0;overflow:visible;pointer-events:none;opacity:var(--tt)}
+.hero-title .tt-vector text{font:inherit;letter-spacing:0;fill:none;stroke:currentColor;stroke-linejoin:round;stroke-linecap:round}
+.hero-title .tt-ghost{stroke-width:calc(var(--tt-stroke,1.5px) * .6);opacity:.22}
+.hero-title .tt-dash{stroke-width:var(--tt-stroke,1.5px);stroke-dasharray:var(--tt-dash,6px) var(--tt-gap,4px);animation:ttMarch 1.6s linear infinite}
+@keyframes ttMarch{to{stroke-dashoffset:calc((var(--tt-dash,6px) + var(--tt-gap,4px)) * -4)}}
+/* El brillo de la palabra se apaga mientras las letras están en modo vector. */
+.hero-title.tt-hot .title-row b::after{opacity:0;transition:opacity .25s}
+.hero-title .title-row b::after{transition:opacity .4s}
