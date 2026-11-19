@@ -13,7 +13,15 @@
   const defs = document.createElementNS(SVG, 'defs');
   const path = document.createElementNS(SVG, 'path');
   path.id = 'ribbon-loop-path';
-  defs.append(path);
+  const clip = document.createElementNS(SVG, 'clipPath');
+  clip.id = 'ribbon-loop-clip';
+  const clipRect = document.createElementNS(SVG, 'rect');
+  clip.append(clipRect);
+  defs.append(path, clip);
+  // Relleno oscuro entre el borde recto del hero y la cinta, para que no asome el fondo claro.
+  const filler = document.createElementNS(SVG, 'path');
+  filler.setAttribute('class', 'ribbon-fill');
+  filler.setAttribute('clip-path', 'url(#ribbon-loop-clip)');
   const edge = document.createElementNS(SVG, 'use');
   edge.setAttribute('href', '#ribbon-loop-path');
   edge.setAttribute('class', 'ribbon-edge');
@@ -26,7 +34,7 @@
   const textPath = document.createElementNS(SVG, 'textPath');
   textPath.setAttribute('href', '#ribbon-loop-path');
   text.append(textPath);
-  svg.append(defs, edge, band, text);
+  svg.append(defs, filler, edge, band, text);
 
   const fillGroup = (parent) => {
     WORDS.forEach((w) => {
@@ -72,7 +80,16 @@
     const w = ticker.clientWidth;
     const h = ticker.clientHeight;
     svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
-    path.setAttribute('d', wavePath(w, h, fs));
+    const d = wavePath(w, h, fs);
+    path.setAttribute('d', d);
+    const hero = ticker.previousElementSibling;
+    const heroY = hero ? hero.getBoundingClientRect().bottom - ticker.getBoundingClientRect().top : 0;
+    const big = w * 4;
+    filler.setAttribute('d', `${d} L${big} ${heroY} L${-big} ${heroY} Z`);
+    clipRect.setAttribute('x', -big);
+    clipRect.setAttribute('width', big * 2);
+    clipRect.setAttribute('y', heroY - 1);
+    clipRect.setAttribute('height', Math.max(0, h - heroY + 1));
     ticker.style.setProperty('--ribbon-band', `${(fs * 1.55).toFixed(1)}px`);
 
     // Mide un grupo de palabras para que el bucle empalme sin saltos.

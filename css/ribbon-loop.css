@@ -7,3 +7,4 @@
 .ticker--ribbon .ribbon-text{font:inherit;fill:var(--dark);letter-spacing:.01em}
 .ticker--ribbon .ribbon-star{fill:var(--paper)}
 @media(max-width:760px){.ticker.ticker--ribbon{margin:-2.9em 0 -1.6em}}
+.ticker--ribbon .ribbon-fill{fill:var(--dark);stroke:none}
