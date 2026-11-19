@@ -17,7 +17,15 @@
   clip.id = 'ribbon-loop-clip';
   const clipRect = document.createElementNS(SVG, 'rect');
   clip.append(clipRect);
-  defs.append(path, clip);
+  const clipUp = document.createElementNS(SVG, 'clipPath');
+  clipUp.id = 'ribbon-loop-clip-up';
+  const clipUpRect = document.createElementNS(SVG, 'rect');
+  clipUp.append(clipUpRect);
+  defs.append(path, clip, clipUp);
+  // Relleno claro debajo de la cinta donde esta sube por encima del borde del hero.
+  const fillerUp = document.createElementNS(SVG, 'path');
+  fillerUp.setAttribute('class', 'ribbon-fill-light');
+  fillerUp.setAttribute('clip-path', 'url(#ribbon-loop-clip-up)');
   // Relleno oscuro entre el borde recto del hero y la cinta, para que no asome el fondo claro.
   const filler = document.createElementNS(SVG, 'path');
   filler.setAttribute('class', 'ribbon-fill');
@@ -34,7 +42,7 @@
   const textPath = document.createElementNS(SVG, 'textPath');
   textPath.setAttribute('href', '#ribbon-loop-path');
   text.append(textPath);
-  svg.append(defs, filler, edge, band, text);
+  svg.append(defs, filler, fillerUp, edge, band, text);
 
   const fillGroup = (parent) => {
     WORDS.forEach((w) => {
@@ -90,6 +98,11 @@
     clipRect.setAttribute('width', big * 2);
     clipRect.setAttribute('y', heroY - 1);
     clipRect.setAttribute('height', Math.max(0, h - heroY + 1));
+    fillerUp.setAttribute('d', `${d} L${big} ${heroY + 4} L${-big} ${heroY + 4} Z`);
+    clipUpRect.setAttribute('x', -big);
+    clipUpRect.setAttribute('width', big * 2);
+    clipUpRect.setAttribute('y', 0);
+    clipUpRect.setAttribute('height', Math.max(0, heroY + 4));
     ticker.style.setProperty('--ribbon-band', `${(fs * 1.55).toFixed(1)}px`);
 
     // Mide un grupo de palabras para que el bucle empalme sin saltos.

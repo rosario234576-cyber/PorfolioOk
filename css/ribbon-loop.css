@@ -8,3 +8,4 @@
 .ticker--ribbon .ribbon-star{fill:var(--paper)}
 @media(max-width:760px){.ticker.ticker--ribbon{margin:-3.5em 0 -1em}}
 .ticker--ribbon .ribbon-fill{fill:var(--dark);stroke:none}
+.ticker--ribbon .ribbon-fill-light{fill:var(--paper);stroke:none}
