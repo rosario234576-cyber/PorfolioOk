@@ -22,8 +22,8 @@
 .hero.has-wall{background:var(--dark)}
 .hero.has-wall .hero-noise{display:none}
 .hero-wall{position:absolute;inset:0;z-index:-1;pointer-events:none}
-.hw-frame{--hw-t:0;--hw-top:13%;--hw-right:8vw;--hw-bottom:11%;--hw-left:8vw;position:absolute;inset:0;overflow:hidden;perspective:1400px;pointer-events:auto;
-  clip-path:inset(calc(var(--hw-top) * (1 - var(--hw-t))) calc(var(--hw-right) * (1 - var(--hw-t))) calc(var(--hw-bottom) * (1 - var(--hw-t))) calc(var(--hw-left) * (1 - var(--hw-t))) round calc(34px * (1 - var(--hw-t))))}
+.hw-frame{--hw-t:0;--hw-top:27%;--hw-right:29%;--hw-bottom:28%;--hw-left:29%;position:absolute;inset:0;overflow:hidden;perspective:1400px;pointer-events:auto;
+  clip-path:inset(calc(var(--hw-top) * (1 - var(--hw-t))) calc(var(--hw-right) * (1 - var(--hw-t))) calc(var(--hw-bottom) * (1 - var(--hw-t))) calc(var(--hw-left) * (1 - var(--hw-t))) round calc(24px * (1 - var(--hw-t))))}
 .hw-plane{position:absolute;left:50%;top:50%;display:flex;align-items:flex-start;gap:clamp(12px,1.3vw,22px);transform-origin:50% 25%;transform:translate(-50%,-25%) rotateX(20deg) rotateZ(-16deg);transform-style:preserve-3d}
 .hw-col{flex:0 0 clamp(120px,11vw,200px);transform-style:preserve-3d;}
 .hw-track{display:flex;flex-direction:column;gap:clamp(12px,1.3vw,22px);transform-style:preserve-3d;animation:hwDrift var(--hw-speed,60s) linear var(--hw-delay,0s) infinite var(--hw-dir,normal)}
