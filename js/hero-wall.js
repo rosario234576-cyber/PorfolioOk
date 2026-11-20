@@ -74,12 +74,9 @@
         invalidateOnRefresh: true,
       },
     });
-    // Al revés del Scroll Expand: el muro arranca de fondo, tenue y a sangre completa,
-    // y con el scroll se recoge en un marco redondeado mientras toma color.
-    tl.to(content, { autoAlpha: 0, y: -40, ease: 'power1.in', duration: 0.5, stagger: 0.03 }, 0)
-      .fromTo(frame, { '--hw-t': 1 }, { '--hw-t': 0, ease: 'power2.inOut', duration: 1 }, 0.1)
-      .fromTo(plane, { opacity: 0.3 }, { opacity: 1, ease: 'none', duration: 0.8 }, 0.1)
-      .to(shade, { opacity: 0, ease: 'none', duration: 0.6 }, 0.1);
-    return () => gsap.set([frame, plane, shade, ...content], { clearProps: 'all' });
+    tl.fromTo(frame, { '--hw-t': 0 }, { '--hw-t': 1, ease: 'power2.inOut', duration: 1 }, 0)
+      .to(content, { autoAlpha: 0, y: -40, ease: 'power1.in', duration: 0.55, stagger: 0.03 }, 0)
+      .to(shade, { opacity: 0, ease: 'none', duration: 0.6 }, 0.2);
+    return () => gsap.set([frame, shade, ...content], { clearProps: 'all' });
   });
 })();
