@@ -45,7 +45,9 @@
   shade.className = 'hw-shade';
   const glow = document.createElement('div');
   glow.className = 'hw-glow';
-  frame.append(plane, glow, shade);
+  const blur = document.createElement('div');
+  blur.className = 'hw-blur';
+  frame.append(plane, blur, glow, shade);
   wall.append(frame);
   hero.prepend(wall);
   hero.classList.add('has-wall');
@@ -88,13 +90,14 @@
     tl.fromTo(frame, { '--hw-t': 0 }, { '--hw-t': 1, ease: 'power2.inOut', duration: 0.6 }, 0)
       .fromTo(title, { x: centerX, y: centerY, scale: 1.18 }, { x: 0, y: 0, scale: 1, ease: 'power2.inOut', duration: 0.6 }, 0)
       .to(hint, { autoAlpha: 0, duration: 0.15 }, 0)
+      .fromTo(blur, { opacity: 1 }, { opacity: 0.45, ease: 'none', duration: 0.6 }, 0.1)
       .fromTo(glow, { opacity: 1 }, { opacity: 0, ease: 'none', duration: 0.4 }, 0.15)
       .fromTo(plane, { opacity: 1 }, { opacity: 0.3, ease: 'none', duration: 0.45 }, 0.35)
       .fromTo(shade, { opacity: 0 }, { opacity: 1, ease: 'none', duration: 0.45 }, 0.35)
       .fromTo(intro, { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, ease: 'power2.out', duration: 0.3, stagger: 0.06 }, 0.62);
     return () => {
       hero.classList.remove('hw-intro');
-      gsap.set([frame, title, hint, glow, plane, shade, ...intro], { clearProps: 'all' });
+      gsap.set([frame, title, hint, blur, glow, plane, shade, ...intro], { clearProps: 'all' });
     };
   });
 })();
