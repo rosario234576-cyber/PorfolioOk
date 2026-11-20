@@ -43,7 +43,9 @@
   }
   const shade = document.createElement('div');
   shade.className = 'hw-shade';
-  frame.append(plane, shade);
+  const glow = document.createElement('div');
+  glow.className = 'hw-glow';
+  frame.append(plane, glow, shade);
   wall.append(frame);
   hero.prepend(wall);
   hero.classList.add('has-wall');
@@ -62,21 +64,37 @@
 
   const mm = gsap.matchMedia();
   mm.add('(min-width: 1051px)', () => {
-    const content = [...hero.querySelectorAll('.hero-kicker, .hero-title, .hero-info, .hero-scroll')];
+    // 1) Primera vista: el muro de proyectos dentro de un marco redondeado centrado, con "Portfolio Creativo" encima.
+    // 2) Al scrollear, el marco se expande a sangre completa, el muro baja de intensidad y queda de fondo,
+    //    el título se acomoda a la izquierda y aparece el resto del hero: da paso al portfolio.
+    const title = hero.querySelector('.hero-title');
+    const intro = [...hero.querySelectorAll('.hero-kicker, .hero-info')];
+    const hint = hero.querySelector('.hero-scroll');
+    const centerX = () => hero.clientWidth / 2 - (title.offsetLeft + title.offsetWidth / 2);
+    const centerY = () => hero.clientHeight / 2 - (title.offsetTop + title.offsetHeight / 2);
+    hero.classList.add('hw-intro');
+
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: hero,
         start: 'top top',
-        end: '+=85%',
+        end: '+=130%',
         pin: true,
-        scrub: 0.6,
+        scrub: 0.7,
         refreshPriority: 1,
         invalidateOnRefresh: true,
       },
     });
-    tl.fromTo(frame, { '--hw-t': 0 }, { '--hw-t': 1, ease: 'power2.inOut', duration: 1 }, 0)
-      .to(content, { autoAlpha: 0, y: -40, ease: 'power1.in', duration: 0.55, stagger: 0.03 }, 0)
-      .to(shade, { opacity: 0, ease: 'none', duration: 0.6 }, 0.2);
-    return () => gsap.set([frame, shade, ...content], { clearProps: 'all' });
+    tl.fromTo(frame, { '--hw-t': 0 }, { '--hw-t': 1, ease: 'power2.inOut', duration: 0.6 }, 0)
+      .fromTo(title, { x: centerX, y: centerY, scale: 1.18 }, { x: 0, y: 0, scale: 1, ease: 'power2.inOut', duration: 0.6 }, 0)
+      .to(hint, { autoAlpha: 0, duration: 0.15 }, 0)
+      .fromTo(glow, { opacity: 1 }, { opacity: 0, ease: 'none', duration: 0.4 }, 0.15)
+      .fromTo(plane, { opacity: 1 }, { opacity: 0.3, ease: 'none', duration: 0.45 }, 0.35)
+      .fromTo(shade, { opacity: 0 }, { opacity: 1, ease: 'none', duration: 0.45 }, 0.35)
+      .fromTo(intro, { autoAlpha: 0, y: 30 }, { autoAlpha: 1, y: 0, ease: 'power2.out', duration: 0.3, stagger: 0.06 }, 0.62);
+    return () => {
+      hero.classList.remove('hw-intro');
+      gsap.set([frame, title, hint, glow, plane, shade, ...intro], { clearProps: 'all' });
+    };
   });
 })();

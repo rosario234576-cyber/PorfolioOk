@@ -22,7 +22,7 @@
 .hero.has-wall{background:var(--dark)}
 .hero.has-wall .hero-noise{display:none}
 .hero-wall{position:absolute;inset:0;z-index:-1;pointer-events:none}
-.hw-frame{--hw-t:0;--hw-top:13%;--hw-right:var(--hx);--hw-bottom:17%;--hw-left:50%;position:absolute;inset:0;overflow:hidden;perspective:1400px;pointer-events:auto;
+.hw-frame{--hw-t:0;--hw-top:13%;--hw-right:8vw;--hw-bottom:11%;--hw-left:8vw;position:absolute;inset:0;overflow:hidden;perspective:1400px;pointer-events:auto;
   clip-path:inset(calc(var(--hw-top) * (1 - var(--hw-t))) calc(var(--hw-right) * (1 - var(--hw-t))) calc(var(--hw-bottom) * (1 - var(--hw-t))) calc(var(--hw-left) * (1 - var(--hw-t))) round calc(34px * (1 - var(--hw-t))))}
 .hw-plane{position:absolute;left:50%;top:50%;display:flex;align-items:flex-start;gap:clamp(12px,1.3vw,22px);transform-origin:50% 25%;transform:translate(-50%,-25%) rotateX(20deg) rotateZ(-16deg);transform-style:preserve-3d}
 .hw-col{flex:0 0 clamp(120px,11vw,200px);transform-style:preserve-3d;}
@@ -31,7 +31,9 @@
 .hw-tile img{display:block;width:100%;height:100%;object-fit:cover;user-select:none}
 .hw-tile:hover{transform:translateZ(46px) scale(1.06);box-shadow:0 30px 60px rgba(0,0,0,.55),0 0 0 2px var(--orange);filter:none;z-index:2}
 @keyframes hwDrift{from{transform:translateY(0)}to{transform:translateY(calc(-50% - clamp(6px,.65vw,11px)))}}
-.hw-shade{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 90% at 75% 50%,transparent 45%,rgba(16,21,19,.55) 100%),linear-gradient(180deg,rgba(16,21,19,.35),transparent 22%,transparent 75%,rgba(16,21,19,.6))}
+.hw-shade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(16,21,19,.9) 0%,rgba(16,21,19,.55) 45%,rgba(16,21,19,.2) 100%),linear-gradient(180deg,rgba(16,21,19,.4),transparent 25%,transparent 75%,rgba(16,21,19,.6))}
+.hw-glow{position:absolute;inset:0;pointer-events:none;opacity:0;background:radial-gradient(48% 42% at 50% 50%,rgba(16,21,19,.72) 0%,rgba(16,21,19,.35) 55%,transparent 100%)}
+.hero.hw-intro .hero-title{text-shadow:0 6px 40px rgba(0,0,0,.45);transform-origin:50% 50%}
 
 /* ---------- Contenido del hero (texto a la izquierda) ---------- */
 .hero.has-wall .hero-kicker{font:400 14px/1 var(--font-ui);letter-spacing:0;text-transform:none;color:rgba(241,238,231,.88)}
