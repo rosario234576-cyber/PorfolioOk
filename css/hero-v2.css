@@ -1,0 +1,69 @@
+/* Hero v2: tipografía Cubron Grotesk, header integrado, texto a la izquierda y muro de posteos. */
+@font-face{font-family:"Cubron Grotesk";src:local("Cubron Grotesk Light"),local("CubronGrotesk-Light"),url('../Fuente/CubronGrotesk-Light.woff2') format('woff2');font-weight:300;font-display:swap}
+@font-face{font-family:"Cubron Grotesk";src:local("Cubron Grotesk Regular"),local("CubronGrotesk-Regular"),url('../Fuente/CubronGrotesk-Regular.woff2') format('woff2');font-weight:400;font-display:swap}
+:root{--font-ui:"Cubron Grotesk","Onest",system-ui,-apple-system,"Segoe UI",sans-serif;--hx:max(4vw,calc((100vw - 1480px) / 2))}
+
+/* ---------- Header integrado en el fondo ---------- */
+.site-header,.site-header.is-scrolled{background:transparent;border-color:transparent;backdrop-filter:none;-webkit-backdrop-filter:none;height:var(--header)}
+.site-header.is-past-hero{background:rgba(16,21,19,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);height:82px}
+.site-header .brand-word{height:46px;width:auto}
+@media(min-width:761px){
+  .site-header{padding:0 var(--hx)}
+  .nav-links{gap:2px;padding:6px;border-radius:999px;background:rgba(8,10,9,.62);border:1px solid rgba(241,238,231,.09);box-shadow:inset 0 1px 0 rgba(255,255,255,.05);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .site-nav .nav-links a,.site-nav .nav-projects-trigger{padding:11px 20px;border-radius:999px;font:400 15px/1 var(--font-ui);letter-spacing:0;text-transform:none;color:rgba(241,238,231,.86);transition:background .25s,color .25s}
+  .site-nav .nav-links>a:hover,.site-nav .nav-projects-trigger:hover{background:rgba(241,238,231,.08);color:var(--paper)}
+  .site-nav .nav-links>a.is-active{background:rgba(241,238,231,.1);color:var(--paper)}
+  .nav-links>a::after{display:none}
+  .site-nav .nav-contact{padding:13px 16px 13px 24px;gap:14px;font:400 15px/1 var(--font-ui);letter-spacing:0;text-transform:none}
+  .site-nav .nav-projects-menu a{font:400 14px/1.2 var(--font-ui);letter-spacing:0;text-transform:none}
+}
+
+/* ---------- Muro de posteos ---------- */
+.hero.has-wall{background:var(--dark)}
+.hero.has-wall .hero-noise{display:none}
+.hero-wall{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.hw-frame{--hw-t:0;--hw-top:13%;--hw-right:var(--hx);--hw-bottom:17%;--hw-left:50%;position:absolute;inset:0;overflow:hidden;perspective:1400px;pointer-events:auto;
+  clip-path:inset(calc(var(--hw-top) * (1 - var(--hw-t))) calc(var(--hw-right) * (1 - var(--hw-t))) calc(var(--hw-bottom) * (1 - var(--hw-t))) calc(var(--hw-left) * (1 - var(--hw-t))) round calc(34px * (1 - var(--hw-t))))}
+.hw-plane{position:absolute;left:50%;top:50%;display:flex;align-items:flex-start;gap:clamp(12px,1.3vw,22px);transform-origin:50% 25%;transform:translate(-50%,-25%) rotateX(20deg) rotateZ(-16deg);transform-style:preserve-3d}
+.hw-col{flex:0 0 clamp(120px,11vw,200px);transform-style:preserve-3d;}
+.hw-track{display:flex;flex-direction:column;gap:clamp(12px,1.3vw,22px);transform-style:preserve-3d;animation:hwDrift var(--hw-speed,60s) linear var(--hw-delay,0s) infinite var(--hw-dir,normal)}
+.hw-tile{position:relative;margin:0;aspect-ratio:3/4;border-radius:clamp(12px,1.1vw,20px);overflow:hidden;background:#1d2220;box-shadow:0 14px 30px rgba(0,0,0,.35);transition:transform .45s var(--ease),box-shadow .45s var(--ease),filter .45s;filter:saturate(.92) brightness(.86)}
+.hw-tile img{display:block;width:100%;height:100%;object-fit:cover;user-select:none}
+.hw-tile:hover{transform:translateZ(46px) scale(1.06);box-shadow:0 30px 60px rgba(0,0,0,.55),0 0 0 2px var(--orange);filter:none;z-index:2}
+@keyframes hwDrift{from{transform:translateY(0)}to{transform:translateY(calc(-50% - clamp(6px,.65vw,11px)))}}
+.hw-shade{position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 90% at 75% 50%,transparent 45%,rgba(16,21,19,.55) 100%),linear-gradient(180deg,rgba(16,21,19,.35),transparent 22%,transparent 75%,rgba(16,21,19,.6))}
+
+/* ---------- Contenido del hero (texto a la izquierda) ---------- */
+.hero.has-wall .hero-kicker{font:400 14px/1 var(--font-ui);letter-spacing:0;text-transform:none;color:rgba(241,238,231,.88)}
+.hero.has-wall .hero-kicker-tag{font:400 13px/1 var(--font-ui);letter-spacing:.02em;border-radius:999px;transform:none;box-shadow:none;padding:7px 12px 6px}
+.hero.has-wall .hero-title{font-family:var(--font-ui);font-weight:400;letter-spacing:-.045em;text-transform:none;line-height:.92;filter:none}
+.hero.has-wall .hero-title .title-row b::after{display:none}
+.hero.has-wall .hero-info>p{font:300 17px/1.5 var(--font-ui);color:rgba(241,238,231,.82)}
+.hero.has-wall .hero-info>p b{display:block;font-weight:400;color:var(--paper);margin-bottom:2px}
+.hero.has-wall .hero-cta{font:400 15px/1 var(--font-ui);letter-spacing:0;text-transform:none;padding:14px 14px 14px 22px}
+.hero.has-wall .hb-label{font:400 12px/1.1 var(--font-ui);letter-spacing:.02em;text-transform:none}
+.hero.has-wall .hero-scroll{display:flex;position:absolute;z-index:5;left:50%;right:auto;bottom:calc(12% + 40px);transform:translateX(-50%);gap:12px;font:400 13px/1 var(--font-ui);letter-spacing:.08em;text-transform:uppercase;color:var(--paper)}
+.hero.has-wall .hero-scroll i{width:auto;height:auto;background:none;color:var(--paper);font-size:16px}
+
+@media(min-width:1051px){
+  .hero.has-wall{align-items:flex-start;justify-content:center;text-align:left;padding-left:var(--hx);padding-right:var(--hx)}
+  .hero.has-wall .hero-kicker{justify-content:flex-start;margin:0 0 22px}
+  .hero.has-wall .hero-kicker>span:not(.hero-kicker-tag){display:inline}
+  .hero.has-wall .hero-title{max-width:46vw;font-size:clamp(70px,7.4vw,132px);text-align:left}
+  .hero.has-wall .hero-info{align-items:flex-start;text-align:left;max-width:min(46vw,620px);margin-top:28px}
+  .hero.has-wall .hero-info>p{max-width:470px}
+  .hero.has-wall .hero-cta-row{justify-content:flex-start;margin-top:8px}
+  .hero.has-wall .hero-brands{width:min(360px,24vw)}
+}
+@media(max-width:1050px){
+  .hw-frame{clip-path:none}
+  .hw-shade{background:linear-gradient(180deg,rgba(16,21,19,.78),rgba(16,21,19,.84) 30%,rgba(16,21,19,.84) 75%,rgba(16,21,19,.92))}
+  .hero.has-wall .hero-title{line-height:.98}
+  .hero.has-wall .hero-scroll{display:none}
+}
+@media(max-width:760px){
+  .hw-col{flex-basis:30vw}
+  .hero.has-wall .hero-title{font-size:clamp(52px,15vw,84px)}
+  .hero.has-wall .hero-info>p{font-size:15px}
+}
+.hero.has-wall .hero-title-seal{top:-.02em;right:-.82em}
