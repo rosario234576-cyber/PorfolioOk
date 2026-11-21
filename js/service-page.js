@@ -660,7 +660,7 @@ if (serviceStory && !document.querySelector("[data-case-story]")) {
       </div>
     </div>
   `;
-  const heroSection = document.querySelector(".service-hero");
+  const heroSection = document.querySelector(".service-hero, .project-hero");
   const immediateNote = heroSection?.nextElementSibling?.matches(".service-note")
     ? heroSection.nextElementSibling
     : null;
@@ -685,7 +685,7 @@ if (serviceStory && !document.querySelector("[data-case-story]")) {
 
 const enhanceProjectChapters = () => {
   const chapters = [...document.querySelectorAll("main > section")].filter((section) =>
-    !section.matches(".service-hero,.service-note,.case-story,.service-end,[hidden]")
+    !section.matches(".service-hero,.project-hero,.service-note,.case-story,.service-end,[hidden]")
   );
 
   chapters.forEach((section, index) => {

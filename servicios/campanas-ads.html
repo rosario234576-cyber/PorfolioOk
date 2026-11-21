@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="../css/aurelia-rebuild.css?v=74">
   <link rel="stylesheet" href="../css/service-aurelia-skin.css?v=7">
   <link rel="stylesheet" href="../css/service-home-sync.css?v=15">
+  <link rel="stylesheet" href="../css/project-hero.css?v=2">
+  <script>document.documentElement.classList.add('js')</script>
 </head>
 <body class="service-detail ads-case-page">
   <div class="scroll-progress" aria-hidden="true"><span></span></div>
@@ -42,28 +44,22 @@
   </header>
 
   <main>
-    <section class="service-hero ads-case-hero" data-label="ads">
-      <div class="container service-hero-inner">
-        <div class="reveal-left">
-          <span class="service-eyebrow">caso real · puerto montt</span>
-          <h1><span class="service-title-line">campañas</span><span class="service-title-line">ads</span></h1>
-          <p class="ads-hero-intro">Un recorrido desde el sistema de piezas y sus variantes hasta la implementación y los resultados obtenidos.</p>
-          <div class="video-software-feature ads-software-card">
-            <div class="ads-meta-icon" aria-hidden="true">∞</div>
-            <div class="video-software-copy"><small>plataforma utilizada</small><strong>Meta Ads Manager</strong></div>
-            <span class="video-software-status">activa</span>
-          </div>
-          <div class="service-hero-actions">
-            <a href="#variantes" class="service-pill">ver variantes</a>
-            <a href="#resultados" class="service-pill">ver resultados</a>
-          </div>
-        </div>
-        <div class="service-hero-preview reveal-right" aria-hidden="true">
-          <img src="../assets/proyectos/CampanasAds/CampañaPuertoMontt/Post/101.jpg" alt="">
-          <img src="../assets/proyectos/CampanasAds/CampañaPuertoMontt/Historia/44.jpg" alt="">
-          <img src="../assets/proyectos/CampanasAds/CampañaPuertoMontt/Carrusel/102.jpg" alt="">
-        </div>
-      </div>
+    <section class="project-hero" data-project-hero>
+      <span class="ph-block" aria-hidden="true"></span>
+      <p class="ph-tag"><b>02</b>[ Campaña / Meta Ads ]</p>
+      <p class="ph-concept">Una decisión grande, contada sin vueltas.</p>
+      <h1 class="ph-title" aria-label="Puerto Montt"><span class="ph-line" aria-hidden="true"><span>Puerto</span></span><span class="ph-line" aria-hidden="true"><span>Montt</span></span></h1>
+      <figure class="ph-media">
+        <img src="../assets/hero/puerto-montt.webp" width="800" height="1000" alt="Pieza principal de la campaña Tu depto en Puerto Montt para Invesmar" fetchpriority="high">
+        <figcaption>Invesmar · Chile</figcaption>
+      </figure>
+      <dl class="ph-meta">
+        <div><dt>Rol</dt><dd>Dirección de arte · Diseño gráfico</dd></div>
+        <div><dt>Servicios</dt><dd>Concepto, posts, carruseles, historias y Meta Ads</dd></div>
+        <div><dt>Cliente</dt><dd>Invesmar, Chile</dd></div>
+        <div><dt>Año</dt><dd>2025</dd></div>
+      </dl>
+      <a class="ph-scroll" href="#introduccion"><span>Scroll to explore</span><span class="ph-scroll-line" aria-hidden="true"></span><i aria-hidden="true">↓</i></a>
     </section>
 
     <section class="service-note" aria-hidden="true">
@@ -72,7 +68,7 @@
       </div></div>
     </section>
 
-    <section class="ads-case-introduction">
+    <section class="ads-case-introduction" id="introduccion">
       <div class="container ads-intro-layout">
         <div class="ads-step-label reveal"><span>01</span><small>introducción</small></div>
         <div class="ads-intro-copy reveal">
@@ -169,7 +165,8 @@
     <div class="footer-bottom"><span>© 2026 INKKSTUDIOS</span><a href="../index.html#inicio">VOLVER ARRIBA ↑</a></div>
   </footer>
 
-  <script src="../js/service-page.js?v=15"></script>
+  <script src="../js/service-page.js?v=16"></script>
   <script src="../js/aurelia-rebuild.js?v=9"></script>
+  <script src="../js/project-hero.js?v=1"></script>
 </body>
 </html>
