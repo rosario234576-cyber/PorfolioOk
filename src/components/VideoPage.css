@@ -42,7 +42,7 @@
 }
 
 /* ---- Celular con video ---- */
-.vphone {
+.video-page .vphone {
   position: relative;
   display: block;
   width: 100%;

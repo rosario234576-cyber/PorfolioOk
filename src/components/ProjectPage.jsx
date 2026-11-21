@@ -1,6 +1,27 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { CATEGORIES } from '../projects/categories.js'
+import { brandColor } from '../projects/brandColors.js'
+import CaseDeck from './CaseDeck.jsx'
 import './ProjectPage.css'
+import './BrandingPage.css'
+
+// Título grande de la divisoria de cada marca, según la categoría
+export const KICKERS = {
+  'redes-sociales': ['Redes', 'sociales'],
+  fotografia: ['Fotografía', 'de producto'],
+  'packaging-carteleria': ['Packaging', 'y cartelería'],
+  web: ['Diseño', 'web'],
+  video: ['Edición', 'de video'],
+}
+
+// "Tu Plan Futuro · Impresos" → "tu-plan-futuro-impresos" (anclas del índice)
+export const slugify = (s) =>
+  s
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
 
 /*
   Página de una categoría de Proyectos (/proyectos/<slug>/).
@@ -78,14 +99,46 @@ export default function ProjectPage({ category }) {
             </li>
           ))}
         </ul>
+
+        {/* Índice de marcas (igual que en Branding) */}
+        <ol className="brand-index">
+          {category.groups.map((g, i) => (
+            <li key={g.brand}>
+              <a href={`#${slugify(g.brand)}`} style={{ '--accent': brandColor(g.brand) }}>
+                <span className="brand-index__num">{String(i + 1).padStart(2, '0')}</span>
+                <span className="brand-index__name">{g.brand}</span>
+                <span className="brand-index__sector">
+                  {category.slug === 'web' ? 'Sitio web' : `${g.items.length} ${g.items.length === 1 ? 'pieza' : 'piezas'}`}
+                </span>
+              </a>
+            </li>
+          ))}
+        </ol>
       </header>
 
       {category.slug === 'web' ? (
         <div className="project-page__sites">
-          {category.groups.map((site) => (
-            <article key={site.brand} className="site-card" data-reveal>
-              <h2 className="project-page__brand">{site.brand}</h2>
-              <div className="site-card__devices">
+          {category.groups.map((site, si) => (
+            <article
+              key={site.brand}
+              id={slugify(site.brand)}
+              className="brand-case site-case"
+              style={{ '--accent': brandColor(site.brand) }}
+              aria-labelledby={`${slugify(site.brand)}-name`}
+            >
+              {/* Apertura igual a Branding: divisoria + sitio a pantalla completa */}
+              <CaseDeck
+                index={si}
+                id={`${slugify(site.brand)}-name`}
+                name={site.brand}
+                category={category.title}
+                kicker={KICKERS[category.slug]}
+                meta="Escritorio y celular"
+                hero={{ src: site.desktop.src, bg: '#111', cover: true }}
+                onOpenHero={() => {}}
+              />
+              <h3 className="brand-case__label">El sitio</h3>
+              <div className="site-card__devices" data-reveal>
                 {/* Escritorio: la captura completa baja sola al pasar el mouse */}
                 <div className="site-card__browser">
                   <span className="site-card__bar" aria-hidden="true">
@@ -124,12 +177,28 @@ export default function ProjectPage({ category }) {
           ))}
         </div>
       ) : (
-        category.groups.map((g) => (
-          <div key={g.brand} className="project-page__group">
-            <div className="project-page__group-head" data-reveal>
-              <h2 className="project-page__brand">{g.brand}</h2>
-              <span className="project-page__group-count">{g.items.length}</span>
-            </div>
+        category.groups.map((g, gi) => (
+          <article
+            key={g.brand}
+            id={slugify(g.brand)}
+            className="brand-case project-page__group"
+            style={{ '--accent': brandColor(g.brand) }}
+            aria-labelledby={`${slugify(g.brand)}-name`}
+          >
+            {/* Apertura igual a Branding: divisoria + pieza destacada */}
+            <CaseDeck
+              index={gi}
+              id={`${slugify(g.brand)}-name`}
+              name={g.brand}
+              category={category.title}
+              kicker={KICKERS[category.slug]}
+              meta={`${g.items.length} ${g.items.length === 1 ? 'pieza' : 'piezas'}`}
+              hero={{ src: g.items[0].full || g.items[0].src, blur: true }}
+              onOpenHero={() => setOpen(flat.findIndex((f) => f.src === g.items[0].src))}
+            />
+            <h3 className="brand-case__label" data-reveal>
+              Piezas <span>{g.items.length}</span>
+            </h3>
             <ul className="project-page__grid">
               {g.items.map((it) => {
                 index += 1
@@ -148,7 +217,7 @@ export default function ProjectPage({ category }) {
                 )
               })}
             </ul>
-          </div>
+          </article>
         ))
       )}
 

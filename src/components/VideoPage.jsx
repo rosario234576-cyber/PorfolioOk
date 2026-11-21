@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { CATEGORIES } from '../projects/categories.js'
 import { VIDEO_BRANDS, VIDEO_COUNT, VIDEO_HERO } from '../projects/videos.js'
+import { brandColor } from '../projects/brandColors.js'
+import CaseDeck from './CaseDeck.jsx'
+import { KICKERS, slugify } from './ProjectPage.jsx'
 import './ProjectPage.css'
+import './BrandingPage.css'
 import './VideoPage.css'
 
 /*
@@ -186,6 +190,21 @@ export default function VideoPage({ category }) {
             </li>
           ))}
         </ul>
+
+        {/* Índice de marcas (igual que en Branding) */}
+        <ol className="brand-index">
+          {VIDEO_BRANDS.map((b, i) => (
+            <li key={b.name}>
+              <a href={`#${slugify(b.name)}`} style={{ '--accent': brandColor(b.name) }}>
+                <span className="brand-index__num">{pad(i + 1)}</span>
+                <span className="brand-index__name">{b.name}</span>
+                <span className="brand-index__sector">
+                  {b.country} · {b.videos.length} {b.videos.length === 1 ? 'video' : 'videos'}
+                </span>
+              </a>
+            </li>
+          ))}
+        </ol>
       </header>
 
       {/* Abanico de celulares */}
@@ -211,16 +230,28 @@ export default function VideoPage({ category }) {
         </div>
       </div>
 
-      {/* Por marca */}
+      {/* Por marca: misma apertura que Branding y el resto de Proyectos */}
       {VIDEO_BRANDS.map((b, bi) => (
-        <div key={b.name} className="project-page__group video-group">
-          <div className="project-page__group-head" data-reveal>
-            <span className="video-group__num">{pad(bi + 1)}</span>
-            <h2 className="project-page__brand">{b.name}</h2>
-            <span className="video-group__meta">
-              {b.country} · {b.videos.length} {b.videos.length === 1 ? 'video' : 'videos'}
-            </span>
-          </div>
+        <article
+          key={b.name}
+          id={slugify(b.name)}
+          className="brand-case video-group"
+          style={{ '--accent': brandColor(b.name) }}
+          aria-labelledby={`${slugify(b.name)}-name`}
+        >
+          <CaseDeck
+            index={bi}
+            id={`${slugify(b.name)}-name`}
+            name={b.name}
+            category={category.title}
+            kicker={KICKERS.video}
+            meta={`${b.country} · ${b.videos.length} ${b.videos.length === 1 ? 'video' : 'videos'}`}
+            hero={{ src: b.videos[0].replace(/\.mp4$/, '.jpg'), blur: true }}
+            onOpenHero={() => openSrc(b.videos[0])}
+          />
+          <h3 className="brand-case__label" data-reveal>
+            Videos <span>{b.videos.length}</span>
+          </h3>
           <ul className="video-grid">
             {b.videos.map((src, i) => (
               <li key={src} data-reveal style={{ '--d': `${i * 80}ms` }}>
@@ -228,7 +259,7 @@ export default function VideoPage({ category }) {
               </li>
             ))}
           </ul>
-        </div>
+        </article>
       ))}
 
       {open >= 0 && <VideoViewer item={all[open]} onClose={() => setOpen(-1)} onNav={nav} />}

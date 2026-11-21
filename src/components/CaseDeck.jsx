@@ -2,17 +2,30 @@ import { useEffect, useRef } from 'react'
 import './CaseDeck.css'
 
 /*
-  Apertura de cada caso de Branding, armada como una presentación:
-  tres láminas que quedan fijas arriba y se apilan una sobre otra al scrollear
-  (la de abajo se achica y oscurece un poco cuando la tapa la siguiente).
-    1. Divisoria: "Identidad visual —— 01" sobre el color de la marca.
-    2. La marca a pantalla completa.
-    3. Ficha: proyecto, cliente, rubro, año y entregables.
-  Inspirado en los portfolios tipo deck (Behance).
+  Apertura de cada marca, armada como una presentación (la usan todas las
+  páginas de Proyectos, así se sienten parte de lo mismo): láminas que quedan
+  fijas arriba y se apilan una sobre otra al scrollear (la de abajo se achica
+  y oscurece un poco cuando la tapa la siguiente).
+    1. Divisoria: "<categoría> —— 01" sobre el color de la marca.
+    2. La marca / una pieza a pantalla completa.
+    3. (opcional) Ficha: frase, datos y entregables.
+  El color sale de --accent del contenedor.
+
+  Props:
+    index      posición (01, 02…)
+    id         id del h2 con el nombre (para aria-labelledby)
+    name       nombre de la marca
+    category   texto chico arriba a la derecha ("Branding", "Redes sociales"…)
+    kicker     [palabra liviana, palabra fuerte] del título grande
+    meta       texto abajo a la derecha (año, cantidad de piezas…)
+    hero       { src, bg, blur }: imagen de la lámina 2. blur = fondo con la
+               misma imagen desenfocada (para piezas verticales)
+    onOpenHero clic en la lámina 2
+    info       { tagline, facts: [{ label, value }], chips } o null
 */
 const pad = (n) => String(n).padStart(2, '0')
 
-export default function CaseDeck({ brand: b, index, onOpenHero }) {
+export default function CaseDeck({ index, id, name, category, kicker, meta, hero, onOpenHero, info }) {
   const ref = useRef(null)
 
   useEffect(() => {
@@ -46,70 +59,70 @@ export default function CaseDeck({ brand: b, index, onOpenHero }) {
   }, [])
 
   return (
-    <div ref={ref} className="case-deck">
+    <div ref={ref} className={`case-deck${info ? '' : ' is-short'}`}>
       {/* 1 · Divisoria */}
       <section className="case-deck__slide case-deck__slide--divider" style={{ '--i': 0 }}>
         <div className="case-deck__inner">
           <div className="case-deck__top">
             <span>Inkk Studio — Portfolio</span>
-            <span>Branding</span>
+            <span>{category}</span>
           </div>
           <div className="case-deck__divider">
             <p className="case-deck__kicker">
-              <span className="case-deck__light">Identidad</span> visual
+              <span className="case-deck__light">{kicker[0]}</span> {kicker[1]}
             </p>
             <span className="case-deck__rule" aria-hidden="true" />
             <span className="case-deck__bignum">{pad(index + 1)}</span>
           </div>
           <div className="case-deck__bottom">
-            <h2 id={`${b.slug}-name`} className="case-deck__brand">
-              {b.name}
+            <h2 id={id} className="case-deck__brand">
+              {name}
             </h2>
-            <span>{b.year}</span>
+            <span>{meta}</span>
           </div>
         </div>
       </section>
 
-      {/* 2 · La marca */}
-      <section className="case-deck__slide case-deck__slide--hero" style={{ '--i': 1, '--hero-bg': b.hero.bg }}>
-        <button type="button" className="case-deck__hero" onClick={onOpenHero} aria-label={`Ver en grande: logo de ${b.name}`}>
-          <img src={b.hero.src} alt={`Logo de ${b.name}`} loading="lazy" decoding="async" />
+      {/* 2 · La marca / pieza destacada */}
+      <section
+        className={`case-deck__slide case-deck__slide--hero${hero.blur ? ' has-blur' : ''}${hero.cover ? ' is-cover' : ''}`}
+        style={{ '--i': 1, '--hero-bg': hero.bg || '#111' }}
+      >
+        {hero.blur && <img className="case-deck__hero-bg" src={hero.src} alt="" aria-hidden="true" loading="lazy" decoding="async" />}
+        <button type="button" className="case-deck__hero" onClick={onOpenHero} aria-label={`Ver en grande: ${name}`}>
+          <img src={hero.src} alt={`${name}: pieza destacada`} loading="lazy" decoding="async" />
         </button>
       </section>
 
-      {/* 3 · Ficha del proyecto */}
-      <section className="case-deck__slide case-deck__slide--info" style={{ '--i': 2 }}>
-        <div className="case-deck__inner">
-          <div className="case-deck__top">
-            <span>{b.name}</span>
-            <span>{pad(index + 1)} / Branding</span>
+      {/* 3 · Ficha (opcional) */}
+      {info && (
+        <section className="case-deck__slide case-deck__slide--info" style={{ '--i': 2 }}>
+          <div className="case-deck__inner">
+            <div className="case-deck__top">
+              <span>{name}</span>
+              <span>
+                {pad(index + 1)} / {category}
+              </span>
+            </div>
+            <p className="case-deck__tagline">{info.tagline}</p>
+            <dl className="case-deck__facts">
+              {info.facts.map((f) => (
+                <div key={f.label}>
+                  <dt>{f.label}</dt>
+                  <dd>{f.value}</dd>
+                </div>
+              ))}
+            </dl>
+            {info.chips?.length > 0 && (
+              <ul className="case-deck__chips">
+                {info.chips.map((d) => (
+                  <li key={d}>{d}</li>
+                ))}
+              </ul>
+            )}
           </div>
-          <p className="case-deck__tagline">{b.tagline}</p>
-          <dl className="case-deck__facts">
-            <div>
-              <dt>Proyecto</dt>
-              <dd>Identidad visual</dd>
-            </div>
-            <div>
-              <dt>Cliente</dt>
-              <dd>{b.name}</dd>
-            </div>
-            <div>
-              <dt>Rubro</dt>
-              <dd>{b.sector}</dd>
-            </div>
-            <div>
-              <dt>Año</dt>
-              <dd>{b.year}</dd>
-            </div>
-          </dl>
-          <ul className="case-deck__chips">
-            {b.deliverables.map((d) => (
-              <li key={d}>{d}</li>
-            ))}
-          </ul>
-        </div>
-      </section>
+        </section>
+      )}
     </div>
   )
 }

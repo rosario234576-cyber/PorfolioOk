@@ -122,7 +122,26 @@ function BrandCase({ brand: b, index, onOpen }) {
   return (
     <article id={b.slug} className="brand-case" style={{ '--accent': b.accent }} aria-labelledby={`${b.slug}-name`}>
       {/* Apertura tipo presentación: divisoria, marca y ficha, apiladas al scrollear */}
-      <CaseDeck brand={b} index={index} onOpenHero={() => open(b.cover)} />
+      <CaseDeck
+        index={index}
+        id={`${b.slug}-name`}
+        name={b.name}
+        category="Branding"
+        kicker={['Identidad', 'visual']}
+        meta={b.year}
+        hero={b.hero}
+        onOpenHero={() => open(b.cover)}
+        info={{
+          tagline: b.tagline,
+          facts: [
+            { label: 'Proyecto', value: 'Identidad visual' },
+            { label: 'Cliente', value: b.name },
+            { label: 'Rubro', value: b.sector },
+            { label: 'Año', value: b.year },
+          ],
+          chips: b.deliverables,
+        }}
+      />
 
       {/* Stickers animados en los bordes (`stickers: true` en branding.js) */}
       {b.stickers && <StickerBoard />}

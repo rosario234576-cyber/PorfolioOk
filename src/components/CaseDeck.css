@@ -225,3 +225,29 @@
     filter: none;
   }
 }
+
+/* Lámina 2 con pieza vertical: la misma imagen desenfocada de fondo */
+.case-deck__slide--hero.has-blur {
+  isolation: isolate;
+}
+
+.case-deck__hero-bg {
+  position: absolute;
+  inset: -10%;
+  z-index: -1;
+  width: 120%;
+  height: 120%;
+  object-fit: cover;
+  filter: blur(40px) saturate(1.2) brightness(0.55);
+}
+
+.case-deck__slide--hero.has-blur .case-deck__hero img {
+  padding: 4% 0;
+  filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.5));
+}
+
+/* Lámina 2 con captura larga (web): llena la lámina, desde arriba */
+.case-deck__slide--hero.is-cover .case-deck__hero img {
+  object-fit: cover;
+  object-position: top center;
+}

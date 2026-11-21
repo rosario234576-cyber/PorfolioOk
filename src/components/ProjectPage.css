@@ -127,7 +127,7 @@
   margin-bottom: 14px;
 }
 
-.project-page__piece {
+.project-page .project-page__piece {
   display: block;
   width: 100%;
   padding: 0;
