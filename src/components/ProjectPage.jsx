@@ -10,7 +10,6 @@ export const KICKERS = {
   'redes-sociales': ['Redes', 'sociales'],
   fotografia: ['Fotografía', 'de producto'],
   'packaging-carteleria': ['Packaging', 'de producto'],
-  'diseno-grafico': ['Diseño', 'gráfico'],
   web: ['Diseño', 'web'],
   video: ['Edición', 'de video'],
 }
