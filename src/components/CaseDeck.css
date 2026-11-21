@@ -1,0 +1,227 @@
+/* Láminas apiladas al inicio de cada caso (CaseDeck.jsx).
+   --accent = color de la marca; --cover (0..1) = cuánto la tapa la siguiente */
+.case-deck {
+  position: relative;
+  margin-bottom: clamp(3rem, 8svh, 5rem);
+}
+
+.case-deck__slide {
+  position: sticky;
+  top: calc(5.5rem + var(--i) * 14px);
+  z-index: calc(var(--i) + 1);
+  aspect-ratio: 16 / 10;
+  max-height: calc(100svh - 7.5rem);
+  width: 100%;
+  margin: 0 auto 6svh;
+  overflow: hidden;
+  border-radius: 18px;
+  container-type: inline-size;
+  box-shadow: 0 -20px 60px -30px rgba(0, 0, 0, 0.7);
+  transform-origin: 50% 0;
+  transform: scale(calc(1 - var(--cover, 0) * 0.06));
+  filter: brightness(calc(1 - var(--cover, 0) * 0.45));
+  will-change: transform, filter;
+}
+
+.case-deck__slide:last-child {
+  margin-bottom: 0;
+}
+
+.case-deck__inner {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  padding: clamp(1rem, 4cqw, 2.6rem);
+}
+
+.case-deck__top,
+.case-deck__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  font-size: clamp(0.62rem, 1.3cqw, 0.85rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+/* 1 · Divisoria */
+.case-deck__slide--divider {
+  background: var(--accent);
+  color: #fff;
+}
+
+.case-deck__divider {
+  display: flex;
+  align-items: center;
+  gap: 3cqw;
+}
+
+.case-deck__kicker {
+  margin: 0;
+  font-size: 9.5cqw;
+  font-weight: 800;
+  font-variation-settings: 'opsz' 96;
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  white-space: nowrap;
+}
+
+.case-deck__light {
+  font-weight: 300;
+}
+
+.case-deck__rule {
+  flex: 1;
+  height: max(2px, 0.25cqw);
+  background: currentColor;
+}
+
+.case-deck__bignum {
+  display: grid;
+  place-items: center;
+  width: 9cqw;
+  aspect-ratio: 1;
+  border: max(2px, 0.25cqw) solid currentColor;
+  border-radius: 50%;
+  font-size: 3.6cqw;
+  font-weight: 800;
+}
+
+.case-deck__brand {
+  margin: 0;
+  font-size: clamp(1rem, 3.2cqw, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* 2 · La marca a pantalla completa */
+.case-deck__slide--hero {
+  background: var(--hero-bg, #fff);
+}
+
+.case-deck__hero {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: zoom-in;
+}
+
+.case-deck .case-deck__hero img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* 3 · Ficha */
+.case-deck__slide--info {
+  background: #f4f3f7;
+  color: #0b0a10;
+}
+
+.case-deck__slide--info .case-deck__top span:first-child {
+  color: var(--accent);
+}
+
+.case-deck__tagline {
+  max-width: 22ch;
+  margin: 0;
+  font-size: 5.6cqw;
+  font-weight: 800;
+  font-variation-settings: 'opsz' 96;
+  letter-spacing: -0.035em;
+  line-height: 0.98;
+}
+
+.case-deck__facts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2cqw;
+  margin: 0;
+  padding-top: 1.6cqw;
+  border-top: 1px solid rgba(11, 10, 16, 0.2);
+}
+
+.case-deck__facts dt {
+  margin-bottom: 0.3em;
+  font-size: clamp(0.58rem, 1.1cqw, 0.75rem);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(11, 10, 16, 0.5);
+}
+
+.case-deck__facts dd {
+  margin: 0;
+  font-size: clamp(0.72rem, 1.6cqw, 1.05rem);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.case-deck__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6cqw;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.case-deck__chips li {
+  padding: 0.4em 0.9em;
+  border: 1px solid rgba(11, 10, 16, 0.25);
+  border-radius: 999px;
+  font-size: clamp(0.58rem, 1.2cqw, 0.8rem);
+  font-weight: 600;
+}
+
+/* Celular: láminas más altas para que entre la ficha */
+@media (max-width: 700px) {
+  .case-deck__slide {
+    aspect-ratio: 4 / 5;
+  }
+
+  .case-deck__kicker {
+    font-size: 13cqw;
+  }
+
+  .case-deck__divider {
+    flex-wrap: wrap;
+  }
+
+  .case-deck__bignum {
+    width: 16cqw;
+    font-size: 6cqw;
+  }
+
+  .case-deck__tagline {
+    font-size: 9cqw;
+  }
+
+  .case-deck__facts {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 4cqw;
+  }
+
+  .case-deck__facts dd {
+    font-size: 3.6cqw;
+  }
+
+  .case-deck__chips {
+    gap: 1.4cqw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .case-deck__slide {
+    position: relative;
+    top: 0;
+    transform: none;
+    filter: none;
+  }
+}

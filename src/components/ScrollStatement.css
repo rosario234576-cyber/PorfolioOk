@@ -1,0 +1,44 @@
+/* Frase que se ilumina con el scroll (ScrollStatement.jsx).
+   --lit (0..1) por palabra: 0 apagada, 1 encendida */
+.statement {
+  position: relative;
+  padding: clamp(4rem, 14svh, 9rem) 1rem clamp(1rem, 4svh, 3rem);
+  font-family: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', system-ui, sans-serif;
+}
+
+.statement__text {
+  max-width: 64rem;
+  margin: 0 auto;
+  font-size: clamp(2rem, 5.4vw, 4.6rem);
+  font-weight: 800;
+  font-variation-settings: 'opsz' 96;
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+  color: #f4f3f7;
+  /* centrada, con líneas parejas */
+  text-align: center;
+  text-wrap: balance;
+}
+
+.statement__word {
+  /* sin JS se ve entera */
+  opacity: 1;
+}
+
+.js .statement__word {
+  opacity: calc(0.14 + var(--lit, 0) * 0.86);
+  filter: blur(calc((1 - var(--lit, 0)) * 2px));
+  transition:
+    opacity 120ms linear,
+    filter 120ms linear;
+}
+
+.statement__word.is-accent {
+  color: #eb5b30;
+}
+
+/* Movimiento reducido: entera y quieta */
+.js .statement__text.is-static .statement__word {
+  opacity: 1;
+  filter: none;
+}

@@ -1,0 +1,399 @@
+/* Página de categoría de Proyectos */
+.project-page {
+  position: relative;
+  width: min(100% - 2rem, 76rem);
+  margin: 0 auto;
+  padding: clamp(8rem, 18svh, 11rem) 0 clamp(4rem, 10svh, 7rem);
+  color: #f4f3f7;
+  font-family: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', system-ui, sans-serif;
+}
+
+.project-page__crumbs {
+  display: flex;
+  gap: 0.6rem;
+  margin-bottom: 1.2rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #eb5b30;
+}
+
+.project-page__crumbs a {
+  color: rgba(244, 243, 247, 0.6);
+  text-decoration: none;
+}
+
+.project-page__crumbs a:hover {
+  color: #f4f3f7;
+}
+
+.project-page__title {
+  margin: 0;
+  font-size: clamp(3rem, 9vw, 8rem);
+  font-weight: 800;
+  font-variation-settings: 'opsz' 96;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.project-page__lead {
+  max-width: 40rem;
+  margin: 1.4rem 0 0.6rem;
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  line-height: 1.5;
+  color: rgba(244, 243, 247, 0.72);
+}
+
+.project-page__count {
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(244, 243, 247, 0.5);
+}
+
+/* Otras categorías: chips */
+.project-page__tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 2rem 0 clamp(3rem, 7svh, 5rem);
+  padding: 0;
+  list-style: none;
+}
+
+.project-page__tabs a {
+  display: inline-block;
+  padding: 0.55em 1.1em;
+  border: 1px solid rgba(244, 243, 247, 0.2);
+  border-radius: 999px;
+  color: rgba(244, 243, 247, 0.8);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 250ms ease, border-color 250ms ease, color 250ms ease;
+}
+
+.project-page__tabs a:hover {
+  border-color: #eb5b30;
+  color: #fff;
+}
+
+.project-page__tabs a.is-current {
+  border-color: #eb5b30;
+  background: #eb5b30;
+  color: #fff;
+}
+
+/* Grupo por marca */
+.project-page__group + .project-page__group {
+  margin-top: clamp(3rem, 8svh, 5.5rem);
+}
+
+.project-page__group-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(244, 243, 247, 0.14);
+}
+
+.project-page__brand {
+  margin: 0;
+  font-size: clamp(1.5rem, 3vw, 2.4rem);
+  font-weight: 800;
+  font-variation-settings: 'opsz' 96;
+  letter-spacing: -0.02em;
+}
+
+.project-page__group-count {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #eb5b30;
+}
+
+/* Mosaico: columnas que respetan la proporción de cada pieza */
+.project-page__grid {
+  columns: 3 260px;
+  column-gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.project-page__grid li {
+  break-inside: avoid;
+  margin-bottom: 14px;
+}
+
+.project-page__piece {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #16141c;
+  cursor: zoom-in;
+}
+
+.project-page__piece img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1), filter 400ms ease;
+}
+
+.project-page__piece:hover img {
+  transform: scale(1.04);
+}
+
+.project-page__piece:focus-visible {
+  outline: 2px solid #eb5b30;
+  outline-offset: 3px;
+}
+
+/* Aparición al entrar en pantalla (sin JS se ven normal) */
+.js [data-reveal] {
+  opacity: 0;
+  translate: 0 24px;
+  transition:
+    opacity 600ms ease,
+    translate 800ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.js [data-reveal].is-in {
+  opacity: 1;
+  translate: 0 0;
+}
+
+/* ---- Web: escritorio + celular por sitio ---- */
+.project-page__sites {
+  display: grid;
+  gap: clamp(3rem, 8svh, 5rem);
+}
+
+.site-card .project-page__brand {
+  margin-bottom: 1.2rem;
+}
+
+.site-card__devices {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(140px, 18vw, 220px);
+  align-items: end;
+  gap: clamp(1rem, 3vw, 2.5rem);
+}
+
+.site-card__browser {
+  border-radius: 14px;
+  overflow: hidden;
+  background: #1d1b24;
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.8);
+}
+
+.site-card__bar {
+  display: flex;
+  gap: 6px;
+  padding: 10px 14px;
+  background: #24212c;
+}
+
+.site-card__bar i {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: rgba(244, 243, 247, 0.25);
+}
+
+/* La captura es larga: se ve el principio y baja sola al pasar el mouse */
+.site-card__viewport,
+.site-card__phone-screen {
+  position: relative;
+  overflow: hidden;
+}
+
+.site-card__viewport {
+  aspect-ratio: 16 / 10;
+}
+
+.site-card__viewport img,
+.site-card__phone-screen img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 6s cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+.site-card:hover .site-card__viewport img,
+.site-card:hover .site-card__phone-screen img {
+  transform: translateY(calc(var(--scroll, 0) * -100%));
+}
+
+.site-card__phone {
+  padding: 8px;
+  border-radius: 30px;
+  background: linear-gradient(160deg, #2b2833, #121017);
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.9), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.site-card__phone-screen {
+  aspect-ratio: 9 / 18.5;
+  border-radius: 23px;
+  background: #fff;
+}
+
+/* ---- Visor a pantalla completa ---- */
+.viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  padding: 4rem 4.5rem 3.5rem;
+  background: rgba(11, 10, 16, 0.94);
+  backdrop-filter: blur(8px);
+  animation: viewer-in 250ms ease;
+}
+
+@keyframes viewer-in {
+  from {
+    opacity: 0;
+  }
+}
+
+.viewer__img {
+  max-width: 100%;
+  /* entra entera en la pantalla (deja lugar arriba y abajo para los controles) */
+  max-height: calc(100svh - 7.5rem);
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.8);
+  animation: viewer-img-in 350ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes viewer-img-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+
+.viewer__caption {
+  position: absolute;
+  bottom: 1.2rem;
+  left: 0;
+  right: 0;
+  margin: 0;
+  text-align: center;
+  font-size: 0.85rem;
+  color: rgba(244, 243, 247, 0.7);
+}
+
+.viewer__close,
+.viewer__nav {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(244, 243, 247, 0.2);
+  border-radius: 50%;
+  background: rgba(11, 10, 16, 0.6);
+  color: #f4f3f7;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+.viewer__close:hover,
+.viewer__nav:hover {
+  border-color: #eb5b30;
+  background: #eb5b30;
+}
+
+.viewer__close {
+  top: 1.2rem;
+  right: 1.2rem;
+}
+
+.viewer__nav {
+  top: 50%;
+  translate: 0 -50%;
+}
+
+.viewer__nav--prev {
+  left: 1rem;
+}
+
+.viewer__nav--next {
+  right: 1rem;
+}
+
+@media (max-width: 760px) {
+  .project-page__grid {
+    columns: 2 140px;
+    column-gap: 10px;
+  }
+
+  .project-page__grid li {
+    margin-bottom: 10px;
+  }
+
+  .site-card__devices {
+    grid-template-columns: 1fr;
+  }
+
+  .site-card__phone {
+    justify-self: center;
+    width: 55%;
+  }
+
+  .viewer {
+    padding: 4rem 0.75rem 4rem;
+  }
+
+  .viewer__nav {
+    top: auto;
+    bottom: 0.8rem;
+    translate: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal] {
+    opacity: 1;
+    translate: none;
+    transition: none;
+  }
+
+  .site-card__viewport img,
+  .site-card__phone-screen img {
+    transition: none;
+  }
+}
+
+/* Celular: las categorías en una fila que se desliza con el dedo */
+@media (max-width: 700px) {
+  .project-page__tabs {
+    flex-wrap: nowrap;
+    margin-left: -1rem;
+    margin-right: -1rem;
+    padding: 0 1rem 0.4rem;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+
+  .project-page__tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .project-page__tabs li {
+    flex: none;
+    scroll-snap-align: start;
+  }
+
+  .project-page__tabs a {
+    white-space: nowrap;
+  }
+}

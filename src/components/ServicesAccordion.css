@@ -1,0 +1,298 @@
+/* Servicios en acordeón: fondo blanco que entra con un círculo creciente
+   (ServicesAccordion.jsx) y se funde con "Sobre mí" */
+.services-acc {
+  position: relative;
+  padding: clamp(3rem, 8svh, 5rem) 1rem;
+  color: #0b0a10;
+  background-color: #f6f4f0;
+  /* grilla clara de fondo */
+  background-image:
+    linear-gradient(rgba(11, 10, 16, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(11, 10, 16, 0.05) 1px, transparent 1px);
+  background-size: 44px 44px;
+  font-family: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', system-ui, sans-serif;
+}
+
+/* Con JS arranca recortada (el círculo la va revelando); sin JS se ve normal.
+   --fuse: la sección empieza antes y se superpone con el final de "Sobre mí",
+   así la curva del círculo sube por encima en vez de cortarse recta. */
+.js .services-acc {
+  --fuse: 6svh;
+  margin-top: calc(-1 * var(--fuse));
+  padding-top: calc(var(--fuse) + clamp(3rem, 8svh, 5rem));
+  clip-path: circle(0 at 50% 50%);
+  will-change: clip-path;
+}
+
+.services-acc__head {
+  max-width: 72rem;
+  margin: 0 auto clamp(1.5rem, 4svh, 2.5rem);
+  /* título centrado sobre la grilla */
+  text-align: center;
+}
+
+.services-acc__eyebrow {
+  margin: 0 0 0.9rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #eb5b30;
+}
+
+.services-acc__title {
+  margin: 0;
+  font-size: clamp(2.4rem, 6vw, 5rem);
+  font-weight: 800;
+  font-variation-settings: 'opsz' 96;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+
+/* Grilla de recuadros: 3 x 2 en escritorio, 2 columnas en tablet, 1 en celular */
+.svc-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0;
+  list-style: none;
+}
+
+/* Cada recuadro es un link a la página de proyectos de ese servicio */
+.svc-card {
+  position: relative;
+  display: block;
+  text-decoration: none;
+  aspect-ratio: 1;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #16141c;
+  color: #f4f3f7;
+  cursor: pointer;
+  isolation: isolate;
+  outline: none;
+  transition:
+    transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 500ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.svc-card:focus-visible {
+  outline: 2px solid #eb5b30;
+  outline-offset: 3px;
+}
+
+@media (hover: hover) {
+  .svc-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 50px -24px rgba(11, 10, 16, 0.6);
+  }
+}
+
+/* Imágenes apiladas: la actual entra con fundido y un leve zoom hacia atrás */
+/* Quieto: blanco y negro y difuminado. Con el mouse encima (o pasando solo
+   en celular) se aclara y toma color. */
+.svc-card__media {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  filter: grayscale(1) blur(4px) brightness(0.85);
+  /* un poco más grande para que el blur no deje bordes claros */
+  transform: scale(1.06);
+  transition:
+    filter 500ms ease,
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.svc-card.is-playing .svc-card__media,
+.svc-card:focus-visible .svc-card__media {
+  filter: none;
+  transform: none;
+}
+
+.svc-card__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scale(1.1);
+  transition:
+    opacity 300ms ease,
+    transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.svc-card__media img.is-current {
+  z-index: 1;
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Quieto: la imagen se acerca un poco al pasar el mouse */
+.svc-card.is-playing .svc-card__media img.is-current {
+  transform: scale(1.03);
+}
+
+/* Velo abajo para leer el nombre */
+.svc-card__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    0deg,
+    rgba(11, 10, 16, 0.88) 0%,
+    rgba(11, 10, 16, 0.45) 32%,
+    transparent 60%
+  );
+}
+
+/* Marcas arriba, estilo historias: se ven solo mientras pasa el loop */
+.svc-card__dots {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+
+.svc-card.is-playing .svc-card__dots {
+  opacity: 1;
+}
+
+.svc-card__dots i {
+  flex: 1;
+  height: 3px;
+  border-radius: 3px;
+  background: rgba(244, 243, 247, 0.35);
+  transition: background-color 300ms ease;
+}
+
+.svc-card__dots i.is-on {
+  background: #eb5b30;
+}
+
+.svc-card__info {
+  position: absolute;
+  left: clamp(1rem, 2vw, 1.4rem);
+  right: clamp(1rem, 2vw, 1.4rem);
+  bottom: clamp(1rem, 2vw, 1.4rem);
+  display: grid;
+  gap: 0.3rem;
+}
+
+.svc-card__num {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #eb5b30;
+}
+
+.svc-card__name {
+  font-size: clamp(1.4rem, 2.4vw, 2.1rem);
+  font-weight: 800;
+  font-variation-settings: 'opsz' 96;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+}
+
+/* Qué incluye: chips que aparecen en cascada con el mouse encima */
+.svc-card__includes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  max-height: 0;
+  margin-top: 0;
+  overflow: hidden;
+  transition:
+    max-height 450ms cubic-bezier(0.22, 1, 0.36, 1),
+    margin-top 450ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.svc-card__includes span {
+  padding: 0.3em 0.8em;
+  border: 1px solid rgba(244, 243, 247, 0.3);
+  border-radius: 999px;
+  background: rgba(11, 10, 16, 0.35);
+  backdrop-filter: blur(6px);
+  font-size: 0.72rem;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(8px);
+  transition:
+    opacity 200ms ease,
+    transform 200ms ease;
+}
+
+.svc-card.is-playing .svc-card__includes,
+.svc-card:focus-visible .svc-card__includes {
+  max-height: 5rem;
+  margin-top: 0.45rem;
+}
+
+.svc-card.is-playing .svc-card__includes span,
+.svc-card:focus-visible .svc-card__includes span {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 350ms ease calc(120ms + var(--i, 0) * 60ms),
+    transform 500ms cubic-bezier(0.22, 1, 0.36, 1) calc(120ms + var(--i, 0) * 60ms);
+}
+
+@media (max-width: 960px) {
+  .svc-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Celular: los recuadros en una fila que se desliza con el dedo (se asoma el
+   siguiente para que se note que hay más) */
+@media (max-width: 700px) {
+  .svc-grid {
+    display: flex;
+    gap: 12px;
+    margin: 0 -1rem;
+    padding: 0 1rem 0.5rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 1rem;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+  }
+
+  .svc-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .svc-grid > li {
+    flex: 0 0 78%;
+    scroll-snap-align: start;
+  }
+
+  .svc-card {
+    aspect-ratio: 4 / 5;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .services-acc {
+    margin-top: 0;
+    padding-top: clamp(3rem, 8svh, 5rem);
+    clip-path: none;
+  }
+
+  .svc-card,
+  .svc-card__media img,
+  .svc-card__includes,
+  .svc-card__includes span,
+  .svc-card.is-playing .svc-card__includes span {
+    transition: opacity 200ms ease;
+    transform: none;
+  }
+}

@@ -1,0 +1,35 @@
+/*
+  La SVG de TextLoop mide 1200×520 unidades; la cinta ocupa ~90 al centro.
+  El contenedor recorta solo el espacio vacío: alto = ancho de la SVG × 110/1200.
+*/
+.ribbon {
+  position: relative;
+  height: 9.2vw;
+  overflow: hidden;
+  background: #0b0a10;
+}
+
+.ribbon__loop {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  font-family: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', system-ui, sans-serif;
+}
+
+/* Bricolage tiene espacios angostos: más aire entre palabras de la cinta */
+.ribbon text {
+  word-spacing: 0.3em;
+}
+
+/* En celulares la SVG se agranda al doble (se recorta a los lados) para que el texto se lea */
+@media (max-width: 760px) {
+  .ribbon {
+    height: 18.4vw;
+  }
+
+  .ribbon__loop {
+    left: -50%;
+    width: 200% !important;
+  }
+}

@@ -1,0 +1,283 @@
+/* Stickers en los bordes del caso IrazzTech (StickerBoard.jsx).
+   --u = unidad de tamaño de los stickers (más chica en celular).
+   Capas de cada sticker: .sticker (posición + parallax --py) > __slap (entrada)
+   > __float (flotar) > __lift (mouse encima + esquina despegada) > .stk (cara) */
+
+/* Tamaño de la esquina despegada; registrado para que se anime suave */
+@property --peel {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
+
+/* Capa que cubre todo el caso; los stickers se apoyan en los bordes de la ventana */
+.sticker-rail {
+  --u: 6.5px;
+  /* margen libre a cada lado del contenido (de la ventana al caso) */
+  --gutter: calc(50vw - 50%);
+  position: absolute;
+  inset: 0;
+  /* debajo del menú fijo */
+  z-index: 1;
+  pointer-events: none;
+}
+
+.sticker {
+  position: absolute;
+  pointer-events: auto;
+  translate: 0 var(--py, 0px);
+}
+
+/* Enteros, centrados en el margen de cada lado (nunca pegados al borde) */
+.sticker--l {
+  left: calc(-1 * var(--gutter) + max(1rem, var(--gutter) / 2 - 11 * var(--u)));
+  --from: -160%;
+}
+
+.sticker--r {
+  right: calc(-1 * var(--gutter) + max(1rem, var(--gutter) / 2 - 11 * var(--u)));
+  --from: 160%;
+}
+
+/* Entrada: viene desde su costado, girando, y se pega con rebote */
+.sticker__slap {
+  display: block;
+  opacity: 0;
+  transform: translateX(var(--from)) scale(1.35) rotate(calc(var(--r) * -2.5));
+  transition:
+    opacity 250ms ease,
+    transform 800ms cubic-bezier(0.34, 1.45, 0.64, 1);
+}
+
+.sticker.is-in .sticker__slap {
+  opacity: 1;
+  transform: rotate(var(--r));
+}
+
+/* Flotar apenas, cada uno a su ritmo */
+.sticker__float {
+  display: block;
+  animation: stk-float calc(4s + var(--i) * 0.45s) ease-in-out calc(var(--i) * -0.7s) infinite alternate;
+}
+
+@keyframes stk-float {
+  from {
+    transform: translateY(-4px) rotate(-1deg);
+  }
+  to {
+    transform: translateY(4px) rotate(1deg);
+  }
+}
+
+/* Con el mouse encima: se levanta y se despega la esquina */
+.sticker__lift {
+  position: relative;
+  display: block;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.45));
+  transition:
+    transform 350ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 350ms ease,
+    --peel 350ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) {
+  .sticker:hover .sticker__lift {
+    transform: translateY(-6px) scale(1.07) rotate(-3deg);
+    filter: drop-shadow(0 16px 16px rgba(0, 0, 0, 0.5));
+  }
+
+  .sticker:hover .sticker__lift.can-peel {
+    --peel: calc(2.6 * var(--u));
+  }
+}
+
+/* Corte de la esquina en la cara */
+.sticker__lift.can-peel .stk {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--peel)), calc(100% - var(--peel)) 100%, 0 100%);
+}
+
+/* Dorso que se ve al despegar: triángulo blanco con sombra */
+.sticker__peel {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: var(--peel);
+  height: var(--peel);
+  background: linear-gradient(315deg, transparent 50%, #e8e8e8 50%, #ffffff 80%);
+  filter: drop-shadow(-2px -2px 3px rgba(0, 0, 0, 0.3));
+  pointer-events: none;
+}
+
+/* ---- Caras ---- */
+.stk {
+  display: grid;
+  place-items: center;
+  border: calc(0.55 * var(--u)) solid #fff;
+  font-family: 'Chakra Petch', 'Bricolage Grotesque Variable', system-ui, sans-serif;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.stk img {
+  display: block;
+  pointer-events: none;
+}
+
+.stk--wordmark {
+  padding: calc(1.6 * var(--u)) calc(2.2 * var(--u));
+  border-radius: calc(1 * var(--u));
+  background: #fff;
+}
+
+.stk--wordmark img {
+  width: calc(22 * var(--u));
+}
+
+.stk--ich {
+  width: calc(15 * var(--u));
+  aspect-ratio: 1;
+  border-radius: calc(2.2 * var(--u));
+  background: #080808;
+}
+
+.stk--ich img {
+  width: calc(10 * var(--u));
+}
+
+.stk--pixel {
+  gap: calc(0.6 * var(--u));
+  width: calc(15 * var(--u));
+  aspect-ratio: 1;
+  border-radius: calc(0.6 * var(--u));
+  background: #e10600;
+  color: #fff;
+}
+
+.stk--pixel strong {
+  font-size: calc(4.4 * var(--u));
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.stk--pixel span {
+  font-size: calc(1.25 * var(--u));
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.stk--round {
+  width: calc(14 * var(--u));
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #080808;
+}
+
+.stk--round svg {
+  width: 100%;
+  height: 100%;
+  animation: stk-spin 18s linear infinite;
+}
+
+.stk__ring {
+  font: 700 9.5px 'Chakra Petch', 'Bricolage Grotesque Variable', system-ui, sans-serif;
+  letter-spacing: 1.6px;
+  fill: #f5f5f5;
+}
+
+/* El tilde no gira: se contrarresta en el path */
+.stk--round svg path:last-child {
+  transform-origin: 50px 50px;
+  animation: stk-spin 18s linear infinite reverse;
+}
+
+@keyframes stk-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.stk--quote {
+  max-width: calc(19 * var(--u));
+  padding: calc(1.6 * var(--u)) calc(1.8 * var(--u));
+  border-radius: calc(0.8 * var(--u));
+  background: #f5f5f5;
+  color: #080808;
+  font-size: calc(1.9 * var(--u));
+  font-weight: 800;
+  line-height: 1.05;
+  white-space: normal;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.stk--quote em {
+  font-style: normal;
+  color: #e10600;
+}
+
+.stk--pill {
+  padding: calc(1.2 * var(--u)) calc(2.4 * var(--u));
+  border-radius: 999px;
+  background: #080808;
+  color: #f5f5f5;
+  font-size: calc(1.35 * var(--u));
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.stk--tag {
+  gap: calc(0.8 * var(--u));
+  padding: calc(1.2 * var(--u)) calc(1.6 * var(--u));
+  border-radius: calc(0.6 * var(--u));
+  background: #f5f5f5;
+  color: #080808;
+}
+
+.stk__code {
+  font: 700 calc(1.7 * var(--u)) ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  color: #e10600;
+}
+
+/* Código de barras hecho con rayas */
+.stk__bars {
+  width: calc(10 * var(--u));
+  height: calc(2.6 * var(--u));
+  background: repeating-linear-gradient(
+    90deg,
+    #080808 0 calc(0.25 * var(--u)),
+    transparent calc(0.25 * var(--u)) calc(0.45 * var(--u)),
+    #080808 calc(0.45 * var(--u)) calc(0.55 * var(--u)),
+    transparent calc(0.55 * var(--u)) calc(0.8 * var(--u))
+  );
+}
+
+
+/* Márgenes más chicos: stickers más chicos */
+@media (max-width: 1600px) {
+  .sticker-rail {
+    --u: 5px;
+  }
+}
+
+/* Sin margen al costado del contenido: no se muestran (taparían el caso) */
+@media (max-width: 1180px) {
+  .sticker-rail {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticker__slap {
+    opacity: 1;
+    transform: rotate(var(--r));
+    transition: none;
+  }
+
+  .sticker__float,
+  .stk--round svg,
+  .stk--round svg path:last-child {
+    animation: none;
+  }
+}

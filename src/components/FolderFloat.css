@@ -1,0 +1,189 @@
+/* Carpeta con notas flotantes. Las notas las posiciona FolderFloat.jsx (física) */
+.folder-float {
+  --stage-h: 320px;
+  --fw: 184px; /* ancho de la carpeta */
+  --bh: 124px; /* alto de la parte de atrás */
+  --fh: 104px; /* alto del frente */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.folder-float__stage {
+  position: relative;
+  width: 100%;
+  height: var(--stage-h);
+  perspective: 900px;
+}
+
+/* Parte de atrás, con la pestaña */
+.folder-float__back {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: var(--fw);
+  height: var(--bh);
+  margin-left: calc(var(--fw) / -2);
+  border-radius: 4px 10px 10px 10px;
+  background: var(--folder-back);
+}
+
+.folder-float__back::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 0;
+  width: 42%;
+  height: 16px;
+  border-radius: 8px 8px 0 0;
+  background: var(--folder-back);
+}
+
+/* Origen de las notas: centro de la boca de la carpeta */
+.folder-float__notes {
+  position: absolute;
+  top: calc(var(--stage-h) - var(--bh));
+  left: 50%;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.folder-float__note {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 118px;
+  height: 40px;
+  padding: 0 0.6rem;
+  border-radius: 6px;
+  background: #ffffff;
+  color: #16141c;
+  font-family: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', system-ui, sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.1;
+  text-align: center;
+  white-space: nowrap;
+  box-shadow:
+    0 1px 2px rgba(22, 20, 28, 0.1),
+    0 8px 18px -8px rgba(22, 20, 28, 0.3);
+  will-change: transform;
+  user-select: none;
+}
+
+/* Detalle de color de la carpeta en cada nota */
+.folder-float__note::before {
+  content: '';
+  flex: none;
+  width: 6px;
+  height: 6px;
+  margin-right: 0.45rem;
+  border-radius: 50%;
+  background: var(--folder);
+}
+
+/* Frente: se inclina hacia adelante al abrir */
+.folder-float__front {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: var(--fw);
+  height: var(--fh);
+  margin-left: calc(var(--fw) / -2);
+  border-radius: 6px 6px 10px 10px;
+  background: linear-gradient(180deg, color-mix(in srgb, var(--folder) 88%, #fff), var(--folder));
+  box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.25) inset;
+  transform-origin: 50% 100%;
+  transition: transform 520ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.folder-float.is-open .folder-float__front {
+  transform: rotateX(-32deg);
+}
+
+/* Sombra en el piso */
+.folder-float__stage::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  width: calc(var(--fw) * 0.9);
+  height: 14px;
+  margin-left: calc(var(--fw) * -0.45);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(22, 20, 28, 0.18), transparent);
+  pointer-events: none;
+}
+
+/* Nombre del servicio (botón accesible) */
+.folder-float__label {
+  margin-top: 1.5rem;
+  padding: 0.3rem 0.4rem;
+  border: 0;
+  background: none;
+  color: #16141c;
+  font-family: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', system-ui, sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+}
+
+.folder-float__label:focus-visible {
+  outline: 2px solid var(--folder);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Compacta: para flotar en la portada */
+.folder-float--sm {
+  --stage-h: 210px;
+  --fw: 112px;
+  --bh: 76px;
+  --fh: 64px;
+}
+
+.folder-float--sm .folder-float__note {
+  width: 100px;
+  height: 32px;
+  font-size: 0.68rem;
+}
+
+.folder-float--sm .folder-float__back::before {
+  height: 11px;
+}
+
+.folder-float--sm .folder-float__label {
+  margin-top: 0.9rem;
+  font-size: 0.82rem;
+  color: #f4f3f7;
+  white-space: nowrap;
+}
+
+.folder-float--sm .folder-float__stage::after {
+  background: radial-gradient(closest-side, rgba(0, 0, 0, 0.45), transparent);
+}
+
+@media (max-width: 640px) {
+  .folder-float--md {
+    --stage-h: 290px;
+    --fw: 164px;
+    --bh: 112px;
+    --fh: 94px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .folder-float__front {
+    transition: none;
+  }
+}

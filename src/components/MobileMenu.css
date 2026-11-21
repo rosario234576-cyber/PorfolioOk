@@ -1,0 +1,229 @@
+/* Menú de celular (MobileMenu.jsx). Solo se ve en pantallas angostas;
+   en escritorio manda el menú de píldora (GooeyNav). */
+.mnav__toggle,
+.mnav {
+  display: none;
+}
+
+@media (max-width: 820px) {
+  /* Botón redondo con dos rayas que se cruzan en X al abrir */
+  .mnav__toggle {
+    position: relative;
+    z-index: 31;
+    display: grid;
+    place-items: center;
+    justify-self: end;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: 1px solid rgba(244, 243, 247, 0.16);
+    border-radius: 50%;
+    background: rgba(11, 10, 16, 0.75);
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+  }
+
+  .mnav__toggle i {
+    position: absolute;
+    width: 18px;
+    height: 2px;
+    border-radius: 2px;
+    background: #f4f3f7;
+    transition: transform 350ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .mnav__toggle i:first-child {
+    transform: translateY(-4px);
+  }
+
+  .mnav__toggle i:last-child {
+    transform: translateY(4px);
+  }
+
+  .mnav__toggle.is-open i:first-child {
+    transform: rotate(45deg);
+  }
+
+  .mnav__toggle.is-open i:last-child {
+    transform: rotate(-45deg);
+  }
+
+  .mnav__toggle:focus-visible {
+    outline: 2px solid #eb5b30;
+    outline-offset: 3px;
+  }
+
+  /* Pantalla completa */
+  .mnav {
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 6.5rem 1.25rem 2rem;
+    background: #0b0a10;
+    color: #f4f3f7;
+    font-family: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', system-ui, sans-serif;
+    clip-path: circle(0 at calc(100% - 2.6rem) 2.6rem);
+    visibility: hidden;
+    transition:
+      clip-path 600ms cubic-bezier(0.76, 0, 0.24, 1),
+      visibility 0s linear 600ms;
+    overflow-y: auto;
+  }
+
+  .mnav.is-open {
+    clip-path: circle(150% at calc(100% - 2.6rem) 2.6rem);
+    visibility: visible;
+    transition:
+      clip-path 700ms cubic-bezier(0.76, 0, 0.24, 1),
+      visibility 0s;
+  }
+
+  /* Todo entra en cascada al abrir */
+  .mnav__links a,
+  .mnav__projects,
+  .mnav__bottom {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 300ms ease,
+      transform 300ms ease;
+  }
+
+  .mnav.is-open .mnav__links a,
+  .mnav.is-open .mnav__projects,
+  .mnav.is-open .mnav__bottom {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 500ms ease calc(250ms + var(--i) * 70ms),
+      transform 700ms cubic-bezier(0.22, 1, 0.36, 1) calc(250ms + var(--i) * 70ms);
+  }
+
+  .mnav__links {
+    display: grid;
+  }
+
+  .mnav__links a {
+    display: flex;
+    align-items: baseline;
+    gap: 0.8rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(244, 243, 247, 0.1);
+    color: #f4f3f7;
+    font-size: clamp(2.2rem, 11vw, 3.2rem);
+    font-weight: 800;
+    font-variation-settings: 'opsz' 96;
+    letter-spacing: -0.035em;
+    line-height: 1.05;
+    text-decoration: none;
+  }
+
+  .mnav__links a:active {
+    color: #eb5b30;
+  }
+
+  .mnav__num {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: #eb5b30;
+  }
+
+  .mnav__label {
+    margin: 0 0 0.7rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(244, 243, 247, 0.45);
+  }
+
+  /* Categorías: una fila que se desliza con el dedo */
+  .mnav__projects ul {
+    display: flex;
+    gap: 0.5rem;
+    margin: 0 -1.25rem;
+    padding: 0 1.25rem 0.4rem;
+    list-style: none;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+  }
+
+  .mnav__projects ul::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mnav__projects li {
+    flex: none;
+    scroll-snap-align: start;
+  }
+
+  .mnav__projects a {
+    display: block;
+    padding: 0.65em 1.1em;
+    border: 1px solid rgba(244, 243, 247, 0.2);
+    border-radius: 999px;
+    color: #f4f3f7;
+    font-weight: 600;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+
+  .mnav__projects a.is-current {
+    border-color: #eb5b30;
+    background: #eb5b30;
+  }
+
+  .mnav__bottom {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .mnav__contact {
+    display: flex;
+    justify-content: center;
+    gap: 0.5em;
+    padding: 1rem;
+    border-radius: 999px;
+    background: #cc4224;
+    color: #fff;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .mnav__social {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  .mnav__social a {
+    color: rgba(244, 243, 247, 0.7);
+    font-size: 0.95rem;
+    text-decoration: none;
+  }
+}
+
+@media (max-width: 820px) and (prefers-reduced-motion: reduce) {
+  .mnav,
+  .mnav.is-open,
+  .mnav__links a,
+  .mnav__projects,
+  .mnav__bottom {
+    transition: none;
+  }
+}
+
+/* Menú abierto: logo blanco aunque la página de atrás sea clara */
+.mnav-open .site-nav__logo-light {
+  opacity: 1 !important;
+}
+
+.mnav-open .site-nav__logo-dark {
+  opacity: 0 !important;
+}

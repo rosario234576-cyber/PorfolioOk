@@ -1,0 +1,108 @@
+/* Capa de carpetas: no bloquea el resto de la portada */
+.hero-folders {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hero-folder {
+  position: absolute;
+  width: 230px;
+  margin-left: -115px; /* left/top = centro de la carpeta */
+  margin-top: -172px; /* top = centro de la carpeta */
+  pointer-events: none;
+  animation: hero-folder-float 7s ease-in-out calc(var(--i) * -1.3s) infinite;
+}
+
+/* Solo la carpeta en sí recibe el mouse (no el aire de la nube) */
+.hero-folder .folder-float__back,
+.hero-folder .folder-float__front,
+.hero-folder .folder-float__label,
+.hero-folder .is-open .folder-float__stage {
+  pointer-events: auto;
+}
+
+.hero-folder:has(.is-open) {
+  z-index: 3;
+  animation-play-state: paused;
+}
+
+/* Posición de cada carpeta (centro), 3 a la izquierda y 3 a la derecha */
+.hero-folder:nth-child(1) { left: 9%; top: 30%; }
+.hero-folder:nth-child(2) { left: 6%; top: 51%; }
+.hero-folder:nth-child(3) { left: 13%; top: 71%; }
+.hero-folder:nth-child(4) { left: 91%; top: 32%; }
+.hero-folder:nth-child(5) { left: 94%; top: 53%; }
+.hero-folder:nth-child(6) { left: 87%; top: 73%; }
+
+@keyframes hero-folder-float {
+  0%,
+  100% {
+    translate: 0 0;
+    rotate: -2deg;
+  }
+  50% {
+    translate: 0 -12px;
+    rotate: 2deg;
+  }
+}
+
+/* Pantallas medianas: el título ocupa casi todo el ancho; las carpetas van abajo */
+@media (max-width: 1100px) {
+  .hero-folders {
+    position: relative;
+    inset: auto;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    justify-items: center;
+    row-gap: 0;
+    width: min(100% - 1rem, 46rem);
+    margin: -3.5rem auto 0;
+  }
+
+  .hero-folder {
+    position: relative;
+    left: auto !important;
+    top: auto !important;
+    width: 100%;
+    max-width: 230px;
+    margin: 0;
+  }
+
+  /* menos aire arriba: la nube se abre sobre el título */
+  .hero-folder .folder-float__stage {
+    height: 140px;
+  }
+
+  .hero-folder .folder-float__notes {
+    top: calc(140px - var(--bh));
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-folder .folder-float {
+    --fw: 84px;
+    --bh: 58px;
+    --fh: 48px;
+  }
+
+  .hero-folder .folder-float__stage {
+    height: 104px;
+  }
+
+  .hero-folder .folder-float__notes {
+    top: calc(104px - var(--bh));
+  }
+
+  .hero-folder .folder-float__label {
+    font-size: 0.72rem;
+    margin-top: 0.6rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-folder {
+    animation: none;
+  }
+}

@@ -1,0 +1,5 @@
+# Bienvenidos todos los buscadores y asistentes de IA
+User-agent: *
+Allow: /
+
+Sitemap: https://www.inkkstudio.art/sitemap.xml

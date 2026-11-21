@@ -1,0 +1,111 @@
+/* Comparador antes / después (BeforeAfter.jsx). --pos = posición de la barra */
+.before-after {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 18px;
+  background: #fff;
+  user-select: none;
+  touch-action: pan-y;
+  isolation: isolate;
+}
+
+.before-after__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #fff;
+  pointer-events: none;
+}
+
+/* El "antes" solo se ve a la izquierda de la barra */
+.before-after__img--before {
+  clip-path: inset(0 calc(100% - var(--pos)) 0 0);
+}
+
+.before-after__tag {
+  position: absolute;
+  top: 14px;
+  z-index: 2;
+  padding: 0.35em 0.9em;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  pointer-events: none;
+  transition: opacity 250ms ease;
+}
+
+.before-after__tag--before {
+  left: 14px;
+  background: rgba(11, 10, 16, 0.75);
+  color: #f4f3f7;
+}
+
+.before-after__tag--after {
+  right: 14px;
+  background: var(--accent, #eb5b30);
+  color: #fff;
+}
+
+.before-after__bar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--pos);
+  z-index: 3;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--accent, #eb5b30);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.6);
+  pointer-events: none;
+}
+
+.before-after__knob {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--accent, #eb5b30);
+  color: #fff;
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.45);
+  transform: translate(-50%, -50%);
+  transition: transform 200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Control real: un range invisible que cubre todo */
+.before-after__range {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: ew-resize;
+  appearance: none;
+}
+
+.before-after:hover .before-after__knob,
+.before-after__range:active ~ .before-after__bar .before-after__knob {
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+/* Foco con teclado: anillo en la manija */
+.before-after:has(.before-after__range:focus-visible) .before-after__knob {
+  outline: 3px solid #fff;
+  outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+  .before-after {
+    aspect-ratio: 1;
+  }
+}

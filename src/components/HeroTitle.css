@@ -1,0 +1,250 @@
+/* Título del hero: H1 real (relleno) + capa decorativa de construcción
+   (guías, contornos, marco, tiradores y cursor). */
+.hero-title {
+  --accent: #eb5b30;
+  --ink: #f4f3f7;
+  position: relative;
+  width: 100%;
+}
+
+/* Bricolage Grotesque ExtraBold (800) en su corte display (opsz 96), el más
+   grotesco, también en mobile. Interletra cerrada. El tamaño escala con el ancho
+   y el alto disponibles y se reserva desde el inicio: el layout no salta. */
+.hero-title__type {
+  margin: 0;
+  font-family: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', system-ui, sans-serif;
+  font-weight: 800;
+  font-variation-settings: 'opsz' 96;
+  /* El marco mide ≈ 4.9em: con 17vw ocupa ~84% del ancho y no se corta */
+  font-size: min(17vw, 25svh, 11.5rem);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+  /* compensa el espacio final que agrega letter-spacing: centrado óptico */
+  text-indent: -0.02em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-align: center;
+  color: var(--ink);
+}
+
+.hero-title__line {
+  display: block;
+}
+
+/* ---- Estado previo: con JS, el relleno espera oculto (sigue accesible) ---- */
+.js .hero-title:not([data-state='done']) .hero-title__h1 .hero-title__line {
+  clip-path: inset(0 0 100% 0);
+}
+
+/* Salvavidas: si la animación nunca arranca, mostrar el título igual */
+.js .hero-title:not([data-state]) .hero-title__h1 .hero-title__line {
+  animation: hero-title-failsafe 0s linear 6s forwards;
+}
+
+@keyframes hero-title-failsafe {
+  to {
+    clip-path: inset(-50% -50% -50% -50%);
+  }
+}
+
+/* ---- Capa de construcción ---- */
+.hero-title__fx {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  user-select: none;
+  visibility: hidden;
+}
+
+.hero-title[data-state='play'] .hero-title__fx {
+  visibility: visible;
+}
+
+.hero-title__mask,
+.hero-title__outline {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-title__mask {
+  clip-path: polygon(0 0, 0 0, 0 0, 0 0);
+}
+
+/* Contornos: mismas métricas que el H1, sin relleno */
+.hero-title__outline {
+  color: transparent;
+  -webkit-text-stroke: 1.25px rgba(244, 243, 247, 0.8);
+}
+
+.hero-title__probe {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  vertical-align: baseline;
+}
+
+.hero-title__guides,
+.hero-title__frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.hero-title__guides {
+  fill: none;
+  stroke: rgba(244, 243, 247, 0.22);
+  stroke-width: 1;
+  shape-rendering: geometricPrecision;
+}
+
+.hero-title__guides .is-axis {
+  stroke: rgba(235, 91, 48, 0.35);
+  stroke-dasharray: 6 6;
+}
+
+.hero-title__guides circle {
+  stroke: rgba(235, 91, 48, 0.55);
+}
+
+.hero-title__guides .is-mark {
+  stroke: rgba(235, 91, 48, 0.8);
+}
+
+.hero-title__box {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.5;
+  stroke-dasharray: 0.1 5;
+  stroke-linecap: round;
+}
+
+.hero-title__ring {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+
+.hero-title__anchor {
+  fill: var(--accent);
+}
+
+.hero-title__handle {
+  fill: #0b0a10;
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+
+/* Cursor gráfico: la punta (3, 2.5 del viewBox) cae en el origen */
+.hero-title__cursor {
+  position: absolute;
+  left: -3.25px;
+  top: -2.7px;
+  transform-origin: 3.25px 2.7px;
+  opacity: 0;
+  will-change: transform;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.45));
+}
+
+.hero-title__cursor svg {
+  display: block;
+  fill: var(--accent);
+  stroke: var(--ink);
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+}
+
+/* CREATIVO en el naranja de acento */
+.hero-title__h1 .hero-title__line:last-child {
+  color: var(--accent);
+}
+
+/* ---- Gatito en lugar de la última O ---- */
+.hero-title__o {
+  position: relative;
+}
+
+/* En el H1 la O queda invisible (ocupa su lugar y se lee); el gato la reemplaza */
+.hero-title__h1 .hero-title__o {
+  color: transparent;
+}
+
+.hero-title__cat {
+  position: absolute;
+  left: 50%;
+  bottom: 0.15em;
+  width: 0.88em;
+  height: auto;
+  /* medio ancho (0.44em) menos 0.06em de separación de la V; ver CAT_RIGHT en HeroTitle.jsx */
+  margin-left: -0.38em;
+  transform-origin: 50% 85%;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Antes del relleno de CREATIVO el gato espera; luego pop y cabeceo suave en loop */
+.js .hero-title:not(.is-cat-in) .hero-title__cat {
+  transform: scale(0.4) rotate(-14deg);
+  opacity: 0;
+}
+
+.hero-title.is-cat-in .hero-title__cat {
+  animation:
+    hero-cat-pop 520ms cubic-bezier(0.34, 1.56, 0.64, 1) both,
+    hero-cat-idle 4.2s ease-in-out 1.4s infinite;
+}
+
+@keyframes hero-cat-pop {
+  from {
+    transform: scale(0.4) rotate(-14deg);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* Cabeceo: inclina, mira, vuelve; el resto del ciclo quieto */
+@keyframes hero-cat-idle {
+  0%, 62%, 100% {
+    transform: rotate(0deg) translateY(0);
+  }
+  70% {
+    transform: rotate(-9deg) translateY(-0.02em);
+  }
+  80% {
+    transform: rotate(7deg) translateY(-0.03em);
+  }
+  90% {
+    transform: rotate(-2deg) translateY(0);
+  }
+}
+
+/* Movimiento reducido: título final directo */
+@media (prefers-reduced-motion: reduce) {
+  .js .hero-title .hero-title__h1 .hero-title__line {
+    clip-path: none !important;
+    animation: none;
+  }
+
+  .hero-title__fx {
+    display: none;
+  }
+
+  .js .hero-title .hero-title__cat {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
+
+/* Modo estático (sin secuencia de entrada): el gato ya está en su lugar, solo cabecea */
+.hero-title.is-static .hero-title__cat {
+  animation: hero-cat-idle 4.2s ease-in-out 1.4s infinite;
+}
+
+.hero-title.is-static .hero-title__fx {
+  display: none;
+}

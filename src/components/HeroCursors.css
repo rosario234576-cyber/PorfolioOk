@@ -1,0 +1,84 @@
+/* Punteros de "colaboradores" con los servicios, sobre el título */
+.hero-cursors {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* El punto (left/top) es la punta de la flecha */
+.hero-cursor {
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.hero-cursor__body {
+  position: relative;
+  transform-origin: 0 0;
+  animation: hero-cursor-in 520ms cubic-bezier(0.34, 1.56, 0.64, 1) var(--cursor-delay, 0ms) both;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.35));
+}
+
+.hero-cursor__arrow {
+  position: absolute;
+  left: -1.5px;
+  top: -1.5px;
+  display: block;
+  fill: var(--cursor-color);
+  stroke: var(--cursor-color);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.hero-cursor__label {
+  position: absolute;
+  top: 14px;
+  padding: 0.32em 0.85em;
+  border-radius: 999px;
+  background: var(--cursor-color);
+  color: #fff;
+  font-family: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', system-ui, sans-serif;
+  font-size: clamp(0.66rem, 1vw, 0.8rem);
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+/* Etiqueta a la derecha: flecha apuntando arriba a la izquierda */
+.hero-cursor--right .hero-cursor__label {
+  left: 12px;
+}
+
+/* Etiqueta a la izquierda: flecha espejada, apuntando arriba a la derecha */
+.hero-cursor--left .hero-cursor__arrow {
+  left: auto;
+  right: -1.5px;
+  transform: scaleX(-1);
+}
+
+.hero-cursor--left .hero-cursor__body {
+  transform-origin: 0 0;
+}
+
+.hero-cursor--left .hero-cursor__label {
+  right: 12px;
+}
+
+@keyframes hero-cursor-in {
+  from {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-cursor__body {
+    animation: none;
+  }
+}

@@ -1,0 +1,560 @@
+/* Página de Branding (BrandingPage.jsx). Usa la cabecera de ProjectPage.css;
+   acá van el índice y cada caso. --accent = color de la marca del caso. */
+
+/* Retardo escalonado opcional para las apariciones */
+.branding-page [data-reveal] {
+  transition-delay: var(--d, 0ms);
+}
+
+/* Índice de casos */
+.brand-index {
+  display: grid;
+  gap: 0;
+  margin: 0 0 clamp(4rem, 10svh, 7rem);
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid rgba(244, 243, 247, 0.12);
+}
+
+.brand-index a {
+  display: grid;
+  grid-template-columns: 3.5rem 1fr auto;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid rgba(244, 243, 247, 0.12);
+  color: inherit;
+  text-decoration: none;
+  transition: padding-left 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.brand-index__num {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--accent);
+}
+
+.brand-index__name {
+  font-size: clamp(1.6rem, 4vw, 3rem);
+  font-weight: 800;
+  font-variation-settings: 'opsz' 96;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  transition: color 300ms ease;
+}
+
+.brand-index__sector {
+  font-size: 0.85rem;
+  color: rgba(244, 243, 247, 0.55);
+  text-align: right;
+}
+
+@media (hover: hover) {
+  .brand-index a:hover {
+    padding-left: 0.8rem;
+  }
+
+  .brand-index a:hover .brand-index__name {
+    color: var(--accent);
+  }
+}
+
+/* ---- Caso ---- */
+.brand-case {
+  padding-top: clamp(3rem, 8svh, 5rem);
+  margin-bottom: clamp(5rem, 14svh, 9rem);
+  border-top: 1px solid rgba(244, 243, 247, 0.12);
+  scroll-margin-top: 5rem;
+}
+
+.brand-case__head {
+  margin-bottom: clamp(2rem, 5svh, 3rem);
+}
+
+.brand-case__num {
+  display: inline-block;
+  margin-bottom: 0.9rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.brand-case__name {
+  margin: 0;
+  font-size: clamp(2.8rem, 8vw, 7rem);
+  font-weight: 800;
+  font-variation-settings: 'opsz' 96;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+}
+
+.brand-case__tagline {
+  margin: 1rem 0 0.3rem;
+  font-size: clamp(1.15rem, 2vw, 1.6rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.brand-case__meta {
+  margin: 0;
+  font-size: 0.9rem;
+  color: rgba(244, 243, 247, 0.55);
+}
+
+.brand-case__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 1.3rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.brand-case__chips li {
+  padding: 0.4em 0.9em;
+  border: 1px solid rgba(244, 243, 247, 0.2);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(244, 243, 247, 0.85);
+}
+
+/* Botones-imagen: se abren en el visor */
+.brand-case button {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: zoom-in;
+}
+
+.brand-case button img {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.brand-case button:focus-visible {
+  outline: 2px solid var(--accent, #eb5b30);
+  outline-offset: 3px;
+}
+
+.brand-case__cover {
+  overflow: hidden;
+  border-radius: 18px;
+  box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.8);
+}
+
+@media (hover: hover) {
+  .brand-case__cover:hover img,
+  .brand-logos button:hover img,
+  .brand-apps button:hover img,
+  .brand-process__img:hover img {
+    transform: scale(1.03);
+  }
+}
+
+/* Concepto + símbolos */
+.brand-case__concept {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: clamp(2rem, 5vw, 5rem);
+  margin: clamp(3rem, 8svh, 5rem) 0;
+}
+
+.brand-case__label {
+  display: flex;
+  align-items: baseline;
+  gap: 0.8rem;
+  margin: 0 0 1.2rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.brand-case__label span {
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: rgba(244, 243, 247, 0.45);
+}
+
+.brand-case__text {
+  margin: 0 0 1rem;
+  font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+  line-height: 1.55;
+  color: rgba(244, 243, 247, 0.82);
+}
+
+.brand-case__symbols {
+  display: grid;
+  gap: 0.8rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.brand-case__symbols li {
+  display: grid;
+  grid-template-columns: 2.4rem 1fr;
+  column-gap: 0.6rem;
+  row-gap: 0.25rem;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid rgba(244, 243, 247, 0.1);
+  border-radius: 14px;
+  background: rgba(244, 243, 247, 0.03);
+}
+
+.brand-case__symbol-num {
+  grid-row: span 2;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.brand-case__symbols strong {
+  font-size: 1.05rem;
+}
+
+.brand-case__symbols li > span:last-child {
+  font-size: 0.92rem;
+  line-height: 1.45;
+  color: rgba(244, 243, 247, 0.65);
+}
+
+.brand-case__block {
+  margin: clamp(3rem, 8svh, 5rem) 0;
+}
+
+/* Proceso: bocetos en fila y la marca final destacada */
+.brand-process {
+  display: grid;
+  /* --n = pasos antes de la marca final (lo pone BrandingPage.jsx) */
+  grid-template-columns: repeat(var(--n, 4), 1fr) 1.4fr;
+  align-items: start;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.brand-process li {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.brand-case .brand-process__img {
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.brand-case .brand-process__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 8%;
+}
+
+/* Los bocetos se ven más apagados que la marca final */
+.brand-process li:not(.brand-process__final) .brand-process__img {
+  filter: grayscale(0.6);
+  opacity: 0.85;
+  transition:
+    filter 400ms ease,
+    opacity 400ms ease;
+}
+
+.brand-process li:not(.brand-process__final) .brand-process__img:hover {
+  filter: none;
+  opacity: 1;
+}
+
+.brand-process__final .brand-process__img {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.brand-case .brand-process__final .brand-process__img img {
+  padding: 0;
+  object-fit: cover;
+}
+
+.brand-process__step {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(244, 243, 247, 0.6);
+}
+
+.brand-process__final .brand-process__step {
+  color: var(--accent);
+}
+
+/* Paleta + tipografía */
+.brand-case__system {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  margin: clamp(3rem, 8svh, 5rem) 0;
+}
+
+.brand-palette {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.brand-palette li {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.brand-palette__chip {
+  aspect-ratio: 3 / 4;
+  margin-bottom: 0.5rem;
+  border: 1px solid rgba(244, 243, 247, 0.14);
+  border-radius: 12px;
+  background: var(--c);
+}
+
+.brand-palette__name {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.brand-palette__hex {
+  font-size: 0.78rem;
+  font-variant-numeric: tabular-nums;
+  color: rgba(244, 243, 247, 0.55);
+}
+
+.brand-fonts {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.brand-fonts li {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 1.2rem 1.4rem;
+  border: 1px solid rgba(244, 243, 247, 0.1);
+  border-radius: 14px;
+  background: rgba(244, 243, 247, 0.03);
+}
+
+.brand-fonts__aa {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.brand-fonts li > span:last-child {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.brand-fonts strong {
+  font-size: 1.2rem;
+}
+
+.brand-fonts li > span:last-child > span {
+  font-size: 0.88rem;
+  color: rgba(244, 243, 247, 0.6);
+}
+
+/* Versiones del logo */
+.brand-logos {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.brand-logos li {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.brand-logos button,
+.brand-apps button {
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.brand-logos li > span {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(244, 243, 247, 0.6);
+}
+
+/* Manual: tira horizontal con scroll y encaje */
+.brand-manual {
+  display: flex;
+  gap: 12px;
+  margin: 0 calc(50% - 50vw);
+  padding: 0 calc(50vw - 50%) 1rem;
+  overflow-x: auto;
+  list-style: none;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: calc(50vw - 50%);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(244, 243, 247, 0.25) transparent;
+}
+
+.brand-manual li {
+  flex: 0 0 min(78vw, 560px);
+  scroll-snap-align: start;
+}
+
+.brand-manual button {
+  overflow: hidden;
+  border-radius: 10px;
+  border: 1px solid rgba(244, 243, 247, 0.1);
+}
+
+/* Aplicaciones */
+.brand-apps {
+  display: grid;
+  grid-template-columns: repeat(var(--cols, 6), 1fr);
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (max-width: 900px) {
+  .brand-case__concept,
+  .brand-case__system {
+    grid-template-columns: 1fr;
+  }
+
+  .brand-process {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .brand-process__final {
+    grid-column: span 2;
+  }
+
+  .brand-logos {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .brand-apps {
+    grid-template-columns: repeat(min(var(--cols, 6), 3), 1fr);
+  }
+
+  .brand-index a {
+    grid-template-columns: 2.5rem 1fr;
+  }
+
+  .brand-index__sector {
+    grid-column: 2;
+    text-align: left;
+  }
+}
+
+@media (max-width: 520px) {
+  .brand-palette {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .brand-palette__chip {
+    aspect-ratio: 2 / 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-case button img,
+  .brand-index a {
+    transition: none;
+  }
+}
+
+/* Borde suave: las versiones sobre negro no se pierden contra el fondo */
+.brand-logos button,
+.brand-apps button {
+  border: 1px solid rgba(244, 243, 247, 0.1);
+}
+
+/* Logo anterior: marcado como punto de partida, separado de los bocetos */
+.brand-process__before .brand-process__step {
+  color: rgba(244, 243, 247, 0.85);
+}
+
+.brand-process__before .brand-process__img {
+  outline: 1px dashed rgba(244, 243, 247, 0.35);
+  outline-offset: 4px;
+}
+
+/* Comparador antes / después, arriba de la fila de bocetos */
+.brand-compare {
+  max-width: 60rem;
+  margin: 0 auto 2.5rem;
+}
+
+.brand-compare__hint {
+  margin: 0.8rem 0 0;
+  font-size: 0.85rem;
+  text-align: center;
+  color: rgba(244, 243, 247, 0.55);
+}
+
+/* Portadas oscuras: borde suave para que no se pierdan contra el fondo */
+.brand-case__cover {
+  border: 1px solid rgba(244, 243, 247, 0.1);
+}
+
+/* La tira del manual sale a lo ancho de la ventana (100vw incluye la barra de
+   scroll): se recorta en el contenedor de la página para no generar scroll lateral */
+.page:has(.branding-page) {
+  overflow-x: clip;
+}
+
+/* Aplicaciones: proporción según el grupo (4/5 piezas, 1 historias) y epígrafe */
+.brand-apps li {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.brand-case .brand-apps button img {
+  aspect-ratio: var(--ratio, 1);
+  height: auto;
+  object-fit: cover;
+}
+
+.brand-apps li > span {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(244, 243, 247, 0.6);
+}
+
+@media (max-width: 520px) {
+  .brand-apps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Referencia para los stickers de los bordes (StickerBoard.jsx) */
+.brand-case {
+  position: relative;
+}

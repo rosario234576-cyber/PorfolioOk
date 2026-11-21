@@ -1,0 +1,28 @@
+/* Franja compacta y centrada al pie de la portada (logos chicos y discretos) */
+.brands {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  /* separada del borde inferior: rótulo y logos más arriba */
+  padding: 0 1rem clamp(5.5rem, 13svh, 8rem);
+}
+
+.brands .logoloop {
+  width: min(720px, 100%) !important;
+  padding-block: 0.5rem;
+}
+
+/* Rótulo complementario sobre los logos: chico, en mayúsculas y discreto */
+.brands__title {
+  margin: 0 0 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  /* compensa el espacio final de letter-spacing para centrar */
+  text-indent: 0.22em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  color: rgba(244, 243, 247, 0.5);
+}

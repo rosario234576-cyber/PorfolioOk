@@ -1,0 +1,110 @@
+.intro {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: var(--brand);
+  user-select: none;
+  overflow: hidden;
+}
+
+.intro__content {
+  padding: 0 1rem;
+}
+
+/* Logo: wordmark + gato a la derecha de "INKK" (como el logo oficial).
+   Las posiciones del gato están en % del ancho/alto del wordmark. */
+.intro__logo {
+  position: relative;
+  width: clamp(170px, 34vw, 320px);
+  /* el gato sobresale a la derecha: corremos el grupo para que quede centrado */
+  transform: translate(-10%, 3%);
+}
+
+/* --- Wordmark: se revela de abajo hacia arriba --- */
+.intro__word-mask {
+  overflow: hidden;
+}
+
+.intro__word {
+  display: block;
+  width: 100%;
+  height: auto;
+  transform: translateY(105%);
+  animation: intro-word-in 750ms cubic-bezier(0.22, 1, 0.36, 1) 200ms forwards;
+}
+
+@keyframes intro-word-in {
+  to {
+    transform: translateY(0);
+  }
+}
+
+/* --- Gato: aparece con un "pop" en su lugar junto a INKK --- */
+.intro__cat {
+  position: absolute;
+  left: 61.5%;
+  top: -24.3%;
+  width: 71.1%;
+  height: auto;
+  opacity: 0;
+  transform: scale(0.3) rotate(-18deg);
+  transform-origin: 75% 50%;
+  animation: intro-cat-in 650ms cubic-bezier(0.34, 1.56, 0.64, 1) 800ms forwards;
+}
+
+@keyframes intro-cat-in {
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+/* --- Salida: el contenido sube y la cortina se va hacia arriba --- */
+.intro--leaving {
+  animation: intro-curtain-out 800ms cubic-bezier(0.76, 0, 0.24, 1) forwards;
+}
+
+.intro--leaving .intro__content {
+  animation: intro-content-out 500ms cubic-bezier(0.55, 0, 1, 0.45) forwards;
+}
+
+@keyframes intro-curtain-out {
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes intro-content-out {
+  to {
+    opacity: 0;
+    transform: translateY(-40px) scale(0.96);
+  }
+}
+
+/* --- Movimiento reducido: solo fundidos --- */
+@media (prefers-reduced-motion: reduce) {
+  .intro__cat,
+  .intro__word {
+    transform: none;
+    animation: intro-fade-in 400ms ease-out forwards;
+  }
+
+  .intro--leaving {
+    animation: intro-fade-out 400ms ease-out forwards;
+  }
+
+  .intro--leaving .intro__content {
+    animation: none;
+  }
+
+  @keyframes intro-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes intro-fade-out {
+    to { opacity: 0; }
+  }
+}

@@ -1,0 +1,241 @@
+/* Página de Edición de video (VideoPage.jsx). Usa la base de ProjectPage.css */
+
+/* Punto REC que titila */
+.video-page__rec {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  margin: 0 0 0.6rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #ff4b3a;
+}
+
+.video-page__rec span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ff4b3a;
+  animation: rec-blink 1.2s steps(2, jump-none) infinite;
+}
+
+@keyframes rec-blink {
+  50% {
+    opacity: 0.15;
+  }
+}
+
+/* Título: cada palabra sube al cargar */
+.video-page__title span {
+  display: inline-block;
+  animation: vtitle-in 900ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--i) * 120ms);
+}
+
+@keyframes vtitle-in {
+  from {
+    opacity: 0;
+    transform: translateY(40%) rotate(3deg);
+    filter: blur(8px);
+  }
+}
+
+/* ---- Celular con video ---- */
+.vphone {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 7px;
+  border: 1px solid rgba(244, 243, 247, 0.14);
+  border-radius: 26px;
+  background: linear-gradient(160deg, #26242e, #121117);
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.9);
+  cursor: pointer;
+  transition:
+    transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 300ms ease;
+}
+
+.vphone:focus-visible {
+  outline: 2px solid #eb5b30;
+  outline-offset: 4px;
+}
+
+.vphone__screen {
+  position: relative;
+  display: block;
+  aspect-ratio: 9 / 16;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #000;
+}
+
+.vphone video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vphone__play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: rgba(235, 91, 48, 0.92);
+  color: #fff;
+  font-size: 1.1rem;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.7);
+  transition:
+    opacity 250ms ease,
+    transform 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@media (hover: hover) {
+  .vphone:hover {
+    border-color: rgba(235, 91, 48, 0.6);
+    transform: translateY(-6px);
+  }
+
+  .vphone:hover .vphone__play {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* ---- Abanico de arriba ---- */
+.video-fan {
+  --scroll: 0;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: clamp(340px, 46vw, 560px);
+  margin: 0 0 clamp(3rem, 8svh, 5rem);
+}
+
+.video-fan__phone {
+  position: absolute;
+  bottom: 0;
+  width: clamp(130px, 15vw, 210px);
+  transform-origin: 50% 120%;
+  /* cerrado: todos juntos al centro */
+  transform: translateX(0) rotate(0deg) scale(0.9);
+  opacity: 0;
+  transition:
+    transform 1100ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 600ms ease;
+  transition-delay: calc((2 - (var(--k) * var(--k))) * 60ms + 200ms);
+  z-index: calc(10 - var(--k) * var(--k));
+}
+
+/* abierto: se reparten en arco; con el scroll se abren un poco más y suben distinto */
+.video-fan.is-open .video-fan__phone {
+  opacity: 1;
+  transform: translateX(calc(var(--k) * clamp(120px, 13vw, 190px) * (1 - var(--scroll) * 0.15)))
+    translateY(calc(var(--k) * var(--k) * 14px + var(--scroll) * var(--k) * 30px)) rotate(calc(var(--k) * 7deg));
+}
+
+.video-fan.is-open .video-fan__phone:hover {
+  transform: translateX(calc(var(--k) * clamp(120px, 13vw, 190px))) translateY(-14px) rotate(calc(var(--k) * 4deg)) scale(1.04);
+  z-index: 20;
+}
+
+/* ---- Cinta de formatos ---- */
+.video-tape {
+  margin: 0 calc(50% - 50vw) clamp(3rem, 8svh, 5rem);
+  padding: 0.9rem 0;
+  overflow: hidden;
+  background: #eb5b30;
+  color: #0b0a10;
+  transform: rotate(-1.5deg);
+}
+
+.video-tape__track {
+  display: flex;
+  width: max-content;
+  font-size: clamp(1.1rem, 2.2vw, 1.8rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  animation: vtape 26s linear infinite;
+}
+
+@keyframes vtape {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ---- Grupos por marca ---- */
+.video-group .project-page__group-head {
+  align-items: baseline;
+  gap: 1rem;
+}
+
+.video-group__num {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #eb5b30;
+}
+
+.video-group__meta {
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: rgba(244, 243, 247, 0.55);
+}
+
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(190px, 42vw), 1fr));
+  gap: 16px;
+  margin: 0 0 clamp(3rem, 8svh, 5rem);
+  padding: 0;
+  list-style: none;
+}
+
+.video-page [data-reveal] {
+  transition-delay: var(--d, 0ms);
+}
+
+/* Visor: video vertical en grande */
+.vviewer__video {
+  max-width: min(92vw, 460px);
+  max-height: 86vh;
+  border-radius: 16px;
+  background: #000;
+}
+
+@media (max-width: 600px) {
+  .video-fan {
+    height: 300px;
+  }
+
+  .video-fan__phone {
+    width: 120px;
+  }
+
+  .video-fan.is-open .video-fan__phone {
+    transform: translateX(calc(var(--k) * 70px)) translateY(calc(var(--k) * var(--k) * 10px)) rotate(calc(var(--k) * 8deg));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .video-page__rec span,
+  .video-page__title span,
+  .video-tape__track {
+    animation: none;
+  }
+
+  .video-fan__phone {
+    transition: none;
+  }
+}

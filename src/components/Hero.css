@@ -1,0 +1,70 @@
+/* Portada = una pantalla completa. El título queda centrado entre el menú
+   y la franja de marcas, que va fija al pie de la pantalla. */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  /* abajo: alto de la franja de marcas (rótulo + logos + margen inferior) */
+  padding: 6rem 0 var(--brands-h, 12.5rem);
+  text-align: center;
+  isolation: isolate;
+}
+
+/* Grilla en movimiento: solo en la portada. Se desvanece abajo para unirse
+   con el oscuro liso de "Sobre mí" sin corte. */
+.hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: #0b0a10;
+  -webkit-mask-image: linear-gradient(180deg, #000 70%, transparent);
+  mask-image: linear-gradient(180deg, #000 70%, transparent);
+}
+
+/* El título ocupa el espacio libre y queda centrado; la franja de marcas va al pie */
+.hero__center {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* más aire arriba: el bloque del título queda un poco más abajo */
+  padding: clamp(3rem, 10svh, 5.5rem) clamp(1rem, 4vw, 2.5rem) 1rem;
+}
+
+.hero > .brands {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+/* Rótulo sobre el título: año en pastilla naranja + disciplinas en mayúscula chica */
+.hero__eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem 0.9rem;
+  margin: 0 0 clamp(0.9rem, 2.2vw, 1.6rem);
+  font-family: 'Bricolage Grotesque Variable', 'Bricolage Grotesque', system-ui, sans-serif;
+  font-size: clamp(0.62rem, 2.4vw, 0.86rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: #f4f3f7;
+}
+
+.hero__year {
+  padding: 0.45em 1.1em;
+  border-radius: 0.35em;
+  background: #eb5b30;
+  color: #0b0a10;
+  letter-spacing: 0.12em;
+  /* bloque desplazado detrás, como un sello */
+  box-shadow: 0.25em 0.25em 0 #7a2a14;
+}
+

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!--
+      SEO / GEO
+      Dominio real: https://www.inkkstudio.art
+      (aquí, en public/robots.txt, public/sitemap.xml y public/llms.txt).
+    -->
+    <title>Inkk Studio — Estudio de diseño gráfico, branding y marketing</title>
+    <meta
+      name="description"
+      content="Inkk Studio, estudio creativo de diseño gráfico en Buenos Aires: identidad de marca, sistemas visuales para redes, web y packaging. Creatividad + actitud = impacto."
+    />
+    <link rel="canonical" href="https://www.inkkstudio.art/" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#0b0a10" />
+    <link rel="icon" type="image/png" href="/media/Recursos/favicon-gato.png" />
+    <link rel="apple-touch-icon" href="/media/Recursos/favicon-gato.png" />
+
+    <!-- Marca que hay JS: el título del hero espera oculto su animación de entrada -->
+    <script>document.documentElement.classList.add('js')</script>
+
+    <!-- Open Graph / redes -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:site_name" content="Inkk Studio" />
+    <meta property="og:title" content="Inkk Studio — Diseño gráfico que deja marca" />
+    <meta
+      property="og:description"
+      content="Identidad de marca, packaging, cartelería y contenido para redes. Creatividad + actitud = impacto."
+    />
+    <meta property="og:url" content="https://www.inkkstudio.art/" />
+    <meta property="og:image" content="https://www.inkkstudio.art/media/Recursos/og-image.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Logotipo de Inkk Studio con el gato de gafas naranjas" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Datos estructurados: quién es, qué hace, qué trabajos tiene -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "ProfessionalService",
+            "@id": "https://www.inkkstudio.art/#studio",
+            "name": "Inkk Studio",
+            "alternateName": "Inkkstudio",
+            "url": "https://www.inkkstudio.art/",
+            "logo": "https://www.inkkstudio.art/media/images/inkkstudio-logo-nav.png",
+            "image": "https://www.inkkstudio.art/media/Recursos/og-image.jpg",
+            "slogan": "Creatividad + actitud = impacto",
+            "description": "Estudio creativo de diseño gráfico en Buenos Aires: ideas claras, piezas con carácter y sistemas visuales para redes, web y packaging.",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Buenos Aires",
+              "addressCountry": "AR"
+            },
+            "areaServed": [
+              { "@type": "City", "name": "Buenos Aires" },
+              { "@type": "Country", "name": "Argentina" }
+            ],
+            "knowsAbout": [
+              "Diseño gráfico",
+              "Branding",
+              "Identidad visual",
+              "Diseño de logotipos",
+              "Packaging",
+              "Cartelería",
+              "Diseño para redes sociales",
+              "Marketing digital",
+              "Fotografía de producto"
+            ],
+            "hasOfferCatalog": {
+              "@type": "OfferCatalog",
+              "name": "Servicios de diseño",
+              "itemListElement": [
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Branding e identidad visual" } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Diseño de packaging y etiquetas" } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Cartelería y piezas impresas" } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Diseño de contenido para redes sociales" } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Fotografía de producto" } }
+              ]
+            }
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://www.inkkstudio.art/#website",
+            "url": "https://www.inkkstudio.art/",
+            "name": "Inkk Studio",
+            "inLanguage": "es",
+            "publisher": { "@id": "https://www.inkkstudio.art/#studio" }
+          }
+        ]
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"><!--app-html--></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
