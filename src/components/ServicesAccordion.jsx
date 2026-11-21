@@ -78,10 +78,12 @@ const SERVICES = [
   },
   {
     name: 'Diseño gráfico',
-    href: page('packaging-carteleria'),
+    href: page('diseno-grafico'),
     includes: ['Cartelería', 'Roll up', 'Credenciales', 'Banners'],
     images: [
-      '/media/servicios/diseno-grafico.jpg',
+      // Primero las piezas de Tu Plan Futuro (se sacó la foto del frente del local)
+      '/media/obras/branding/tu-plan-futuro/aplicacion-rollup.jpg',
+      '/media/obras/branding/tu-plan-futuro/aplicacion-photocall.jpg',
       `${O}/packaging-carteleria/electronic-games-carteleria/01.webp`,
       `${O}/packaging-carteleria/tu-plan-futuro-impresos/01.webp`,
       `${O}/packaging-carteleria/tu-plan-futuro-impresos/02.webp`,

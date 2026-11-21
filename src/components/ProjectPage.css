@@ -397,3 +397,39 @@
     white-space: nowrap;
   }
 }
+
+/* Piezas de cada marca en una sola línea que se desliza de costado (con el
+   dedo, la rueda con Shift o el trackpad). Todas a la misma altura, así las
+   imágenes chicas no se estiran. Sale a lo ancho de la ventana. */
+.project-page .project-page__grid {
+  display: flex;
+  gap: 12px;
+  columns: auto;
+  margin: 0 calc(50% - 50vw);
+  padding: 0.5rem calc(50vw - 50%) 1.2rem;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(244, 243, 247, 0.25) transparent;
+}
+
+.project-page .project-page__grid li {
+  flex: none;
+  margin: 0;
+}
+
+.project-page .project-page__grid .project-page__piece {
+  width: auto;
+  height: clamp(260px, 34vw, 400px);
+}
+
+.project-page .project-page__grid .project-page__piece img {
+  width: auto;
+  height: 100%;
+}
+
+@media (max-width: 700px) {
+  .project-page .project-page__grid .project-page__piece {
+    height: 300px;
+  }
+}
