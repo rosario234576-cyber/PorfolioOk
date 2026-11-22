@@ -296,3 +296,94 @@
     transform: none;
   }
 }
+
+/* Último lugar de la grilla: cuadradito con flecha a todos los proyectos (MoreTile) */
+.svc-more {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  height: 100%;
+  min-height: 12rem;
+  border: 1px dashed rgba(11, 10, 16, 0.18);
+  border-radius: 14px;
+  color: #0b0a10;
+  text-decoration: none;
+  transition: border-color 300ms ease;
+}
+
+.svc-more__box {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 84px;
+  height: 84px;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #0b0a10;
+  color: #f4f3f7;
+  transition:
+    background-color 300ms ease,
+    transform 400ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.svc-more__label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.svc-more:focus-visible {
+  outline: 2px solid #eb5b30;
+  outline-offset: 3px;
+}
+
+@media (hover: hover) {
+  .svc-more:hover {
+    border-color: #eb5b30;
+  }
+
+  .svc-more:hover .svc-more__box {
+    background: #eb5b30;
+    transform: scale(1.06);
+  }
+
+  /* la flecha sale por la esquina de arriba y vuelve a entrar por abajo, en loop */
+  .svc-more:hover .svc-more__box svg {
+    animation: svc-arrow 900ms cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  }
+}
+
+@keyframes svc-arrow {
+  0% {
+    transform: translate(0, 0);
+  }
+  45% {
+    transform: translate(70px, -70px);
+  }
+  46% {
+    transform: translate(-70px, 70px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+
+/* Celular: en la fila deslizable va como una tarjeta más angosta */
+@media (max-width: 700px) {
+  .svc-grid > li:last-child {
+    flex-basis: 48%;
+  }
+
+  .svc-more {
+    aspect-ratio: auto;
+    min-height: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svc-more:hover .svc-more__box svg {
+    animation: none;
+  }
+}

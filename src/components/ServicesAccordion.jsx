@@ -76,20 +76,36 @@ const SERVICES = [
       `${O}/packaging-carteleria/bmh-despertador-amanecer/02.webp`,
     ],
   },
-  {
-    name: 'Diseño gráfico',
-    href: page('diseno-grafico'),
-    includes: ['Cartelería', 'Roll up', 'Credenciales', 'Banners'],
-    images: [
-      // Primero las piezas de Tu Plan Futuro (se sacó la foto del frente del local)
-      '/media/obras/branding/tu-plan-futuro/aplicacion-rollup.jpg',
-      '/media/obras/branding/tu-plan-futuro/aplicacion-photocall.jpg',
-      `${O}/packaging-carteleria/electronic-games-carteleria/01.webp`,
-      `${O}/packaging-carteleria/tu-plan-futuro-impresos/01.webp`,
-      `${O}/packaging-carteleria/tu-plan-futuro-impresos/02.webp`,
-    ],
-  },
 ]
+
+/*
+  Último lugar de la grilla: un cuadradito con una flecha que lleva a todos
+  los proyectos. Con el mouse encima la flecha sale por la esquina y vuelve a
+  entrar. En escritorio abre el menú de Proyectos; en celular va a la primera
+  página de Proyectos.
+*/
+function MoreTile() {
+  const onClick = (e) => {
+    const toggle = document.querySelector('[data-projects-toggle]')
+    // offsetParent null = el menú de píldora está oculto (celular)
+    if (toggle && toggle.offsetParent) {
+      e.preventDefault()
+      toggle.click()
+    }
+  }
+  return (
+    <li>
+      <a className="svc-more" href={CATEGORIES[0]?.href || '/#servicios'} onClick={onClick}>
+        <span className="svc-more__box" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="34" height="34">
+            <path d="M7 17 17 7M9 7h8v8" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </span>
+        <span className="svc-more__label">Ver todos los proyectos</span>
+      </a>
+    </li>
+  )
+}
 
 const pad = (n) => String(n).padStart(2, '0')
 
@@ -268,6 +284,7 @@ export default function ServicesAccordion() {
         {SERVICES.map((s, i) => (
           <ServiceCard key={s.name} service={s} index={i} armed={armed} />
         ))}
+        <MoreTile />
       </ul>
 
     </section>
