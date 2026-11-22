@@ -23,7 +23,7 @@ const escape = (s) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/
 for (const route of ROUTES) {
   let html = template.replace('<!--app-html-->', render(route.path))
   if (route.title) {
-    const title = `${route.title} — Proyectos | Inkk Studio`
+    const title = `${route.title} | InkkStudio - Portfolio`
     html = html
       .replace(/<title>[^<]*<\/title>/, `<title>${escape(title)}</title>`)
       .replace(/(<meta\s+name="description"\s+content=")[^"]*(")/, `$1${escape(route.lead)}$2`)
